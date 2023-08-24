@@ -1,26 +1,30 @@
 # BootcampAR App
 
-Esta es una app nativa de Android desarrollada como proyecto para la materia de Aplicaciones Móviles del Instituto Superior Politécnico de Córdoba (ISPC). Permite a los estudiantes del bootcamp BootcampAR acceder a materiales de estudio, calendario de actividades, foros y otras funciones útiles.
+Esta es una app nativa de Android desarrollada como proyecto para la materia de Aplicaciones Móviles del Instituto Superior Politécnico de Córdoba (ISPC). Permite a los estudiantes del bootcamp BootcampAR acceder a los videos de los cursos, calificarlos, marcar favoritos y organizar su aprendizaje.
 
 ## Contexto
 
-El proyecto fue realizado durante el segundo año y segundo cuatrimestre de la carrera de "Tecnicatura Superior en Desarrollo Web y Aplicaciones Digitales" en el ISPC. La app busca mejorar la experiencia de los estudiantes del bootcamp, proporcionando en un solo lugar recursos importantes para sus estudios y actividades.
+El proyecto fue realizado durante el segundo año y segundo cuatrimestre de la carrera de "Tecnicatura Superior en Desarrollo Web y Aplicaciones Digitales" en el ISPC. La app busca mejorar la experiencia de aprendizaje de los estudiantes del bootcamp, proporcionando en un solo lugar el acceso a los contenidos audiovisuales de los cursos.
 
 ## Funcionalidades
 
-- Catálogo de materias y recursos
+- Catálogo de cursos y videos
 
-- Calendario con actividades y entregables
+- Búsqueda de videos
 
-- Foros por materia para discutir con profesores y compañeros
+- Calificación y ranking de videos
 
-- Sistema de mensajería privada
+- Marcar favoritos
 
-- Notificaciones push
+- Lista de pendientes
+
+- Descargas para modo offline
+
+- Notificaciones de nuevos videos
 
 ## Tecnologías
 
-- Android Studio
+- Android Studio 
 
 - Java
 
