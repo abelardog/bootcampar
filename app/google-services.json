@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "35201205131",
+    "project_id": "bootcampar-f95da",
+    "storage_bucket": "bootcampar-f95da.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:35201205131:android:9f07c70e2ed658d658a58e",
+        "android_client_info": {
+          "package_name": "com.ar.bootcampar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "35201205131-gv0152q29nq514oe01157s3qp0t1j2gt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGtvlHGvY1D5EmIAStpw_wmDtx3ymYbh8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "35201205131-gv0152q29nq514oe01157s3qp0t1j2gt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
