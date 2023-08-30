@@ -178,7 +178,7 @@ El sistema BootcampAr será un producto diseñado para trabajar en entornos mobi
 
 | Nro de sprint | 0 |
 | ------- | ------- |
-| Calendario | Fecha de inicio: 14/08/2023 - Fecha Cierre: 1/09/2023 |
+| Calendario | Fecha de inicio: 14/08/2023 - Fecha Cierre: 05/09/2023 |
 | Sprint Backlog | #US01, #US02, #US03, #US04, #US05, #US06, #US07, #US08, #US09, #US10 |
 | Responsabilidades | - [x] Definir requerimientos funcionales para la app a desarrollar (colocarlos en el Product Backlog del Project), a su vez revisar si han cumplimentado todos los requerimientos previos, realizando mejoras del mismo - [x] Plantear Historias de Usuarios y Tareas dependientes de las US para incorporarlas en el repositorio remoto gitHub. (Issues y Milestones) / Tener en cuenta la redacción adecuada para las US y nomenclatura, ej “#US01 Como usuario quiero ingresar al carrito para poder comprar” - [x] Definir tareas dentro de las Historias de Usuario (GITHUB) ej dentro de las ISSUES  #TK01 importar repositorio |
 |Inconvenientes: | La Organización de los horarios de las reuniones llevó buena parte del tiempo y no todos pudieron conectarse |
