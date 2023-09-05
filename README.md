@@ -46,3 +46,23 @@ más profunda.
 ## LICENCIA
 
 El código de este proyecto está bajo la licencia MIT. Es de uso libre para propósitos de estudio e investigación.
+
+## INTEGRANTES
+
+Lidio Guedez -  GitHub: lidioguedez 
+
+Pamela Sol Pilotti - GitHub: Pamela198713 
+
+Leonardo Daniel Vivas - GitHub: LeonardoEC 
+
+Roberto Alfonso - GitHub: rpgrca 
+
+Lucia Ailen Leonetti - GitHub: LuciaL152 
+
+Facundo Manuel Díaz - GitHub: facumd 
+
+Yuliana Paula Capdevila - GitHub: YuliCap 
+
+Maria Celeste Esquivel Gimenez - GitHub: celesteeg 
+
+Laura Natalia Laslo Veron – GitHub: lauranatalial 
