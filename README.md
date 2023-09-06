@@ -33,6 +33,8 @@ conocimiento previo sobre las herramientas de desarrollo, aunque aquellas person
 que tengan un nivel intermedio o avanzado podrán continuar con una capacitación
 más profunda.
 
+"BootcampAr Mobile" es una plataforma de aprendizaje en línea que ofrece cursos sobre tecnología y desarrollo de software. Los usuarios pueden registrarse, acceder a una variedad de cursos, comprarlos con una pasarela de pago integrada y realizar un seguimiento de su progreso en los mismos.
+
 ## TECNOLOGÍA 
 
 - Android Studio 
