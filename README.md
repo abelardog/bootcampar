@@ -67,4 +67,4 @@ Yuliana Paula Capdevila - GitHub: YuliCap
 
 Maria Celeste Esquivel Gimenez - GitHub: celesteeg 
 
-Laura Natalia Laslo Veron – GitHub: lauranatalial 
+
