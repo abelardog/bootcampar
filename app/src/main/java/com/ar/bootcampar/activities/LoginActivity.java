@@ -36,5 +36,7 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
         }
+
+        Toast.makeText(getApplicationContext(), "Por favor, verifique su e-mail y contraseña", Toast.LENGTH_LONG).show();
     }
 }
