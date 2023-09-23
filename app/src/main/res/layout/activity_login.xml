@@ -8,18 +8,6 @@
     android:background="@color/white"
     tools:context=".activities.LoginActivity">
 
-    <TextView
-        android:id="@+id/tvError2"
-        android:layout_width="121dp"
-        android:layout_height="41dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="16dp"
-        android:text="Password"
-        app:layout_constraintEnd_toStartOf="@+id/editTextPassword"
-        app:layout_constraintHorizontal_bias="0.342"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints" />
-
     <Button
         android:id="@+id/button"
         android:layout_width="354dp"
@@ -29,7 +17,7 @@
         android:layout_marginEnd="16dp"
         android:backgroundTint="@color/earthBlue"
         android:onClick="onLoginClick"
-        android:text="Ingresar"
+        android:text="@string/loginButtonText"
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,7 +34,7 @@
         android:layout_marginEnd="16dp"
         android:backgroundTint="@color/earthBlue"
         android:onClick="onClickRegister"
-        android:text="Registrarse"
+        android:text="@string/registerButtonText"
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -64,7 +52,7 @@
         android:layout_marginTop="170dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
-        android:hint="Ingrese su e-mail"
+        android:hint="@string/hintInputEmail"
         android:inputType="textEmailAddress"
         app:layout_constraintBottom_toTopOf="@+id/editTextPassword"
         app:layout_constraintEnd_toEndOf="parent"
@@ -92,7 +80,7 @@
         android:layout_width="286dp"
         android:layout_height="36dp"
         android:layout_marginTop="32dp"
-        android:text="¿Olvidó su contraseña?"
+        android:text="@string/forgotPasswordText"
         android:textAlignment="center"
         android:textColor="@color/mangoOrange"
         android:textSize="24dp"
@@ -107,7 +95,7 @@
         android:layout_width="286dp"
         android:layout_height="36dp"
         android:layout_marginTop="30dp"
-        android:text="Si aún no está registrado"
+        android:text="@string/stillUnregistered"
         android:textAlignment="center"
         android:textColor="@color/earthBlue"
         android:textSize="18dp"

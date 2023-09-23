@@ -32,11 +32,11 @@ public class LoginActivity extends AppCompatActivity {
             TextView passwordTextView = (TextView)findViewById(R.id.editTextPassword);
             if (passwordTextView.getText().toString().equals("123456")) {
                 // TODO: Pasar a la actividad Home
-                Toast.makeText(getApplicationContext(), "Ingreso exitoso", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), R.string.welcomeMessage, Toast.LENGTH_SHORT).show();
                 return;
             }
         }
 
-        Toast.makeText(getApplicationContext(), "Por favor, verifique su e-mail y contraseña", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), R.string.invalidLoginMessage, Toast.LENGTH_LONG).show();
     }
 }
