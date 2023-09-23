@@ -28,9 +28,9 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onLoginClick(View view) {
         TextView usernameTextView = (TextView)findViewById(R.id.editEmailAddress);
-        if (usernameTextView.getText() == "alumno@gmail.com") {
+        if (usernameTextView.getText().toString().equals("alumno@gmail.com")) {
             TextView passwordTextView = (TextView)findViewById(R.id.editTextPassword);
-            if (passwordTextView.getText() == "123456") {
+            if (passwordTextView.getText().toString().equals("123456")) {
                 // TODO: Pasar a la actividad Home
                 Toast.makeText(getApplicationContext(), "Ingreso exitoso", Toast.LENGTH_SHORT).show();
                 return;
