@@ -1,19 +1,16 @@
 package com.ar.bootcampar.activities;
 
 import android.os.Bundle;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-
+import com.ar.bootcampar.R;
 import com.ar.bootcampar.databinding.ActivityHomeBinding;
 
 public class HomeActivity extends AppCompatActivity {
-
     private ActivityHomeBinding binding;
 
     @Override
@@ -33,5 +30,4 @@ public class HomeActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
     }
-
 }
