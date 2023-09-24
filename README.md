@@ -1,4 +1,6 @@
 # BOOTCAMPAR 
+![Imagen de WhatsApp 2023-09-15 a las 23 47 04](https://github.com/abelardog/bootcampar/assets/106390254/cdc7939c-7fe8-436c-a3f5-274e46004f12)
+
 
 Esta es una app nativa de Android desarrollada como proyecto para la materia de Aplicaciones Móviles del Instituto Superior Politécnico de Córdoba (ISPC). Permite a los estudiantes del bootcamp BootcampAR acceder a los videos de los cursos, calificarlos, marcar favoritos y organizar su aprendizaje.
 
@@ -67,4 +69,4 @@ Yuliana Paula Capdevila - GitHub: YuliCap
 
 Maria Celeste Esquivel Gimenez - GitHub: celesteeg 
 
-Laura Natalia Laslo Veron – GitHub: lauranatalial 
+
