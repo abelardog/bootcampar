@@ -1,4 +1,4 @@
-package com.ar.bootcampar.activities.ui.notifications;
+package com.ar.bootcampar.activities.ui.profile;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

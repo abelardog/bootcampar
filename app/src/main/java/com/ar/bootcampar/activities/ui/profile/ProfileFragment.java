@@ -1,4 +1,4 @@
-package com.ar.bootcampar.activities.ui.notifications;
+package com.ar.bootcampar.activities.ui.profile;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
