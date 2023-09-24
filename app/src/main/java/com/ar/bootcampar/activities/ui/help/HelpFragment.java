@@ -1,4 +1,4 @@
-package com.ar.bootcampar.activities.ui.dashboard;
+package com.ar.bootcampar.activities.ui.help;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,22 +10,22 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.ar.bootcampar.databinding.FragmentDashboardBinding;
+import com.ar.bootcampar.databinding.FragmentHelpBinding;
 
-public class DashboardFragment extends Fragment {
+public class HelpFragment extends Fragment {
 
-    private FragmentDashboardBinding binding;
+    private FragmentHelpBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        DashboardViewModel dashboardViewModel =
-                new ViewModelProvider(this).get(DashboardViewModel.class);
+        HelpViewModel helpViewModel =
+                new ViewModelProvider(this).get(HelpViewModel.class);
 
-        binding = FragmentDashboardBinding.inflate(inflater, container, false);
+        binding = FragmentHelpBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         final TextView textView = binding.textDashboard;
-        dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        helpViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 

@@ -1,16 +1,16 @@
-package com.ar.bootcampar.activities.ui.dashboard;
+package com.ar.bootcampar.activities.ui.help;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class DashboardViewModel extends ViewModel {
+public class HelpViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public DashboardViewModel() {
+    public HelpViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is dashboard fragment");
+        mText.setValue("This is help fragment");
     }
 
     public LiveData<String> getText() {
