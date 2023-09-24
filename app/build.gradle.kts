@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.ar.bootcampar"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.ar.bootcampar"
