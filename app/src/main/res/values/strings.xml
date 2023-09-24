@@ -9,4 +9,5 @@
     <string name="title_course_detail">Detalle del curso</string>
     <string name="title_register">Registración</string>
     <string name="title_login">Ingreso</string>
+    <string name="just_added_text">Cursos recientemente agregados</string>
 </resources>
