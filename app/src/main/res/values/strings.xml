@@ -10,4 +10,11 @@
     <string name="title_register">Registración</string>
     <string name="title_login">Ingreso</string>
     <string name="just_added_text">Cursos recientemente agregados</string>
+    <string name="welcomeMessage">Bienvenido!</string>
+    <string name="invalidLoginMessage">Por favor, verifique su e-mail y contraseña</string>
+    <string name="stillUnregistered">Si aún no está registrado</string>
+    <string name="forgotPasswordText">¿Olvidó su contraseña?</string>
+    <string name="hintInputEmail">Ingrese su e-mail</string>
+    <string name="registerButtonText">Registrarse</string>
+    <string name="loginButtonText">Ingresar</string>
 </resources>
