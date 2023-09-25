@@ -28,7 +28,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
         }
     }
 
-    private static boolean isValidEmail(CharSequence target) {
+    public static boolean isValidEmail(CharSequence target) {
         return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }
 

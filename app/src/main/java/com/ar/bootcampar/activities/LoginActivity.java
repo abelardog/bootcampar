@@ -2,13 +2,10 @@ package com.ar.bootcampar.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import com.ar.bootcampar.R;
 
-import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.TextView;
 import android.content.Intent;
