@@ -24,7 +24,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
         String email = emailEditText.getText().toString();
         if (isValidEmail(email))
         {
-            Toast.makeText(this, R.string.restoration_mail_sent, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.restoration_mail_sent, Toast.LENGTH_SHORT).show();
         }
     }
 
