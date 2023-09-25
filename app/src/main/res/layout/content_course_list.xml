@@ -1,36 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/earthBlue"
+    android:layout_marginBottom="8dp"
+    android:layout_marginStart="4dp"
+    android:layout_marginEnd="4dp">
 
-    <ImageView
-        android:id="@+id/imageViewCourse"
-        android:layout_width="100dp"
-        android:layout_height="120dp"
-        android:layout_alignParentStart="true"
-        android:scaleType="centerCrop"
-        android:src="@drawable/android_logo" />
 
-    <TextView
-        android:id="@+id/textViewCourseTitle"
-        android:layout_width="wrap_content"
+    <!-- Columna izquierda -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/leftColumnContainer"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/imageViewCourse"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:text="Course Title" />
+        android:layout_marginEnd="8dp"
+        android:layout_margin="0dp"
+        app:cardElevation="2dp">
 
-    <ImageView
-        android:id="@+id/imageViewFavorite"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:src="@drawable/ic_empty_heart"
-        android:layout_marginEnd="5dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@id/textViewCourseTitle"
-        android:layout_marginStart="16dp"
-        android:clickable="true" />
+        <RelativeLayout
+            android:id="@+id/leftColumn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border">
+
+            <ImageView
+                android:id="@+id/imageViewCourse"
+                android:layout_width="100dp"
+                android:layout_height="120dp"
+                android:layout_centerInParent="true"
+                android:scaleType="centerCrop"
+                android:paddingVertical="5dp"
+                android:src="@drawable/android_logo" />
+        </RelativeLayout>
+</androidx.cardview.widget.CardView>
+
+    <!-- Columna derecha -->
+    <RelativeLayout
+        android:id="@+id/rightColumn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/leftColumnContainer"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/textViewCourseTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_alignParentTop="true"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:text="Curso de Android" />
+
+        <ImageView
+            android:id="@+id/imageViewFavorite"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@id/textViewCourseTitle"
+            android:background="@color/earthBlue"
+            android:src="@drawable/ic_empty_heart"
+            android:clickable="true" />
+    </RelativeLayout>
+
+
 
 </RelativeLayout>
