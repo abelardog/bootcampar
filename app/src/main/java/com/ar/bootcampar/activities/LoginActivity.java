@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import com.ar.bootcampar.R;
 
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.TextView;
 import android.content.Intent;
@@ -43,5 +44,10 @@ public class LoginActivity extends AppCompatActivity {
         else {
             Toast.makeText(getApplicationContext(), R.string.invalidLoginMessage, Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void goToResetPassword(View view) {
+        Intent intent = new Intent(this, ResetPasswordActivity.class);
+        startActivity(intent);
     }
 }
