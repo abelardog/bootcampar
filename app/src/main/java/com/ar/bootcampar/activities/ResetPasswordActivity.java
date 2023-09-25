@@ -21,7 +21,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
     public void resetPassword(View view) {
         EditText emailEditText  = (EditText)findViewById(R.id.editTextEmailRecovery);
-        String email = emailEditText.toString();
+        String email = emailEditText.getText().toString();
         if (isValidEmail(email))
         {
             Toast.makeText(this, R.string.restoration_mail_sent, Toast.LENGTH_LONG).show();
