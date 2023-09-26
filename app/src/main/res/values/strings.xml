@@ -32,6 +32,10 @@
     <string name="registration_success_message">Registración exitosa!</string>
     <string name="password_dont_match_message">Las contraseñas ingresadas no concuerdan</string>
     <string name="please_complete_data_message">Por favor complete todos los datos correctamente</string>
+    <string name="btn_contact">Enviar</string>
+    <string name="title_contact">Contáctanos</string>
+    <string name="number_contact">Ingrese su teléfono</string>
+    <string name="message_contact">Mensaje</string>
 
     <string name="title_update_profile">Actualiza tu perfíl</string>
     <string name="btn_update_profile">Actualizar</string>
