@@ -1,5 +1,6 @@
 package com.ar.bootcampar.activities.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ar.bootcampar.activities.CourseDetailActivity;
 import com.ar.bootcampar.databinding.ActivityHomeBinding;
 import com.ar.bootcampar.databinding.FragmentHomeBinding;
 import com.ar.bootcampar.model.RecentlyAddedAdapter;
@@ -19,7 +21,7 @@ import com.ar.bootcampar.R;
 
 import java.util.ArrayList;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements RecentlyAddedAdapter.OnItemClickListener {
 
     private FragmentHomeBinding binding;
     RecyclerView recyclerView;
@@ -28,7 +30,7 @@ public class HomeFragment extends Fragment {
     RecentlyAddedAdapter adapter;
     LinearLayoutManager HorizontalLayout;
     View ChildView;
-    int RecylcerViewItemPosition;
+    int RecyclerViewItemPosition;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -40,11 +42,11 @@ public class HomeFragment extends Fragment {
         /*final TextView textView = binding.textJustAdded;
         homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);*/
 
-        recyclerView = (RecyclerView)root.findViewById(R.id.recently_added_courses);
+        recyclerView = (RecyclerView) root.findViewById(R.id.recently_added_courses);
         RecyclerViewLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(RecyclerViewLayoutManager);
         AddItemsToRecyclerViewArrayList();
-        adapter = new RecentlyAddedAdapter(source);
+        adapter = new RecentlyAddedAdapter(source, this);
         HorizontalLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(HorizontalLayout);
         recyclerView.setAdapter(adapter);
@@ -64,5 +66,15 @@ public class HomeFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void onItemClick(int position) {
+
+        String selectedItem = source.get(position);
+
+        Intent intent = new Intent(getActivity(), CourseDetailActivity.class);
+        intent.putExtra("selectedItem", selectedItem);
+        startActivity(intent);
     }
 }
