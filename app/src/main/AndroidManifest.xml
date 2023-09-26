@@ -71,6 +71,15 @@
                 android:value="com.ar.bootcampar.MainActivity" />
         </activity>
         <activity
+            android:name=".activities.ResetPasswordActivity"
+            android:exported="false"
+            android:label="Recuperar clave"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ar.bootcampar.MainActivity" />
+        </activity>
+        <activity
             android:name=".MainActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:exported="true"
