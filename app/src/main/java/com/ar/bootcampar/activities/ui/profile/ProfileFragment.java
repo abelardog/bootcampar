@@ -1,5 +1,6 @@
 package com.ar.bootcampar.activities.ui.profile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,9 +10,9 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
 
 import com.ar.bootcampar.R;
+import com.ar.bootcampar.activities.EditProfileActivity;
 import com.ar.bootcampar.databinding.FragmentProfileBinding;
 
 public class ProfileFragment extends Fragment {
@@ -32,7 +33,9 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v)
             {
-                Navigation.findNavController(v).navigate(R.id.action_navigation_notifications_to_to_navigation_profile_edition);
+                Intent intent = new Intent(getContext(), EditProfileActivity.class);
+                startActivity(intent);
+                //Navigation.findNavController(v).navigate(R.id.navigation_profile_edition);
             }
         });
 

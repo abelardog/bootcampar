@@ -1,5 +1,6 @@
 package com.ar.bootcampar.fragments;
 
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -34,5 +35,4 @@ public class EditProfile extends Fragment {
         mViewModel = new ViewModelProvider(this).get(EditProfileViewModel.class);
         // TODO: Use the ViewModel
     }
-
 }
