@@ -37,9 +37,6 @@
     <string name="number_contact">Ingrese su teléfono</string>
     <string name="message_contact">Mensaje</string>
 
-</resources>
-
-
     <string name="title_update_profile">Actualiza tu perfíl</string>
     <string name="btn_update_profile">Actualizar</string>
 
