@@ -19,6 +19,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BootCampAr"
         tools:targetApi="31">
+        <activity
+            android:name=".activities.CourseListActivity"
+            android:exported="false"
+            android:label="@string/title_activity_course_list"
+            android:theme="@style/Theme.BootCampAr" />
+
         <service
             android:name=".services.CourseService"
             android:enabled="true"
