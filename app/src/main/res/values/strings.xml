@@ -36,9 +36,6 @@
     <string name="title_update_profile">Actualiza tu perfíl</string>
     <string name="btn_update_profile">Actualizar</string>
 
-</resources>
-
-
     <string name="title_activity_course_list">CourseListActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
