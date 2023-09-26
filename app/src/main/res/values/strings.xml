@@ -32,7 +32,6 @@
     <string name="registration_success_message">Registración exitosa!</string>
     <string name="password_dont_match_message">Las contraseñas ingresadas no concuerdan</string>
     <string name="please_complete_data_message">Por favor complete todos los datos correctamente</string>
-</resources>
 
     <string name="title_activity_course_list">CourseListActivity</string>
     <!-- Strings used for fragments for navigation -->
