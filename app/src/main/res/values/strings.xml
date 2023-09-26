@@ -17,6 +17,23 @@
     <string name="hintInputEmail">Ingrese su e-mail</string>
     <string name="registerButtonText">Registrarse</string>
     <string name="loginButtonText">Ingresar</string>
+    <string name="registerText">Para poder registrarse complete sus datos</string>
+    <string name="hintInputName">Ingrese su nombre</string>
+    <string name="hintInputLastName">Ingrese su Apellido</string>
+    <string name="hintInputPassword">Ingrese una contraseña</string>
+    <string name="hintInputConfirmPassword">Confirme su contraseña</string>
+    <string name="hasAccount">¿Ya estás registrado?</string>
+    <string name="password_reset_button_text">Enviar email de reestablecimiento</string>
+    <string name="home_return_button_text">Regresar</string>
+    <string name="enter_email_textbox_hint">Ingrese su correo</string>
+    <string name="email_recovery_explanation">Llegaste al lugar indicado para reestablecer tu contraseña olvidada o desbloquear tu cuenta. Te pedimos que ingreses tu email para enviarte el link de reestablecimiento.</string>
+    <string name="email_recover_explanation_title">¿Tienes problemas para iniciar sesión?</string>
+    <string name="restoration_mail_sent">Se ha enviado un correo para reestablecer tu contraseña.</string>
+    <string name="registration_success_message">Registración exitosa!</string>
+    <string name="password_dont_match_message">Las contraseñas ingresadas no concuerdan</string>
+    <string name="please_complete_data_message">Por favor complete todos los datos correctamente</string>
+</resources>
+
     <string name="title_activity_course_list">CourseListActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
