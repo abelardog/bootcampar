@@ -47,6 +47,16 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
+    <!-- Strings used for fragments for profile -->
+    <string name="title_my_courses">Mis cursos</string>
+    <string name="btn_profile_fav">Mis favoritos</string>
+    <string name="btn_profile_conf">Configuracion</string>
+    <string name="subtitle_profile">Ver mas curos y talleres</string>
+    <string name="profile_lang">Python</string>
+    <string name="arroy_left">►</string>
+    <string name="arroy_right">◄</string>
+
+
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
         volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
