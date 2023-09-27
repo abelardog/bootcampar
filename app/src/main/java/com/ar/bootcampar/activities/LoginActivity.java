@@ -2,8 +2,6 @@ package com.ar.bootcampar.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import com.ar.bootcampar.R;
@@ -43,5 +41,10 @@ public class LoginActivity extends AppCompatActivity {
         else {
             Toast.makeText(getApplicationContext(), R.string.invalidLoginMessage, Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void goToResetPassword(View view) {
+        Intent intent = new Intent(this, ResetPasswordActivity.class);
+        startActivity(intent);
     }
 }

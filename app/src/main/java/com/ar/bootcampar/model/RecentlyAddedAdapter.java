@@ -15,18 +15,33 @@ import java.util.List;
 
 public class RecentlyAddedAdapter extends RecyclerView.Adapter<RecentlyAddedAdapter.RecentlyAddedView> {
     private List<String> list;
+    private OnItemClickListener onItemClickListener;
 
+    public interface OnItemClickListener{
+        void onItemClick(int position);
+    }
     public class RecentlyAddedView extends RecyclerView.ViewHolder {
         TextView textView;
 
         public RecentlyAddedView(View view) {
             super(view);
             textView = (TextView)view.findViewById(R.id.recently_added_item_title);
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getBindingAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        onItemClickListener.onItemClick(position);
+                    }
+                }
+            });
         }
     }
 
-    public RecentlyAddedAdapter(List<String> elements) {
+    public RecentlyAddedAdapter(List<String> elements, OnItemClickListener listener) {
         this.list = elements;
+        this.onItemClickListener = listener;
     }
 
     @NonNull

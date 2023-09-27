@@ -19,6 +19,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BootCampAr"
         tools:targetApi="31">
+        <activity
+            android:name=".activities.EditProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.CourseListActivity"
+            android:exported="false"
+            android:label="@string/title_activity_course_list"
+            android:theme="@style/Theme.BootCampAr" />
+
         <service
             android:name=".services.CourseService"
             android:enabled="true"
@@ -27,33 +36,51 @@
             android:name=".services.UserService"
             android:enabled="true"
             android:exported="true" />
+
         <activity
             android:name=".activities.HomeActivity"
             android:exported="false"
             android:label="@string/title_activity_home"
             android:parentActivityName=".MainActivity">
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="com.ar.bootcampar.MainActivity"/>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ar.bootcampar.MainActivity" />
         </activity>
         <activity
             android:name=".activities.CourseDetailActivity"
+            android:exported="false"
             android:label="@string/title_course_detail"
-            android:parentActivityName=".MainActivity"
-            android:exported="false">
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="com.ar.bootcampar.MainActivity"/>
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ar.bootcampar.MainActivity" />
         </activity>
         <activity
             android:name=".activities.RegisterActivity"
+            android:exported="false"
             android:label="@string/title_register"
-            android:parentActivityName=".MainActivity"
-            android:exported="false">
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="com.ar.bootcampar.MainActivity"/>
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ar.bootcampar.MainActivity" />
         </activity>
         <activity
             android:name=".activities.LoginActivity"
+            android:exported="false"
             android:label="@string/title_login"
-            android:parentActivityName=".MainActivity"
-            android:exported="false">
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="com.ar.bootcampar.MainActivity"/>
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ar.bootcampar.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.ResetPasswordActivity"
+            android:exported="false"
+            android:label="Recuperar clave"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ar.bootcampar.MainActivity" />
         </activity>
         <activity
             android:name=".MainActivity"
