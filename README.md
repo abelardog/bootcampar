@@ -1,3 +1,8 @@
+[![contrib][contrib-img]][contrib-url]
+[![commit][commit-img]][commit-url]
+[![discuss][discuss-img]][discuss-url]
+[![issues][issues-img]][issues-url]
+
 # BOOTCAMPAR 
 ![Imagen de WhatsApp 2023-09-15 a las 23 47 04](https://github.com/abelardog/bootcampar/assets/106390254/cdc7939c-7fe8-436c-a3f5-274e46004f12)
 
@@ -70,3 +75,11 @@ Yuliana Paula Capdevila - GitHub: YuliCap
 Maria Celeste Esquivel Gimenez - GitHub: celesteeg 
 
 
+[commit-img]: https://img.shields.io/github/commit-activity/w/abelardog/bootcampar/develop
+[commit-url]: https://github.com/abelardog/bootcampar/graphs/code-frequency
+[contrib-img]: https://img.shields.io/github/contributors/abelardog/bootcampar
+[contrib-url]: https://github.com/abelardog/bootcampar/graphs/contributors
+[issues-img]: https://img.shields.io/github/issues/abelardog/bootcampar
+[issues-url]: https://github.com/abelardog/bootcampar/issues
+[discuss-img]: https://img.shields.io/github/discussions/abelardog/bootcampar
+[discuss-url]: https://github.com/abelardog/bootcampar/discussions
