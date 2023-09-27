@@ -7,6 +7,11 @@
         android:title="@string/title_home" />
 
     <item
+        android:id="@+id/navigation_courses"
+        android:icon="?android:attr/actionModeWebSearchDrawable"
+        android:title="@string/cursos" />
+
+    <item
         android:id="@+id/navigation_help"
         android:icon="@android:drawable/ic_menu_help"
         android:title="@string/title_help" />
