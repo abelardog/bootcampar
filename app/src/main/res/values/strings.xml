@@ -95,6 +95,9 @@
     </string>
 
     <string name="cursos">Cursos</string>
+    <string name="tituloCursosDisponibles">Cursos Disponibles</string>
+    <string name="courses">Cursos</string>
+    <string name="course_fragment_label">Courses List</string>
     <string name="enrollment_success">Se ha inscripto al curso correctamente</string>
     <string name="title">Título</string>
     <string name="description">Descripción</string>
