@@ -101,4 +101,6 @@
     <string name="enrollment_success">Se ha inscripto al curso correctamente</string>
     <string name="title">Título</string>
     <string name="description">Descripción</string>
+    <string name="profile_updated_successfully">Datos actualizados!</string>
+    <string name="complete_profile_data_please">Por favor complete todos los datos.</string>
 </resources>
