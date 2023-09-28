@@ -9,86 +9,83 @@
 
     <TextView
         android:id="@+id/textContactUs"
-        android:layout_width="366dp"
+        android:layout_width="350dp"
         android:layout_height="32dp"
         android:text="@string/title_contact"
         android:textAlignment="center"
         android:textColor="@color/earthBlue"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/editContactFirstName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.355"
+        app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.141"
+        app:layout_constraintVertical_bias="0.859"
         tools:ignore="TextSizeCheck" />
 
     <EditText
         android:id="@+id/editContactFirstName"
         android:layout_width="350dp"
         android:layout_height="48dp"
+        android:layout_marginBottom="12dp"
         android:autofillHints="username"
         android:ems="10"
         android:hint="@string/hintInputName"
         android:inputType="text"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/editContactEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.442"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.262" />
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/editContactEmailAddress"
         android:layout_width="350dp"
         android:layout_height="48dp"
+        android:layout_marginBottom="12dp"
         android:autofillHints="emailAddress"
         android:ems="10"
         android:hint="@string/hintInputEmail"
         android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/editContactPhoneNumber"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.442"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.361" />
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/editContactPhoneNumber"
         android:layout_width="350dp"
         android:layout_height="48dp"
+        android:layout_marginBottom="12dp"
         android:ems="10"
         android:hint="@string/number_contact"
         android:inputType="phone"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/editContactMessage"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.442"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.459"
         tools:ignore="Autofill" />
 
     <EditText
         android:id="@+id/editContactMessage"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
         android:ems="10"
         android:hint="@string/message_contact"
         android:inputType="textMultiLine"
         android:lines="4"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/buttonContact"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.442"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.606"
         tools:ignore="Autofill" />
 
     <Button
         android:id="@+id/buttonContact"
         android:layout_width="wrap_content"
         android:layout_height="54dp"
+        android:layout_marginBottom="24dp"
         android:backgroundTint="@color/earthBlue"
         android:text="@string/btn_contact"
         android:textColor="@color/white"
@@ -97,8 +94,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.771" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
