@@ -12,6 +12,12 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
+        android:id="@+id/navigation_courses"
+        android:name="com.ar.bootcampar.fragments.CourseListFragment"
+        android:label="@string/courses"
+        tools:layout="@layout/fragment_course_list" />
+
+    <fragment
         android:id="@+id/navigation_help"
         android:name="com.ar.bootcampar.activities.ui.help.HelpFragment"
         android:label="@string/title_help"

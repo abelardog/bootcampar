@@ -94,4 +94,7 @@
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
     <string name="cursos">Cursos</string>
+    <string name="tituloCursosDisponibles">Cursos Disponibles</string>
+    <string name="courses">Cursos</string>
+    <string name="course_fragment_label">Courses List</string>
 </resources>
