@@ -121,10 +121,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonRegister" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonRegister"
         android:layout_width="354dp"
         android:layout_height="54dp"
         android:layout_marginStart="16dp"
