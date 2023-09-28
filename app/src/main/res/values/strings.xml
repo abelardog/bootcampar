@@ -93,10 +93,14 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+
     <string name="cursos">Cursos</string>
     <string name="tituloCursosDisponibles">Cursos Disponibles</string>
     <string name="courses">Cursos</string>
     <string name="course_fragment_label">Courses List</string>
+    <string name="enrollment_success">Se ha inscripto al curso correctamente</string>
+    <string name="title">Título</string>
+    <string name="description">Descripción</string>
     <string name="profile_updated_successfully">Datos actualizados!</string>
     <string name="complete_profile_data_please">Por favor complete todos los datos.</string>
 </resources>

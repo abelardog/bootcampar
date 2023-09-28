@@ -14,7 +14,7 @@ import com.ar.bootcampar.R;
 import java.util.List;
 
 public class RecentlyAddedAdapter extends RecyclerView.Adapter<RecentlyAddedAdapter.RecentlyAddedView> {
-    private List<String> list;
+    private List<Course> list;
     private OnItemClickListener onItemClickListener;
 
     public interface OnItemClickListener{
@@ -39,7 +39,7 @@ public class RecentlyAddedAdapter extends RecyclerView.Adapter<RecentlyAddedAdap
         }
     }
 
-    public RecentlyAddedAdapter(List<String> elements, OnItemClickListener listener) {
+    public RecentlyAddedAdapter(List<Course> elements, OnItemClickListener listener) {
         this.list = elements;
         this.onItemClickListener = listener;
     }
@@ -56,7 +56,8 @@ public class RecentlyAddedAdapter extends RecyclerView.Adapter<RecentlyAddedAdap
 
     @Override
     public void onBindViewHolder(@NonNull RecentlyAddedView holder, int position) {
-        holder.textView.setText(list.get(position));
+        Course course = list.get(position);
+        holder.textView.setText(course.getTitle());
     }
 
     @Override
