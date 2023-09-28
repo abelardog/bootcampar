@@ -45,7 +45,7 @@
 
     <fragment
         android:id="@+id/navigation_contact"
-        android:name="com.ar.bootcampar.ContactFragment"
+        android:name="com.ar.bootcampar.fragments.ContactFragment"
         android:label="@string/contact"
         tools:layout="@layout/fragment_contact" />
 
