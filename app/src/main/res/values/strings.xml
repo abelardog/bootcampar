@@ -97,4 +97,6 @@
     <string name="tituloCursosDisponibles">Cursos Disponibles</string>
     <string name="courses">Cursos</string>
     <string name="course_fragment_label">Courses List</string>
+    <string name="profile_updated_successfully">Datos actualizados!</string>
+    <string name="complete_profile_data_please">Por favor complete todos los datos.</string>
 </resources>
