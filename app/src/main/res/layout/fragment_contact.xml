@@ -8,7 +8,7 @@
     tools:context=".fragments.ContactFragment">
 
     <TextView
-        android:id="@+id/textRegister"
+        android:id="@+id/textContactUs"
         android:layout_width="366dp"
         android:layout_height="32dp"
         android:text="@string/title_contact"
@@ -25,7 +25,7 @@
         tools:ignore="TextSizeCheck" />
 
     <EditText
-        android:id="@+id/editFirstName"
+        android:id="@+id/editContactFirstName"
         android:layout_width="350dp"
         android:layout_height="48dp"
         android:autofillHints="username"
@@ -40,7 +40,7 @@
         app:layout_constraintVertical_bias="0.262" />
 
     <EditText
-        android:id="@+id/editEmailAddress"
+        android:id="@+id/editContactEmailAddress"
         android:layout_width="350dp"
         android:layout_height="48dp"
         android:autofillHints="emailAddress"
@@ -55,7 +55,7 @@
         app:layout_constraintVertical_bias="0.361" />
 
     <EditText
-        android:id="@+id/editPhoneNumber"
+        android:id="@+id/editContactPhoneNumber"
         android:layout_width="350dp"
         android:layout_height="48dp"
         android:ems="10"
@@ -70,7 +70,7 @@
         tools:ignore="Autofill" />
 
     <EditText
-        android:id="@+id/editMessage"
+        android:id="@+id/editContactMessage"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:ems="10"
