@@ -2,13 +2,20 @@ package com.ar.bootcampar.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.ar.bootcampar.R;
+import com.ar.bootcampar.activities.FirstFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,5 +69,28 @@ public class ContactFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_contact, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        Button button = (Button)view.findViewById(R.id.buttonContact);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String firstName = ((EditText)getView().findViewById(R.id.editContactFirstName)).getText().toString();
+                String emailAddress = ((EditText)getView().findViewById(R.id.editContactEmailAddress)).getText().toString();
+                String telephone = ((EditText)getView().findViewById(R.id.editContactPhoneNumber)).getText().toString();
+                String message = ((EditText)getView().findViewById(R.id.editContactMessage)).getText().toString();
+
+                if (firstName.isEmpty() || emailAddress.isEmpty() || telephone.isEmpty() || message.isEmpty()) {
+                    Toast.makeText(getContext(), "Por favor complete todos los datos", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(getContext(), "Gracias por contactarnos!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }
