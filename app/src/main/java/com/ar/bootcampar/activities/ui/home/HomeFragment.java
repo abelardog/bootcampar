@@ -9,10 +9,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ar.bootcampar.MainActivity;
 import com.ar.bootcampar.activities.CourseDetailActivity;
 import com.ar.bootcampar.databinding.ActivityHomeBinding;
 import com.ar.bootcampar.databinding.FragmentHomeBinding;
@@ -33,6 +35,7 @@ public class HomeFragment extends Fragment implements RecentlyAddedAdapter.OnIte
     RecentlyAddedAdapter adapter;
     LinearLayoutManager HorizontalLayout;
     View ChildView;
+    boolean loggedIn;
     int RecyclerViewItemPosition;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -50,6 +53,15 @@ public class HomeFragment extends Fragment implements RecentlyAddedAdapter.OnIte
         HorizontalLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(HorizontalLayout);
         recyclerView.setAdapter(adapter);
+
+        FragmentActivity activity = getActivity();
+        if (activity != null) {
+            loggedIn = !(activity instanceof MainActivity);
+        }
+        else {
+            loggedIn = false;
+        }
+
         return root;
     }
 
@@ -69,6 +81,7 @@ public class HomeFragment extends Fragment implements RecentlyAddedAdapter.OnIte
         Course selectedItem = source.get(position);
 
         Intent intent = new Intent(getActivity(), CourseDetailActivity.class);
+        intent.putExtra("loggedIn", loggedIn);
         intent.putExtra("title", selectedItem.getTitle());
         intent.putExtra("description", selectedItem.getDescription());
         startActivity(intent);

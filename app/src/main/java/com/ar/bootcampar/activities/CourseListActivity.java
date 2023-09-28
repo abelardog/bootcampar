@@ -38,8 +38,6 @@ public class CourseListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         CourseAdapter adapter = new CourseAdapter(courseList);
         recyclerView.setAdapter(adapter);
-
-
     }
 
     public void openActivity(View view) {
