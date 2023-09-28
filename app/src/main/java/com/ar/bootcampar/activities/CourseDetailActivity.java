@@ -18,11 +18,14 @@ public class CourseDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_detail);
 
-        String selectedItemTitle = getIntent().getStringExtra("selectedItem");
-        //Por ahora solo trae la única data que da el items que es el Título
+        String title = getIntent().getStringExtra("title");
+        String description = getIntent().getStringExtra("description");
 
-        TextView detailTextView = findViewById(R.id.detailTextView);
-        detailTextView.setText(selectedItemTitle);
+        TextView textView = findViewById(R.id.detailTextView);
+        textView.setText(title);
+
+        textView = findViewById(R.id.detailDescription);
+        textView.setText(description);
 
         Intent intent = getIntent();
         boolean loggedIn = intent.getBooleanExtra("loggedIn", false);
