@@ -93,5 +93,9 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+<<<<<<< Updated upstream
     <string name="cursos">Cursos</string>
+=======
+    <string name="enrollment_success">Se ha inscripto al curso correctamente</string>
+>>>>>>> Stashed changes
 </resources>
