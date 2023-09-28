@@ -96,4 +96,6 @@
 
     <string name="cursos">Cursos</string>
     <string name="enrollment_success">Se ha inscripto al curso correctamente</string>
+    <string name="title">Título</string>
+    <string name="description">Descripción</string>
 </resources>
