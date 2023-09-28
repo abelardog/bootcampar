@@ -16,16 +16,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ar.bootcampar.activities.CourseDetailActivity;
 import com.ar.bootcampar.databinding.ActivityHomeBinding;
 import com.ar.bootcampar.databinding.FragmentHomeBinding;
+import com.ar.bootcampar.model.Course;
 import com.ar.bootcampar.model.RecentlyAddedAdapter;
 import com.ar.bootcampar.R;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class HomeFragment extends Fragment implements RecentlyAddedAdapter.OnItemClickListener {
 
     private FragmentHomeBinding binding;
     RecyclerView recyclerView;
-    ArrayList<String> source;
+    List<Course> source;
     RecyclerView.LayoutManager RecyclerViewLayoutManager;
     RecentlyAddedAdapter adapter;
     LinearLayoutManager HorizontalLayout;
@@ -39,14 +42,11 @@ public class HomeFragment extends Fragment implements RecentlyAddedAdapter.OnIte
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        /*final TextView textView = binding.textJustAdded;
-        homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);*/
-
         recyclerView = (RecyclerView) root.findViewById(R.id.recently_added_courses);
         RecyclerViewLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(RecyclerViewLayoutManager);
         AddItemsToRecyclerViewArrayList();
-        adapter = new RecentlyAddedAdapter(source, this);
+        adapter = new RecentlyAddedAdapter(source.stream().filter(p -> p.isFavorite() == false).collect(Collectors.toList()), this);
         HorizontalLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(HorizontalLayout);
         recyclerView.setAdapter(adapter);
@@ -54,12 +54,7 @@ public class HomeFragment extends Fragment implements RecentlyAddedAdapter.OnIte
     }
 
     public void AddItemsToRecyclerViewArrayList() {
-        source = new ArrayList<>();
-        source.add("Android Studio");
-        source.add("Python Inicial");
-        source.add("Python Intermedio");
-        source.add("Python Avanzado");
-        source.add("JavaScript");
+        source = Course.getDefaultCourses().stream().filter(c -> c.isFavorite() == false).collect(Collectors.toList());
     }
 
     @Override
@@ -71,10 +66,11 @@ public class HomeFragment extends Fragment implements RecentlyAddedAdapter.OnIte
     @Override
     public void onItemClick(int position) {
 
-        String selectedItem = source.get(position);
+        Course selectedItem = source.get(position);
 
         Intent intent = new Intent(getActivity(), CourseDetailActivity.class);
-        intent.putExtra("selectedItem", selectedItem);
+        intent.putExtra("title", selectedItem.getTitle());
+        intent.putExtra("description", selectedItem.getDescription());
         startActivity(intent);
     }
 }

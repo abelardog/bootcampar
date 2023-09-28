@@ -32,16 +32,7 @@ public class CourseListActivity extends AppCompatActivity {
         binding = ActivityCourseListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        List<Course> courseList = new ArrayList<>();
-        courseList.add(new Course("android_logo", "Android Básico desde 0", true));
-        courseList.add(new Course("java", "Programación con Java", false));
-        courseList.add(new Course("js", "JavaScript para Novatos", true));
-        courseList.add(new Course("python", "Master en Python", true));
-        courseList.add(new Course("html", "Aprende Html como un Profesional", false));
-        courseList.add(new Course("wordpress", "Desarrollo con Wordpress", true));
-        courseList.add(new Course("unittest", "Test Unitarios conceptos Avanzados", true));
-        courseList.add(new Course("css", "Logra el Mejor Diseño con CSS", false));
-        courseList.add(new Course("angular", "Angular de cero a Experto", true));
+        List<Course> courseList = Course.getDefaultCourses();
 
         RecyclerView recyclerView = findViewById(R.id.recyclerViewCourses);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
