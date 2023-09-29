@@ -56,6 +56,8 @@
     <string name="arroy_left">►</string>
     <string name="arroy_right">◄</string>
 
+    <string name="temario_list_vid">Temario</string>
+
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
