@@ -29,8 +29,9 @@ public class RegisterActivity extends AppCompatActivity {
         String email = ((EditText)findViewById(R.id.editEmailAddress)).getText().toString();
         String password = ((EditText)findViewById(R.id.editPassword)).getText().toString();
         String confirmPassword = ((EditText)findViewById(R.id.editConfirmPassword)).getText().toString();
+        String invitationCode = ((EditText)findViewById(R.id.editInvitationCode)).getText().toString();
 
-        if (! firstname.isEmpty() && ! lastname.isEmpty() && ResetPasswordActivity.isValidEmail(email) && !password.isEmpty() && !confirmPassword.isEmpty()) {
+        if (! firstname.isEmpty() && ! lastname.isEmpty() && ResetPasswordActivity.isValidEmail(email) && !password.isEmpty() && !confirmPassword.isEmpty() && !invitationCode.isEmpty()) {
             if (password.equals(confirmPassword)) {
                 Toast.makeText(this, R.string.registration_success_message, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(this, HomeActivity.class);
