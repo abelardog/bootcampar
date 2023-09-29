@@ -13,8 +13,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="34dp"
         android:layout_marginTop="39dp"
+        android:layout_marginBottom="109dp"
         android:src="@drawable/header_logo"
         android:tint="#1A01B2"
+        app:layout_constraintBottom_toTopOf="@+id/textView9"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -22,90 +24,81 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="110dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="11dp"
         android:text="Preguntas Frecuentes"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="#1A01B2"
-        app:layout_constraintBottom_toTopOf="@+id/button4"
-        app:layout_constraintEnd_toEndOf="@+id/button4"
+        app:layout_constraintStart_toStartOf="@+id/imageView5"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="18dp"
-        android:layout_marginEnd="18dp"
-        android:layout_marginBottom="20dp"
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
+        android:layout_marginBottom="72dp"
         android:text="¿Como adquirir un curso?"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="#1A01B2"
-        app:layout_constraintBottom_toTopOf="@+id/button9"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="#FC8344"
+        app:layout_constraintBottom_toTopOf="@+id/textView10"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView5" />
 
-    <Button
-        android:id="@+id/button9"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="18dp"
-        android:layout_marginEnd="18dp"
-        android:layout_marginBottom="20dp"
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
+        android:layout_marginBottom="64dp"
         android:text="¿De cuanto tiempo dispongo para  realizar mi curso?"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="#1A01B2"
-        app:layout_constraintBottom_toTopOf="@+id/button10"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="#FC8344"
+        app:layout_constraintBottom_toTopOf="@+id/textView11"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button4" />
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
-    <Button
-        android:id="@+id/button10"
-        android:layout_width="371dp"
-        android:layout_height="82dp"
-        android:layout_marginStart="18dp"
-        android:layout_marginEnd="18dp"
-        android:layout_marginBottom="20dp"
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="34dp"
+        android:layout_marginBottom="67dp"
         android:text="¿Puedo realizar mas de un curso a la vez?"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="#1A01B2"
-        app:layout_constraintBottom_toTopOf="@+id/button11"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.947"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="#FC8344"
+        app:layout_constraintBottom_toTopOf="@+id/textView12"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button9" />
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
-    <Button
-        android:id="@+id/button11"
+    <TextView
+        android:id="@+id/textView12"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="18dp"
-        android:layout_marginEnd="18dp"
-        android:layout_marginBottom="20dp"
-        android:text="ButtonLos cursos pagos ¿Quedan activos por tiempo indeterminado?"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="#1A01B2"
-        app:layout_constraintBottom_toTopOf="@+id/button13"
+        android:layout_marginStart="34dp"
+        android:layout_marginEnd="34dp"
+        android:layout_marginBottom="58dp"
+        android:text="Los cursos pagos ¿Quedan activos por tiempo indeterminado?"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="#FC8344"
+        app:layout_constraintBottom_toTopOf="@+id/textView13"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button10" />
+        app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
-    <Button
-        android:id="@+id/button13"
-        android:layout_width="367dp"
-        android:layout_height="74dp"
-        android:layout_marginStart="18dp"
-        android:layout_marginEnd="18dp"
-        android:layout_marginBottom="50dp"
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="34dp"
+        android:layout_marginEnd="34dp"
+        android:layout_marginBottom="115dp"
         android:text="Si no estoy conforme con mi curso  ¿como puedo notificarlo?"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="#1A01B2"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="#FC8344"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button11" />
+        app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
