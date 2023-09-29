@@ -56,6 +56,8 @@
     <string name="arroy_left">►</string>
     <string name="arroy_right">◄</string>
 
+
+    <string name="python_list_vid">Python</string>
     <string name="temario_list_vid">Temario</string>
     <string name="capitulo1_list_vid">Capitulo 1</string>
     <string name="capitulo2_list_vid">Capitulo 2</string>
