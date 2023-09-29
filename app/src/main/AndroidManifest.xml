@@ -82,6 +82,27 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ar.bootcampar.MainActivity" />
         </activity>
+
+        <activity
+            android:name=".activities.VideoListActivity"
+            android:exported="false"
+            android:label="Videos disponibles"
+            android:parentActivityName=".activities.HomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ar.bootcampar.activities.HomeActivity" />
+        </activity>
+
+        <activity
+            android:name=".activities.CourseVideoActivity"
+            android:exported="false"
+            android:label="Video"
+            android:parentActivityName=".activities.VideoListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ar.bootcampar.activities.VideoListActivity" />
+        </activity>
+
         <activity
             android:name=".MainActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
