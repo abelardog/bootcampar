@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ar.bootcampar.R;
+import com.ar.bootcampar.fragments.ChaptersListFragment;
 
 public class CourseDetailActivity extends AppCompatActivity {
 
@@ -36,7 +37,8 @@ public class CourseDetailActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(CourseDetailActivity.this, R.string.enrollment_success, Toast.LENGTH_SHORT).show();
-                    // TODO: Levantar actividad con listado de videos del curso
+                    Intent intent = new Intent(CourseDetailActivity.this, VideoListActivity.class);
+                    startActivity(intent);
                 }
             });
         }
@@ -45,3 +47,4 @@ public class CourseDetailActivity extends AppCompatActivity {
         }
     }
 }
+
