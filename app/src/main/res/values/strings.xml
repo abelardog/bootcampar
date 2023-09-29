@@ -57,7 +57,20 @@
     <string name="arroy_right">◄</string>
 
     <string name="temario_list_vid">Temario</string>
-
+    <string name="capitulo1_list_vid">Capitulo 1</string>
+    <string name="capitulo2_list_vid">Capitulo 2</string>
+    <string name="capitulo3_list_vid">Capitulo 3</string>
+    <string name="capitulo4_list_vid">Capitulo 4</string>
+    <string name="capitulo5_list_vid">Capitulo 5</string>
+    <string name="capitulo6_list_vid">Capitulo 6</string>
+    <string name="capitulo7_list_vid">Capitulo 7</string>
+    <string name="introduccion_list_vid">Introduccion</string>
+    <string name="operadoresaritmeticos_list_vid">Operadores Aritmeticos</string>
+    <string name="operadoreslogicos_list_vid">Operadores Logicos</string>
+    <string name="variables_list_vid">Variables</string>
+    <string name="funciones_list_vid">Funciones</string>
+    <string name="condicionales_list_vid">Condicionales</string>
+    <string name="ciclos_list_vid">Ciclos</string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
