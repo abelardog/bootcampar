@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.ar.bootcampar.activities.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_courses"
+        android:name="com.ar.bootcampar.fragments.CourseListFragment"
+        android:label="@string/courses"
+        tools:layout="@layout/fragment_course_list" />
+
+    <fragment
+        android:id="@+id/navigation_search"
+        android:name="com.ar.bootcampar.fragments.SearchFragment"
+        android:label="@string/search_button_text"
+        tools:layout="@layout/fragment_search" />
+
+    <fragment
+        android:id="@+id/navigation_help"
+        android:name="com.ar.bootcampar.activities.ui.help.HelpFragment"
+        android:label="@string/title_help"
+        tools:layout="@layout/fragment_help" />
+
+    <fragment
+        android:id="@+id/navigation_notifications"
+        android:name="com.ar.bootcampar.activities.ui.profile.ProfileFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_navigation_notifications_to_navigation_profile_edition"
+            app:destination="@id/navigation_profile_edition"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_profile_edition"
+        android:name="com.ar.bootcampar.fragments.EditProfile"
+        android:label="Editar perfil"
+        tools:layout="@layout/fragment_edit_profile">
+        <action
+            android:id="@+id/action_navigation_profile_edition_to_navigation_notifications"
+            app:destination="@id/navigation_notifications"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_contact"
+        android:name="com.ar.bootcampar.fragments.ContactFragment"
+        android:label="@string/contact"
+        tools:layout="@layout/fragment_contact" />
+
+</navigation>
