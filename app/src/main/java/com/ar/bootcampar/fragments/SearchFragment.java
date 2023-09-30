@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -151,6 +152,10 @@ public class SearchFragment extends Fragment {
                 builder.show();
             }
         });
+
+        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+        ft.replace(R.id.search_course_list_fragment_container, new CourseListFragment());
+        ft.commit();
     }
 
     @Override

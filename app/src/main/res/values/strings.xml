@@ -122,4 +122,7 @@
     <string name="complete_profile_data_please">Por favor complete todos los datos.</string>
     <string name="contact">Contacto</string>
     <string name="ingrese_codigo_invitacion">Ingrese su código de invitación</string>
+    <string name="search_button_text">Buscar</string>
+    <string name="choose_categories_text">Elija categorías</string>
+    <string name="insert_search_text">Ingrese texto para buscar</string>
 </resources>
