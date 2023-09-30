@@ -18,7 +18,7 @@ Año: 2023
 
 | Fecha | Revisión | Autor | Verificado dep. Calidad
 | - | - | - | - |
-| 2023 | | Pamela Sol Pilotti - Lidio A. Guedez - Yuliana Paula Capdevila- Leonardo Vivas - Laura Natalia Laslo Veron - Lucia Ailen Leonetti - Roberto Alfonso - Facundo M. Díaz C. - Celeste Esquivel | |
+| 2023 | | Pamela Sol Pilotti - Lidio A. Guedez - Yuliana Paula Capdevila- Leonardo Vivas - Laura Natalia Laslo Veron - Roberto Alfonso - Facundo M. Díaz C. - Celeste Esquivel | |
 
 ---
 
@@ -79,7 +79,6 @@ Las personas que quieran capacitarse en esta plataforma no necesitarán poseer c
 | - | - | - | - | - |
 | Pamela Pilotti| Desarrolladora / Scrum Master | FullStack | Backend - Frontend - Base de Datos - API REST | pamelasol13@hotmail.com |
 | Leonardo Vivas | Desarrollador | FullStack | Backend - Frontend - Base de Datos - API REST | leonardoa173@gmail.com |
-| Lucia Ailen Leonetti | Desarrolladora | FullStack | Backend - Frontend - Base de Datos - API REST | leonettil152@gmail.com |
 | Laura Natalia Laslo Veron | Desarrolladora | FullStack | Backend - Frontend - Base de Datos - API REST - QA Analyst | lauranatalialasloveron@gmail.com |
 | Yuliana Paula Capdevila | Desarrolladora | FullStack | Backend - Frontend - Base de Datos - API REST | yulicapdevila92@gmail.com |
 | Lidio A. Guedez | Desarrollador | FullStack | Backend - Frontend - Base de Datos - API REST | g.abelardo@gmail.com |
