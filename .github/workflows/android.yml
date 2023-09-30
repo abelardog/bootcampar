@@ -44,6 +44,13 @@ jobs:
       uses: actions/github-script@v4
       with:
         script: |
+          console.log('Context:', JSON.stringify(context, null, 2));  // Imprime el contenido del contexto para depuración
+          
+          if (!context.issue || !context.issue.number || !context.repo || !context.repo.owner || !context.repo.repo) {
+            console.error('Alguna de las propiedades requeridas está indefinida.');
+            return;
+          }
+          
           const fs = require('fs');
           const issueComment = `El Build fallo con el siguiente error: \n\`\`\`${{ env.BUILD_RESULT }}\`\`\``;
           github.rest.issues.createComment({
