@@ -18,7 +18,7 @@ Año: 2023
 
 | Fecha | Revisión | Autor | Verificado dep. Calidad
 | - | - | - | - |
-| 2023 | | Pamela Sol Pilotti - Lidio A. Guedez - Yuliana Paula Capdevila- Leonardo Vivas - Laura Natalia Laslo Veron - Roberto Alfonso - Facundo M. Díaz C. - Celeste Esquivel | |
+| 2023 | | Pamela Sol Pilotti - Lidio A. Guedez - Yuliana Paula Capdevila- Leonardo Vivas - Laura Natalia Laslo Veron - Lucia Ailen Leonetti - Roberto Alfonso - Facundo M. Díaz C. - Celeste Esquivel | |
 
 ---
 
@@ -60,6 +60,10 @@ Año: 2023
 
     - [3.1.4 - Sprints](#314-sprints)
 
+- [4. Anexo de bitácora II](#4-anexo-de-bitácora-ii)
+
+  - [4.1 Sprint 1](#41-sprint-1)
+
 ---
 
 ### 1 Introducción
@@ -79,6 +83,7 @@ Las personas que quieran capacitarse en esta plataforma no necesitarán poseer c
 | - | - | - | - | - |
 | Pamela Pilotti| Desarrolladora / Scrum Master | FullStack | Backend - Frontend - Base de Datos - API REST | pamelasol13@hotmail.com |
 | Leonardo Vivas | Desarrollador | FullStack | Backend - Frontend - Base de Datos - API REST | leonardoa173@gmail.com |
+| Lucia Ailen Leonetti | Desarrolladora | FullStack | Backend - Frontend - Base de Datos - API REST | leonettil152@gmail.com |
 | Laura Natalia Laslo Veron | Desarrolladora | FullStack | Backend - Frontend - Base de Datos - API REST - QA Analyst | lauranatalialasloveron@gmail.com |
 | Yuliana Paula Capdevila | Desarrolladora | FullStack | Backend - Frontend - Base de Datos - API REST | yulicapdevila92@gmail.com |
 | Lidio A. Guedez | Desarrollador | FullStack | Backend - Frontend - Base de Datos - API REST | g.abelardo@gmail.com |
@@ -122,6 +127,10 @@ Las personas que quieran capacitarse en esta plataforma no necesitarán poseer c
 #### 2.1 Perspectiva del producto
 El sistema BootcampAr será un producto diseñado para trabajar en entornos mobile, lo que permitirá su utilización de forma rápida y eficaz, además de brindar herramientas para la formación y fortalecimiento de conocimientos en el área de la matemática, lógica y a los algoritmos orientados a la programación en diversas áreas y lenguajes
 
+[Link al documento de Figma con “Maquetado de Pantallas”](https://www.figma.com/file/8UGS2u1XMBbejPGKUqwqHW/Untitled?type=design&node-id=0-1&mode=design)
+
+![Image](https://github.com/abelardog/bootcampar/assets/95236196/9fdac492-ddd4-4240-9123-1e6a567cdf9b)
+
 #### 2.2 Características de los usuarios
 
 | Tipo de usuario | Formación | Actividades |
@@ -152,40 +161,70 @@ antes indicados para garantizar una ejecución correcta de la misma, suponiendo 
 
 ##### 3.1.1 Historias de Usuarios y sus Tareas
 
-- #US01 Como visitante quiero conocer la oferta educativa para evaluar mis opciones.
-- #TK01 Crear listado de cursos disponibles en el sistema accesible para invitados
+- US/TK’s - Sprint 0
 
-- #US02 como visitante quiero poder registrarme para poder acceder a la oferta educativa.
-- #TK02 Crear formulario de registración
-- #TK03 Grabar datos de registración en base de datos
+  - #US01 Como visitante quiero conocer la oferta educativa para evaluar mis opciones.
+  - #TK01 Crear listado de cursos disponibles en el sistema accesible para invitados
 
-- #US03 Como usuario registrado quisiera poder recuperar mi contraseña, para facilitar el acceso en caso de olvidarla.
-- #TK04 Crear actividad para recuperar la clave
+  - #US02 como visitante quiero poder registrarme para poder acceder a la oferta educativa.
+  - #TK02 Crear formulario de registración
+  - #TK03 Grabar datos de registración en base de datos
 
-- #US04 Como usuario registrado quisiera contar con un buscador para que sea más fácil la navegación.
-- #TK05 Crear actividad de búsqueda de cursos simple por nombre
+  - #US03 Como usuario registrado quisiera poder recuperar mi contraseña, para facilitar el acceso en caso de olvidarla.
+  - #TK04 Crear actividad para recuperar la clave
 
-- #US05 Como usuario registrado quisiera poder marcar mis cursos favoritos para poder encontrarlos más tarde con mayor facilidad.
-- #TK06 Agregar la opción de marcar cursos como favoritos en la interfaz de usuario de la aplicación.
-- #TK07 Implementar la funcionalidad de guardar cursos como favoritos para cada usuario.
+  - #US04 Como usuario registrado quisiera contar con un buscador para que sea más fácil la navegación.
+  - #TK05 Crear actividad de búsqueda de cursos simple por nombre
 
-- #US06 Como usuario registrado quisiera contar con una sección "Perfil" para poder acceder a él y modificarlo en caso de que sea necesario.
-- #TK08 Mostrar la actividad de perfil con la información personal actual del usuario.
-- #TK09 Implementar la funcionalidad de edición de información personal, como nombre, foto de perfil, dirección, etc.
-- #TK10 Validar y guardar los cambios realizados en la información personal del usuario.
+  - #US05 Como usuario registrado quisiera poder marcar mis cursos favoritos para poder encontrarlos más tarde con mayor facilidad.
+  - #TK06 Agregar la opción de marcar cursos como favoritos en la interfaz de usuario de la aplicación.
+  - #TK07 Implementar la funcionalidad de guardar cursos como favoritos para cada usuario.
 
-- #US08 como alumno quisiera conocer detalles del curso para estar informado del mismo.
-- #TK11 Agregar actividad de descripción del curso
+  - #US06 Como usuario registrado quisiera contar con una sección "Perfil" para poder acceder a él y modificarlo en caso de que sea necesario.
+  - #TK08 Mostrar la actividad de perfil con la información personal actual del usuario.
+  - #TK09 Implementar la funcionalidad de edición de información personal, como nombre, foto de perfil, dirección, etc.
+  - #TK10 Validar y guardar los cambios realizados en la información personal del usuario.
 
-- #US09 como alumno quisiera acceder al curso para poder hacer uso de él.
-- #TK16 Crear modo "offline" para los cursos
+  - #US08 como alumno quisiera conocer detalles del curso para estar informado del mismo.
+  - #TK11 Agregar actividad de descripción del curso
 
-- #US10 Como alumno quisiera poder calificar los cursos consumidos para dar a conocer mi opinión sobre ellos.
+  - #US09 como alumno quisiera acceder al curso para poder hacer uso de él.
+  - #TK16 Crear modo "offline" para los cursos
 
-- #TK12 Crear el Project Backlog
-- #TK13 Actualizar el documento IEEE830 documentación
-- #TK14 Crear un Diagrama de Clases y Casos de Uso
-- #TK15 Crear Modelo de bases de datos
+  - #US10 Como alumno quisiera poder calificar los cursos consumidos para dar a conocer mi opinión sobre ellos.
+
+  - #TK12 Crear el Project Backlog
+  - #TK13 Actualizar el documento IEEE830 documentación
+  - #TK14 Crear un Diagrama de Clases y Casos de Uso
+  - #TK15 Crear Modelo de bases de datos
+
+- US/TK’s - Sprint 1
+
+  - #TK22 Caso de uso Registración de estudiante
+  - #TK23 Caso de uso Ingreso de estudiante
+  - #TK24 Caso de uso Listado de cursos
+  - #TK21 Crear diagramas de caso de uso general y particulares
+  - #TK25 Caso de uso Inscripción a curso
+  - #TK26 Caso de uso Hacer curso
+  - #TK27 Caso de uso Marcar como favorito
+  - #TK28 Caso de uso Calificar
+  - #TK29 Crear script de base de datos
+  - #TK30 Realizar 3 casos de prueba para la app
+  - #TK31 Crear actividades de la app
+  - #TK32 Actividad Inicio de Sesión
+  - #TK33 Actividad Home
+  - #TK34 Actividad Perfil
+  - #TK35 Actividad Listado de Cursos
+  - #TK36 Actividad de contacto
+  - #TK37 Crear actividad de ayuda / FAQ
+  - #TK38 Borrar botón de configuración del perfil
+  - #TK39 Levantar actividad con lista de cursos al presionar favoritos
+  - #TK40 Implementar actualizar simple y que vaya para atrás
+  - #TK41 Click en detalles del curso sin loguearse
+  - #TK42 Mostrar fragmento de contacto
+  - #TK43 Crear actividad de listado de videos de curso
+  - #TK44 Creación de Demostración del Proyecto en video
+
 
 ##### 3.1.2 Requerimientos Funcionales
 
@@ -216,6 +255,37 @@ antes indicados para garantizar una ejecución correcta de la misma, suponiendo 
 | Nro de sprint | Calendario | Sprint Backlog | Responsabilidades | Inconvenientes: |
 | - | - | - | - | - |
 | 0 | Fecha de inicio: 14/08/2023 / Fecha Cierre: 05/09/2023 | #US01, #US02, #US03, #US04, #US05, #US06, #US07, #US08, #US09, #US10 | - Definir requerimientos funcionales para la app a desarrollar (colocarlos en el Product Backlog del Project), a su vez revisar si han cumplimentado todos los requerimientos previos, realizando mejoras del mismo - Plantear Historias de Usuarios y Tareas dependientes de las US para incorporarlas en el repositorio remoto gitHub. (Issues y Milestones) / Tener en cuenta la redacción adecuada para las US y nomenclatura, ej “#US01 Como usuario quiero ingresar al carrito para poder comprar” - Definir tareas dentro de las Historias de Usuario (GITHUB) ej dentro de las ISSUES  #TK01 importar repositorio | La Organización de los horarios de las reuniones llevó buena parte del tiempo y no todos pudieron conectarse |
-| 1 | Fecha de inicio: 05/09/2023 / Fecha Cierre: - | - | - Crear su propio DER y Modelo relacional para documentar las tablas en la DB. - Crear un Diagrama de Clases y Casos de Uso para facilitar el modelado en POO. Script sql de la base de datos actualizada con las tablas nuevas. - Actualizar el repositorio grupal, creando una carpeta dentro de la branch **Diseño de pantallas de Activity** Se puede presentar maquetación en Figma y principalmente navegabilidad el Proyecto de Android Studio (paso previo sin funcionalidad). - Incluir una pantalla para contacto. - Incorporar la navegabilidad de la aplicación completa - Subirla al repo grupal, con GIT , en una branch por desarrollador para que cada uno tenga una copia. Luego crear una branch feature, para realizar nuestros cambios que no se encuentran aún en condiciones de incorporarse a la branch develop. - La branch “MAIN” o “MASTER” es la que suele usarse para mantener las versiones estables (productivas) de nuestros proyectos. Listas para salir a producción (Aquí deben dejan las versiones al cierre del SPRINT). *Pueden activar en GitHub la opción WIKI para reflejar avances individuales y de equipo.* | - |
-| 2 | Fecha de inicio: - / Fecha Cierre: - | - | - Funcionalidades completas (diseño y desarrollo integrado) - CRUD básico funcional de producto y cliente. - Actualizar documentación IEEE830 - tablero Kanban (project) y Wiki. - Actualizado todo el proyecto en GitHub como respaldo - Demo final en video con participación de todo el equipo describiendo todas las funcionalidades. - *OPCIONALES: aplicación publicada.* | - |
+| 1 | Fecha de inicio: 05/09/2023 / Fecha Cierre: 30/09/2023 | #TK22, #TK23, #TK24, #TK25, #TK26, #TK27, #TK28, #TK29, #TK30, #TK31, #TK32, #TK33, #TK34, #TK35, #TK36, #TK37, #TK38, #TK39, #TK40, #TK41, #TK42, #TK43, #TK44 | - Crear su propio DER y Modelo relacional para documentar las tablas en la DB. - Crear un Diagrama de Clases y Casos de Uso para facilitar el modelado en POO. Script sql de la base de datos actualizada con las tablas nuevas. - Actualizar el repositorio grupal, creando una carpeta dentro de la branch **Diseño de pantallas de Activity** Se puede presentar maquetación en Figma y principalmente navegabilidad el Proyecto de Android Studio (paso previo sin funcionalidad). - Incluir una pantalla para contacto. - Incorporar la navegabilidad de la aplicación completa - Subirla al repo grupal, con GIT , en una branch por desarrollador para que cada uno tenga una copia. Luego crear una branch feature, para realizar nuestros cambios que no se encuentran aún en condiciones de incorporarse a la branch develop. - La branch “MAIN” o “MASTER” es la que suele usarse para mantener las versiones estables (productivas) de nuestros proyectos. Listas para salir a producción (Aquí deben dejan las versiones al cierre del SPRINT). *Pueden activar en GitHub la opción WIKI para reflejar avances individuales y de equipo.* - NOTA para Evidencia Sprint1: para agilizar la revisión de la navegabilidad, se recomienda hacen un video breve, de no mas de 5 minutos, donde se observe el recorrido (lo puede hacer uno solo de los integrantes) y Documentar las capturas de las Activitys (diseño - print screen o link figma - y código) en un ANEXO II del IEEE830. | Las diferencias con la familiarización y manejo de las nuevas tecnologías y a su vez, la complejidad de algunas pantallas generaron dificultad a la hora de encarar algunas tareas y los tiempos se extendieron un poco más de lo planeado |
+| 2 | Fecha de inicio: 30/09/2023 / Fecha Cierre: - | - | - Funcionalidades completas (diseño y desarrollo integrado) - CRUD básico funcional de producto y cliente. - Actualizar documentación IEEE830 - tablero Kanban (project) y Wiki. - Actualizado todo el proyecto en GitHub como respaldo - Demo final en video con participación de todo el equipo describiendo todas las funcionalidades. - *OPCIONALES: aplicación publicada.* | - |
 
+### 4. Anexo de Bitácora II
+
+#### 4.1 Sprint 1
+
+![Image](https://github.com/abelardog/bootcampar/assets/95236196/d3bd6bfa-8cf7-45ef-ba3a-da0a1362e4d1)
+![Image](https://github.com/abelardog/bootcampar/assets/95236196/b76050d3-6dc2-4ea5-bc30-337cec022b47)
+![Image](https://github.com/abelardog/bootcampar/assets/95236196/a5b21fd3-1a7f-4ca4-9a86-37e95fece689)
+
+- Agregamos las pantallas: Main, Iniciar Sesión y Registro. Ambas actividades con formularios tienen validaciones en caso de intentar ingresar con campos vacíos, contraseñas diferentes, etc. Si se ingresa con la cuenta de “alumno@gmail.com” y contraseña “123456”, se es redirigido al Home/Inicio.
+
+![Image](https://github.com/abelardog/bootcampar/assets/95236196/f63d3692-3e29-4336-87fe-b7100bac2ca8)
+![Image](https://github.com/abelardog/bootcampar/assets/95236196/69b98b46-cc14-452d-acb7-4d4c1f2a28ee)
+![Image](https://github.com/abelardog/bootcampar/assets/95236196/66b19dac-c714-4ff2-a187-e41f8aa95f15)
+
+- Tenemos también la pantalla para recuperar contraseña, por otro lado, si navegamos por el Inicio, podemos hacer clic en uno de los cursos disponibles y ver su detalle: Título, Descripción e Imagen.
+
+![Image](https://github.com/abelardog/bootcampar/assets/95236196/b7d5abfb-0286-4034-b8d1-a9fc3b3a5711)
+![Image](https://github.com/abelardog/bootcampar/assets/95236196/850d26ac-addc-4bcc-97bf-229ee0673a1a)
+![Image](https://github.com/abelardog/bootcampar/assets/95236196/46dbbb1d-6973-4943-ac3e-137d37076dd4)
+
+- Si nos inscribimos a un curso (Solo puede hacerse si el usuario está logueado), accederemos a las lecciones disponibles y sus respectivos videos. Por otro lado, se listan los “Cursos Disponibles” y se pueden agregar a favoritos.
+
+![Image](https://github.com/abelardog/bootcampar/assets/95236196/284c7b7e-5ffb-40bc-8b4b-79da8204687f)
+![Image](https://github.com/abelardog/bootcampar/assets/95236196/540db45a-0212-49a2-933f-80e16099c8c7)
+![Image](https://github.com/abelardog/bootcampar/assets/95236196/e7c3a3fe-f450-4b6c-a64b-400be08938a1)
+
+- Podemos encontrar secciones como “Preguntas Frecuentes”, “Perfil” y “Editar Perfil” para editar datos de la cuenta en caso de que el usuario así lo quisiera
+
+![Image](https://github.com/abelardog/bootcampar/assets/95236196/be78e4c0-3b82-48b4-98e8-8914d617126c)
+
+- Y por último, agregamos una sección de “Contacto”, debido a que era un requisito para este sprint.
