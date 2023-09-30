@@ -51,6 +51,9 @@ El código de este proyecto está bajo la licencia MIT. Es de uso libre para pro
 - Yuliana Paula Capdevila - GitHub: YuliCap 
 - Maria Celeste Esquivel Gimenez - GitHub: celesteeg 
 
+## DEMOSTRACIÓN DEL PROYECTO EN VIDEO
+https://drive.google.com/file/d/1Vh5k2U7IZW36KHvUsbqYsCwuzqwLTipP/view
+
 [commit-img]: https://img.shields.io/github/commit-activity/w/abelardog/bootcampar/develop
 [commit-url]: https://github.com/abelardog/bootcampar/graphs/code-frequency
 [contrib-img]: https://img.shields.io/github/contributors/abelardog/bootcampar
@@ -60,5 +63,3 @@ El código de este proyecto está bajo la licencia MIT. Es de uso libre para pro
 [discuss-img]: https://img.shields.io/github/discussions/abelardog/bootcampar
 [discuss-url]: https://github.com/abelardog/bootcampar/discussions
 
-## DEMOSTRACIÓN DEL PROYECTO EN VIDEO
-https://drive.google.com/file/d/13RSPGsV1xrTCGOhOpbt_1p8uzzarCEzB/view?usp=drivesdk
