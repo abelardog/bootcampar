@@ -123,6 +123,10 @@ Las personas que quieran capacitarse en esta plataforma no necesitarán poseer c
 #### 2.1 Perspectiva del producto
 El sistema BootcampAr será un producto diseñado para trabajar en entornos mobile, lo que permitirá su utilización de forma rápida y eficaz, además de brindar herramientas para la formación y fortalecimiento de conocimientos en el área de la matemática, lógica y a los algoritmos orientados a la programación en diversas áreas y lenguajes
 
+[Link al documento de Figma con “Maquetado de Pantallas”](https://www.figma.com/file/8UGS2u1XMBbejPGKUqwqHW/Untitled?type=design&node-id=0-1&mode=design)
+
+![Image](https://github.com/abelardog/bootcampar/assets/95236196/9fdac492-ddd4-4240-9123-1e6a567cdf9b)
+
 #### 2.2 Características de los usuarios
 
 | Tipo de usuario | Formación | Actividades |
