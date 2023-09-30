@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.ar.bootcampar.R;
+import com.ar.bootcampar.activities.CourseListActivity;
 import com.ar.bootcampar.activities.EditProfileActivity;
 import com.ar.bootcampar.databinding.FragmentProfileBinding;
 
@@ -36,6 +37,16 @@ public class ProfileFragment extends Fragment {
                 Intent intent = new Intent(getContext(), EditProfileActivity.class);
                 startActivity(intent);
                 //Navigation.findNavController(v).navigate(R.id.navigation_profile_edition);
+            }
+        });
+         button = (Button) root.findViewById(R.id.button_favorites);
+        button.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(getContext(), CourseListActivity.class);
+                startActivity(intent);
             }
         });
 
