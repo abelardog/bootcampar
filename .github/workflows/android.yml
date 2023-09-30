@@ -1,0 +1,55 @@
+name: Android CI
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: set up JDK 1.8
+      uses: actions/setup-java@v2
+      with:
+        java-version: '8'
+        distribution: 'adopt'
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+
+    - name: Build with Gradle
+      run: ./gradlew build
+      continue-on-error: true
+      id: build
+      
+    - name: Archive develop artifacts
+      if: steps.build.outcome == 'success'
+      uses: actions/upload-artifact@v2
+      with:
+        name: app
+        path: app/build/outputs/apk/dev/release/app-dev-release.apk
+
+    - name: Get build results
+      if: steps.build.outcome == 'failure'
+      run: echo "BUILD_RESULT=$(cat build/results.txt)" >> $GITHUB_ENV
+      continue-on-error: true
+
+    - name: Create PR comment
+      if: steps.build.outcome == 'failure'
+      uses: actions/github-script@v4
+      with:
+        script: |
+          const fs = require('fs');
+          const issueComment = `El Build fallo con el siguiente error: \n\`\`\`${{ env.BUILD_RESULT }}\`\`\``;
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: issueComment
+          });
+    
