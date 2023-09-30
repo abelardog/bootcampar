@@ -32,7 +32,7 @@ public class SearchFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    TextView textView;
+    TextView dropdownCategory;
     boolean[] selectedLanguage;
     ArrayList<Integer> langList = new ArrayList<>();
     String[] langArray = {"Python", "POO", "Funcional", "Web", "Testing"};
@@ -68,13 +68,19 @@ public class SearchFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        // assign variable
-        textView = getView().findViewById(R.id.textView);
-
         // initialize selected language array
         selectedLanguage = new boolean[langArray.length];
+    }
 
-        textView.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_search, container, false);
+        // assign variable
+        dropdownCategory = view.findViewById(R.id.dropdownCategory);
+
+        dropdownCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -82,7 +88,7 @@ public class SearchFragment extends Fragment {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
                 // set title
-                builder.setTitle("Select Language");
+                builder.setTitle(R.string.select_categories_text);
 
                 // set dialog non cancelable
                 builder.setCancelable(false);
@@ -123,7 +129,7 @@ public class SearchFragment extends Fragment {
                             }
                         }
                         // set text on textView
-                        textView.setText(stringBuilder.toString());
+                        dropdownCategory.setText(stringBuilder.toString());
                     }
                 });
 
@@ -144,7 +150,7 @@ public class SearchFragment extends Fragment {
                             // clear language list
                             langList.clear();
                             // clear text view value
-                            textView.setText("");
+                            dropdownCategory.setText("");
                         }
                     }
                 });
@@ -156,12 +162,7 @@ public class SearchFragment extends Fragment {
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
         ft.replace(R.id.search_course_list_fragment_container, new CourseListFragment());
         ft.commit();
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false);
+        return view;
     }
 }
