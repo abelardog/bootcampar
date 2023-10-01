@@ -44,8 +44,9 @@ jobs:
       uses: actions/github-script@v4
       with:
         script: |
-          if (!context.issue) {
-            console.log('No existe context.issue');
+          const pr = context.payload.pull_request;
+          if (!pr) {
+            console.log('No es una Pull Request');
             return;
           }
           
@@ -53,7 +54,7 @@ jobs:
           const issueComment = 'El Build fallo con el siguiente error: \n```\n' + buildResult + '\n```';
           
           github.rest.issues.createComment({
-            issue_number: context.issue.number,
+            issue_number: pr.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
             body: issueComment
