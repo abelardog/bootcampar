@@ -5,15 +5,17 @@ plugins {
 
 buildscript {
 
+    val agp_version by extra("8.1.1")
     repositories {
     }
 
     dependencies {
-        classpath("com.android.tools.build:gradle:8.1.0")
-        classpath("com.google.gms:google-services:4.3.15")
+        classpath("com.android.tools.build:gradle:$agp_version")
+        classpath("com.google.gms:google-services:4.4.0")
     }
 
 }
+val defaultVersionCode by extra(1)
 
 
 allprojects {
