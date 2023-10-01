@@ -30,7 +30,7 @@ jobs:
       run: chmod +x gradlew
 
     - name: Build with Gradle
-      run: mkdir -p build && ./gradlew build 2> build/results.txt || true
+      run: mkdir -p build && ./gradlew build 2> build/results.txt
       continue-on-error: true
       id: build
       
