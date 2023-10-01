@@ -33,13 +33,6 @@ jobs:
       run: mkdir -p build && ./gradlew build 2> build/results.txt
       continue-on-error: true
       id: build
-      
-    - name: Archive develop artifacts
-      if: steps.build.outcome == 'success'
-      uses: actions/upload-artifact@v3
-      with:
-        name: app
-        path: app/build/outputs/apk/dev/release/app-dev-release.apk
 
     - name: Get build results
       if: steps.build.outcome == 'failure'
