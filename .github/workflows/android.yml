@@ -41,17 +41,16 @@ jobs:
 
     - name: Create PR comment
       if: steps.build.outcome == 'failure'
-      uses: actions/github-script@v6
+      uses: actions/github-script@v4
       with:
         script: |
           if (!context.issue) {
             console.log('No existe context.issue');
             return;
           }
-          
-          const buildResult = `${{ env.BUILD_RESULT }}`;
-          const issueComment = 'El Build fallo con el siguiente error: \n```\n' + buildResult + '\n```';
-          
+
+          const fs = require('fs');
+          const issueComment = `El Build fallo con el siguiente error: \n\`\`\`${{ env.BUILD_RESULT }}\`\`\``;
           github.rest.issues.createComment({
             issue_number: context.issue.number,
             owner: context.repo.owner,
