@@ -41,7 +41,7 @@ jobs:
 
     - name: Create PR comment
       if: steps.build.outcome == 'failure'
-      uses: actions/github-script@v4
+      uses: actions/github-script@v6
       with:
         script: |
           const pr = context.payload.pull_request;
