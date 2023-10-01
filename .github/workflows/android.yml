@@ -48,9 +48,10 @@ jobs:
             console.log('No existe context.issue');
             return;
           }
-
-          const fs = require('fs');
-          const issueComment = `El Build fallo con el siguiente error: \n\`\`\`${{ env.BUILD_RESULT }}\`\`\``;
+          
+          const buildResult = `${{ env.BUILD_RESULT }}`;
+          const issueComment = 'El Build fallo con el siguiente error: \n```\n' + buildResult + '\n```';
+          
           github.rest.issues.createComment({
             issue_number: context.issue.number,
             owner: context.repo.owner,
