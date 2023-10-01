@@ -36,7 +36,7 @@ jobs:
 
     - name: Get build results
       if: steps.build.outcome == 'failure'
-      run: echo "BUILD_RESULT=$(cat build/results.txt)" >> $GITHUB_ENV
+      run: echo "BUILD_RESULT=$(sed ':a;N;$!ba;s/\n/ /g' build/results.txt)" >> $GITHUB_ENV
       continue-on-error: true
 
     - name: Create PR comment
