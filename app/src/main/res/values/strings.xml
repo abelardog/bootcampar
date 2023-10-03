@@ -126,8 +126,6 @@
     <string name="chapter">chapter1</string>
     <string name="introduction_class">Introduction</string>
     <string name="classDescription">classDescription</string>
-    <string name="btn_class1">Python</string>
-    <string name="btn_class2">Python</string>
     <string name="qualification_class">qualification</string>
     <string name="search_button_text">Buscar</string>
     <string name="choose_categories_text">Elija categorías</string>
