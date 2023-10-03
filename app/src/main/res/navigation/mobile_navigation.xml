@@ -18,6 +18,12 @@
         tools:layout="@layout/fragment_course_list" />
 
     <fragment
+        android:id="@+id/navigation_search"
+        android:name="com.ar.bootcampar.fragments.SearchFragment"
+        android:label="@string/search_button_text"
+        tools:layout="@layout/fragment_search" />
+
+    <fragment
         android:id="@+id/navigation_help"
         android:name="com.ar.bootcampar.activities.ui.help.HelpFragment"
         android:label="@string/title_help"

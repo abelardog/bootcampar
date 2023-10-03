@@ -10,7 +10,12 @@
         android:id="@+id/navigation_courses"
         android:icon="?android:attr/actionModeWebSearchDrawable"
         android:title="@string/courses" />
-
+<!--
+    <item
+        android:id="@+id/navigation_search"
+        android:icon="?android:attr/accessibilityFlags"
+        android:title="Buscar" />
+-->
     <item
         android:id="@+id/navigation_help"
         android:icon="@android:drawable/ic_menu_help"

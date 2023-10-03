@@ -122,7 +122,6 @@
     <string name="complete_profile_data_please">Por favor complete todos los datos.</string>
     <string name="contact">Contacto</string>
     <string name="ingrese_codigo_invitacion">Ingrese su código de invitación</string>
-
     <string name="title_class">Python</string>
     <string name="chapter">chapter1</string>
     <string name="introduction_class">Introduction</string>
@@ -130,5 +129,8 @@
     <string name="btn_class1">Python</string>
     <string name="btn_class2">Python</string>
     <string name="qualification_class">qualification</string>
-
+    <string name="search_button_text">Buscar</string>
+    <string name="choose_categories_text">Elija categorías</string>
+    <string name="insert_search_text">Ingrese texto para buscar</string>
+    <string name="select_categories_text">Seleccione categorías</string>
 </resources>
