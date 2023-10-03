@@ -1,4 +1,5 @@
 package com.ar.bootcampar.model;
 
-public class User {
+public enum Rol {
+    Estudiante
 }
