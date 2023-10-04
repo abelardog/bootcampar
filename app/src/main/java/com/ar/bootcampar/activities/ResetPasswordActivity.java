@@ -28,6 +28,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
         }
     }
 
+    // TODO: Mover a clase logica
     public static boolean isValidEmail(CharSequence target) {
         return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }
