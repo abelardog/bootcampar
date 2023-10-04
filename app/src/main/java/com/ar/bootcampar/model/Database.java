@@ -143,11 +143,10 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
         try {
             database = this.getReadableDatabase();
-            String[] param = new String[1];
-            param[0] = Long.toString(id);
-
-            String selectQuery = "SELECT Id, Nombre, Apellido, Email, Clave, Rol, Telefono FROM Usuarios where Id=?";
-            cursor = database.rawQuery(selectQuery, param);
+            cursor = database.query("Usuarios",
+                    new String[] { "Id", "Nombre", "Apellido", "Email", "Clave", "Rol", "Telefono" },
+                    "Id=?", new String[] { Long.toString(id) },
+                    null, null, null);
             if (cursor.getCount() == 1) {
                 return obtenerUsuarioDeCursor(cursor);
             }
@@ -185,8 +184,10 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
         try {
             database = this.getReadableDatabase();
-            String selectQuery = "SELECT Id, Nombre, Apellido, Email, Clave, Rol, Telefono FROM Usuarios where Email=?";
-            cursor = database.rawQuery(selectQuery, new String[] { email });
+            cursor = database.query("Usuarios",
+                    new String[] { "Id", "Nombre", "Apellido", "Email", "Clave", "Rol", "Telefono" },
+                    "Email=?", new String[] { email },
+                    null, null, null);
             if (cursor.getCount() == 0) {
                 return null;
             }
@@ -219,7 +220,8 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             values.put("Clave", nuevaClave);
             values.put("Rol", Rol.asInt(nuevoRol));
             values.put("Telefono", nuevoTelefono);
-            int affected = database.update("Usuarios", values, "Id = ?", new String[] { Long.toString(usuario.getId()) });
+            int affected = database.update("Usuarios", values, "Id = ?",
+                    new String[] { Long.toString(usuario.getId()) });
             if (affected == 1) {
                 return new Usuario(usuario.getId(), nuevoNombre, nuevoApellido, nuevoEmail, nuevaClave, nuevoRol, nuevoTelefono);
             }
@@ -238,7 +240,8 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
         try {
             database = this.getWritableDatabase();
-            int affected = database.delete("Usuarios", "Id = ?", new String[] { Long.toString(usuario.getId()) });
+            int affected = database.delete("Usuarios", "Id = ?",
+                    new String[] { Long.toString(usuario.getId()) });
             if (affected != 1) {
                 throw new RuntimeException(String.format("Se esperaba borrar un único usuario pero se borraron %d", affected));
             }
@@ -281,7 +284,9 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
         try {
             database = this.getReadableDatabase();
-            cursor = database.query("Grupos", new String[] { "Id", "Nombre", "Invitacion" }, "invitacion = ?", new String[] { invitacion }, null, null, null);
+            cursor = database.query("Grupos", new String[] { "Id", "Nombre", "Invitacion" },
+                    "invitacion = ?", new String[] { invitacion },
+                    null, null, null);
             if (cursor.getCount() == 0) {
                 return null;
             }
