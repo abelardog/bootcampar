@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 public class Database extends SQLiteOpenHelper implements IDatabase {
     private static final String LOGCAT = "Database";
     public static IDatabase CreateWith(Context applicationContext) {
@@ -147,17 +149,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             String selectQuery = "SELECT Id, Nombre, Apellido, Email, Clave, Rol, Telefono FROM Usuarios where Id=?";
             cursor = database.rawQuery(selectQuery, param);
             if (cursor.getCount() == 1) {
-                cursor.moveToFirst();
-                CursorHelper cursorHelper = new CursorHelper(cursor);
-                Usuario usuario = new Usuario(
-                        cursorHelper.getLongFrom("Id"),
-                        cursorHelper.getStringFrom("Nombre"),
-                        cursorHelper.getStringFrom("Apellido"),
-                        cursorHelper.getStringFrom("Email"),
-                        cursorHelper.getStringFrom("Clave"),
-                        Rol.fromInt(cursorHelper.getIntFrom("Rol")),
-                        cursorHelper.getStringFrom("Telefono"));
-                return usuario;
+                return obtenerUsuarioDeCursor(cursor);
             }
 
             throw new RuntimeException(String.format("Se encontraron varios usuarios con el mismo id %d", id));
@@ -173,6 +165,20 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
     }
 
+    @NonNull
+    private static Usuario obtenerUsuarioDeCursor(Cursor cursor) {
+        cursor.moveToFirst();
+        CursorHelper cursorHelper = new CursorHelper(cursor);
+        return new Usuario(
+                cursorHelper.getLongFrom("Id"),
+                cursorHelper.getStringFrom("Nombre"),
+                cursorHelper.getStringFrom("Apellido"),
+                cursorHelper.getStringFrom("Email"),
+                cursorHelper.getStringFrom("Clave"),
+                Rol.fromInt(cursorHelper.getIntFrom("Rol")),
+                cursorHelper.getStringFrom("Telefono"));
+    }
+
     public Usuario buscarUsuarioONada(String email) {
         SQLiteDatabase database = null;
         Cursor cursor = null;
@@ -185,17 +191,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 return null;
             }
             else if (cursor.getCount() == 1) {
-                cursor.moveToFirst();
-                CursorHelper cursorHelper = new CursorHelper(cursor);
-                Usuario usuario = new Usuario(
-                        cursorHelper.getLongFrom("Id"),
-                        cursorHelper.getStringFrom("Nombre"),
-                        cursorHelper.getStringFrom("Apellido"),
-                        cursorHelper.getStringFrom("Email"),
-                        cursorHelper.getStringFrom("Clave"),
-                        Rol.fromInt(cursorHelper.getIntFrom("Rol")),
-                        cursorHelper.getStringFrom("Telefono"));
-                return usuario;
+                return obtenerUsuarioDeCursor(cursor);
             }
 
             throw new RuntimeException(String.format("Se encontraron varios usuarios con el mismo email %s", email));
