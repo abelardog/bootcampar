@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ar.bootcampar.R;
-import com.ar.bootcampar.model.DatabaseManager;
+import com.ar.bootcampar.model.LogicServices;
 import com.ar.bootcampar.model.Rol;
 import com.ar.bootcampar.model.Usuario;
 
@@ -36,7 +36,7 @@ public class RegisterActivity extends AppCompatActivity {
         String invitationCode = ((EditText)findViewById(R.id.editInvitationCode)).getText().toString();
 
         try {
-            DatabaseManager database = new DatabaseManager(RegisterActivity.this);
+            LogicServices database = new LogicServices(RegisterActivity.this);
             Pair<Usuario, String> resultado = database.registrarUsuario(firstname, lastname, email, password, confirmPassword, Rol.Estudiante, "", invitationCode);
             if (resultado.first != null) {
                 Toast.makeText(this, R.string.registration_success_message, Toast.LENGTH_SHORT).show();

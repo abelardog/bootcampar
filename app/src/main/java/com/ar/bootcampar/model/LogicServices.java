@@ -2,16 +2,15 @@ package com.ar.bootcampar.model;
 
 import android.content.Context;
 import android.util.Pair;
-import android.widget.Toast;
 
 import com.ar.bootcampar.R;
 import com.ar.bootcampar.activities.ResetPasswordActivity;
 
-public class DatabaseManager {
+public class LogicServices {
     private Context context;
     private IDatabase database;
 
-    public DatabaseManager(Context context) {
+    public LogicServices(Context context) {
         this.context = context;
         database = Database.CreateWith(context);
     }
