@@ -87,6 +87,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 ");\n");
         db.execSQL("PRAGMA foreign_keys=ON");
         db.execSQL("PRAGMA foreign_key_check");
+        db.execSQL("INSERT INTO Grupos(Nombre, Invitacion) VALUES ('Grupo de Programadores', '112233')");
     }
 
     @Override
