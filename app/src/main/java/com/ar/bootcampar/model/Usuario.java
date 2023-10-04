@@ -1,7 +1,7 @@
 package com.ar.bootcampar.model;
 
 public class Usuario {
-    private final int id;
+    private final long id;
     private final String nombre;
     private final String apellido;
     private final String email;
@@ -9,7 +9,7 @@ public class Usuario {
     private final Rol rol;
     private final String telefono;
 
-    public Usuario(int id, String nombre, String apellido, String email, String clave, Rol rol, String telefono) {
+    public Usuario(long id, String nombre, String apellido, String email, String clave, Rol rol, String telefono) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -19,7 +19,7 @@ public class Usuario {
         this.telefono = telefono;
     }
 
-    public int getId() { return id; }
+    public long getId() { return id; }
     public String getNombre() { return nombre; }
     public String getApellido() { return apellido; }
     public String getEmail() { return email; }
