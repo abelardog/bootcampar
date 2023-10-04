@@ -109,12 +109,12 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         try {
             database = this.getWritableDatabase();
             ContentValues values = new ContentValues();
-            values.put("nombre", nombre);
-            values.put("apellido", apellido);
-            values.put("email", email);
-            values.put("clave", clave);
-            values.put("rol", Rol.asInt(rol));
-            values.put("telefono", telefono);
+            values.put("Nombre", nombre);
+            values.put("Apellido", apellido);
+            values.put("Email", email);
+            values.put("Clave", clave);
+            values.put("Rol", Rol.asInt(rol));
+            values.put("Telefono", telefono);
             database.beginTransaction();
             long id = database.insert("Usuarios", null, values);
 
@@ -143,19 +143,19 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             String[] param = new String[1];
             param[0] = Long.toString(id);
 
-            String selectQuery = "SELECT id, nombre, apellido, email, clave, rol, telefono FROM Usuarios where Id=?";
+            String selectQuery = "SELECT Id, Nombre, Apellido, Email, Clave, Rol, Telefono FROM Usuarios where Id=?";
             cursor = database.rawQuery(selectQuery, param);
             if (cursor.getCount() == 1) {
                 cursor.moveToFirst();
                 CursorHelper cursorHelper = new CursorHelper(cursor);
                 Usuario usuario = new Usuario(
-                        cursorHelper.getLongFrom("id"),
-                        cursorHelper.getStringFrom("nombre"),
-                        cursorHelper.getStringFrom("apellido"),
-                        cursorHelper.getStringFrom("email"),
-                        cursorHelper.getStringFrom("clave"),
-                        Rol.fromInt(cursorHelper.getIntFrom("rol")),
-                        cursorHelper.getStringFrom("telefono"));
+                        cursorHelper.getLongFrom("Id"),
+                        cursorHelper.getStringFrom("Nombre"),
+                        cursorHelper.getStringFrom("Apellido"),
+                        cursorHelper.getStringFrom("Email"),
+                        cursorHelper.getStringFrom("Clave"),
+                        Rol.fromInt(cursorHelper.getIntFrom("Rol")),
+                        cursorHelper.getStringFrom("Telefono"));
                 return usuario;
             }
 
@@ -178,7 +178,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
         try {
             database = this.getReadableDatabase();
-            String selectQuery = "SELECT id, nombre, apellido, email, clave, rol, telefono FROM Usuarios where email=?";
+            String selectQuery = "SELECT Id, Nombre, Apellido, Email, Clave, Rol, Telefono FROM Usuarios where Email=?";
             cursor = database.rawQuery(selectQuery, new String[] { email });
             if (cursor.getCount() == 0) {
                 return null;
@@ -187,13 +187,13 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 cursor.moveToFirst();
                 CursorHelper cursorHelper = new CursorHelper(cursor);
                 Usuario usuario = new Usuario(
-                        cursorHelper.getLongFrom("id"),
-                        cursorHelper.getStringFrom("nombre"),
-                        cursorHelper.getStringFrom("apellido"),
-                        cursorHelper.getStringFrom("email"),
-                        cursorHelper.getStringFrom("clave"),
-                        Rol.fromInt(cursorHelper.getIntFrom("rol")),
-                        cursorHelper.getStringFrom("telefono"));
+                        cursorHelper.getLongFrom("Id"),
+                        cursorHelper.getStringFrom("Nombre"),
+                        cursorHelper.getStringFrom("Apellido"),
+                        cursorHelper.getStringFrom("Email"),
+                        cursorHelper.getStringFrom("Clave"),
+                        Rol.fromInt(cursorHelper.getIntFrom("Rol")),
+                        cursorHelper.getStringFrom("Telefono"));
                 return usuario;
             }
 
@@ -216,13 +216,13 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         try {
             database = this.getWritableDatabase();
             ContentValues values = new ContentValues();
-            values.put("nombre", nuevoNombre);
-            values.put("apellido", nuevoApellido);
-            values.put("email", nuevoEmail);
-            values.put("clave", nuevaClave);
-            values.put("rol", Rol.asInt(nuevoRol));
-            values.put("telefono", nuevoTelefono);
-            int affected = database.update("Usuarios", values, "id = ?", new String[] { Long.toString(usuario.getId()) });
+            values.put("Nombre", nuevoNombre);
+            values.put("Apellido", nuevoApellido);
+            values.put("Email", nuevoEmail);
+            values.put("Clave", nuevaClave);
+            values.put("Rol", Rol.asInt(nuevoRol));
+            values.put("Telefono", nuevoTelefono);
+            int affected = database.update("Usuarios", values, "Id = ?", new String[] { Long.toString(usuario.getId()) });
             if (affected == 1) {
                 return new Usuario(usuario.getId(), nuevoNombre, nuevoApellido, nuevoEmail, nuevaClave, nuevoRol, nuevoTelefono);
             }
@@ -241,7 +241,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
         try {
             database = this.getWritableDatabase();
-            int affected = database.delete("Usuarios", "id = ?", new String[] { Long.toString(usuario.getId()) });
+            int affected = database.delete("Usuarios", "Id = ?", new String[] { Long.toString(usuario.getId()) });
             if (affected != 1) {
                 throw new RuntimeException(String.format("Se esperaba borrar un único usuario pero se borraron %d", affected));
             }
@@ -293,9 +293,9 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 cursor.moveToFirst();
                 CursorHelper cursorHelper = new CursorHelper(cursor);
                 Grupo grupo = new Grupo(
-                        cursorHelper.getLongFrom("id"),
-                        cursorHelper.getStringFrom("nombre"),
-                        cursorHelper.getStringFrom("invitacion"));
+                        cursorHelper.getLongFrom("Id"),
+                        cursorHelper.getStringFrom("Nombre"),
+                        cursorHelper.getStringFrom("Invitacion"));
 
                 database.setTransactionSuccessful();
                 return grupo;
