@@ -11,6 +11,18 @@ import androidx.annotation.NonNull;
 
 public class Database extends SQLiteOpenHelper implements IDatabase {
     private static final String LOGCAT = "Database";
+    private static final String[] UsuarioFields = new String[] { "Id", "Nombre", "Apellido", "Email", "Clave", "Rol", "Telefono" };
+    private static final String[] GrupoFields = new String[] { "Id", "Nombre", "Invitacion" };
+    private static final String UsuarioTable = "Usuarios";
+    private static final String DivisionTable = "Divisiones";
+    private static final String GrupoTable = "Grupos";
+    private static final String CursoTable = "Cursos";
+    private static final String InscripcionTable = "Inscripciones";
+    private static final String CurriculaTable = "Curriculas";
+    private static final String LeccionTable = "Lecciones";
+    private static final String CategoriaTable = "Categorias";
+    private static final String CategorizacionTable = "Categorizaciones";
+
     public static IDatabase CreateWith(Context applicationContext) {
         return new Database(applicationContext, "bootcampar.db", null, 1);
     }
@@ -24,7 +36,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("PRAGMA foreign_keys=ON");
         db.execSQL("PRAGMA foreign_key_check");
-        db.execSQL("CREATE TABLE IF NOT EXISTS Usuarios (\n" +
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + UsuarioTable + "(\n" +
                 "  Id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "  Nombre TEXT NOT NULL,\n" +
                 "  Apellido TEXT NOT NULL,\n" +
@@ -32,77 +44,77 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 "  Clave TEXT NOT NULL,\n" +
                 "  Rol INTEGER,\n" +
                 "  Telefono TEXT\n);");
-        db.execSQL("CREATE TABLE IF NOT EXISTS Cursos (\n" +
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + CursoTable + " (\n" +
                 "  Id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "  Titulo TEXT NOT NULL,\n" +
                 "  Descripcion TEXT,\n" +
                 "  Nivel INTEGER NOT NULL\n" +
                 ");\n");
-        db.execSQL("CREATE TABLE IF NOT EXISTS Inscripciones (\n" +
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + InscripcionTable + " (\n" +
                 "  Id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "  UsuarioId INTEGER NOT NULL,\n" +
                 "  CursoId INTEGER NOT NULL,\n" +
                 "  Puntuacion INTEGER,\n" +
                 "  Favorito INTEGER,\n" +
-                "  FOREIGN KEY (UsuarioId) REFERENCES Usuarios (Id) ON DELETE CASCADE ON UPDATE NO ACTION,\n" +
-                "  FOREIGN KEY (CursoId) REFERENCES Cursos (Id) ON DELETE CASCADE ON UPDATE NO ACTION\n" +
+                "  FOREIGN KEY (UsuarioId) REFERENCES " + UsuarioTable + " (Id) ON DELETE CASCADE ON UPDATE NO ACTION,\n" +
+                "  FOREIGN KEY (CursoId) REFERENCES " + CursoTable + " (Id) ON DELETE CASCADE ON UPDATE NO ACTION\n" +
                 ");\n");
-        db.execSQL("CREATE TABLE IF NOT EXISTS Categorias (\n" +
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + CategoriaTable + " (\n" +
                 "  Id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "  Nombre TEXT NOT NULL,\n" +
                 "  Descripcion TEXT\n" +
                 ");\n");
-        db.execSQL("CREATE TABLE IF NOT EXISTS Categorizaciones (\n" +
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + CategorizacionTable + " (\n" +
                 "  Id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "  CursoId INTEGER NOT NULL,\n" +
                 "  CategoriaId INTEGER NOT NULL,\n" +
-                "  FOREIGN KEY (CursoId) REFERENCES Cursos (Id) ON DELETE CASCADE ON UPDATE NO ACTION,\n" +
-                "  FOREIGN KEY (CategoriaId) REFERENCES Categorias (Id) ON DELETE CASCADE ON UPDATE NO ACTION\n" +
+                "  FOREIGN KEY (CursoId) REFERENCES " + CursoTable + " (Id) ON DELETE CASCADE ON UPDATE NO ACTION,\n" +
+                "  FOREIGN KEY (CategoriaId) REFERENCES " + CategoriaTable + " (Id) ON DELETE CASCADE ON UPDATE NO ACTION\n" +
                 ");\n");
-        db.execSQL("CREATE TABLE IF NOT EXISTS Lecciones (\n" +
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + LeccionTable + " (\n" +
                 "  Id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "  Titulo TEXT NOT NULL,\n" +
                 "  Contenido TEXT,\n" +
                 "  Duracion INTEGER NOT NULL,\n" +
                 "  Orden INTEGER NOT NULL,\n" +
                 "  CursoId INTEGER NOT NULL,\n" +
-                "  FOREIGN KEY (CursoId) REFERENCES Cursos (Id) ON DELETE CASCADE ON UPDATE NO ACTION\n" +
+                "  FOREIGN KEY (CursoId) REFERENCES " + CursoTable + " (Id) ON DELETE CASCADE ON UPDATE NO ACTION\n" +
                 ");\n");
-        db.execSQL("CREATE TABLE IF NOT EXISTS Grupos (\n" +
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + GrupoTable + " (\n" +
                 "  Id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "  Nombre TEXT NOT NULL,\n" +
                 "  Invitacion TEXT NOT NULL\n" +
                 ");\n");
-        db.execSQL("CREATE TABLE IF NOT EXISTS Curriculas (\n" +
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + CurriculaTable + " (\n" +
                 "  Id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "  CursoId INTEGER NOT NULL,\n" +
                 "  GrupoId INTEGER NOT NULL,\n" +
-                "  FOREIGN KEY (GrupoId) REFERENCES Grupos (Id) ON DELETE CASCADE ON UPDATE NO ACTION,\n" +
-                "  FOREIGN KEY (CursoId) REFERENCES Cursos (Id) ON DELETE CASCADE ON UPDATE NO ACTION\n" +
+                "  FOREIGN KEY (GrupoId) REFERENCES " + GrupoTable + " (Id) ON DELETE CASCADE ON UPDATE NO ACTION,\n" +
+                "  FOREIGN KEY (CursoId) REFERENCES " + CursoTable + " (Id) ON DELETE CASCADE ON UPDATE NO ACTION\n" +
                 ");\n");
-        db.execSQL("CREATE TABLE IF NOT EXISTS Divisiones (\n" +
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + DivisionTable + " (\n" +
                 "  Id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "  UsuarioId INTEGER NOT NULL,\n" +
                 "  GrupoId INTEGER NOT NULL,\n" +
-                "  FOREIGN KEY (GrupoId) REFERENCES Grupos (Id) ON DELETE CASCADE ON UPDATE NO ACTION,\n" +
-                "  FOREIGN KEY (UsuarioId) REFERENCES Usuarios (Id) ON DELETE CASCADE ON UPDATE NO ACTION\n" +
+                "  FOREIGN KEY (GrupoId) REFERENCES " + GrupoTable + " (Id) ON DELETE CASCADE ON UPDATE NO ACTION,\n" +
+                "  FOREIGN KEY (UsuarioId) REFERENCES " + UsuarioTable + " (Id) ON DELETE CASCADE ON UPDATE NO ACTION\n" +
                 ");\n");
         db.execSQL("PRAGMA foreign_keys=ON");
         db.execSQL("PRAGMA foreign_key_check");
-        db.execSQL("INSERT INTO Grupos(Nombre, Invitacion) VALUES ('Grupo de Programadores', '112233')");
+        db.execSQL("INSERT INTO " + GrupoTable + "(Nombre, Invitacion) VALUES ('Grupo de Programadores', '112233')");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int previousVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS Divisiones");
-        db.execSQL("DROP TABLE IF EXISTS Curriculas");
-        db.execSQL("DROP TABLE IF EXISTS Grupos");
-        db.execSQL("DROP TABLE IF EXISTS Lecciones");
-        db.execSQL("DROP TABLE IF EXISTS Categorizaciones");
-        db.execSQL("DROP TABLE IF EXISTS Categorias");
-        db.execSQL("DROP TABLE IF EXISTS Inscripciones");
-        db.execSQL("DROP TABLE IF EXISTS Cursos");
-        db.execSQL("DROP TABLE IF EXISTS Usuarios");
+        db.execSQL("DROP TABLE IF EXISTS " + DivisionTable);
+        db.execSQL("DROP TABLE IF EXISTS " + CurriculaTable);
+        db.execSQL("DROP TABLE IF EXISTS " + GrupoTable);
+        db.execSQL("DROP TABLE IF EXISTS " + LeccionTable);
+        db.execSQL("DROP TABLE IF EXISTS " + CategorizacionTable);
+        db.execSQL("DROP TABLE IF EXISTS " + CategoriaTable);
+        db.execSQL("DROP TABLE IF EXISTS " + InscripcionTable);
+        db.execSQL("DROP TABLE IF EXISTS " + CursoTable);
+        db.execSQL("DROP TABLE IF EXISTS " + UsuarioTable);
         onCreate(db);
     }
 
@@ -119,7 +131,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             values.put("Rol", Rol.asInt(rol));
             values.put("Telefono", telefono);
             database.beginTransaction();
-            long id = database.insert("Usuarios", null, values);
+            long id = database.insert(UsuarioTable, null, values);
 
             if (id != -1) {
                 Usuario usuario = new Usuario(id, nombre, apellido, email, clave, rol, telefono);
@@ -143,8 +155,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
         try {
             database = this.getReadableDatabase();
-            cursor = database.query("Usuarios",
-                    new String[] { "Id", "Nombre", "Apellido", "Email", "Clave", "Rol", "Telefono" },
+            cursor = database.query(UsuarioTable, UsuarioFields,
                     "Id=?", new String[] { Long.toString(id) },
                     null, null, null);
             if (cursor.getCount() == 1) {
@@ -184,8 +195,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
         try {
             database = this.getReadableDatabase();
-            cursor = database.query("Usuarios",
-                    new String[] { "Id", "Nombre", "Apellido", "Email", "Clave", "Rol", "Telefono" },
+            cursor = database.query(UsuarioTable, UsuarioFields,
                     "Email=?", new String[] { email },
                     null, null, null);
             if (cursor.getCount() == 0) {
@@ -220,7 +230,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             values.put("Clave", nuevaClave);
             values.put("Rol", Rol.asInt(nuevoRol));
             values.put("Telefono", nuevoTelefono);
-            int affected = database.update("Usuarios", values, "Id = ?",
+            int affected = database.update(UsuarioTable, values, "Id = ?",
                     new String[] { Long.toString(usuario.getId()) });
             if (affected == 1) {
                 return new Usuario(usuario.getId(), nuevoNombre, nuevoApellido, nuevoEmail, nuevaClave, nuevoRol, nuevoTelefono);
@@ -240,7 +250,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
         try {
             database = this.getWritableDatabase();
-            int affected = database.delete("Usuarios", "Id = ?",
+            int affected = database.delete(UsuarioTable, "Id = ?",
                     new String[] { Long.toString(usuario.getId()) });
             if (affected != 1) {
                 throw new RuntimeException(String.format("Se esperaba borrar un único usuario pero se borraron %d", affected));
@@ -262,7 +272,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             values.put("UsuarioId", usuario.getId());
             values.put("GrupoId", grupo.getId());
             database.beginTransaction();
-            long id = database.insert("Divisiones", null, values);
+            long id = database.insert(DivisionTable, null, values);
             if (id != -1) {
                 database.setTransactionSuccessful();
                 return new Division(id, usuario, grupo);
@@ -284,7 +294,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
         try {
             database = this.getReadableDatabase();
-            cursor = database.query("Grupos", new String[] { "Id", "Nombre", "Invitacion" },
+            cursor = database.query(GrupoTable, GrupoFields,
                     "invitacion = ?", new String[] { invitacion },
                     null, null, null);
             if (cursor.getCount() == 0) {
