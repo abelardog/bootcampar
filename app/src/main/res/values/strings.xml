@@ -131,4 +131,6 @@
     <string name="choose_categories_text">Elija categorías</string>
     <string name="insert_search_text">Ingrese texto para buscar</string>
     <string name="select_categories_text">Seleccione categorías</string>
+    <string name="invalid_invitation_code">La invitacion %s es inválida.</string>
+    <string name="registered_user_with_same_mail_exists">Ya existe un usuario registrado con el e-mail %s</string>
 </resources>
