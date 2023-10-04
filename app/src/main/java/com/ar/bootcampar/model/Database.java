@@ -105,16 +105,18 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             "PRAGMA foreign_keys=ON;\n" +
             "PRAGMA foreign_key_check;";
 
-    private String sqlCreate;
+    public static IDatabase CreateWith(Context applicationContext) {
+        return new Database(applicationContext, "bootcampar.db", null, 1);
+    }
 
-    public Database(Context applicationContext, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    private Database(Context applicationContext, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(applicationContext, name, factory, version);
         Log.d(LOGCAT, "Created");
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(sqlCreate);
+        db.execSQL(this.INITIAL_SQL);
     }
 
     @Override
@@ -133,22 +135,26 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             values.put("clave", clave);
             values.put("rol", Rol.asInt(rol));
             values.put("telefono", telefono);
+            database.beginTransaction();
             long id = database.insert("Usuarios", null, values);
 
             if (id != -1) {
-                return new Usuario(id, nombre, apellido, email, clave, rol, telefono);
+                Usuario usuario = new Usuario(id, nombre, apellido, email, clave, rol, telefono);
+                database.setTransactionSuccessful();
+                return usuario;
             }
 
             throw new RuntimeException("Error creando usuario");
         }
         finally {
             if (database != null) {
+                database.endTransaction();
                 database.close();
             }
         }
     }
 
-    public Usuario buscarUsuario(long id) {
+    public Usuario buscarUsuarioOExplotar(long id) {
         SQLiteDatabase database = null;
         Cursor cursor = null;
 
@@ -174,6 +180,44 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             }
 
             throw new RuntimeException(String.format("Se encontraron varios usuarios con el mismo id %d", id));
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    public Usuario buscarUsuarioONada(String email) {
+        SQLiteDatabase database = null;
+        Cursor cursor = null;
+
+        try {
+            database = this.getReadableDatabase();
+            String selectQuery = "SELECT id, nombre, apellido, email, clave, rol, telefono FROM Usuarios where email=?";
+            cursor = database.rawQuery(selectQuery, new String[] { email });
+            if (cursor.getCount() == 0) {
+                return null;
+            }
+            else if (cursor.getCount() == 1) {
+                cursor.moveToFirst();
+                CursorHelper cursorHelper = new CursorHelper(cursor);
+                Usuario usuario = new Usuario(
+                        cursorHelper.getLongFrom("id"),
+                        cursorHelper.getStringFrom("nombre"),
+                        cursorHelper.getStringFrom("apellido"),
+                        cursorHelper.getStringFrom("email"),
+                        cursorHelper.getStringFrom("clave"),
+                        Rol.fromInt(cursorHelper.getIntFrom("rol")),
+                        cursorHelper.getStringFrom("telefono"));
+                return usuario;
+            }
+
+            throw new RuntimeException(String.format("Se encontraron varios usuarios con el mismo email %s", email));
         }
         finally {
             if (cursor != null) {
@@ -224,6 +268,68 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
         finally {
             if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    public Division crearDivision(Usuario usuario, Grupo grupo) {
+        SQLiteDatabase database = null;
+
+        try {
+            database = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("UsuarioId", usuario.getId());
+            values.put("GrupoId", grupo.getId());
+            database.beginTransaction();
+            long id = database.insert("Divisiones", null, values);
+            if (id != -1) {
+                database.setTransactionSuccessful();
+                return new Division(id, usuario, grupo);
+            }
+
+            throw new RuntimeException("Error creando usuario");
+        }
+        finally {
+            if (database != null) {
+                database.endTransaction();
+                database.close();
+            }
+        }
+    }
+
+    public Grupo buscarGrupoONada(String invitacion) {
+        SQLiteDatabase database = null;
+        Cursor cursor = null;
+
+        try {
+            database = this.getReadableDatabase();
+            database.beginTransaction();
+            cursor = database.query("Grupos", new String[] { "Id", "Nombre", "Invitacion" }, "invitacion = ?", new String[] { invitacion }, null, null, null);
+            if (cursor.getCount() == 0) {
+                return null;
+            }
+            else if (cursor.getCount() == 1) {
+                cursor.moveToFirst();
+                CursorHelper cursorHelper = new CursorHelper(cursor);
+                Grupo grupo = new Grupo(
+                        cursorHelper.getLongFrom("id"),
+                        cursorHelper.getStringFrom("nombre"),
+                        cursorHelper.getStringFrom("invitacion"));
+
+                database.setTransactionSuccessful();
+                return grupo;
+            }
+
+            throw new RuntimeException(String.format("Se encontraron varios grupos con la misma invitación %s", invitacion));
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.endTransaction();
                 database.close();
             }
         }

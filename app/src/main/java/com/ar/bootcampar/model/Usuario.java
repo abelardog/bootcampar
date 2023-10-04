@@ -1,6 +1,8 @@
 package com.ar.bootcampar.model;
 
-public class Usuario {
+import java.io.Serializable;
+
+public class Usuario implements Serializable {
     private final long id;
     private final String nombre;
     private final String apellido;
