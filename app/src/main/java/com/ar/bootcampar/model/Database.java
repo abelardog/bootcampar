@@ -281,7 +281,6 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
         try {
             database = this.getReadableDatabase();
-            database.beginTransaction();
             cursor = database.query("Grupos", new String[] { "Id", "Nombre", "Invitacion" }, "invitacion = ?", new String[] { invitacion }, null, null, null);
             if (cursor.getCount() == 0) {
                 return null;
@@ -294,7 +293,6 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                         cursorHelper.getStringFrom("Nombre"),
                         cursorHelper.getStringFrom("Invitacion"));
 
-                database.setTransactionSuccessful();
                 return grupo;
             }
 
@@ -306,7 +304,6 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             }
 
             if (database != null) {
-                database.endTransaction();
                 database.close();
             }
         }
