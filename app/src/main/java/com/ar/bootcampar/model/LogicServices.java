@@ -20,12 +20,12 @@ public class LogicServices {
             if (clave.equals(confirmarClave)) {
                 Grupo grupo = database.buscarGrupoONada(invitacion);
                 if (grupo == null) {
-                    return Pair.create(null, String.format("La invitacion %s es inválida.", invitacion));
+                    return Pair.create(null, String.format(context.getString(R.string.invalid_invitation_code), invitacion));
                 }
 
                 Usuario usuario = database.buscarUsuarioONada(email);
                 if (usuario != null) {
-                    return Pair.create(null, String.format("Ya existe un usuario registrado con el e-mail %s", email));
+                    return Pair.create(null, String.format(context.getString(R.string.registered_user_with_same_mail_exists), email));
                 }
 
                 usuario = database.crearUsuario(nombre, apellido, email, clave, rol, telefono);
