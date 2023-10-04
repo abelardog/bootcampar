@@ -1,12 +1,14 @@
 package com.ar.bootcampar.model;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-public class Database extends SQLiteOpenHelper {
-    private static final String LOGCAT = null;
+public class Database extends SQLiteOpenHelper implements IDatabase {
+    private static final String LOGCAT = "Database";
     private static final String INITIAL_SQL = "-- SQLite Script\n" +
             "-- Generated from MySQL Script\n" +
             "\n" +
@@ -105,8 +107,8 @@ public class Database extends SQLiteOpenHelper {
 
     private String sqlCreate;
 
-    public Database(Context applicationContext) {
-        super(applicationContext, "bootcampar.db", null, 1);
+    public Database(Context applicationContext, String name, SQLiteDatabase.CursorFactory factory, int version) {
+        super(applicationContext, name, factory, version);
         Log.d(LOGCAT, "Created");
     }
 
@@ -117,7 +119,113 @@ public class Database extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int previousVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS ");
-        db.execSQL(sqlCreate);
+    }
+
+    public Usuario crearUsuario(String nombre, String apellido, String email, String clave, Rol rol, String telefono) {
+        SQLiteDatabase database = null;
+
+        try {
+            database = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("nombre", nombre);
+            values.put("apellido", apellido);
+            values.put("email", email);
+            values.put("clave", clave);
+            values.put("rol", Rol.asInt(rol));
+            values.put("telefono", telefono);
+            long id = database.insert("Usuarios", null, values);
+
+            if (id != -1) {
+                return new Usuario(id, nombre, apellido, email, clave, rol, telefono);
+            }
+
+            throw new RuntimeException("Error creando usuario");
+        }
+        finally {
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    public Usuario buscarUsuario(long id) {
+        SQLiteDatabase database = null;
+        Cursor cursor = null;
+
+        try {
+            database = this.getReadableDatabase();
+            String[] param = new String[1];
+            param[0] = Long.toString(id);
+
+            String selectQuery = "SELECT id, nombre, apellido, email, clave, rol, telefono FROM Usuarios where Id=?";
+            cursor = database.rawQuery(selectQuery, param);
+            if (cursor.getCount() == 1) {
+                cursor.moveToFirst();
+                CursorHelper cursorHelper = new CursorHelper(cursor);
+                Usuario usuario = new Usuario(
+                        cursorHelper.getLongFrom("id"),
+                        cursorHelper.getStringFrom("nombre"),
+                        cursorHelper.getStringFrom("apellido"),
+                        cursorHelper.getStringFrom("email"),
+                        cursorHelper.getStringFrom("clave"),
+                        Rol.fromInt(cursorHelper.getIntFrom("rol")),
+                        cursorHelper.getStringFrom("telefono"));
+                return usuario;
+            }
+
+            throw new RuntimeException(String.format("Se encontraron varios usuarios con el mismo id %d", id));
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    public Usuario modificarUsuario(Usuario usuario, String nuevoNombre, String nuevoApellido, String nuevoEmail, String nuevaClave, Rol nuevoRol, String nuevoTelefono) {
+        SQLiteDatabase database = null;
+
+        try {
+            database = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("nombre", nuevoNombre);
+            values.put("apellido", nuevoApellido);
+            values.put("email", nuevoEmail);
+            values.put("clave", nuevaClave);
+            values.put("rol", Rol.asInt(nuevoRol));
+            values.put("telefono", nuevoTelefono);
+            int affected = database.update("Usuarios", values, "id = ?", new String[] { Long.toString(usuario.getId()) });
+            if (affected == 1) {
+                return new Usuario(usuario.getId(), nuevoNombre, nuevoApellido, nuevoEmail, nuevaClave, nuevoRol, nuevoTelefono);
+            }
+
+            throw new RuntimeException(String.format("Se esperaba modificar un único usuario pero se modificaron %d", affected));
+        }
+        finally {
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    public void borrarUsuario(Usuario usuario) {
+        SQLiteDatabase database = null;
+
+        try {
+            database = this.getWritableDatabase();
+            int affected = database.delete("Usuarios", "id = ?", new String[] { Long.toString(usuario.getId()) });
+            if (affected != 1) {
+                throw new RuntimeException(String.format("Se esperaba borrar un único usuario pero se borraron %d", affected));
+            }
+        }
+        finally {
+            if (database != null) {
+                database.close();
+            }
+        }
     }
 }
