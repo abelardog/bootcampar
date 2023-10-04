@@ -4,11 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ar.bootcampar.R;
+import com.ar.bootcampar.model.DatabaseManager;
+import com.ar.bootcampar.model.Rol;
+import com.ar.bootcampar.model.Usuario;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -31,18 +35,22 @@ public class RegisterActivity extends AppCompatActivity {
         String confirmPassword = ((EditText)findViewById(R.id.editConfirmPassword)).getText().toString();
         String invitationCode = ((EditText)findViewById(R.id.editInvitationCode)).getText().toString();
 
-        if (! firstname.isEmpty() && ! lastname.isEmpty() && ResetPasswordActivity.isValidEmail(email) && !password.isEmpty() && !confirmPassword.isEmpty() && !invitationCode.isEmpty()) {
-            if (password.equals(confirmPassword)) {
+        try {
+            DatabaseManager database = new DatabaseManager(RegisterActivity.this);
+            Pair<Usuario, String> resultado = database.registrarUsuario(firstname, lastname, email, password, confirmPassword, Rol.Estudiante, "", invitationCode);
+            if (resultado.first != null) {
                 Toast.makeText(this, R.string.registration_success_message, Toast.LENGTH_SHORT).show();
+
                 Intent intent = new Intent(this, HomeActivity.class);
+                intent.putExtra("usuario", resultado.first);
                 startActivity(intent);
             }
             else {
-                Toast.makeText(this, R.string.password_dont_match_message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, resultado.second, Toast.LENGTH_SHORT).show();
             }
         }
-        else {
-            Toast.makeText(this, R.string.please_complete_data_message, Toast.LENGTH_SHORT).show();
+        catch (Exception ex) {
+            Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 }
