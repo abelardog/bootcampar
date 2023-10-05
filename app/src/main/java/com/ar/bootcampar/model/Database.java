@@ -1,16 +1,12 @@
 package com.ar.bootcampar.model;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 public class Database extends SQLiteOpenHelper implements IDatabase {
-    private static final String LOGCAT = "Database";
     private static final String ColumnaId = "Id";
     private static final String ColumnaNombre = "Nombre";
     private static final String ColumnaApellido = "Apellido";
@@ -47,9 +43,8 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         return new Database(applicationContext, "bootcampar.db", null, 1);
     }
 
-    private Database(Context applicationContext, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    protected Database(Context applicationContext, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(applicationContext, name, factory, version);
-        Log.d(LOGCAT, "Created");
     }
 
     @Override
@@ -141,7 +136,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
         try {
             database = getInternalWritableDatabase();
-            ContentValues values = new ContentValues();
+            IContentValuesWrapper values = createContentValues();
             values.put(ColumnaNombre, nombre);
             values.put(ColumnaApellido, apellido);
             values.put(ColumnaEmail, email);
@@ -241,7 +236,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
         try {
             database = getInternalWritableDatabase();
-            ContentValues values = new ContentValues();
+            IContentValuesWrapper values = createContentValues();
             values.put(ColumnaNombre, nuevoNombre);
             values.put(ColumnaApellido, nuevoApellido);
             values.put(ColumnaEmail, nuevoEmail);
@@ -286,7 +281,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
         try {
             database = getInternalWritableDatabase();
-            ContentValues values = new ContentValues();
+            IContentValuesWrapper values = createContentValues();
             values.put(ColumnaRelacionUsuario, usuario.getId());
             values.put(ColumnaRelacionGrupo, grupo.getId());
             database.beginTransaction();
@@ -348,7 +343,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
         try {
             database = getInternalWritableDatabase();
-            ContentValues values = new ContentValues();
+            IContentValuesWrapper values = createContentValues();
             values.put(ColumnaNombre, nombre);
             values.put(ColumnaDescripcion, descripcion);
             database.beginTransaction();
@@ -393,7 +388,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
         try {
             database = getInternalWritableDatabase();
-            ContentValues values = new ContentValues();
+            IContentValuesWrapper values = createContentValues();
             values.put(ColumnaNombre, nuevoNombre);
             values.put(ColumnaDescripcion, nuevaDescripcion);
             int affected = database.update(TablaCategoria, values, ColumnaId + "=?",
@@ -411,11 +406,16 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
     }
 
-    private ISQLiteDatabaseWrapper getInternalReadableDatabase() {
+    protected ISQLiteDatabaseWrapper getInternalReadableDatabase() {
         return new SQLiteDatabaseWrapper(this.getReadableDatabase());
     }
 
-    private ISQLiteDatabaseWrapper getInternalWritableDatabase() {
+    protected ISQLiteDatabaseWrapper getInternalWritableDatabase() {
         return new SQLiteDatabaseWrapper(this.getWritableDatabase());
     }
+
+    protected IContentValuesWrapper createContentValues() {
+        return new ContentValuesWrapper();
+    }
 }
+

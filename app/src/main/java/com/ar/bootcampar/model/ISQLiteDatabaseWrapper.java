@@ -16,11 +16,11 @@ public interface ISQLiteDatabaseWrapper {
 
     void beginTransaction();
 
-    long insert(String table, String nullColumnHack, ContentValues values);
+    long insert(String table, String nullColumnHack, IContentValuesWrapper values);
 
     int delete(String table, String whereClause, String[] whereArgs);
 
-    int update(String table, ContentValues values, String whereClause, String[] whereArgs);
+    int update(String table, IContentValuesWrapper values, String whereClause, String[] whereArgs);
 
     void execSQL(String sql);
 }
