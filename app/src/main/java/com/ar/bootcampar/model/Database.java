@@ -361,4 +361,23 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             }
         }
     }
+
+    @Override
+    public void borrarCategoria(Categoria categoria) {
+        SQLiteDatabase database = null;
+
+        try {
+            database = this.getWritableDatabase();
+            int affected = database.delete(TablaCategoria, ColumnaId + "=?",
+                    new String[] { Long.toString(categoria.getId()) });
+            if (affected != 1) {
+                throw new RuntimeException(String.format("Se esperaba borrar una única categoría pero se borraron %d", affected));
+            }
+        }
+        finally {
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
 }

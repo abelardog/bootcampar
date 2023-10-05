@@ -9,4 +9,5 @@ public interface IDatabase {
     Division crearDivision(Usuario usuario, Grupo grupo);
     Grupo buscarGrupoONada(String invitacion);
     Categoria crearCategoria(String nombre, String descripcion);
+    void borrarCategoria(Categoria categoria);
 }
