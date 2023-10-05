@@ -12,8 +12,8 @@ android {
     defaultConfig {
         applicationId = "com.ar.bootcampar"
         minSdk = 28
-        targetSdk = 33
-        versionCode = 1
+        targetSdk = 34
+        versionCode = rootProject.extra["defaultVersionCode"] as Int
         versionName = "1.0"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -33,6 +33,9 @@ android {
     }
     buildFeatures {
         viewBinding = true
+    }
+    lint {
+        baseline = file("lint-baseline.xml")
     }
 }
 
