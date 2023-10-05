@@ -17,3 +17,4 @@ public class Grupo implements Serializable {
     public String getNombre() { return nombre; }
     public String getInvitacion() { return invitacion; }
 }
+
