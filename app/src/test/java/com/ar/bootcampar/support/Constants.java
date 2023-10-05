@@ -1,4 +1,4 @@
-package com.ar.bootcampar;
+package com.ar.bootcampar.support;
 
 import com.ar.bootcampar.model.Rol;
 

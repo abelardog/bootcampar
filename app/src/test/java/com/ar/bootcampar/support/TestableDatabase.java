@@ -1,9 +1,9 @@
-package com.ar.bootcampar;
+package com.ar.bootcampar.support;
 
-import com.ar.bootcampar.model.ContentValuesWrapper;
 import com.ar.bootcampar.model.Database;
 import com.ar.bootcampar.model.IContentValuesWrapper;
 import com.ar.bootcampar.model.ISQLiteDatabaseWrapper;
+import com.ar.bootcampar.support.ContentValuesSpy;
 
 public class TestableDatabase extends Database {
     private ISQLiteDatabaseWrapper databaseSpy;
