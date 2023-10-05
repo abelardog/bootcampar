@@ -1,18 +1,29 @@
 package com.ar.bootcampar.support;
 
-import android.content.ContentValues;
-
 import com.ar.bootcampar.model.IContentValuesWrapper;
 import com.ar.bootcampar.model.ICursorWrapper;
 import com.ar.bootcampar.model.ISQLiteDatabaseWrapper;
 
-public class DatabaseSpy implements ISQLiteDatabaseWrapper {
+public class SqliteDatabaseWrapperSpy implements ISQLiteDatabaseWrapper {
     private String tableName;
+    private long id;
     private IContentValuesWrapper insertedValues;
+    private boolean transactionSuccessfulCalled;
+    private boolean closeCalled;
+    private boolean beginTransactionCalled;
+    private boolean endTransactionCalled;
+
+    public SqliteDatabaseWrapperSpy(long id) {
+        this.id = id;
+    }
+
+    public SqliteDatabaseWrapperSpy() {
+        this.id = 1;
+    }
 
     @Override
     public void close() {
-
+        this.closeCalled = true;
     }
 
     @Override
@@ -22,24 +33,24 @@ public class DatabaseSpy implements ISQLiteDatabaseWrapper {
 
     @Override
     public void endTransaction() {
-
+        this.endTransactionCalled = true;
     }
 
     @Override
     public void setTransactionSuccessful() {
-
+        this.transactionSuccessfulCalled = true;
     }
 
     @Override
     public void beginTransaction() {
-
+        this.beginTransactionCalled = true;
     }
 
     @Override
     public long insert(String table, String nullColumnHack, IContentValuesWrapper values) {
         tableName = table;
         insertedValues = values;
-        return 1;
+        return id;
     }
 
     @Override
@@ -59,5 +70,9 @@ public class DatabaseSpy implements ISQLiteDatabaseWrapper {
     public String getTableName() { return tableName; }
 
     public IContentValuesWrapper getInsertedValues() { return insertedValues; }
-}
 
+    public boolean getBeginTransactionCalled() { return beginTransactionCalled; }
+    public boolean getEndTransactionCalled() { return endTransactionCalled; }
+    public boolean getTransactionSuccessfulCalled() { return transactionSuccessfulCalled; }
+    public boolean getCloseCalled() { return closeCalled; }
+}
