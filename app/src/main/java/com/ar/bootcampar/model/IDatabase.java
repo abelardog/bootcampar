@@ -10,4 +10,5 @@ public interface IDatabase {
     Grupo buscarGrupoONada(String invitacion);
     Categoria crearCategoria(String nombre, String descripcion);
     void borrarCategoria(Categoria categoria);
+    Categoria modificarCategoria(Categoria categoria, String nuevoNombre, String nuevaDescripcion);
 }

@@ -380,4 +380,28 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             }
         }
     }
+
+    @Override
+    public Categoria modificarCategoria(Categoria categoria, String nuevoNombre, String nuevaDescripcion) {
+        SQLiteDatabase database = null;
+
+        try {
+            database = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put(ColumnaNombre, nuevoNombre);
+            values.put(ColumnaDescripcion, nuevaDescripcion);
+            int affected = database.update(TablaCategoria, values, ColumnaId + "=?",
+                    new String[] { Long.toString(categoria.getId()) });
+            if (affected == 1) {
+                return new Categoria(categoria.getId(), nuevoNombre, nuevaDescripcion);
+            }
+
+            throw new RuntimeException(String.format("Se esperaba modificar una única categoría pero se modificaron %d", affected));
+        }
+        finally {
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
 }
