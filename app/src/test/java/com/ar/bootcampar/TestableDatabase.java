@@ -12,7 +12,7 @@ public class TestableDatabase extends Database {
     public TestableDatabase(ISQLiteDatabaseWrapper databaseSpy) {
         super(null, "bootcampar-test.db", null, 0);
         this.databaseSpy = databaseSpy;
-        this.valuesSpy = new ContentValuesWrapper();
+        this.valuesSpy = new ContentValuesSpy();
     }
 
     @Override
