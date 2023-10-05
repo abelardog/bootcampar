@@ -37,8 +37,8 @@ public class SQLiteDatabaseWrapper implements ISQLiteDatabaseWrapper {
     }
 
     @Override
-    public long insert(String table, String nullColumnHack, ContentValues values) {
-        return this.sqliteDatabase.insert(table, nullColumnHack, values);
+    public long insert(String table, String nullColumnHack, IContentValuesWrapper values) {
+        return this.sqliteDatabase.insert(table, nullColumnHack, values.generate());
     }
 
     @Override
@@ -47,8 +47,8 @@ public class SQLiteDatabaseWrapper implements ISQLiteDatabaseWrapper {
     }
 
     @Override
-    public int update(String table, ContentValues values, String whereClause, String[] whereArgs) {
-        return this.sqliteDatabase.update(table, values, whereClause, whereArgs);
+    public int update(String table, IContentValuesWrapper values, String whereClause, String[] whereArgs) {
+        return this.sqliteDatabase.update(table, values.generate(), whereClause, whereArgs);
     }
 
     @Override
