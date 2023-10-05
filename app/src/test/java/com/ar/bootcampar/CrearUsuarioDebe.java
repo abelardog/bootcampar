@@ -14,9 +14,9 @@ import com.ar.bootcampar.support.TestableDatabase;
 
 import org.junit.Test;
 
-public class DatabaseDebe {
+public class CrearUsuarioDebe {
     @Test
-    public void recibirTodosLosDatosDeUsuario_alCrearUnUsuario() {
+    public void recibirTodosLosDatosDeUsuario() {
         DatabaseSpy spy = new DatabaseSpy();
         Database sut = new TestableDatabase(spy);
         sut.crearUsuario(NOMBRE, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO);
@@ -30,7 +30,7 @@ public class DatabaseDebe {
     }
 
     @Test
-    public void insertarEnTablaUsuario_alCrearUnUsuario() {
+    public void insertarDatosEnTablaUsuario() {
         DatabaseSpy spy = new DatabaseSpy();
         Database sut = new TestableDatabase(spy);
         sut.crearUsuario(NOMBRE, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO);
@@ -73,7 +73,7 @@ public class DatabaseDebe {
     }
 
     @Test
-    public void cerrarConexion_cuandoInsertFalla() {
+    public void cerrarConexion_cuandoInsertRetornaError() {
         FakeDatabase spy = new FakeDatabase(-1);
         Database database = new TestableDatabase(spy);
         Exception exception = assertThrows(RuntimeException.class, () -> database.crearUsuario(NOMBRE, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO));
@@ -81,7 +81,7 @@ public class DatabaseDebe {
     }
 
     @Test
-    public void cerrarConexion_cuandoInsertFunciona() {
+    public void cerrarConexion_cuandoSeInsertaUsuarioEnBaseDeDatos() {
         FakeDatabase spy = new FakeDatabase(1);
         Database database = new TestableDatabase(spy);
         database.crearUsuario(NOMBRE, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO);
