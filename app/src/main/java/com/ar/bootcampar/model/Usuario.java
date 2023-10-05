@@ -1,8 +1,5 @@
 package com.ar.bootcampar.model;
 
-import android.text.TextUtils;
-import android.util.Patterns;
-
 import java.io.Serializable;
 
 public class Usuario implements Serializable {
