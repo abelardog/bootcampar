@@ -1,16 +1,12 @@
 package com.ar.bootcampar.model;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 public class Database extends SQLiteOpenHelper implements IDatabase {
-    private static final String LOGCAT = "Database";
     private static final String ColumnaId = "Id";
     private static final String ColumnaNombre = "Nombre";
     private static final String ColumnaApellido = "Apellido";
@@ -47,13 +43,17 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         return new Database(applicationContext, "bootcampar.db", null, 1);
     }
 
-    private Database(Context applicationContext, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    protected Database(Context applicationContext, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(applicationContext, name, factory, version);
-        Log.d(LOGCAT, "Created");
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(SQLiteDatabase sqliteDatabase) {
+        ISQLiteDatabaseWrapper db = new SQLiteDatabaseWrapper(sqliteDatabase);
+        createDatabase(db);
+    }
+
+    private static void createDatabase(ISQLiteDatabaseWrapper db) {
         db.execSQL("PRAGMA foreign_keys=ON");
         db.execSQL("PRAGMA foreign_key_check");
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TablaUsuario + "(\n" +
@@ -117,7 +117,8 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int previousVersion, int newVersion) {
+    public void onUpgrade(SQLiteDatabase sqliteDatabase, int previousVersion, int newVersion) {
+        ISQLiteDatabaseWrapper db = new SQLiteDatabaseWrapper(sqliteDatabase);
         db.execSQL("DROP TABLE IF EXISTS " + TablaDivision);
         db.execSQL("DROP TABLE IF EXISTS " + TablaCurricula);
         db.execSQL("DROP TABLE IF EXISTS " + TablaGrupo);
@@ -127,15 +128,15 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         db.execSQL("DROP TABLE IF EXISTS " + TablaInscripcion);
         db.execSQL("DROP TABLE IF EXISTS " + TablaCurso);
         db.execSQL("DROP TABLE IF EXISTS " + TablaUsuario);
-        onCreate(db);
+        createDatabase(db);
     }
 
     public Usuario crearUsuario(String nombre, String apellido, String email, String clave, Rol rol, String telefono) {
-        SQLiteDatabase database = null;
+        ISQLiteDatabaseWrapper database = null;
 
         try {
-            database = this.getWritableDatabase();
-            ContentValues values = new ContentValues();
+            database = getInternalWritableDatabase();
+            IContentValuesWrapper values = createContentValues();
             values.put(ColumnaNombre, nombre);
             values.put(ColumnaApellido, apellido);
             values.put(ColumnaEmail, email);
@@ -162,11 +163,11 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     public Usuario buscarUsuarioOExplotar(long id) {
-        SQLiteDatabase database = null;
-        Cursor cursor = null;
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
 
         try {
-            database = this.getReadableDatabase();
+            database = getInternalReadableDatabase();
             cursor = database.query(TablaUsuario, CamposUsuario,
                     ColumnaId + "=?", new String[] { Long.toString(id) },
                     null, null, null);
@@ -188,7 +189,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     @NonNull
-    private static Usuario obtenerUsuarioDeCursor(Cursor cursor) {
+    private static Usuario obtenerUsuarioDeCursor(ICursorWrapper cursor) {
         cursor.moveToFirst();
         CursorHelper cursorHelper = new CursorHelper(cursor);
         return new Usuario(
@@ -202,11 +203,11 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     public Usuario buscarUsuarioONada(String email) {
-        SQLiteDatabase database = null;
-        Cursor cursor = null;
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
 
         try {
-            database = this.getReadableDatabase();
+            database = getInternalReadableDatabase();
             cursor = database.query(TablaUsuario, CamposUsuario,
                     ColumnaEmail + "=?", new String[] { email },
                     null, null, null);
@@ -231,11 +232,11 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     public Usuario modificarUsuario(Usuario usuario, String nuevoNombre, String nuevoApellido, String nuevoEmail, String nuevaClave, Rol nuevoRol, String nuevoTelefono) {
-        SQLiteDatabase database = null;
+        ISQLiteDatabaseWrapper database = null;
 
         try {
-            database = this.getWritableDatabase();
-            ContentValues values = new ContentValues();
+            database = getInternalWritableDatabase();
+            IContentValuesWrapper values = createContentValues();
             values.put(ColumnaNombre, nuevoNombre);
             values.put(ColumnaApellido, nuevoApellido);
             values.put(ColumnaEmail, nuevoEmail);
@@ -258,10 +259,10 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     public void borrarUsuario(Usuario usuario) {
-        SQLiteDatabase database = null;
+        ISQLiteDatabaseWrapper database = null;
 
         try {
-            database = this.getWritableDatabase();
+            database = getInternalWritableDatabase();
             int affected = database.delete(TablaUsuario, ColumnaId + "=?",
                     new String[] { Long.toString(usuario.getId()) });
             if (affected != 1) {
@@ -276,11 +277,11 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     public Division crearDivision(Usuario usuario, Grupo grupo) {
-        SQLiteDatabase database = null;
+        ISQLiteDatabaseWrapper database = null;
 
         try {
-            database = this.getWritableDatabase();
-            ContentValues values = new ContentValues();
+            database = getInternalWritableDatabase();
+            IContentValuesWrapper values = createContentValues();
             values.put(ColumnaRelacionUsuario, usuario.getId());
             values.put(ColumnaRelacionGrupo, grupo.getId());
             database.beginTransaction();
@@ -301,11 +302,11 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     public Grupo buscarGrupoONada(String invitacion) {
-        SQLiteDatabase database = null;
-        Cursor cursor = null;
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
 
         try {
-            database = this.getReadableDatabase();
+            database = getInternalReadableDatabase();
             cursor = database.query(TablaGrupo, CamposGrupo,
                     ColumnaInvitacion + "=?", new String[] { invitacion },
                     null, null, null);
@@ -335,4 +336,86 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             }
         }
     }
+
+    @Override
+    public Categoria crearCategoria(String nombre, String descripcion) {
+        ISQLiteDatabaseWrapper database = null;
+
+        try {
+            database = getInternalWritableDatabase();
+            IContentValuesWrapper values = createContentValues();
+            values.put(ColumnaNombre, nombre);
+            values.put(ColumnaDescripcion, descripcion);
+            database.beginTransaction();
+            long id = database.insert(TablaCategoria, null, values);
+            if (id != -1) {
+                database.setTransactionSuccessful();
+                return new Categoria(id, nombre, descripcion);
+            }
+
+            throw new RuntimeException("Error creando categoría");
+        }
+        finally {
+            if (database != null) {
+                database.endTransaction();
+                database.close();
+            }
+        }
+    }
+
+    @Override
+    public void borrarCategoria(Categoria categoria) {
+        ISQLiteDatabaseWrapper database = null;
+
+        try {
+            database = getInternalWritableDatabase();
+            int affected = database.delete(TablaCategoria, ColumnaId + "=?",
+                    new String[] { Long.toString(categoria.getId()) });
+            if (affected != 1) {
+                throw new RuntimeException(String.format("Se esperaba borrar una única categoría pero se borraron %d", affected));
+            }
+        }
+        finally {
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    @Override
+    public Categoria modificarCategoria(Categoria categoria, String nuevoNombre, String nuevaDescripcion) {
+        ISQLiteDatabaseWrapper database = null;
+
+        try {
+            database = getInternalWritableDatabase();
+            IContentValuesWrapper values = createContentValues();
+            values.put(ColumnaNombre, nuevoNombre);
+            values.put(ColumnaDescripcion, nuevaDescripcion);
+            int affected = database.update(TablaCategoria, values, ColumnaId + "=?",
+                    new String[] { Long.toString(categoria.getId()) });
+            if (affected == 1) {
+                return new Categoria(categoria.getId(), nuevoNombre, nuevaDescripcion);
+            }
+
+            throw new RuntimeException(String.format("Se esperaba modificar una única categoría pero se modificaron %d", affected));
+        }
+        finally {
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    protected ISQLiteDatabaseWrapper getInternalReadableDatabase() {
+        return new SQLiteDatabaseWrapper(this.getReadableDatabase());
+    }
+
+    protected ISQLiteDatabaseWrapper getInternalWritableDatabase() {
+        return new SQLiteDatabaseWrapper(this.getWritableDatabase());
+    }
+
+    protected IContentValuesWrapper createContentValues() {
+        return new ContentValuesWrapper();
+    }
 }
+

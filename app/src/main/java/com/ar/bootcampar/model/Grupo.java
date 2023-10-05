@@ -3,9 +3,9 @@ package com.ar.bootcampar.model;
 import java.io.Serializable;
 
 public class Grupo implements Serializable {
-    private long id;
-    private String nombre;
-    private String invitacion;
+    private final long id;
+    private final String nombre;
+    private final String invitacion;
 
     public Grupo(long id, String nombre, String invitacion) {
         this.id = id;
@@ -17,3 +17,4 @@ public class Grupo implements Serializable {
     public String getNombre() { return nombre; }
     public String getInvitacion() { return invitacion; }
 }
+

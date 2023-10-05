@@ -6,7 +6,9 @@ public interface IDatabase {
     Usuario buscarUsuarioONada(String email);
     Usuario modificarUsuario(Usuario usuario, String nuevoNombre, String nuevoApellido, String nuevoEmail, String nuevaClave, Rol nuevoRol, String nuevoTelefono);
     void borrarUsuario(Usuario usuario);
-
     Division crearDivision(Usuario usuario, Grupo grupo);
     Grupo buscarGrupoONada(String invitacion);
+    Categoria crearCategoria(String nombre, String descripcion);
+    void borrarCategoria(Categoria categoria);
+    Categoria modificarCategoria(Categoria categoria, String nuevoNombre, String nuevaDescripcion);
 }
