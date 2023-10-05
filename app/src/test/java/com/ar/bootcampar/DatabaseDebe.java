@@ -2,10 +2,16 @@ package com.ar.bootcampar;
 
 import static org.junit.Assert.*;
 
-import static com.ar.bootcampar.Constants.*;
+import static com.ar.bootcampar.support.Constants.*;
 
 import com.ar.bootcampar.model.Database;
+import com.ar.bootcampar.model.ISQLiteDatabaseWrapper;
 import com.ar.bootcampar.model.Rol;
+import com.ar.bootcampar.model.Usuario;
+import com.ar.bootcampar.support.DatabaseConInsertRetornandoId;
+import com.ar.bootcampar.support.DatabaseEspiandoTransacciones;
+import com.ar.bootcampar.support.DatabaseSpy;
+import com.ar.bootcampar.support.TestableDatabase;
 
 import org.junit.Test;
 
@@ -32,4 +38,21 @@ public class DatabaseDebe {
 
         assertEquals("Usuarios", spy.getTableName());
     }
+
+    @Test
+    public void retornarUsuario_cuandoSeInsertaUsuarioEnBaseDeDatos() {
+        ISQLiteDatabaseWrapper spy = new DatabaseConInsertRetornandoId(14);
+        Database database = new TestableDatabase(spy);
+        Usuario sut = database.crearUsuario(NOMBRE, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO);
+
+        assertNotNull(sut);
+        assertEquals(14, sut.getId());
+        assertEquals(NOMBRE, sut.getNombre());
+        assertEquals(APELLIDO, sut.getApellido());
+        assertEquals(EMAIL, sut.getEmail());
+        assertEquals(CLAVE, sut.getClave());
+        assertEquals(ROL, sut.getRol());
+        assertEquals(TELEFONO, sut.getTelefono());
+    }
+
 }

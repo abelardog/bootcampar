@@ -1,6 +1,6 @@
 package com.ar.bootcampar;
 
-import static com.ar.bootcampar.Constants.*;
+import static com.ar.bootcampar.support.Constants.*;
 import com.ar.bootcampar.model.Usuario;
 
 import org.junit.Test;
