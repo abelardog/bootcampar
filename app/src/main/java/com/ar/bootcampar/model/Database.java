@@ -163,7 +163,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     public Usuario buscarUsuarioOExplotar(long id) {
         ISQLiteDatabaseWrapper database = null;
-        Cursor cursor = null;
+        ICursorWrapper cursor = null;
 
         try {
             database = getInternalReadableDatabase();
@@ -188,7 +188,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     @NonNull
-    private static Usuario obtenerUsuarioDeCursor(Cursor cursor) {
+    private static Usuario obtenerUsuarioDeCursor(ICursorWrapper cursor) {
         cursor.moveToFirst();
         CursorHelper cursorHelper = new CursorHelper(cursor);
         return new Usuario(
@@ -203,7 +203,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     public Usuario buscarUsuarioONada(String email) {
         ISQLiteDatabaseWrapper database = null;
-        Cursor cursor = null;
+        ICursorWrapper cursor = null;
 
         try {
             database = getInternalReadableDatabase();
@@ -302,7 +302,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     public Grupo buscarGrupoONada(String invitacion) {
         ISQLiteDatabaseWrapper database = null;
-        Cursor cursor = null;
+        ICursorWrapper cursor = null;
 
         try {
             database = getInternalReadableDatabase();

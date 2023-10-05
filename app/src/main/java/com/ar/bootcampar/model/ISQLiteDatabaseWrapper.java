@@ -6,7 +6,7 @@ import android.database.Cursor;
 public interface ISQLiteDatabaseWrapper {
     void close();
 
-    Cursor query(String table, String[] columns, String selection,
+    ICursorWrapper query(String table, String[] columns, String selection,
                  String[] selectionArgs, String groupBy, String having,
                  String orderBy);
 

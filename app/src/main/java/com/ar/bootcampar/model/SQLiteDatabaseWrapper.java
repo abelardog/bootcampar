@@ -17,8 +17,8 @@ public class SQLiteDatabaseWrapper implements ISQLiteDatabaseWrapper {
     }
 
     @Override
-    public Cursor query(String table, String[] columns, String selection, String[] selectionArgs, String groupBy, String having, String orderBy) {
-        return this.sqliteDatabase.query(table, columns, selection, selectionArgs, groupBy, having, orderBy);
+    public ICursorWrapper query(String table, String[] columns, String selection, String[] selectionArgs, String groupBy, String having, String orderBy) {
+        return new CursorWrapper(this.sqliteDatabase.query(table, columns, selection, selectionArgs, groupBy, having, orderBy));
     }
 
     @Override
