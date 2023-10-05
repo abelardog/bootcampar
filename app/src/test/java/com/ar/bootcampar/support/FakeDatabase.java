@@ -4,17 +4,20 @@ import com.ar.bootcampar.model.IContentValuesWrapper;
 import com.ar.bootcampar.model.ICursorWrapper;
 import com.ar.bootcampar.model.ISQLiteDatabaseWrapper;
 
-public class DatabaseConInsertRetornandoId implements ISQLiteDatabaseWrapper {
-
+public class FakeDatabase implements ISQLiteDatabaseWrapper {
     private long id;
+    private boolean transactionSuccessfulCalled;
+    private boolean closeCalled;
+    private boolean beginTransactionCalled;
+    private boolean endTransactionCalled;
 
-    public DatabaseConInsertRetornandoId(long id) {
+    public FakeDatabase(long id) {
         this.id = id;
     }
 
     @Override
     public void close() {
-
+        this.closeCalled = true;
     }
 
     @Override
@@ -24,17 +27,17 @@ public class DatabaseConInsertRetornandoId implements ISQLiteDatabaseWrapper {
 
     @Override
     public void endTransaction() {
-
+        this.endTransactionCalled = true;
     }
 
     @Override
     public void setTransactionSuccessful() {
-
+        this.transactionSuccessfulCalled = true;
     }
 
     @Override
     public void beginTransaction() {
-
+        this.beginTransactionCalled = true;
     }
 
     @Override
@@ -56,5 +59,9 @@ public class DatabaseConInsertRetornandoId implements ISQLiteDatabaseWrapper {
     public void execSQL(String sql) {
 
     }
-}
 
+    public boolean getBeginTransactionCalled() { return beginTransactionCalled; }
+    public boolean getEndTransactionCalled() { return endTransactionCalled; }
+    public boolean getTransactionSuccessfulCalled() { return transactionSuccessfulCalled; }
+    public boolean getCloseCalled() { return closeCalled; }
+}

@@ -8,9 +8,8 @@ import com.ar.bootcampar.model.Database;
 import com.ar.bootcampar.model.ISQLiteDatabaseWrapper;
 import com.ar.bootcampar.model.Rol;
 import com.ar.bootcampar.model.Usuario;
-import com.ar.bootcampar.support.DatabaseConInsertRetornandoId;
-import com.ar.bootcampar.support.DatabaseEspiandoTransacciones;
 import com.ar.bootcampar.support.DatabaseSpy;
+import com.ar.bootcampar.support.FakeDatabase;
 import com.ar.bootcampar.support.TestableDatabase;
 
 import org.junit.Test;
@@ -41,7 +40,7 @@ public class DatabaseDebe {
 
     @Test
     public void retornarUsuario_cuandoSeInsertaUsuarioEnBaseDeDatos() {
-        ISQLiteDatabaseWrapper spy = new DatabaseConInsertRetornandoId(14);
+        ISQLiteDatabaseWrapper spy = new FakeDatabase(14);
         Database database = new TestableDatabase(spy);
         Usuario sut = database.crearUsuario(NOMBRE, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO);
 
@@ -56,10 +55,36 @@ public class DatabaseDebe {
     }
 
     @Test
-    public void lanzarExcepcion_cuandoInsertRetornaMenosUno() {
-        ISQLiteDatabaseWrapper spy = new DatabaseConInsertRetornandoId(-1);
+    public void lanzarExcepcion_cuandoInsertRetornaError() {
+        ISQLiteDatabaseWrapper spy = new FakeDatabase(-1);
         Database database = new TestableDatabase(spy);
         Exception exception = assertThrows(RuntimeException.class, () -> database.crearUsuario(NOMBRE, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO));
         assertEquals("Error creando usuario", exception.getMessage());
+    }
+
+    @Test
+    public void hacerRollback_cuandoInsertRetornaError() {
+        FakeDatabase spy = new FakeDatabase(-1);
+        Database database = new TestableDatabase(spy);
+        assertThrows(RuntimeException.class, () -> database.crearUsuario(NOMBRE, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO));
+        assertTrue(spy.getBeginTransactionCalled());
+        assertFalse(spy.getTransactionSuccessfulCalled());
+        assertTrue(spy.getEndTransactionCalled());
+    }
+
+    @Test
+    public void cerrarConexion_cuandoInsertFalla() {
+        FakeDatabase spy = new FakeDatabase(-1);
+        Database database = new TestableDatabase(spy);
+        Exception exception = assertThrows(RuntimeException.class, () -> database.crearUsuario(NOMBRE, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO));
+        assertTrue(spy.getCloseCalled());
+    }
+
+    @Test
+    public void cerrarConexion_cuandoInsertFunciona() {
+        FakeDatabase spy = new FakeDatabase(1);
+        Database database = new TestableDatabase(spy);
+        database.crearUsuario(NOMBRE, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO);
+        assertTrue(spy.getCloseCalled());
     }
 }
