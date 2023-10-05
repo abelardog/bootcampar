@@ -335,4 +335,73 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             }
         }
     }
+
+    @Override
+    public Categoria crearCategoria(String nombre, String descripcion) {
+        SQLiteDatabase database = null;
+
+        try {
+            database = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put(ColumnaNombre, nombre);
+            values.put(ColumnaDescripcion, descripcion);
+            database.beginTransaction();
+            long id = database.insert(TablaCategoria, null, values);
+            if (id != -1) {
+                database.setTransactionSuccessful();
+                return new Categoria(id, nombre, descripcion);
+            }
+
+            throw new RuntimeException("Error creando categoría");
+        }
+        finally {
+            if (database != null) {
+                database.endTransaction();
+                database.close();
+            }
+        }
+    }
+
+    @Override
+    public void borrarCategoria(Categoria categoria) {
+        SQLiteDatabase database = null;
+
+        try {
+            database = this.getWritableDatabase();
+            int affected = database.delete(TablaCategoria, ColumnaId + "=?",
+                    new String[] { Long.toString(categoria.getId()) });
+            if (affected != 1) {
+                throw new RuntimeException(String.format("Se esperaba borrar una única categoría pero se borraron %d", affected));
+            }
+        }
+        finally {
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    @Override
+    public Categoria modificarCategoria(Categoria categoria, String nuevoNombre, String nuevaDescripcion) {
+        SQLiteDatabase database = null;
+
+        try {
+            database = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put(ColumnaNombre, nuevoNombre);
+            values.put(ColumnaDescripcion, nuevaDescripcion);
+            int affected = database.update(TablaCategoria, values, ColumnaId + "=?",
+                    new String[] { Long.toString(categoria.getId()) });
+            if (affected == 1) {
+                return new Categoria(categoria.getId(), nuevoNombre, nuevaDescripcion);
+            }
+
+            throw new RuntimeException(String.format("Se esperaba modificar una única categoría pero se modificaron %d", affected));
+        }
+        finally {
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
 }
