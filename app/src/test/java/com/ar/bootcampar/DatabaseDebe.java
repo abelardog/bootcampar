@@ -55,4 +55,11 @@ public class DatabaseDebe {
         assertEquals(TELEFONO, sut.getTelefono());
     }
 
+    @Test
+    public void lanzarExcepcion_cuandoInsertRetornaMenosUno() {
+        ISQLiteDatabaseWrapper spy = new DatabaseConInsertRetornandoId(-1);
+        Database database = new TestableDatabase(spy);
+        Exception exception = assertThrows(RuntimeException.class, () -> database.crearUsuario(NOMBRE, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO));
+        assertEquals("Error creando usuario", exception.getMessage());
+    }
 }
