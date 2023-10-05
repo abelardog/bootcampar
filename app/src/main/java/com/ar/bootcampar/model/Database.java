@@ -131,10 +131,10 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     public Usuario crearUsuario(String nombre, String apellido, String email, String clave, Rol rol, String telefono) {
-        SQLiteDatabase database = null;
+        ISQLiteDatabaseWrapper database = null;
 
         try {
-            database = this.getWritableDatabase();
+            database = getInternalWritableDatabase();
             ContentValues values = new ContentValues();
             values.put(ColumnaNombre, nombre);
             values.put(ColumnaApellido, apellido);
@@ -162,11 +162,11 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     public Usuario buscarUsuarioOExplotar(long id) {
-        SQLiteDatabase database = null;
+        ISQLiteDatabaseWrapper database = null;
         Cursor cursor = null;
 
         try {
-            database = this.getReadableDatabase();
+            database = getInternalReadableDatabase();
             cursor = database.query(TablaUsuario, CamposUsuario,
                     ColumnaId + "=?", new String[] { Long.toString(id) },
                     null, null, null);
@@ -202,11 +202,11 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     public Usuario buscarUsuarioONada(String email) {
-        SQLiteDatabase database = null;
+        ISQLiteDatabaseWrapper database = null;
         Cursor cursor = null;
 
         try {
-            database = this.getReadableDatabase();
+            database = getInternalReadableDatabase();
             cursor = database.query(TablaUsuario, CamposUsuario,
                     ColumnaEmail + "=?", new String[] { email },
                     null, null, null);
@@ -231,10 +231,10 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     public Usuario modificarUsuario(Usuario usuario, String nuevoNombre, String nuevoApellido, String nuevoEmail, String nuevaClave, Rol nuevoRol, String nuevoTelefono) {
-        SQLiteDatabase database = null;
+        ISQLiteDatabaseWrapper database = null;
 
         try {
-            database = this.getWritableDatabase();
+            database = getInternalWritableDatabase();
             ContentValues values = new ContentValues();
             values.put(ColumnaNombre, nuevoNombre);
             values.put(ColumnaApellido, nuevoApellido);
@@ -258,10 +258,10 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     public void borrarUsuario(Usuario usuario) {
-        SQLiteDatabase database = null;
+        ISQLiteDatabaseWrapper database = null;
 
         try {
-            database = this.getWritableDatabase();
+            database = getInternalWritableDatabase();
             int affected = database.delete(TablaUsuario, ColumnaId + "=?",
                     new String[] { Long.toString(usuario.getId()) });
             if (affected != 1) {
@@ -276,10 +276,10 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     public Division crearDivision(Usuario usuario, Grupo grupo) {
-        SQLiteDatabase database = null;
+        ISQLiteDatabaseWrapper database = null;
 
         try {
-            database = this.getWritableDatabase();
+            database = getInternalWritableDatabase();
             ContentValues values = new ContentValues();
             values.put(ColumnaRelacionUsuario, usuario.getId());
             values.put(ColumnaRelacionGrupo, grupo.getId());
@@ -301,11 +301,11 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     public Grupo buscarGrupoONada(String invitacion) {
-        SQLiteDatabase database = null;
+        ISQLiteDatabaseWrapper database = null;
         Cursor cursor = null;
 
         try {
-            database = this.getReadableDatabase();
+            database = getInternalReadableDatabase();
             cursor = database.query(TablaGrupo, CamposGrupo,
                     ColumnaInvitacion + "=?", new String[] { invitacion },
                     null, null, null);
@@ -335,4 +335,13 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             }
         }
     }
+
+    private ISQLiteDatabaseWrapper getInternalReadableDatabase() {
+        return new SQLiteDatabaseWrapper(this.getReadableDatabase());
+    }
+
+    private ISQLiteDatabaseWrapper getInternalWritableDatabase() {
+        return new SQLiteDatabaseWrapper(this.getWritableDatabase());
+    }
 }
+
