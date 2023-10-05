@@ -335,4 +335,30 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             }
         }
     }
+
+    @Override
+    public Categoria crearCategoria(String nombre, String descripcion) {
+        SQLiteDatabase database = null;
+
+        try {
+            database = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put(ColumnaNombre, nombre);
+            values.put(ColumnaDescripcion, descripcion);
+            database.beginTransaction();
+            long id = database.insert(TablaCategoria, null, values);
+            if (id != -1) {
+                database.setTransactionSuccessful();
+                return new Categoria(id, nombre, descripcion);
+            }
+
+            throw new RuntimeException("Error creando categoría");
+        }
+        finally {
+            if (database != null) {
+                database.endTransaction();
+                database.close();
+            }
+        }
+    }
 }
