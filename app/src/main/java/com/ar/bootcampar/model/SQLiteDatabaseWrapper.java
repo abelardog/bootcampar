@@ -50,4 +50,9 @@ public class SQLiteDatabaseWrapper implements ISQLiteDatabaseWrapper {
     public int update(String table, ContentValues values, String whereClause, String[] whereArgs) {
         return this.sqliteDatabase.update(table, values, whereClause, whereArgs);
     }
+
+    @Override
+    public void execSQL(String sql) {
+        this.sqliteDatabase.execSQL(sql);
+    }
 }

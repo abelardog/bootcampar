@@ -53,7 +53,12 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(SQLiteDatabase sqliteDatabase) {
+        ISQLiteDatabaseWrapper db = new SQLiteDatabaseWrapper(sqliteDatabase);
+        createDatabase(db);
+    }
+
+    private static void createDatabase(ISQLiteDatabaseWrapper db) {
         db.execSQL("PRAGMA foreign_keys=ON");
         db.execSQL("PRAGMA foreign_key_check");
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TablaUsuario + "(\n" +
@@ -117,7 +122,8 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int previousVersion, int newVersion) {
+    public void onUpgrade(SQLiteDatabase sqliteDatabase, int previousVersion, int newVersion) {
+        ISQLiteDatabaseWrapper db = new SQLiteDatabaseWrapper(sqliteDatabase);
         db.execSQL("DROP TABLE IF EXISTS " + TablaDivision);
         db.execSQL("DROP TABLE IF EXISTS " + TablaCurricula);
         db.execSQL("DROP TABLE IF EXISTS " + TablaGrupo);
@@ -127,7 +133,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         db.execSQL("DROP TABLE IF EXISTS " + TablaInscripcion);
         db.execSQL("DROP TABLE IF EXISTS " + TablaCurso);
         db.execSQL("DROP TABLE IF EXISTS " + TablaUsuario);
-        onCreate(db);
+        createDatabase(db);
     }
 
     public Usuario crearUsuario(String nombre, String apellido, String email, String clave, Rol rol, String telefono) {
@@ -344,4 +350,3 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         return new SQLiteDatabaseWrapper(this.getWritableDatabase());
     }
 }
-
