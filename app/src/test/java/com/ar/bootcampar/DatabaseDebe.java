@@ -23,4 +23,13 @@ public class DatabaseDebe {
         assertEquals(Rol.asInt(ROL), spy.getInsertedValues().get("Rol"));
         assertEquals(TELEFONO, spy.getInsertedValues().get("Telefono"));
     }
+
+    @Test
+    public void insertarEnTablaUsuario_alCrearUnUsuario() {
+        DatabaseSpy spy = new DatabaseSpy();
+        Database sut = new TestableDatabase(spy);
+        sut.crearUsuario(NOMBRE, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO);
+
+        assertEquals("Usuarios", spy.getTableName());
+    }
 }
