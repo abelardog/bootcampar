@@ -3,7 +3,7 @@ package com.ar.bootcampar.support;
 import com.ar.bootcampar.model.Rol;
 
 public class Constants {
-    public static final int ID = 1;
+    public static final long ID = 1;
     public static final String NOMBRE = "Luis";
     public static final String APELLIDO = "Agote";
     public static final String EMAIL = "luis.agote@gmail.com";
