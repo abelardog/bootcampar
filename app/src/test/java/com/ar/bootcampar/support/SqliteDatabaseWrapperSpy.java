@@ -5,20 +5,39 @@ import com.ar.bootcampar.model.ICursorWrapper;
 import com.ar.bootcampar.model.ISQLiteDatabaseWrapper;
 
 public class SqliteDatabaseWrapperSpy implements ISQLiteDatabaseWrapper {
+    public static class Builder {
+        private int resultadoDelete;
+        private long resultadoInsert;
+
+        public Builder conDeleteRetornando(int resultado) {
+            resultadoDelete = resultado;
+            return this;
+        }
+
+        public Builder conInsertRetornando(long resultado) {
+            resultadoInsert = resultado;
+            return this;
+        }
+
+        public SqliteDatabaseWrapperSpy build() {
+            return new SqliteDatabaseWrapperSpy(resultadoInsert, resultadoDelete);
+        }
+    }
+
     private String tableName;
-    private long id;
     private IContentValuesWrapper insertedValues;
     private boolean transactionSuccessfulCalled;
     private boolean closeCalled;
     private boolean beginTransactionCalled;
     private boolean endTransactionCalled;
+    private String whereClause;
+    private String[] whereArgs;
+    private final int resultadoDelete;
+    private final long resultadoInsert;
 
-    public SqliteDatabaseWrapperSpy(long id) {
-        this.id = id;
-    }
-
-    public SqliteDatabaseWrapperSpy() {
-        this.id = 1;
+    private SqliteDatabaseWrapperSpy(long resultadoInsert, int resultadoDelete) {
+        this.resultadoInsert = resultadoInsert;
+        this.resultadoDelete = resultadoDelete;
     }
 
     @Override
@@ -50,12 +69,15 @@ public class SqliteDatabaseWrapperSpy implements ISQLiteDatabaseWrapper {
     public long insert(String table, String nullColumnHack, IContentValuesWrapper values) {
         tableName = table;
         insertedValues = values;
-        return id;
+        return resultadoInsert;
     }
 
     @Override
     public int delete(String table, String whereClause, String[] whereArgs) {
-        return 0;
+        tableName = table;
+        this.whereClause = whereClause;
+        this.whereArgs = whereArgs;
+        return resultadoDelete;
     }
 
     @Override
@@ -75,4 +97,6 @@ public class SqliteDatabaseWrapperSpy implements ISQLiteDatabaseWrapper {
     public boolean getEndTransactionCalled() { return endTransactionCalled; }
     public boolean getTransactionSuccessfulCalled() { return transactionSuccessfulCalled; }
     public boolean getCloseCalled() { return closeCalled; }
+    public String getWhereClause() { return whereClause; }
+    public String[] getWhereArgs() { return whereArgs; }
 }
