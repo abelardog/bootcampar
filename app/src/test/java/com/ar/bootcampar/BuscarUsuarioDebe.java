@@ -84,4 +84,20 @@ public class BuscarUsuarioDebe {
 
         assertEquals("Usuarios", spy.getTableName());
     }
+
+    @Test
+    public void lanzarExcepcion_cuandoSeEncuentranVariosUsuariosConElMismoMail() {
+        CursorWrapperStub cursorStub = new CursorWrapperStub.Builder()
+                .conCountRetornando(3)
+                .build();
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conQueryRetornando(cursorStub)
+                .build();
+
+        Database sut = new TestableDatabase(spy);
+        Exception exception = assertThrows(RuntimeException.class, () -> sut.buscarUsuarioONada(EMAIL));
+        assertTrue(exception.getMessage().startsWith("Se encontraron varios usuarios"));
+        assertTrue(exception.getMessage().endsWith(EMAIL));
+    }
+
 }
