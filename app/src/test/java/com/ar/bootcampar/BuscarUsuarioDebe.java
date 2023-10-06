@@ -41,4 +41,17 @@ public class BuscarUsuarioDebe {
                 .conCountRetornando(1)
                 .build();
     }
+
+    @Test
+    public void buscarDatosEnTablaUsuario() {
+        CursorWrapperStub cursorStub = crearCursorStub();
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conQueryRetornando(cursorStub)
+                .build();
+
+        Database sut = new TestableDatabase(spy);
+        sut.buscarUsuarioOExplotar(ID);
+
+        assertEquals("Usuarios", spy.getTableName());
+    }
 }
