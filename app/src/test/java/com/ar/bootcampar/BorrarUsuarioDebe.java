@@ -30,6 +30,18 @@ public class BorrarUsuarioDebe {
         assertEquals(String.valueOf(ID), spy.getWhereArgs()[0]);
     }
 
+    @Test
+    public void borrarDatosDeLaTablaUsuario() {
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conInsertRetornando(1)
+                .build();
+
+        Database sut = new TestableDatabase(spy);
+        sut.crearUsuario(NOMBRE, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO);
+
+        assertEquals("Usuarios", spy.getTableName());
+    }
+
     private static Usuario crearUsuarioDePrueba() {
         return new Usuario(ID, NOMBRE, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO);
     }
