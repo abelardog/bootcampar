@@ -77,4 +77,5 @@ jobs:
             repo: context.repo.repo,
             body: issueComment
           });
+          core.setFailed('El pull request falló.')
     
