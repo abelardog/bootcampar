@@ -21,7 +21,7 @@ public class UsuarioDebe {
         assertEquals(ID, sut.getId());
         assertEquals(NOMBRE, sut.getNombre());
         assertEquals(APELLIDO, sut.getApellido());
-        assertEquals(EMAIL, sut.getEmail());
+        assertEquals(EMAIL, sut.getClave());
         assertEquals(CLAVE, sut.getClave());
         assertEquals(ROL, sut.getRol());
         assertEquals(TELEFONO, sut.getTelefono());
