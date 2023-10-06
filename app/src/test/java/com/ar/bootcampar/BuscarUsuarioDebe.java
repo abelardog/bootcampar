@@ -71,4 +71,17 @@ public class BuscarUsuarioDebe {
 
         assertNull(resultado);
     }
+
+    @Test
+    public void buscarDatosEnTablaUsuario_cuandoSeBuscaPorEmail() {
+        CursorWrapperStub cursorStub = crearCursorStub();
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conQueryRetornando(cursorStub)
+                .build();
+
+        Database sut = new TestableDatabase(spy);
+        sut.buscarUsuarioONada(EMAIL);
+
+        assertEquals("Usuarios", spy.getTableName());
+    }
 }
