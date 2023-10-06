@@ -77,5 +77,5 @@ jobs:
             repo: context.repo.repo,
             body: issueComment
           });
-          core.setFailed('El pull request falló.')
+          core.setFailed('Se agregó un comentario en el PR sobre el fallo.')
     
