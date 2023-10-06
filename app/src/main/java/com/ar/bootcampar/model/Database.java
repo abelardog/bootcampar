@@ -418,4 +418,3 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         return new ContentValuesWrapper();
     }
 }
-

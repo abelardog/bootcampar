@@ -12,11 +12,16 @@ import com.ar.bootcampar.support.SqliteDatabaseWrapperSpy;
 import com.ar.bootcampar.support.TestableDatabase;
 
 import org.junit.Test;
+import org.junit.experimental.theories.Theories;
+import org.junit.runner.RunWith;
 
+@RunWith(Theories.class)
 public class CrearUsuarioDebe {
     @Test
     public void recibirTodosLosDatosDeUsuario() {
-        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy();
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conInsertRetornando(1)
+                .build();
         Database sut = new TestableDatabase(spy);
         sut.crearUsuario(NOMBRE, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO);
 
@@ -30,7 +35,9 @@ public class CrearUsuarioDebe {
 
     @Test
     public void insertarDatosEnTablaUsuario() {
-        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy();
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conInsertRetornando(1)
+                .build();
         Database sut = new TestableDatabase(spy);
         sut.crearUsuario(NOMBRE, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO);
 
@@ -39,7 +46,9 @@ public class CrearUsuarioDebe {
 
     @Test
     public void retornarUsuario_cuandoSeInsertaUsuarioEnBaseDeDatos() {
-        ISQLiteDatabaseWrapper spy = new SqliteDatabaseWrapperSpy(14);
+        ISQLiteDatabaseWrapper spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conInsertRetornando(14)
+                .build();
         Database database = new TestableDatabase(spy);
         Usuario sut = database.crearUsuario(NOMBRE, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO);
 
@@ -55,7 +64,9 @@ public class CrearUsuarioDebe {
 
     @Test
     public void lanzarExcepcion_cuandoInsertRetornaError() {
-        ISQLiteDatabaseWrapper spy = new SqliteDatabaseWrapperSpy(-1);
+        ISQLiteDatabaseWrapper spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conInsertRetornando(-1)
+                .build();
         Database database = new TestableDatabase(spy);
         Exception exception = assertThrows(RuntimeException.class, () -> database.crearUsuario(NOMBRE, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO));
         assertEquals("Error creando usuario", exception.getMessage());
@@ -63,7 +74,9 @@ public class CrearUsuarioDebe {
 
     @Test
     public void hacerRollback_cuandoInsertRetornaError() {
-        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy(-1);
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conInsertRetornando(-1)
+                .build();
         Database database = new TestableDatabase(spy);
         assertThrows(RuntimeException.class, () -> database.crearUsuario(NOMBRE, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO));
         assertTrue(spy.getBeginTransactionCalled());
@@ -73,7 +86,9 @@ public class CrearUsuarioDebe {
 
     @Test
     public void cerrarConexion_cuandoInsertRetornaError() {
-        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy(-1);
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conInsertRetornando(-1)
+                .build();
         Database database = new TestableDatabase(spy);
         Exception exception = assertThrows(RuntimeException.class, () -> database.crearUsuario(NOMBRE, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO));
         assertTrue(spy.getCloseCalled());
@@ -81,7 +96,9 @@ public class CrearUsuarioDebe {
 
     @Test
     public void cerrarConexion_cuandoSeInsertaUsuarioEnBaseDeDatos() {
-        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy(1);
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conInsertRetornando(1)
+                .build();
         Database database = new TestableDatabase(spy);
         database.crearUsuario(NOMBRE, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO);
         assertTrue(spy.getCloseCalled());
