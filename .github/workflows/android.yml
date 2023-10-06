@@ -70,7 +70,7 @@ jobs:
             testResult = process.env.TEST_RESULT.replace(/(?:\r\n|\r|\n)/g, ' ');
           }
 
-          const issueComment = 'El pull request fallo con el siguiente error: \n```\n' + buildResult + '\n```\n' + testResult + '\n```\n';
+          const issueComment = 'El pull request fallo con el siguiente error: \n```\n' + buildResult + testResult + '\n```\n';
           github.rest.issues.createComment({
             issue_number: pr.number,
             owner: context.repo.owner,
