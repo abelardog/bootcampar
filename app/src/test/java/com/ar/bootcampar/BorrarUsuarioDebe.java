@@ -60,6 +60,18 @@ public class BorrarUsuarioDebe {
         assertTrue(exception.getMessage().endsWith(String.valueOf(affectedRowsInvalido)));
     }
 
+    @Test
+    public void cerrarConexion_cuandoBorrarRetornaError() {
+        Usuario usuario = crearUsuarioDePrueba();
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conDeleteRetornando(-1)
+                .build();
+
+        Database database = new TestableDatabase(spy);
+        Exception exception = assertThrows(RuntimeException.class, () -> database.borrarUsuario(usuario));
+        assertTrue(spy.getCloseCalled());
+    }
+
     private static Usuario crearUsuarioDePrueba() {
         return new Usuario(ID, NOMBRE, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO);
     }
