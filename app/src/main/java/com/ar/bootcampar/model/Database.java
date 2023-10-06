@@ -175,7 +175,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 return obtenerUsuarioDeCursor(cursor);
             }
 
-            throw new RuntimeException(String.format("Se encontraron varios usuarios con el mismo id %d", id));
+            throw new RuntimeException(String.format("Se esperaba encontrar un único usuario con id %d, se encontraron %d", id, cursor.getCount()));
         }
         finally {
             if (cursor != null) {

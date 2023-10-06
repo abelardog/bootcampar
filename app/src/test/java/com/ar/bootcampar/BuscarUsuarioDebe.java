@@ -16,11 +16,17 @@ import com.ar.bootcampar.support.SqliteDatabaseWrapperSpy;
 import com.ar.bootcampar.support.TestableDatabase;
 
 import org.junit.Test;
+import org.junit.experimental.theories.DataPoints;
+import org.junit.experimental.theories.FromDataPoints;
+import org.junit.experimental.theories.Theories;
+import org.junit.experimental.theories.Theory;
+import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@RunWith(Theories.class)
 public class BuscarUsuarioDebe {
     @Test
     public void recibirElIdABuscarCorrectamente() {
@@ -100,4 +106,22 @@ public class BuscarUsuarioDebe {
         assertTrue(exception.getMessage().endsWith(EMAIL));
     }
 
+    @DataPoints("count invalidos")
+    public static int[] countInvalidos() { return new int[] { 0, 2 }; }
+
+    @Theory
+    public void lanzarExcepcion_cuandoNoSeEncuentraUnoSoloPorId(@FromDataPoints("count invalidos") int countInvalidos) {
+        CursorWrapperStub cursorStub = new CursorWrapperStub.Builder()
+                .conCountRetornando(countInvalidos)
+                .build();
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conQueryRetornando(cursorStub)
+                .build();
+
+        Database sut = new TestableDatabase(spy);
+        Exception exception = assertThrows(RuntimeException.class, () -> sut.buscarUsuarioOExplotar(ID));
+        assertTrue(exception.getMessage().startsWith("Se esperaba encontrar un único usuario"));
+        assertTrue(exception.getMessage().contains(String.valueOf(ID)));
+        assertTrue(exception.getMessage().endsWith(String.valueOf(countInvalidos)));
+    }
 }
