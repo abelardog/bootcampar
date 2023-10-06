@@ -21,6 +21,11 @@ public class TestableDatabase extends Database {
     }
 
     @Override
+    protected ISQLiteDatabaseWrapper getInternalReadableDatabase() {
+        return databaseSpy;
+    }
+
+    @Override
     protected IContentValuesWrapper createContentValues() {
         return valuesSpy;
     }
