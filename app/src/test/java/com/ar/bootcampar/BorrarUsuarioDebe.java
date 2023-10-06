@@ -72,6 +72,18 @@ public class BorrarUsuarioDebe {
         assertTrue(spy.getCloseCalled());
     }
 
+    @Test
+    public void cerrarConexion_cuandoBorrarRetornaExito() {
+        Usuario usuario = crearUsuarioDePrueba();
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conDeleteRetornando(1)
+                .build();
+
+        Database database = new TestableDatabase(spy);
+        database.borrarUsuario(usuario);
+        assertTrue(spy.getCloseCalled());
+    }
+
     private static Usuario crearUsuarioDePrueba() {
         return new Usuario(ID, NOMBRE, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO);
     }
