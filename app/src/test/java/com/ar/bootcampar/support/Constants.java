@@ -10,4 +10,5 @@ public class Constants {
     public static final String CLAVE = "123456";
     public static final Rol ROL = Rol.Estudiante;
     public static final String TELEFONO = "1234-5678";
+    public static final String OTRO_EMAIL = "juan.perez@gmail.com";
 }
