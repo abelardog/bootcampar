@@ -31,4 +31,6 @@ public class Constants {
     public static final String INVITACION_GRUPO = "112233";
     public static final String OTRO_NOMBRE_GRUPO = "Grupo de Programación en JS";
     public static final String OTRA_INVITACION_GRUPO = "123123";
+    public static final String NOMBRE_GRUPO_INVALIDO = "";
+    public static final String INVITACION_GRUPO_INVALIDA = "";
 }

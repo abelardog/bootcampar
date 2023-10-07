@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.Group;
 
 import com.ar.bootcampar.model.utilities.Guardia;
 
@@ -322,8 +323,9 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             database.beginTransaction();
             long id = database.insert(TablaGrupo, null, values);
             if (id != -1) {
+                Grupo grupo = new Grupo(id, nombre, invitacion);
                 database.setTransactionSuccessful();
-                return new Grupo(id, nombre, invitacion);
+                return grupo;
             }
 
             throw new RuntimeException("Error creando grupo");
