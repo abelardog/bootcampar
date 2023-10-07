@@ -301,6 +301,31 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
     }
 
+    public Grupo crearGrupo(String nombre, String invitacion) {
+        ISQLiteDatabaseWrapper database = null;
+
+        try {
+            database = getInternalWritableDatabase();
+            IContentValuesWrapper values = createContentValues();
+            values.put(ColumnaNombre, nombre);
+            values.put(ColumnaInvitacion, invitacion);
+            database.beginTransaction();
+            long id = database.insert(TablaGrupo, null, values);
+            if (id != -1) {
+                database.setTransactionSuccessful();
+                return new Grupo(id, nombre, invitacion);
+            }
+
+            throw new RuntimeException("Error creando grupo");
+        }
+        finally {
+            if (database != null) {
+                database.endTransaction();
+                database.close();
+            }
+        }
+    }
+
     public Grupo buscarGrupoONada(String invitacion) {
         ISQLiteDatabaseWrapper database = null;
         ICursorWrapper cursor = null;
