@@ -412,6 +412,29 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
     }
 
+    public Grupo modificarGrupo(Grupo grupo, String nuevoNombre, String nuevaInvitacion) {
+        ISQLiteDatabaseWrapper database = null;
+
+        try {
+            database = getInternalWritableDatabase();
+            IContentValuesWrapper values = createContentValues();
+            values.put(ColumnaNombre, nuevoNombre);
+            values.put(ColumnaInvitacion, nuevaInvitacion);
+            int affected = database.update(TablaGrupo, values, ColumnaId + "=?",
+                    new String[] { Long.toString(grupo.getId()) });
+            if (affected == 1) {
+                return new Grupo(grupo.getId(), nuevoNombre, nuevaInvitacion);
+            }
+
+            throw new RuntimeException(String.format("Se esperaba modificar un único grupo pero se modificaron %d", affected));
+        }
+        finally {
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
     @Override
     public Categoria crearCategoria(String nombre, String descripcion) {
         ISQLiteDatabaseWrapper database = null;
