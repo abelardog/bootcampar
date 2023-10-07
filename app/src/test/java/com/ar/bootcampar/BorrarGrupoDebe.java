@@ -8,6 +8,7 @@ import static org.junit.Assert.assertTrue;
 import com.ar.bootcampar.model.Database;
 import com.ar.bootcampar.model.Grupo;
 import com.ar.bootcampar.model.ISQLiteDatabaseWrapper;
+import com.ar.bootcampar.model.SQLiteDatabaseWrapper;
 import com.ar.bootcampar.model.Usuario;
 import com.ar.bootcampar.support.SqliteDatabaseWrapperSpy;
 import com.ar.bootcampar.support.TestableDatabase;
@@ -21,6 +22,13 @@ import org.junit.runner.RunWith;
 
 @RunWith(Theories.class)
 public class BorrarGrupoDebe {
+    @Test
+    public void lanzarExcepcion_cuandoSeBorraObjetoNulo() {
+        Database sut = new TestableDatabase(new SqliteDatabaseWrapperSpy.Builder().build());
+        Exception exception = assertThrows(RuntimeException.class, () -> sut.borrarGrupo(null));
+        assertEquals("El grupo es nulo", exception.getMessage());
+    }
+
     @Test
     public void recibirElIdParaBorrar() {
         Grupo grupo = crearGrupoDePrueba();

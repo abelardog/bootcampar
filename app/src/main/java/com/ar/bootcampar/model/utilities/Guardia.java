@@ -1,6 +1,8 @@
 package com.ar.bootcampar.model.utilities;
 
 import com.ar.bootcampar.model.Course;
+import com.ar.bootcampar.model.Grupo;
+import com.ar.bootcampar.model.Usuario;
 
 public class Guardia {
     public static void esCadenaNoVacia(String cadena, String mensajeFallo) {
@@ -16,7 +18,7 @@ public class Guardia {
         if (duracion < 0) throw new RuntimeException(mensajeFallo);
     }
 
-    public static void esObjetoValido(Course curso, String mensajeFallo) {
-        if (curso == null) throw new RuntimeException(mensajeFallo);
+    public static void esObjetoValido(Object objeto, String mensajeFallo) {
+        if (objeto == null) throw new RuntimeException(mensajeFallo);
     }
 }

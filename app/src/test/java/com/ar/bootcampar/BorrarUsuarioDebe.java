@@ -21,6 +21,13 @@ import org.junit.runner.RunWith;
 @RunWith(Theories.class)
 public class BorrarUsuarioDebe {
     @Test
+    public void lanzarExcepcion_cuandoSeBorraObjetoNulo() {
+        Database sut = new TestableDatabase(new SqliteDatabaseWrapperSpy.Builder().build());
+        Exception exception = assertThrows(RuntimeException.class, () -> sut.borrarUsuario(null));
+        assertEquals("El usuario es nulo", exception.getMessage());
+    }
+
+    @Test
     public void recibirElIdParaBorrar() {
         Usuario usuario = crearUsuarioDePrueba();
         SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()

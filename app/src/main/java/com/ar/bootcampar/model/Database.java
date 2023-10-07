@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.NonNull;
 
+import com.ar.bootcampar.model.utilities.Guardia;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -263,6 +265,8 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     public void borrarUsuario(Usuario usuario) {
+        Guardia.esObjetoValido(usuario, "El usuario es nulo");
+
         ISQLiteDatabaseWrapper database = null;
 
         try {
@@ -399,8 +403,9 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     public void borrarGrupo(Grupo grupo) {
-        ISQLiteDatabaseWrapper database = null;
+        Guardia.esObjetoValido(grupo, "El grupo es nulo");
 
+        ISQLiteDatabaseWrapper database = null;
         try {
             database = getInternalWritableDatabase();
             int affected = database.delete(TablaGrupo, ColumnaId + "=?",
