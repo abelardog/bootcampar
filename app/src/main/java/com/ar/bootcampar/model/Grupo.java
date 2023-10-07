@@ -11,6 +11,8 @@ public class Grupo implements Serializable {
 
     public Grupo(long id, String nombre, String invitacion) {
         Guardia.esIdentificadorValido(id, "El id es inválido");
+        Guardia.esCadenaNoVacia(nombre, "El nombre es inválido");
+        Guardia.esCadenaNoVacia(invitacion, "La invitación es inválida");
 
         this.id = id;
         this.nombre = nombre;

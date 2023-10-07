@@ -35,4 +35,21 @@ public class GrupoDebe {
         Exception exception = assertThrows(RuntimeException.class, () -> new Grupo(idInvalido, NOMBRE_GRUPO, INVITACION_GRUPO));
         assertEquals("El id es inválido", exception.getMessage());
     }
+
+    @DataPoints("cadenas invalidas")
+    public static String[] nombresInvalidos() {
+        return new String[] { "", null, "   " };
+    }
+
+    @Theory
+    public void lanzarExcepcion_cuandoNombreEsInvalido(@FromDataPoints("cadenas invalidas") String nombreInvalido) {
+        Exception exception = assertThrows(RuntimeException.class, () -> new Grupo(ID, nombreInvalido, INVITACION_GRUPO));
+        assertEquals("El nombre es inválido", exception.getMessage());
+    }
+
+    @Theory
+    public void lanzarExcepcion_cuandoInvitacionEsInvalida(@FromDataPoints("cadenas invalidas") String invitacionInvalida) {
+        Exception exception = assertThrows(RuntimeException.class, () -> new Grupo(ID, NOMBRE_GRUPO, invitacionInvalida));
+        assertEquals("La invitación es inválida", exception.getMessage());
+    }
 }
