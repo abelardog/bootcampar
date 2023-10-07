@@ -13,8 +13,9 @@ public class Leccion implements Serializable {
     private Course curso;
 
     public Leccion(long id, String titulo, String contenido, int duracion, int orden, Course curso) {
-        if (! Guardia.esIdentificadorValido(id)) throw new RuntimeException("El id es inválido");
-        if (! Guardia.esNombreValido(titulo)) throw new RuntimeException("El título es inválido");
+        Guardia.esIdentificadorValido(id, "El id es inválido");
+        Guardia.esCadenaNoVacia(titulo, "El título es inválido");
+        Guardia.esCadenaNoVacia(contenido, "El contenido es inválido");
 
         this.id = id;
         this.titulo = titulo;
