@@ -34,13 +34,23 @@ jobs:
       continue-on-error: true
       id: build
 
+    - name: Test
+      run: mkdir -p build && ./gradlew test 2> build/results-test.txt
+      continue-on-error: true
+      id: test
+
     - name: Get build results
       if: steps.build.outcome == 'failure'
       run: echo "BUILD_RESULT=$(sed ':a;N;$!ba;s/\n/ /g' build/results.txt)" >> $GITHUB_ENV
       continue-on-error: true
 
+    - name: Get test results
+      if: steps.test.outcome == 'failure'
+      run: echo "TEST_RESULT=$(sed ':a;N;$!ba;s/\n/ /g' build/results-test.txt)" >> $GITHUB_ENV
+      continue-on-error: true
+
     - name: Create PR comment
-      if: steps.build.outcome == 'failure'
+      if: steps.build.outcome == 'failure' || steps.test.outcome == 'failure'
       uses: actions/github-script@v6
       with:
         script: |
@@ -50,13 +60,22 @@ jobs:
             return;
           }
           
-          const buildResult = process.env.BUILD_RESULT.replace(/(?:\r\n|\r|\n)/g, ' ');
-          const issueComment = 'El Build fallo con el siguiente error: \n```\n' + buildResult + '\n```';
-          
+          var buildResult = "";
+          var testResult = "";
+          if (process.env.BUILD_RESULT) {
+            buildResult = process.env.BUILD_RESULT.replace(/(?:\r\n|\r|\n)/g, ' ');
+          }
+
+          if (process.env.TEST_RESULT) {
+            testResult = process.env.TEST_RESULT.replace(/(?:\r\n|\r|\n)/g, ' ');
+          }
+
+          const issueComment = 'El pull request fallo con el siguiente error: \n```\n' + buildResult + testResult + '\n```\n';
           github.rest.issues.createComment({
             issue_number: pr.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
             body: issueComment
           });
+          core.setFailed('Se agregó un comentario en el PR sobre el fallo.')
     

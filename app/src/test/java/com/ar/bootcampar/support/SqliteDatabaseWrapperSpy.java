@@ -9,6 +9,7 @@ public class SqliteDatabaseWrapperSpy implements ISQLiteDatabaseWrapper {
         private int resultadoDelete;
         private long resultadoInsert;
         private int resultadoUpdate;
+        private ICursorWrapper resultadoQuery;
 
         public Builder conDeleteRetornando(int resultado) {
             resultadoDelete = resultado;
@@ -20,13 +21,18 @@ public class SqliteDatabaseWrapperSpy implements ISQLiteDatabaseWrapper {
             return this;
         }
 
+        public Builder conQueryRetornando(ICursorWrapper resultado) {
+            resultadoQuery = resultado;
+            return this;
+        }
+
         public Builder conUpdateRetornando(int resultado) {
             resultadoUpdate = resultado;
             return this;
         }
 
         public SqliteDatabaseWrapperSpy build() {
-            return new SqliteDatabaseWrapperSpy(resultadoInsert, resultadoDelete, resultadoUpdate);
+            return new SqliteDatabaseWrapperSpy(resultadoInsert, resultadoDelete, resultadoQuery, resultadoUpdate);
         }
     }
 
@@ -41,10 +47,18 @@ public class SqliteDatabaseWrapperSpy implements ISQLiteDatabaseWrapper {
     private final int resultadoDelete;
     private final long resultadoInsert;
     private final int resultadoUpdate;
+    private final ICursorWrapper resultadoQuery;
+    private String[] columns;
+    private String selection;
+    private String[] selectionArgs;
+    private String groupBy;
+    private String having;
+    private String orderBy;
 
-    private SqliteDatabaseWrapperSpy(long resultadoInsert, int resultadoDelete, int resultadoUpdate) {
+    private SqliteDatabaseWrapperSpy(long resultadoInsert, int resultadoDelete, ICursorWrapper resultadoQuery, int resultadoUpdate) {
         this.resultadoInsert = resultadoInsert;
         this.resultadoDelete = resultadoDelete;
+        this.resultadoQuery = resultadoQuery;
         this.resultadoUpdate = resultadoUpdate;
     }
 
@@ -55,7 +69,14 @@ public class SqliteDatabaseWrapperSpy implements ISQLiteDatabaseWrapper {
 
     @Override
     public ICursorWrapper query(String table, String[] columns, String selection, String[] selectionArgs, String groupBy, String having, String orderBy) {
-        return null;
+        tableName = table;
+        this.columns = columns;
+        this.selection = selection;
+        this.selectionArgs = selectionArgs;
+        this.groupBy = groupBy;
+        this.having = having;
+        this.orderBy = orderBy;
+        return resultadoQuery;
     }
 
     @Override
@@ -111,4 +132,6 @@ public class SqliteDatabaseWrapperSpy implements ISQLiteDatabaseWrapper {
     public boolean getCloseCalled() { return closeCalled; }
     public String getWhereClause() { return whereClause; }
     public String[] getWhereArgs() { return whereArgs; }
+    public String[] getColumns() { return columns; }
+    public String[] getSelectionArgs() { return selectionArgs; }
 }
