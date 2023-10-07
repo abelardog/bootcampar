@@ -34,6 +34,61 @@ public class BorrarGrupoDebe {
         assertEquals(String.valueOf(ID), spy.getWhereArgs()[0]);
     }
 
+    @Test
+    public void borrarDatosDeLaTablaGrupo() {
+        Grupo grupo = crearGrupoDePrueba();
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conDeleteRetornando(1)
+                .build();
+
+        Database sut = new TestableDatabase(spy);
+        sut.borrarGrupo(grupo);
+
+        assertEquals("Grupos", spy.getTableName());
+    }
+
+    @DataPoints("affected rows invalidos")
+    public static int[] affectedRowsInvalidos() {
+        return new int[] { 0, -1, 2 };
+    }
+
+    @Theory
+    public void lanzarExcepcion_cuandoDeleteRetornaError(@FromDataPoints("affected rows invalidos") int affectedRowsInvalido) {
+        Grupo grupo = crearGrupoDePrueba();
+        ISQLiteDatabaseWrapper spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conDeleteRetornando(affectedRowsInvalido)
+                .build();
+
+        Database database = new TestableDatabase(spy);
+        Exception exception = assertThrows(RuntimeException.class, () -> database.borrarGrupo(grupo));
+        assertTrue(exception.getMessage().startsWith(exception.getMessage()));
+        assertTrue(exception.getMessage().endsWith(String.valueOf(affectedRowsInvalido)));
+    }
+
+    @Test
+    public void cerrarBaseDeDatos_cuandoBorrarRetornaError() {
+        Grupo grupo = crearGrupoDePrueba();
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conDeleteRetornando(-1)
+                .build();
+
+        Database database = new TestableDatabase(spy);
+        assertThrows(RuntimeException.class, () -> database.borrarGrupo(grupo));
+        assertTrue(spy.getCloseCalled());
+    }
+
+    @Test
+    public void cerrarBaseDeDatos_cuandoBorrarRetornaExito() {
+        Grupo grupo = crearGrupoDePrueba();
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conDeleteRetornando(1)
+                .build();
+
+        Database database = new TestableDatabase(spy);
+        database.borrarGrupo(grupo);
+        assertTrue(spy.getCloseCalled());
+    }
+
     private static Grupo crearGrupoDePrueba() {
         return new Grupo(ID, NOMBRE_GRUPO, INVITACION_GRUPO);
     }
