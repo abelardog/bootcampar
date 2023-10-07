@@ -135,6 +135,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         createDatabase(db);
     }
 
+    @Override
     public Usuario crearUsuario(String nombre, String apellido, String email, String clave, Rol rol, String telefono) {
         ISQLiteDatabaseWrapper database = null;
 
@@ -166,6 +167,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
     }
 
+    @Override
     public Usuario buscarUsuarioOExplotar(long id) {
         ISQLiteDatabaseWrapper database = null;
         ICursorWrapper cursor = null;
@@ -206,6 +208,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 cursorHelper.getStringFrom(ColumnaTelefono));
     }
 
+    @Override
     public Usuario buscarUsuarioONada(String email) {
         ISQLiteDatabaseWrapper database = null;
         ICursorWrapper cursor = null;
@@ -235,6 +238,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
     }
 
+    @Override
     public Usuario modificarUsuario(Usuario usuario, String nuevoNombre, String nuevoApellido, String nuevoEmail, String nuevaClave, Rol nuevoRol, String nuevoTelefono) {
         ISQLiteDatabaseWrapper database = null;
 
@@ -262,6 +266,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
     }
 
+    @Override
     public void borrarUsuario(Usuario usuario) {
         ISQLiteDatabaseWrapper database = null;
 
@@ -280,6 +285,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
     }
 
+    @Override
     public Division crearDivision(Usuario usuario, Grupo grupo) {
         ISQLiteDatabaseWrapper database = null;
 
@@ -305,6 +311,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
     }
 
+    @Override
     public Grupo crearGrupo(String nombre, String invitacion) {
         ISQLiteDatabaseWrapper database = null;
 
@@ -330,6 +337,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
     }
 
+    @Override
     public Grupo buscarGrupoONada(String invitacion) {
         ISQLiteDatabaseWrapper database = null;
         ICursorWrapper cursor = null;
@@ -369,6 +377,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 cursorHelper.getStringFrom(ColumnaInvitacion));
     }
 
+    @Override
     public Grupo buscarGrupoOExplotar(long id) {
         ISQLiteDatabaseWrapper database = null;
         ICursorWrapper cursor = null;
@@ -398,6 +407,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
     }
 
+    @Override
     public void borrarGrupo(Grupo grupo) {
         ISQLiteDatabaseWrapper database = null;
 
@@ -416,6 +426,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
     }
 
+    @Override
     public Grupo modificarGrupo(Grupo grupo, String nuevoNombre, String nuevaInvitacion) {
         ISQLiteDatabaseWrapper database = null;
 
@@ -508,6 +519,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
     }
 
+    @Override
     public Leccion crearLeccion(String titulo, String contenido, int duracion, int orden, Course curso) {
         ISQLiteDatabaseWrapper database = null;
 
@@ -538,6 +550,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
     }
 
+    @Override
     public Leccion modificarLeccion(Leccion leccion, String nuevoTitulo, String nuevoContenido, int nuevaDuracion, int nuevoOrden, Course nuevoCurso) {
         ISQLiteDatabaseWrapper database = null;
 
@@ -566,24 +579,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
     }
 
-    public void borrarLeccion(Leccion leccion) {
-        ISQLiteDatabaseWrapper database = null;
-
-        try {
-            database = getInternalWritableDatabase();
-            int affected = database.delete(TablaLeccion, ColumnaId + "=?",
-                    new String[] { Long.toString(leccion.getId()) });
-            if (affected != 1) {
-                throw new RuntimeException(String.format("Se esperaba borrar una única lección pero se borraron %d", affected));
-            }
-        }
-        finally {
-            if (database != null) {
-                database.close();
-            }
-        }
-    }
-
+    @Override
     public List<Leccion> buscarLecciones(Course curso) {
         ISQLiteDatabaseWrapper database = null;
         ICursorWrapper cursor = null;
@@ -627,6 +623,25 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             }
         }
 
+    }
+
+    @Override
+    public void borrarLeccion(Leccion leccion) {
+        ISQLiteDatabaseWrapper database = null;
+
+        try {
+            database = getInternalWritableDatabase();
+            int affected = database.delete(TablaLeccion, ColumnaId + "=?",
+                    new String[] { Long.toString(leccion.getId()) });
+            if (affected != 1) {
+                throw new RuntimeException(String.format("Se esperaba borrar una única lección pero se borraron %d", affected));
+            }
+        }
+        finally {
+            if (database != null) {
+                database.close();
+            }
+        }
     }
 
     protected ISQLiteDatabaseWrapper getInternalReadableDatabase() {
