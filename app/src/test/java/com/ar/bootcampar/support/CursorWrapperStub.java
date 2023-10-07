@@ -78,6 +78,16 @@ public class CursorWrapperStub implements ICursorWrapper {
         return (String)valores.get(columnIndex);
     }
 
+    @Override
+    public boolean moveToNext() {
+        return false;
+    }
+
+    @Override
+    public boolean isAfterLast() {
+        return false;
+    }
+
     public boolean getCloseCalled() {
         return closeCalled;
     }
