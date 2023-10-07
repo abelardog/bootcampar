@@ -35,6 +35,7 @@ public class CursorWrapperStub implements ICursorWrapper {
     private final List<String> columnas;
     private final List<Object> valores;
     private final int count;
+    private boolean closeCalled;
 
     private CursorWrapperStub(List<String> columnas, List<Object> valores, int count) {
         this.count = count;
@@ -44,6 +45,7 @@ public class CursorWrapperStub implements ICursorWrapper {
 
     @Override
     public void close() {
+        closeCalled = true;
     }
 
     @Override
@@ -74,5 +76,9 @@ public class CursorWrapperStub implements ICursorWrapper {
     @Override
     public String getString(int columnIndex) {
         return (String)valores.get(columnIndex);
+    }
+
+    public boolean getCloseCalled() {
+        return closeCalled;
     }
 }

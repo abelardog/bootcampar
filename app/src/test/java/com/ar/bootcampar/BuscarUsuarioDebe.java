@@ -126,54 +126,54 @@ public class BuscarUsuarioDebe {
     }
 
     @Test
-    public void cerrarConexion_cuandoNoSeEncuentraPorEmail() {
-        probarCerrarConexionAlBuscar(0, (IDatabase sut) -> {
+    public void cerrarBaseDeDatos_cuandoNoSeEncuentraPorEmail() {
+        probarCerrarBaseDeDatosAlBuscarSinExito(0, (IDatabase sut) -> {
             sut.buscarUsuarioONada(EMAIL);
             return true;
         });
     }
 
     @Test
-    public void cerrarConexion_cuandoSeEncuentraUnUsuarioPorEmail() {
-        probarCerrarConexionAlBuscar(1, (IDatabase sut) -> {
+    public void cerrarBaseDeDatos_cuandoSeEncuentraUnUsuarioPorEmail() {
+        probarCerrarBaseDeDatosAlBuscarConExito((IDatabase sut) -> {
             sut.buscarUsuarioONada(EMAIL);
             return true;
         });
     }
 
     @Test
-    public void cerrarConexion_cuandoSeEncuentranMuchosPorEmail() {
-        probarCerrarConexionAlBuscar(2, (IDatabase sut) -> {
+    public void cerrarBaseDeDatos_cuandoSeEncuentranMuchosPorEmail() {
+        probarCerrarBaseDeDatosAlBuscarSinExito(2, (IDatabase sut) -> {
             sut.buscarUsuarioONada(EMAIL);
             return true;
         });
     }
 
     @Test
-    public void cerrarConexion_cuandoNoSeEncuentraPorId() {
-        probarCerrarConexionAlBuscar(0, (IDatabase sut) -> {
+    public void cerrarBaseDeDatos_cuandoNoSeEncuentraPorId() {
+        probarCerrarBaseDeDatosAlBuscarSinExito(0, (IDatabase sut) -> {
             sut.buscarUsuarioOExplotar(ID);
             return true;
         });
     }
 
     @Test
-    public void cerrarConexion_cuandoSeEncuentraUnUsuarioPorId() {
-        probarCerrarConexionAlBuscar(1, (IDatabase sut) -> {
+    public void cerrarBaseDeDatos_cuandoSeEncuentraUnUsuarioPorId() {
+        probarCerrarBaseDeDatosAlBuscarConExito((IDatabase sut) -> {
             sut.buscarUsuarioOExplotar(ID);
             return true;
         });
     }
 
     @Test
-    public void cerrarConexion_cuandoSeEncuentranVariosUsuariosPorId() {
-        probarCerrarConexionAlBuscar(2, (IDatabase sut) -> {
+    public void cerrarBaseDeDatos_cuandoSeEncuentranVariosUsuariosPorId() {
+        probarCerrarBaseDeDatosAlBuscarSinExito(2, (IDatabase sut) -> {
             sut.buscarUsuarioOExplotar(ID);
             return true;
         });
     }
 
-    private static void probarCerrarConexionAlBuscar(int count, Function<IDatabase, Boolean> assertion) {
+    private static void probarCerrarBaseDeDatosAlBuscarSinExito(int count, Function<IDatabase, Boolean> assertion) {
         CursorWrapperStub cursorStub = new CursorWrapperStub.Builder()
                 .conCountRetornando(count)
                 .build();
@@ -188,5 +188,86 @@ public class BuscarUsuarioDebe {
         }
 
         assertTrue(spy.getCloseCalled());
+    }
+
+    private static void probarCerrarBaseDeDatosAlBuscarConExito(Function<IDatabase, Boolean> assertion) {
+        CursorWrapperStub cursorStub = crearCursorStub();
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conQueryRetornando(cursorStub)
+                .build();
+
+        Database sut = new TestableDatabase(spy);
+        assertion.apply(sut);
+
+        assertTrue(spy.getCloseCalled());
+    }
+
+    @Test
+    public void cerrarCursor_cuandoNoSeEncuentraPorEmail() {
+        probarCerrarCursorAlBuscarSinExito(0, (IDatabase sut) -> {
+            sut.buscarUsuarioONada(EMAIL);
+            return true;
+        });
+    }
+
+    @Test
+    public void cerrarCursor_cuandoSeEncuentraUnUsuarioPorEmail() {
+        probarCerrarCursorAlBuscarConExito((IDatabase sut) -> {
+            sut.buscarUsuarioONada(EMAIL);
+            return true;
+        });
+    }
+
+    @Test
+    public void cerrarCursor_cuandoSeEncuentranMuchosPorEmail() {
+        probarCerrarCursorAlBuscarSinExito(2, (IDatabase sut) -> {
+            sut.buscarUsuarioONada(EMAIL);
+            return true;
+        });
+    }
+
+    @Test
+    public void cerrarCursor_cuandoNoSeEncuentraPorId() {
+        probarCerrarCursorAlBuscarSinExito(0, (IDatabase sut) -> {
+            sut.buscarUsuarioOExplotar(ID);
+            return true;
+        });
+    }
+
+    @Test
+    public void cerrarCursor_cuandoSeEncuentraUnUsuarioPorId() {
+        probarCerrarCursorAlBuscarConExito((IDatabase sut) -> {
+            sut.buscarUsuarioOExplotar(ID);
+            return true;
+        });
+    }
+
+    private static void probarCerrarCursorAlBuscarSinExito(int count, Function<IDatabase, Boolean> assertion) {
+        CursorWrapperStub cursorStub = new CursorWrapperStub.Builder()
+                .conCountRetornando(count)
+                .build();
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conQueryRetornando(cursorStub)
+                .build();
+
+        Database sut = new TestableDatabase(spy);
+        try {
+            assertion.apply(sut);
+        } catch (Exception ex) {
+        }
+
+        assertTrue(cursorStub.getCloseCalled());
+    }
+
+    private static void probarCerrarCursorAlBuscarConExito(Function<IDatabase, Boolean> assertion) {
+        CursorWrapperStub cursorStub = crearCursorStub();
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conQueryRetornando(cursorStub)
+                .build();
+
+        Database sut = new TestableDatabase(spy);
+        assertion.apply(sut);
+
+        assertTrue(cursorStub.getCloseCalled());
     }
 }
