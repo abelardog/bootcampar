@@ -93,4 +93,28 @@ public class ModificarUsuarioDebe {
         assertTrue(exception.getMessage().startsWith("Se esperaba modificar un único usuario pero se modificaron "));
         assertTrue(exception.getMessage().contains(String.valueOf(affectedRowsInvalido)));
     }
+
+    @Test
+    public void cerrarBaseDeDatos_cuandoBorrarRetornaError() {
+        Usuario usuario = crearUsuario();
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conUpdateRetornando(0)
+                .build();
+
+        Database database = new TestableDatabase(spy);
+        assertThrows(RuntimeException.class, () -> database.modificarUsuario(usuario, NOMBRE, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO));
+        assertTrue(spy.getCloseCalled());
+    }
+
+    @Test
+    public void cerrarBaseDeDatos_cuandoBorrarRetornaExito() {
+        Usuario usuario = crearUsuario();
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conUpdateRetornando(1)
+                .build();
+
+        Database database = new TestableDatabase(spy);
+        database.modificarUsuario(usuario, NOMBRE, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO);
+        assertTrue(spy.getCloseCalled());
+    }
 }
