@@ -14,4 +14,8 @@ public interface ICursorWrapper {
     int getInt(int columnIndex);
 
     String getString(int columnIndex);
+
+    boolean moveToNext();
+
+    boolean isAfterLast();
 }
