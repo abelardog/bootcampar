@@ -5,6 +5,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.Group;
+
+import com.ar.bootcampar.model.utilities.Guardia;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -236,9 +239,11 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     public Usuario modificarUsuario(Usuario usuario, String nuevoNombre, String nuevoApellido, String nuevoEmail, String nuevaClave, Rol nuevoRol, String nuevoTelefono) {
+        Guardia.esObjetoValido(usuario, "El usuario es nulo");
         ISQLiteDatabaseWrapper database = null;
 
         try {
+            Usuario nuevoUsuario = new Usuario(usuario.getId(), nuevoNombre, nuevoApellido, nuevoEmail, nuevaClave, nuevoRol, nuevoTelefono);
             database = getInternalWritableDatabase();
             IContentValuesWrapper values = createContentValues();
             values.put(ColumnaNombre, nuevoNombre);
@@ -250,7 +255,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             int affected = database.update(TablaUsuario, values, ColumnaId + "=?",
                     new String[] { Long.toString(usuario.getId()) });
             if (affected == 1) {
-                return new Usuario(usuario.getId(), nuevoNombre, nuevoApellido, nuevoEmail, nuevaClave, nuevoRol, nuevoTelefono);
+                return nuevoUsuario;
             }
 
             throw new RuntimeException(String.format("Se esperaba modificar un único usuario pero se modificaron %d", affected));
@@ -263,6 +268,8 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     public void borrarUsuario(Usuario usuario) {
+        Guardia.esObjetoValido(usuario, "El usuario es nulo");
+
         ISQLiteDatabaseWrapper database = null;
 
         try {
@@ -316,8 +323,9 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             database.beginTransaction();
             long id = database.insert(TablaGrupo, null, values);
             if (id != -1) {
+                Grupo grupo = new Grupo(id, nombre, invitacion);
                 database.setTransactionSuccessful();
-                return new Grupo(id, nombre, invitacion);
+                return grupo;
             }
 
             throw new RuntimeException("Error creando grupo");
@@ -378,10 +386,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             cursor = database.query(TablaGrupo, CamposGrupo,
                     ColumnaId + "=?", new String[] { String.valueOf(id) },
                     null, null, null);
-            if (cursor.getCount() == 0) {
-                return null;
-            }
-            else if (cursor.getCount() == 1) {
+            if (cursor.getCount() == 1) {
                 return obtenerGrupoDeCursor(cursor);
             }
 
@@ -399,8 +404,9 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     public void borrarGrupo(Grupo grupo) {
-        ISQLiteDatabaseWrapper database = null;
+        Guardia.esObjetoValido(grupo, "El grupo es nulo");
 
+        ISQLiteDatabaseWrapper database = null;
         try {
             database = getInternalWritableDatabase();
             int affected = database.delete(TablaGrupo, ColumnaId + "=?",
@@ -417,9 +423,12 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     public Grupo modificarGrupo(Grupo grupo, String nuevoNombre, String nuevaInvitacion) {
+        Guardia.esObjetoValido(grupo, "El grupo es nulo");
+
         ISQLiteDatabaseWrapper database = null;
 
         try {
+            Grupo nuevoGrupo = new Grupo(grupo.getId(), nuevoNombre, nuevaInvitacion);
             database = getInternalWritableDatabase();
             IContentValuesWrapper values = createContentValues();
             values.put(ColumnaNombre, nuevoNombre);
@@ -427,7 +436,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             int affected = database.update(TablaGrupo, values, ColumnaId + "=?",
                     new String[] { Long.toString(grupo.getId()) });
             if (affected == 1) {
-                return new Grupo(grupo.getId(), nuevoNombre, nuevaInvitacion);
+                return nuevoGrupo;
             }
 
             throw new RuntimeException(String.format("Se esperaba modificar un único grupo pero se modificaron %d", affected));
