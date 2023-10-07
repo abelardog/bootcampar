@@ -17,6 +17,7 @@ public class Leccion implements Serializable {
         Guardia.esCadenaNoVacia(titulo, "El título es inválido");
         Guardia.esCadenaNoVacia(contenido, "El contenido es inválido");
         Guardia.esCeroPositivo(duracion, "La duración es inválida");
+        Guardia.esObjetoValido(curso, "El curso es inválido");
 
         this.id = id;
         this.titulo = titulo;

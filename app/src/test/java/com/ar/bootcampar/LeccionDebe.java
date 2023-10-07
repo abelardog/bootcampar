@@ -4,7 +4,6 @@ import static com.ar.bootcampar.support.Constants.*;
 
 import com.ar.bootcampar.model.Course;
 import com.ar.bootcampar.model.Leccion;
-import com.ar.bootcampar.model.Usuario;
 
 import org.junit.Test;
 import org.junit.experimental.theories.DataPoints;
@@ -77,5 +76,11 @@ public class LeccionDebe {
 
         Exception exception = assertThrows(RuntimeException.class, () -> new Leccion(ID, TITULO_LECCION, CONTENIDO_LECCION, -1, ORDEN_LECCION, curso));
         assertEquals("La duración es inválida", exception.getMessage());
+    }
+
+    @Test
+    public void lanzarExcepcion_cuandoCursoEsInvalido() {
+        Exception exception = assertThrows(RuntimeException.class, () -> new Leccion(ID, TITULO_LECCION, CONTENIDO_LECCION, DURACION_LECCION, ORDEN_LECCION, null));
+        assertEquals("El curso es inválido", exception.getMessage());
     }
 }
