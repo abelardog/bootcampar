@@ -436,7 +436,33 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
     }
 
+    public Leccion modificarLeccion(Leccion leccion, String nuevoTitulo, String nuevoContenido, int nuevaDuracion, int nuevoOrden, Course nuevoCurso) {
+        ISQLiteDatabaseWrapper database = null;
 
+        try {
+            Leccion nuevaLeccion = new Leccion(leccion.getId(), nuevoTitulo, nuevoContenido, nuevaDuracion, nuevoOrden, nuevoCurso);
+
+            database = getInternalWritableDatabase();
+            IContentValuesWrapper values = createContentValues();
+            values.put(ColumnaTitulo, nuevoTitulo);
+            values.put(ColumnaContenido, nuevoContenido);
+            values.put(ColumnaDuracion, nuevaDuracion);
+            values.put(ColumnaOrden, nuevoOrden);
+            values.put(ColumnaRelacionCurso, nuevoCurso.getId());
+            int affected = database.update(TablaLeccion, values, ColumnaId + "=?",
+                    new String[] { Long.toString(leccion.getId()) });
+            if (affected == 1) {
+                return nuevaLeccion;
+            }
+
+            throw new RuntimeException(String.format("Se esperaba modificar una única lección pero se modificaron %d", affected));
+        }
+        finally {
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
 
     protected ISQLiteDatabaseWrapper getInternalReadableDatabase() {
         return new SQLiteDatabaseWrapper(this.getReadableDatabase());
