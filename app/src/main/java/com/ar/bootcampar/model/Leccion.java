@@ -11,6 +11,7 @@ public class Leccion implements Serializable {
     private Course curso;
 
     public Leccion(long id, String titulo, String contenido, int duracion, int orden, Course curso) {
+        if (id <= 0) throw new RuntimeException("El id es inválido");
         this.id = id;
         this.titulo = titulo;
         this.contenido = contenido;
