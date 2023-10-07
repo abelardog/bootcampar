@@ -384,10 +384,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             cursor = database.query(TablaGrupo, CamposGrupo,
                     ColumnaId + "=?", new String[] { String.valueOf(id) },
                     null, null, null);
-            if (cursor.getCount() == 0) {
-                return null;
-            }
-            else if (cursor.getCount() == 1) {
+            if (cursor.getCount() == 1) {
                 return obtenerGrupoDeCursor(cursor);
             }
 
@@ -430,7 +427,6 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
         try {
             Grupo nuevoGrupo = new Grupo(grupo.getId(), nuevoNombre, nuevaInvitacion);
-
             database = getInternalWritableDatabase();
             IContentValuesWrapper values = createContentValues();
             values.put(ColumnaNombre, nuevoNombre);
