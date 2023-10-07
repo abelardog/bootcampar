@@ -1,5 +1,7 @@
 package com.ar.bootcampar.model;
 
+import com.ar.bootcampar.model.utilities.Guardia;
+
 import java.io.Serializable;
 
 public class Grupo implements Serializable {
@@ -8,6 +10,8 @@ public class Grupo implements Serializable {
     private final String invitacion;
 
     public Grupo(long id, String nombre, String invitacion) {
+        Guardia.esIdentificadorValido(id, "El id es inválido");
+
         this.id = id;
         this.nombre = nombre;
         this.invitacion = invitacion;
