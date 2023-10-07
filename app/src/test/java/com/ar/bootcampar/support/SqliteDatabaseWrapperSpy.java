@@ -8,6 +8,7 @@ public class SqliteDatabaseWrapperSpy implements ISQLiteDatabaseWrapper {
     public static class Builder {
         private int resultadoDelete;
         private long resultadoInsert;
+        private int resultadoUpdate;
 
         public Builder conDeleteRetornando(int resultado) {
             resultadoDelete = resultado;
@@ -19,8 +20,13 @@ public class SqliteDatabaseWrapperSpy implements ISQLiteDatabaseWrapper {
             return this;
         }
 
+        public Builder conUpdateRetornando(int resultado) {
+            resultadoUpdate = resultado;
+            return this;
+        }
+
         public SqliteDatabaseWrapperSpy build() {
-            return new SqliteDatabaseWrapperSpy(resultadoInsert, resultadoDelete);
+            return new SqliteDatabaseWrapperSpy(resultadoInsert, resultadoDelete, resultadoUpdate);
         }
     }
 
@@ -34,10 +40,12 @@ public class SqliteDatabaseWrapperSpy implements ISQLiteDatabaseWrapper {
     private String[] whereArgs;
     private final int resultadoDelete;
     private final long resultadoInsert;
+    private final int resultadoUpdate;
 
-    private SqliteDatabaseWrapperSpy(long resultadoInsert, int resultadoDelete) {
+    private SqliteDatabaseWrapperSpy(long resultadoInsert, int resultadoDelete, int resultadoUpdate) {
         this.resultadoInsert = resultadoInsert;
         this.resultadoDelete = resultadoDelete;
+        this.resultadoUpdate = resultadoUpdate;
     }
 
     @Override
@@ -82,7 +90,11 @@ public class SqliteDatabaseWrapperSpy implements ISQLiteDatabaseWrapper {
 
     @Override
     public int update(String table, IContentValuesWrapper values, String whereClause, String[] whereArgs) {
-        return 0;
+        tableName = table;
+        insertedValues = values;
+        this.whereClause = whereClause;
+        this.whereArgs = whereArgs;
+        return resultadoUpdate;
     }
 
     @Override
