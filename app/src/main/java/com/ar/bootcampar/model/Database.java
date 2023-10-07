@@ -305,6 +305,31 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
     }
 
+    public Grupo crearGrupo(String nombre, String invitacion) {
+        ISQLiteDatabaseWrapper database = null;
+
+        try {
+            database = getInternalWritableDatabase();
+            IContentValuesWrapper values = createContentValues();
+            values.put(ColumnaNombre, nombre);
+            values.put(ColumnaInvitacion, invitacion);
+            database.beginTransaction();
+            long id = database.insert(TablaGrupo, null, values);
+            if (id != -1) {
+                database.setTransactionSuccessful();
+                return new Grupo(id, nombre, invitacion);
+            }
+
+            throw new RuntimeException("Error creando grupo");
+        }
+        finally {
+            if (database != null) {
+                database.endTransaction();
+                database.close();
+            }
+        }
+    }
+
     public Grupo buscarGrupoONada(String invitacion) {
         ISQLiteDatabaseWrapper database = null;
         ICursorWrapper cursor = null;
@@ -318,14 +343,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 return null;
             }
             else if (cursor.getCount() == 1) {
-                cursor.moveToFirst();
-                CursorHelper cursorHelper = new CursorHelper(cursor);
-                Grupo grupo = new Grupo(
-                        cursorHelper.getLongFrom(ColumnaId),
-                        cursorHelper.getStringFrom(ColumnaNombre),
-                        cursorHelper.getStringFrom(ColumnaInvitacion));
-
-                return grupo;
+                return obtenerGrupoDeCursor(cursor);
             }
 
             throw new RuntimeException(String.format("Se encontraron varios grupos con la misma invitación %s", invitacion));
@@ -335,6 +353,86 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 cursor.close();
             }
 
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    @NonNull
+    private static Grupo obtenerGrupoDeCursor(ICursorWrapper cursor) {
+        cursor.moveToFirst();
+        CursorHelper cursorHelper = new CursorHelper(cursor);
+        return new Grupo(
+                cursorHelper.getLongFrom(ColumnaId),
+                cursorHelper.getStringFrom(ColumnaNombre),
+                cursorHelper.getStringFrom(ColumnaInvitacion));
+    }
+
+    public Grupo buscarGrupoOExplotar(long id) {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+
+        try {
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaGrupo, CamposGrupo,
+                    ColumnaId + "=?", new String[] { String.valueOf(id) },
+                    null, null, null);
+            if (cursor.getCount() == 0) {
+                return null;
+            }
+            else if (cursor.getCount() == 1) {
+                return obtenerGrupoDeCursor(cursor);
+            }
+
+            throw new RuntimeException(String.format("Se esperaba encontrar un grupo con id %d pero se encontraron %d", id, cursor.getCount()));
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    public void borrarGrupo(Grupo grupo) {
+        ISQLiteDatabaseWrapper database = null;
+
+        try {
+            database = getInternalWritableDatabase();
+            int affected = database.delete(TablaGrupo, ColumnaId + "=?",
+                    new String[] { Long.toString(grupo.getId()) });
+            if (affected != 1) {
+                throw new RuntimeException(String.format("Se esperaba borrar un único grupo pero se borraron %d", affected));
+            }
+        }
+        finally {
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    public Grupo modificarGrupo(Grupo grupo, String nuevoNombre, String nuevaInvitacion) {
+        ISQLiteDatabaseWrapper database = null;
+
+        try {
+            database = getInternalWritableDatabase();
+            IContentValuesWrapper values = createContentValues();
+            values.put(ColumnaNombre, nuevoNombre);
+            values.put(ColumnaInvitacion, nuevaInvitacion);
+            int affected = database.update(TablaGrupo, values, ColumnaId + "=?",
+                    new String[] { Long.toString(grupo.getId()) });
+            if (affected == 1) {
+                return new Grupo(grupo.getId(), nuevoNombre, nuevaInvitacion);
+            }
+
+            throw new RuntimeException(String.format("Se esperaba modificar un único grupo pero se modificaron %d", affected));
+        }
+        finally {
             if (database != null) {
                 database.close();
             }
