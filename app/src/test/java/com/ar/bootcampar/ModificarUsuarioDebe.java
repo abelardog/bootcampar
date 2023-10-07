@@ -37,4 +37,16 @@ public class ModificarUsuarioDebe {
     private static Usuario crearUsuario() {
         return new Usuario(ID, "Juan", "Perez", "juan.perez@gmail.com", "112233", Rol.Estudiante, "1111-2222");
     }
+
+    @Test
+    public void insertarDatosEnTablaUsuario() {
+        Usuario usuario = crearUsuario();
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conUpdateRetornando(1)
+                .build();
+        Database sut = new TestableDatabase(spy);
+        sut.modificarUsuario(usuario, NOMBRE, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO);
+
+        assertEquals("Usuarios", spy.getTableName());
+    }
 }
