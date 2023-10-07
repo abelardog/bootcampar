@@ -18,6 +18,86 @@ import org.junit.runner.RunWith;
 @RunWith(Theories.class)
 public class CrearUsuarioDebe {
     @Test
+    public void lanzarExcepcion_cuandoSeIntentaCrearUsuarioConNombreInvalido() {
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conInsertRetornando(1)
+                .build();
+        Database sut = new TestableDatabase(spy);
+        Exception exception = assertThrows(RuntimeException.class, () -> sut.crearUsuario(NOMBRE_INVALIDO, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO));
+        assertEquals("El nombre es inválido", exception.getMessage());
+    }
+
+    @Test
+    public void lanzarExcepcion_cuandoSeIntentaCrearUsuarioConApellidoInvalido() {
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conInsertRetornando(1)
+                .build();
+        Database sut = new TestableDatabase(spy);
+        Exception exception = assertThrows(RuntimeException.class, () -> sut.crearUsuario(NOMBRE, APELLIDO_INVALIDO, EMAIL, CLAVE, ROL, TELEFONO));
+        assertEquals("El apellido es inválido", exception.getMessage());
+    }
+
+    @Test
+    public void lanzarExcepcion_cuandoSeIntentaCrearUsuarioConEmailInvalido() {
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conInsertRetornando(1)
+                .build();
+        Database sut = new TestableDatabase(spy);
+        Exception exception = assertThrows(RuntimeException.class, () -> sut.crearUsuario(NOMBRE, APELLIDO, EMAIL_INVALIDO, CLAVE, ROL, TELEFONO));
+        assertEquals("El email es inválido", exception.getMessage());
+    }
+
+    @Test
+    public void lanzarExcepcion_cuandoSeIntentaCrearUsuarioConClaveInvalida() {
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conInsertRetornando(1)
+                .build();
+        Database sut = new TestableDatabase(spy);
+        Exception exception = assertThrows(RuntimeException.class, () -> sut.crearUsuario(NOMBRE, APELLIDO, EMAIL, CLAVE_INVALIDA, ROL, TELEFONO));
+        assertEquals("La clave es inválida", exception.getMessage());
+    }
+
+    @Test
+    public void noSetearTransaccionComoExitosa_cuandoElNombreEsInvalido() {
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conInsertRetornando(1)
+                .build();
+        Database sut = new TestableDatabase(spy);
+        assertThrows(RuntimeException.class, () -> sut.crearUsuario(NOMBRE_INVALIDO, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO));
+        assertFalse(spy.getTransactionSuccessfulCalled());
+    }
+
+    @Test
+    public void noSetearTransaccionComoExitosa_cuandoElApellidoEsInvalido() {
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conInsertRetornando(1)
+                .build();
+        Database sut = new TestableDatabase(spy);
+        assertThrows(RuntimeException.class, () -> sut.crearUsuario(NOMBRE, APELLIDO_INVALIDO, EMAIL, CLAVE, ROL, TELEFONO));
+        assertFalse(spy.getTransactionSuccessfulCalled());
+    }
+
+    @Test
+    public void noSetearTransaccionComoExitosa_cuandoElEmailEsInvalido() {
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conInsertRetornando(1)
+                .build();
+        Database sut = new TestableDatabase(spy);
+        assertThrows(RuntimeException.class, () -> sut.crearUsuario(NOMBRE, APELLIDO, EMAIL_INVALIDO, CLAVE, ROL, TELEFONO));
+        assertFalse(spy.getTransactionSuccessfulCalled());
+    }
+
+    @Test
+    public void noSetearTransaccionComoExitosa_cuandoLaClaveEsInvalida() {
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conInsertRetornando(1)
+                .build();
+        Database sut = new TestableDatabase(spy);
+        assertThrows(RuntimeException.class, () -> sut.crearUsuario(NOMBRE, APELLIDO, EMAIL, CLAVE_INVALIDA, ROL, TELEFONO));
+        assertFalse(spy.getTransactionSuccessfulCalled());
+    }
+
+    @Test
     public void recibirTodosLosDatosDeUsuario() {
         SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
                 .conInsertRetornando(1)

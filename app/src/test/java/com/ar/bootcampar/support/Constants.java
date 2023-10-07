@@ -12,6 +12,10 @@ public class Constants {
     public static final Rol ROL = Rol.Estudiante;
     public static final String TELEFONO = "1234-5678";
     public static final String OTRO_EMAIL = "juan.perez@gmail.com";
+    public static final String NOMBRE_INVALIDO = "";
+    public static final String APELLIDO_INVALIDO = "";
+    public static final String EMAIL_INVALIDO = "";
+    public static final String CLAVE_INVALIDA = "";
 
     // Constantes para Leccion
     public static final String TITULO_LECCION = "Introducción a JavaScript";
