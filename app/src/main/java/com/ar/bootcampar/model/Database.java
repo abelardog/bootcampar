@@ -464,6 +464,24 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
     }
 
+    public void borrarLeccion(Leccion leccion) {
+        ISQLiteDatabaseWrapper database = null;
+
+        try {
+            database = getInternalWritableDatabase();
+            int affected = database.delete(TablaLeccion, ColumnaId + "=?",
+                    new String[] { Long.toString(leccion.getId()) });
+            if (affected != 1) {
+                throw new RuntimeException(String.format("Se esperaba borrar una única lección pero se borraron %d", affected));
+            }
+        }
+        finally {
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
     protected ISQLiteDatabaseWrapper getInternalReadableDatabase() {
         return new SQLiteDatabaseWrapper(this.getReadableDatabase());
     }
