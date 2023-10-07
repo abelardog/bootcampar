@@ -49,4 +49,23 @@ public class ModificarUsuarioDebe {
 
         assertEquals("Usuarios", spy.getTableName());
     }
+
+    @Test
+    public void retornarUsuarioModificado_cuandoSeModificaUsuarioEnBaseDeDatos() {
+        Usuario usuario = crearUsuario();
+        ISQLiteDatabaseWrapper spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conUpdateRetornando(1)
+                .build();
+        Database database = new TestableDatabase(spy);
+        Usuario sut = database.modificarUsuario(usuario, NOMBRE, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO);
+
+        assertNotNull(sut);
+        assertEquals(ID, sut.getId());
+        assertEquals(NOMBRE, sut.getNombre());
+        assertEquals(APELLIDO, sut.getApellido());
+        assertEquals(EMAIL, sut.getEmail());
+        assertEquals(CLAVE, sut.getClave());
+        assertEquals(ROL, sut.getRol());
+        assertEquals(TELEFONO, sut.getTelefono());
+    }
 }
