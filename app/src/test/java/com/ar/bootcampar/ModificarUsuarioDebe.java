@@ -134,7 +134,7 @@ public class ModificarUsuarioDebe {
     }
 
     @Test
-    public void cerrarBaseDeDatos_cuandoBorrarRetornaError() {
+    public void cerrarBaseDeDatos_cuandoUpdateRetornaError() {
         Usuario usuario = crearUsuario();
         SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
                 .conUpdateRetornando(0)
@@ -146,7 +146,7 @@ public class ModificarUsuarioDebe {
     }
 
     @Test
-    public void cerrarBaseDeDatos_cuandoBorrarRetornaExito() {
+    public void cerrarBaseDeDatos_cuandoUpdateRetornaExito() {
         Usuario usuario = crearUsuario();
         SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
                 .conUpdateRetornando(1)

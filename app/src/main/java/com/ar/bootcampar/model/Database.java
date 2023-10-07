@@ -424,9 +424,13 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     public Grupo modificarGrupo(Grupo grupo, String nuevoNombre, String nuevaInvitacion) {
+        Guardia.esObjetoValido(grupo, "El grupo es nulo");
+
         ISQLiteDatabaseWrapper database = null;
 
         try {
+            Grupo nuevoGrupo = new Grupo(grupo.getId(), nuevoNombre, nuevaInvitacion);
+
             database = getInternalWritableDatabase();
             IContentValuesWrapper values = createContentValues();
             values.put(ColumnaNombre, nuevoNombre);
@@ -434,7 +438,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             int affected = database.update(TablaGrupo, values, ColumnaId + "=?",
                     new String[] { Long.toString(grupo.getId()) });
             if (affected == 1) {
-                return new Grupo(grupo.getId(), nuevoNombre, nuevaInvitacion);
+                return nuevoGrupo;
             }
 
             throw new RuntimeException(String.format("Se esperaba modificar un único grupo pero se modificaron %d", affected));

@@ -29,4 +29,6 @@ public class Constants {
     // Constantes para Grupo
     public static final String NOMBRE_GRUPO = "Grupo de Programación en JavaScript";
     public static final String INVITACION_GRUPO = "112233";
+    public static final String OTRO_NOMBRE_GRUPO = "Grupo de Programación en JS";
+    public static final String OTRA_INVITACION_GRUPO = "123123";
 }
