@@ -339,14 +339,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 return null;
             }
             else if (cursor.getCount() == 1) {
-                cursor.moveToFirst();
-                CursorHelper cursorHelper = new CursorHelper(cursor);
-                Grupo grupo = new Grupo(
-                        cursorHelper.getLongFrom(ColumnaId),
-                        cursorHelper.getStringFrom(ColumnaNombre),
-                        cursorHelper.getStringFrom(ColumnaInvitacion));
-
-                return grupo;
+                return obtenerGrupoDeCursor(cursor);
             }
 
             throw new RuntimeException(String.format("Se encontraron varios grupos con la misma invitación %s", invitacion));
@@ -361,6 +354,46 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             }
         }
     }
+
+    @NonNull
+    private static Grupo obtenerGrupoDeCursor(ICursorWrapper cursor) {
+        cursor.moveToFirst();
+        CursorHelper cursorHelper = new CursorHelper(cursor);
+        return new Grupo(
+                cursorHelper.getLongFrom(ColumnaId),
+                cursorHelper.getStringFrom(ColumnaNombre),
+                cursorHelper.getStringFrom(ColumnaInvitacion));
+    }
+
+    public Grupo buscarGrupoOExplotar(long id) {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+
+        try {
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaGrupo, CamposGrupo,
+                    ColumnaId + "=?", new String[] { String.valueOf(id) },
+                    null, null, null);
+            if (cursor.getCount() == 0) {
+                return null;
+            }
+            else if (cursor.getCount() == 1) {
+                return obtenerGrupoDeCursor(cursor);
+            }
+
+            throw new RuntimeException(String.format("Se esperaba encontrar un grupo con id %d pero se encontraron %d", id, cursor.getCount()));
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
 
     @Override
     public Categoria crearCategoria(String nombre, String descripcion) {
