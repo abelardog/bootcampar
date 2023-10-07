@@ -6,9 +6,8 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
-import com.ar.bootcampar.model.CursorWrapper;
 import com.ar.bootcampar.model.Database;
-import com.ar.bootcampar.model.ICursorWrapper;
+import com.ar.bootcampar.model.IDatabase;
 import com.ar.bootcampar.model.Rol;
 import com.ar.bootcampar.model.Usuario;
 import com.ar.bootcampar.support.CursorWrapperStub;
@@ -22,9 +21,8 @@ import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.function.Function;
 
 @RunWith(Theories.class)
 public class BuscarUsuarioDebe {
@@ -107,7 +105,9 @@ public class BuscarUsuarioDebe {
     }
 
     @DataPoints("count invalidos")
-    public static int[] countInvalidos() { return new int[] { 0, 2 }; }
+    public static int[] countInvalidos() {
+        return new int[]{0, 2};
+    }
 
     @Theory
     public void lanzarExcepcion_cuandoNoSeEncuentraUnoSoloPorId(@FromDataPoints("count invalidos") int countInvalidos) {
@@ -123,5 +123,70 @@ public class BuscarUsuarioDebe {
         assertTrue(exception.getMessage().startsWith("Se esperaba encontrar un único usuario"));
         assertTrue(exception.getMessage().contains(String.valueOf(ID)));
         assertTrue(exception.getMessage().endsWith(String.valueOf(countInvalidos)));
+    }
+
+    @Test
+    public void cerrarConexion_cuandoNoSeEncuentraPorEmail() {
+        probarCerrarConexionAlBuscar(0, (IDatabase sut) -> {
+            sut.buscarUsuarioONada(EMAIL);
+            return true;
+        });
+    }
+
+    @Test
+    public void cerrarConexion_cuandoSeEncuentraUnUsuarioPorEmail() {
+        probarCerrarConexionAlBuscar(1, (IDatabase sut) -> {
+            sut.buscarUsuarioONada(EMAIL);
+            return true;
+        });
+    }
+
+    @Test
+    public void cerrarConexion_cuandoSeEncuentranMuchosPorEmail() {
+        probarCerrarConexionAlBuscar(2, (IDatabase sut) -> {
+            sut.buscarUsuarioONada(EMAIL);
+            return true;
+        });
+    }
+
+    @Test
+    public void cerrarConexion_cuandoNoSeEncuentraPorId() {
+        probarCerrarConexionAlBuscar(0, (IDatabase sut) -> {
+            sut.buscarUsuarioOExplotar(ID);
+            return true;
+        });
+    }
+
+    @Test
+    public void cerrarConexion_cuandoSeEncuentraUnUsuarioPorId() {
+        probarCerrarConexionAlBuscar(1, (IDatabase sut) -> {
+            sut.buscarUsuarioOExplotar(ID);
+            return true;
+        });
+    }
+
+    @Test
+    public void cerrarConexion_cuandoSeEncuentranVariosUsuariosPorId() {
+        probarCerrarConexionAlBuscar(2, (IDatabase sut) -> {
+            sut.buscarUsuarioOExplotar(ID);
+            return true;
+        });
+    }
+
+    private static void probarCerrarConexionAlBuscar(int count, Function<IDatabase, Boolean> assertion) {
+        CursorWrapperStub cursorStub = new CursorWrapperStub.Builder()
+                .conCountRetornando(count)
+                .build();
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conQueryRetornando(cursorStub)
+                .build();
+
+        Database sut = new TestableDatabase(spy);
+        try {
+            assertion.apply(sut);
+        } catch (Exception ex) {
+        }
+
+        assertTrue(spy.getCloseCalled());
     }
 }
