@@ -8,8 +8,6 @@ import static org.junit.Assert.assertTrue;
 import com.ar.bootcampar.model.Database;
 import com.ar.bootcampar.model.Grupo;
 import com.ar.bootcampar.model.ISQLiteDatabaseWrapper;
-import com.ar.bootcampar.model.SQLiteDatabaseWrapper;
-import com.ar.bootcampar.model.Usuario;
 import com.ar.bootcampar.support.SqliteDatabaseWrapperSpy;
 import com.ar.bootcampar.support.TestableDatabase;
 

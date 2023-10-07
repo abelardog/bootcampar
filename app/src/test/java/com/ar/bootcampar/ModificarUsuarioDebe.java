@@ -2,6 +2,7 @@ package com.ar.bootcampar;
 
 import static com.ar.bootcampar.support.Constants.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
@@ -61,6 +62,50 @@ public class ModificarUsuarioDebe {
         Database sut = new TestableDatabase(new SqliteDatabaseWrapperSpy.Builder().build());
         Exception exception = assertThrows(RuntimeException.class, () -> sut.modificarUsuario(usuario, NOMBRE, APELLIDO, EMAIL, "", ROL, TELEFONO));
         assertEquals("La clave es inválida", exception.getMessage());
+    }
+
+    @Test
+    public void noSetearTransaccionComoExitosa_cuandoElNombreEsInvalido() {
+        Usuario usuario = crearUsuario();
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conInsertRetornando(1)
+                .build();
+        Database sut = new TestableDatabase(spy);
+        assertThrows(RuntimeException.class, () -> sut.modificarUsuario(usuario, NOMBRE_INVALIDO, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO));
+        assertFalse(spy.getTransactionSuccessfulCalled());
+    }
+
+    @Test
+    public void noSetearTransaccionComoExitosa_cuandoElApellidoEsInvalido() {
+        Usuario usuario = crearUsuario();
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conInsertRetornando(1)
+                .build();
+        Database sut = new TestableDatabase(spy);
+        assertThrows(RuntimeException.class, () -> sut.modificarUsuario(usuario, NOMBRE, APELLIDO_INVALIDO, EMAIL, CLAVE, ROL, TELEFONO));
+        assertFalse(spy.getTransactionSuccessfulCalled());
+    }
+
+    @Test
+    public void noSetearTransaccionComoExitosa_cuandoElEmailEsInvalido() {
+        Usuario usuario = crearUsuario();
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conInsertRetornando(1)
+                .build();
+        Database sut = new TestableDatabase(spy);
+        assertThrows(RuntimeException.class, () -> sut.modificarUsuario(usuario, NOMBRE, APELLIDO, EMAIL_INVALIDO, CLAVE, ROL, TELEFONO));
+        assertFalse(spy.getTransactionSuccessfulCalled());
+    }
+
+    @Test
+    public void noSetearTransaccionComoExitosa_cuandoLaClaveEsInvalida() {
+        Usuario usuario = crearUsuario();
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conInsertRetornando(1)
+                .build();
+        Database sut = new TestableDatabase(spy);
+        assertThrows(RuntimeException.class, () -> sut.modificarUsuario(usuario, NOMBRE, APELLIDO, EMAIL, CLAVE_INVALIDA, ROL, TELEFONO));
+        assertFalse(spy.getTransactionSuccessfulCalled());
     }
 
     @Test

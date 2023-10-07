@@ -2,6 +2,7 @@ package com.ar.bootcampar;
 
 import static com.ar.bootcampar.support.Constants.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
@@ -42,6 +43,28 @@ public class ModificarGrupoDebe {
         Database sut = new TestableDatabase(new SqliteDatabaseWrapperSpy.Builder().build());
         Exception exception = assertThrows(RuntimeException.class, () -> sut.modificarGrupo(grupo, NOMBRE, ""));
         assertEquals("La invitación es inválida", exception.getMessage());
+    }
+
+    @Test
+    public void noSetearTransaccionComoExitosa_cuandoElNombreEsInvalido() {
+        Grupo grupo = crearGrupoPorDefecto();
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conInsertRetornando(1)
+                .build();
+        Database sut = new TestableDatabase(spy);
+        assertThrows(RuntimeException.class, () -> sut.modificarGrupo(grupo, NOMBRE_GRUPO_INVALIDO, INVITACION_GRUPO));
+        assertFalse(spy.getTransactionSuccessfulCalled());
+    }
+
+    @Test
+    public void noSetearTransaccionComoExitosa_cuandoLaInvitacionEsInvalida() {
+        Grupo grupo = crearGrupoPorDefecto();
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conInsertRetornando(1)
+                .build();
+        Database sut = new TestableDatabase(spy);
+        assertThrows(RuntimeException.class, () -> sut.modificarGrupo(grupo, NOMBRE_GRUPO, INVITACION_GRUPO_INVALIDA));
+        assertFalse(spy.getTransactionSuccessfulCalled());
     }
 
     @Test
