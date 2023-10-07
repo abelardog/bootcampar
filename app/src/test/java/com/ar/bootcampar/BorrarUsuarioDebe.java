@@ -35,12 +35,13 @@ public class BorrarUsuarioDebe {
 
     @Test
     public void borrarDatosDeLaTablaUsuario() {
+        Usuario usuario = crearUsuarioDePrueba();
         SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
-                .conInsertRetornando(1)
+                .conDeleteRetornando(1)
                 .build();
 
         Database sut = new TestableDatabase(spy);
-        sut.crearUsuario(NOMBRE, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO);
+        sut.borrarUsuario(usuario);
 
         assertEquals("Usuarios", spy.getTableName());
     }
@@ -52,7 +53,7 @@ public class BorrarUsuarioDebe {
 
     @Theory
     public void lanzarExcepcion_cuandoDeleteRetornaError(@FromDataPoints("affected rows invalidos") int affectedRowsInvalido) {
-        Usuario usuario = new Usuario(ID, NOMBRE, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO);
+        Usuario usuario = crearUsuarioDePrueba();
         ISQLiteDatabaseWrapper spy = new SqliteDatabaseWrapperSpy.Builder()
                 .conDeleteRetornando(affectedRowsInvalido)
                 .build();
@@ -71,7 +72,7 @@ public class BorrarUsuarioDebe {
                 .build();
 
         Database database = new TestableDatabase(spy);
-        Exception exception = assertThrows(RuntimeException.class, () -> database.borrarUsuario(usuario));
+        assertThrows(RuntimeException.class, () -> database.borrarUsuario(usuario));
         assertTrue(spy.getCloseCalled());
     }
 
