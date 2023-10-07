@@ -406,6 +406,38 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
     }
 
+    public Leccion crearLeccion(String titulo, String contenido, int duracion, int orden, Course curso) {
+        ISQLiteDatabaseWrapper database = null;
+
+        try {
+            database = getInternalWritableDatabase();
+            IContentValuesWrapper values = createContentValues();
+            values.put(ColumnaTitulo, titulo);
+            values.put(ColumnaContenido, contenido);
+            values.put(ColumnaDuracion, duracion);
+            values.put(ColumnaOrden, orden);
+            values.put(ColumnaRelacionCurso, curso.getId());
+            database.beginTransaction();
+            long id = database.insert(TablaLeccion, null, values);
+
+            if (id != -1) {
+                Leccion leccion = new Leccion(id, titulo, contenido, duracion, orden, curso);
+                database.setTransactionSuccessful();
+                return leccion;
+            }
+
+            throw new RuntimeException("Error creando lección");
+        }
+        finally {
+            if (database != null) {
+                database.endTransaction();
+                database.close();
+            }
+        }
+    }
+
+
+
     protected ISQLiteDatabaseWrapper getInternalReadableDatabase() {
         return new SQLiteDatabaseWrapper(this.getReadableDatabase());
     }
