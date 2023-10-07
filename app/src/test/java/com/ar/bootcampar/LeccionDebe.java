@@ -15,11 +15,13 @@ import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
 
+import androidx.annotation.NonNull;
+
 @RunWith(Theories.class)
 public class LeccionDebe {
     @Test
     public void serCreado_cuandoLosDatosSonCorrectos() {
-        Course curso = new Course(IMAGEN_CURSO, TITULO_CURSO, DESCRIPCION_CURSO, ES_FAVORITO_CURSO);
+        Course curso = crearCursoPorDefecto();
         Leccion sut = new Leccion(ID, TITULO_LECCION, CONTENIDO_LECCION, DURACION_LECCION, ORDEN_LECCION, curso);
 
         assertEquals(ID, sut.getId());
@@ -37,9 +39,27 @@ public class LeccionDebe {
 
     @Theory
     public void lanzarExcepcion_cuandoIdEsInvalido(@FromDataPoints("ids invalidos") int idInvalido) {
-        Course curso = new Course(IMAGEN_CURSO, TITULO_CURSO, DESCRIPCION_CURSO, ES_FAVORITO_CURSO);
+        Course curso = crearCursoPorDefecto();
 
         Exception exception = assertThrows(RuntimeException.class, () -> new Leccion(idInvalido, TITULO_LECCION, CONTENIDO_LECCION, DURACION_LECCION, ORDEN_LECCION, curso));
         assertEquals("El id es inválido", exception.getMessage());
+    }
+
+    @NonNull
+    private static Course crearCursoPorDefecto() {
+        return new Course(IMAGEN_CURSO, TITULO_CURSO, DESCRIPCION_CURSO, ES_FAVORITO_CURSO);
+    }
+
+    @DataPoints("cadenas invalidas")
+    public static String[] nombresInvalidos() {
+        return new String[] { "", null, "   " };
+    }
+
+    @Theory
+    public void lanzarExcepcion_cuandoTituloEsInvalido(@FromDataPoints("cadenas invalidas") String tituloInvalido) {
+        Course curso = crearCursoPorDefecto();
+
+        Exception exception = assertThrows(RuntimeException.class, () -> new Leccion(ID, tituloInvalido, CONTENIDO_LECCION, DURACION_LECCION, ORDEN_LECCION, curso));
+        assertEquals("El título es inválido", exception.getMessage());
     }
 }

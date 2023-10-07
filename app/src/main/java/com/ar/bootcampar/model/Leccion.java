@@ -1,5 +1,7 @@
 package com.ar.bootcampar.model;
 
+import com.ar.bootcampar.model.utilities.Guardia;
+
 import java.io.Serializable;
 
 public class Leccion implements Serializable {
@@ -11,7 +13,9 @@ public class Leccion implements Serializable {
     private Course curso;
 
     public Leccion(long id, String titulo, String contenido, int duracion, int orden, Course curso) {
-        if (id <= 0) throw new RuntimeException("El id es inválido");
+        if (! Guardia.esIdentificadorValido(id)) throw new RuntimeException("El id es inválido");
+        if (! Guardia.esNombreValido(titulo)) throw new RuntimeException("El título es inválido");
+
         this.id = id;
         this.titulo = titulo;
         this.contenido = contenido;
