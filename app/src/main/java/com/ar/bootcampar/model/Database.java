@@ -394,6 +394,23 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
     }
 
+    public void borrarGrupo(Grupo grupo) {
+        ISQLiteDatabaseWrapper database = null;
+
+        try {
+            database = getInternalWritableDatabase();
+            int affected = database.delete(TablaGrupo, ColumnaId + "=?",
+                    new String[] { Long.toString(grupo.getId()) });
+            if (affected != 1) {
+                throw new RuntimeException(String.format("Se esperaba borrar un único grupo pero se borraron %d", affected));
+            }
+        }
+        finally {
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
 
     @Override
     public Categoria crearCategoria(String nombre, String descripcion) {
