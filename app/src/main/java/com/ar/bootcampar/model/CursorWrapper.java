@@ -43,4 +43,14 @@ public class CursorWrapper implements ICursorWrapper {
     public String getString(int columnIndex) {
         return this.cursor.getString(columnIndex);
     }
+
+    @Override
+    public boolean moveToNext() {
+        return this.cursor.moveToNext();
+    }
+
+    @Override
+    public boolean isAfterLast() {
+        return this.cursor.isAfterLast();
+    }
 }

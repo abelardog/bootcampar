@@ -6,6 +6,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.NonNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Database extends SQLiteOpenHelper implements IDatabase {
     private static final String ColumnaId = "Id";
     private static final String ColumnaNombre = "Nombre";
@@ -34,6 +37,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     private static final String ColumnaContenido = "Contenido";
     private static final String ColumnaDuracion = "Duracion";
     private static final String ColumnaOrden = "Orden";
+    private static final String[] CamposLeccion = new String[] { ColumnaId, ColumnaTitulo, ColumnaContenido, ColumnaDuracion, ColumnaOrden };
     private static final String TablaLeccion = "Lecciones";
     private static final String TablaCategoria = "Categorias";
     private static final String ColumnaRelacionCategoria  = "CategoriaId";
@@ -404,6 +408,127 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 database.close();
             }
         }
+    }
+
+    public Leccion crearLeccion(String titulo, String contenido, int duracion, int orden, Course curso) {
+        ISQLiteDatabaseWrapper database = null;
+
+        try {
+            database = getInternalWritableDatabase();
+            IContentValuesWrapper values = createContentValues();
+            values.put(ColumnaTitulo, titulo);
+            values.put(ColumnaContenido, contenido);
+            values.put(ColumnaDuracion, duracion);
+            values.put(ColumnaOrden, orden);
+            values.put(ColumnaRelacionCurso, curso.getId());
+            database.beginTransaction();
+            long id = database.insert(TablaLeccion, null, values);
+
+            if (id != -1) {
+                Leccion leccion = new Leccion(id, titulo, contenido, duracion, orden, curso);
+                database.setTransactionSuccessful();
+                return leccion;
+            }
+
+            throw new RuntimeException("Error creando lección");
+        }
+        finally {
+            if (database != null) {
+                database.endTransaction();
+                database.close();
+            }
+        }
+    }
+
+    public Leccion modificarLeccion(Leccion leccion, String nuevoTitulo, String nuevoContenido, int nuevaDuracion, int nuevoOrden, Course nuevoCurso) {
+        ISQLiteDatabaseWrapper database = null;
+
+        try {
+            Leccion nuevaLeccion = new Leccion(leccion.getId(), nuevoTitulo, nuevoContenido, nuevaDuracion, nuevoOrden, nuevoCurso);
+
+            database = getInternalWritableDatabase();
+            IContentValuesWrapper values = createContentValues();
+            values.put(ColumnaTitulo, nuevoTitulo);
+            values.put(ColumnaContenido, nuevoContenido);
+            values.put(ColumnaDuracion, nuevaDuracion);
+            values.put(ColumnaOrden, nuevoOrden);
+            values.put(ColumnaRelacionCurso, nuevoCurso.getId());
+            int affected = database.update(TablaLeccion, values, ColumnaId + "=?",
+                    new String[] { Long.toString(leccion.getId()) });
+            if (affected == 1) {
+                return nuevaLeccion;
+            }
+
+            throw new RuntimeException(String.format("Se esperaba modificar una única lección pero se modificaron %d", affected));
+        }
+        finally {
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    public void borrarLeccion(Leccion leccion) {
+        ISQLiteDatabaseWrapper database = null;
+
+        try {
+            database = getInternalWritableDatabase();
+            int affected = database.delete(TablaLeccion, ColumnaId + "=?",
+                    new String[] { Long.toString(leccion.getId()) });
+            if (affected != 1) {
+                throw new RuntimeException(String.format("Se esperaba borrar una única lección pero se borraron %d", affected));
+            }
+        }
+        finally {
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    public List<Leccion> buscarLecciones(Course curso) {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+
+        try {
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaLeccion, CamposLeccion,
+                    ColumnaRelacionCurso + "=?", new String[] { String.valueOf(curso.getId()) },
+                    null, null, null);
+            if (cursor.getCount() == 0) {
+                return new ArrayList<>();
+            }
+
+            List<Leccion> resultado = new ArrayList<>();
+
+            if (cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    CursorHelper cursorHelper = new CursorHelper(cursor);
+                    Leccion leccion = new Leccion(
+                            cursorHelper.getLongFrom(ColumnaId),
+                            cursorHelper.getStringFrom(ColumnaTitulo),
+                            cursorHelper.getStringFrom(ColumnaContenido),
+                            cursorHelper.getIntFrom(ColumnaDuracion),
+                            cursorHelper.getIntFrom(ColumnaOrden),
+                            curso);
+
+                    resultado.add(leccion);
+                    cursor.moveToNext();
+                }
+            }
+
+            return resultado;
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
+
     }
 
     protected ISQLiteDatabaseWrapper getInternalReadableDatabase() {
