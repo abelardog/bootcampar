@@ -238,9 +238,11 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     public Usuario modificarUsuario(Usuario usuario, String nuevoNombre, String nuevoApellido, String nuevoEmail, String nuevaClave, Rol nuevoRol, String nuevoTelefono) {
+        Guardia.esObjetoValido(usuario, "El usuario es nulo");
         ISQLiteDatabaseWrapper database = null;
 
         try {
+            Usuario nuevoUsuario = new Usuario(usuario.getId(), nuevoNombre, nuevoApellido, nuevoEmail, nuevaClave, nuevoRol, nuevoTelefono);
             database = getInternalWritableDatabase();
             IContentValuesWrapper values = createContentValues();
             values.put(ColumnaNombre, nuevoNombre);
@@ -252,7 +254,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             int affected = database.update(TablaUsuario, values, ColumnaId + "=?",
                     new String[] { Long.toString(usuario.getId()) });
             if (affected == 1) {
-                return new Usuario(usuario.getId(), nuevoNombre, nuevoApellido, nuevoEmail, nuevaClave, nuevoRol, nuevoTelefono);
+                return nuevoUsuario;
             }
 
             throw new RuntimeException(String.format("Se esperaba modificar un único usuario pero se modificaron %d", affected));

@@ -25,6 +25,45 @@ import org.junit.runner.RunWith;
 @RunWith(Theories.class)
 public class ModificarUsuarioDebe {
     @Test
+    public void lanzarExcepcion_cuandoSeQuiereModificarObjetoNulo() {
+        Database sut = new TestableDatabase(new SqliteDatabaseWrapperSpy.Builder().build());
+        Exception exception = assertThrows(RuntimeException.class, () -> sut.modificarUsuario(null, NOMBRE, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO));
+        assertEquals("El usuario es nulo", exception.getMessage());
+    }
+
+    @Test
+    public void lanzarExcepcion_cuandoSeQuiereUsarUnNombreInvalido() {
+        Usuario usuario = crearUsuario();
+        Database sut = new TestableDatabase(new SqliteDatabaseWrapperSpy.Builder().build());
+        Exception exception = assertThrows(RuntimeException.class, () -> sut.modificarUsuario(usuario, "", APELLIDO, EMAIL, CLAVE, ROL, TELEFONO));
+        assertEquals("El nombre es inválido", exception.getMessage());
+    }
+
+    @Test
+    public void lanzarExcepcion_cuandoSeQuiereUsarUnApellidoInvalido() {
+        Usuario usuario = crearUsuario();
+        Database sut = new TestableDatabase(new SqliteDatabaseWrapperSpy.Builder().build());
+        Exception exception = assertThrows(RuntimeException.class, () -> sut.modificarUsuario(usuario, NOMBRE, "", EMAIL, CLAVE, ROL, TELEFONO));
+        assertEquals("El apellido es inválido", exception.getMessage());
+    }
+
+    @Test
+    public void lanzarExcepcion_cuandoSeQuiereUsarUnEmailInvalido() {
+        Usuario usuario = crearUsuario();
+        Database sut = new TestableDatabase(new SqliteDatabaseWrapperSpy.Builder().build());
+        Exception exception = assertThrows(RuntimeException.class, () -> sut.modificarUsuario(usuario, NOMBRE, APELLIDO, "", CLAVE, ROL, TELEFONO));
+        assertEquals("El email es inválido", exception.getMessage());
+    }
+
+    @Test
+    public void lanzarExcepcion_cuandoSeQuiereUsarUnClaveInvalida() {
+        Usuario usuario = crearUsuario();
+        Database sut = new TestableDatabase(new SqliteDatabaseWrapperSpy.Builder().build());
+        Exception exception = assertThrows(RuntimeException.class, () -> sut.modificarUsuario(usuario, NOMBRE, APELLIDO, EMAIL, "", ROL, TELEFONO));
+        assertEquals("La clave es inválida", exception.getMessage());
+    }
+
+    @Test
     public void recibirTodosLosDatosDeUsuario() {
         Usuario usuario = crearUsuario();
         SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
