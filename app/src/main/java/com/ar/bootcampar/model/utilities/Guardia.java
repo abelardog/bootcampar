@@ -18,4 +18,8 @@ public class Guardia {
     public static void esObjetoValido(Course curso, String mensajeFallo) {
         if (curso == null) throw new RuntimeException(mensajeFallo);
     }
+
+    public static void esObjetoValido(Object objeto, String mensajeFallo) {
+        if (objeto == null) throw new RuntimeException(mensajeFallo);
+    }
 }
