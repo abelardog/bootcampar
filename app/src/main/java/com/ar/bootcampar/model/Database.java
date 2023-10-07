@@ -6,6 +6,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.NonNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Database extends SQLiteOpenHelper implements IDatabase {
     private static final String ColumnaId = "Id";
     private static final String ColumnaNombre = "Nombre";
@@ -34,6 +37,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     private static final String ColumnaContenido = "Contenido";
     private static final String ColumnaDuracion = "Duracion";
     private static final String ColumnaOrden = "Orden";
+    private static final String[] CamposLeccion = new String[] { ColumnaId, ColumnaTitulo, ColumnaContenido, ColumnaDuracion, ColumnaOrden };
     private static final String TablaLeccion = "Lecciones";
     private static final String TablaCategoria = "Categorias";
     private static final String ColumnaRelacionCategoria  = "CategoriaId";
@@ -480,6 +484,51 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 database.close();
             }
         }
+    }
+
+    public List<Leccion> buscarLecciones(Course curso) {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+
+        try {
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaLeccion, CamposLeccion,
+                    ColumnaRelacionCurso + "=?", new String[] { String.valueOf(curso.getId()) },
+                    null, null, null);
+            if (cursor.getCount() == 0) {
+                return new ArrayList<>();
+            }
+
+            List<Leccion> resultado = new ArrayList<>();
+
+            if (cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    CursorHelper cursorHelper = new CursorHelper(cursor);
+                    Leccion leccion = new Leccion(
+                            cursorHelper.getLongFrom(ColumnaId),
+                            cursorHelper.getStringFrom(ColumnaTitulo),
+                            cursorHelper.getStringFrom(ColumnaContenido),
+                            cursorHelper.getIntFrom(ColumnaDuracion),
+                            cursorHelper.getIntFrom(ColumnaOrden),
+                            curso);
+
+                    resultado.add(leccion);
+                    cursor.moveToNext();
+                }
+            }
+
+            return resultado;
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
+
     }
 
     protected ISQLiteDatabaseWrapper getInternalReadableDatabase() {
