@@ -8,4 +8,8 @@ public class Guardia {
     public static void esIdentificadorValido(long id, String mensajeFallo) {
         if (id <= 0) throw new RuntimeException(mensajeFallo);
     }
+
+    public static void esCeroPositivo(int duracion, String mensajeFallo) {
+        if (duracion < 0) throw new RuntimeException(mensajeFallo);
+    }
 }

@@ -70,4 +70,12 @@ public class LeccionDebe {
         Exception exception = assertThrows(RuntimeException.class, () -> new Leccion(ID, TITULO_LECCION, contenidoInvalido, DURACION_LECCION, ORDEN_LECCION, curso));
         assertEquals("El contenido es inválido", exception.getMessage());
     }
+
+    @Test
+    public void lanzarExcepcion_cuandoDuracionEsInvalida() {
+        Course curso = crearCursoPorDefecto();
+
+        Exception exception = assertThrows(RuntimeException.class, () -> new Leccion(ID, TITULO_LECCION, CONTENIDO_LECCION, -1, ORDEN_LECCION, curso));
+        assertEquals("La duración es inválida", exception.getMessage());
+    }
 }
