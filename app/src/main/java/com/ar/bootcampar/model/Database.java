@@ -197,32 +197,8 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     @Override
     public Usuario buscarUsuarioONada(String email) {
-        ISQLiteDatabaseWrapper database = null;
-        ICursorWrapper cursor = null;
-
-        try {
-            database = getInternalReadableDatabase();
-            cursor = database.query(TablaUsuario, CamposUsuario,
-                    ColumnaEmail + "=?", new String[] { email },
-                    null, null, null);
-            if (cursor.getCount() == 0) {
-                return null;
-            }
-            else if (cursor.getCount() == 1) {
-                return obtenerUsuarioDeCursor(cursor);
-            }
-
-            throw new RuntimeException(String.format("Se encontraron varios usuarios con el mismo email %s", email));
-        }
-        finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-
-            if (database != null) {
-                database.close();
-            }
-        }
+        return (Usuario)buscarElementoONada(TablaUsuario, CamposUsuario, ColumnaEmail, email,
+                Database::obtenerUsuarioDeCursor, "Se encontraron varios usuarios con el mismo email %s");
     }
 
     @Override
@@ -266,32 +242,8 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     @Override
     public Grupo buscarGrupoONada(String invitacion) {
-        ISQLiteDatabaseWrapper database = null;
-        ICursorWrapper cursor = null;
-
-        try {
-            database = getInternalReadableDatabase();
-            cursor = database.query(TablaGrupo, CamposGrupo,
-                    ColumnaInvitacion + "=?", new String[] { invitacion },
-                    null, null, null);
-            if (cursor.getCount() == 0) {
-                return null;
-            }
-            else if (cursor.getCount() == 1) {
-                return obtenerGrupoDeCursor(cursor);
-            }
-
-            throw new RuntimeException(String.format("Se encontraron varios grupos con la misma invitación %s", invitacion));
-        }
-        finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-
-            if (database != null) {
-                database.close();
-            }
-        }
+        return (Grupo)buscarElementoONada(TablaGrupo, CamposGrupo, ColumnaInvitacion, invitacion,
+                Database::obtenerGrupoDeCursor,"Se encontraron varios grupos con la misma invitación %s");
     }
 
     @NonNull
@@ -555,6 +507,35 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             throw new RuntimeException(String.format(mensajeError, affected));
         }
         finally {
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    public Object buscarElementoONada(String tabla, String[] campos, String columna, String valor, Function<ICursorWrapper, Object> creator, String mensajeError) {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+
+        try {
+            database = getInternalReadableDatabase();
+            cursor = database.query(tabla, campos,
+                    columna + "=?", new String[] { valor },
+                    null, null, null);
+            if (cursor.getCount() == 0) {
+                return null;
+            }
+            else if (cursor.getCount() == 1) {
+                return creator.apply(cursor);
+            }
+
+            throw new RuntimeException(String.format(mensajeError, valor));
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
             if (database != null) {
                 database.close();
             }
