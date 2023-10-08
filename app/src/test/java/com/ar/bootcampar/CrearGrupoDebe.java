@@ -18,20 +18,20 @@ import org.junit.runner.RunWith;
 public class CrearGrupoDebe {
     @Test
     public void lanzarExcepcion_cuandoSeIntentaCrearGrupoConNombreInvalido() {
-        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+        SqliteDatabaseWrapperSpy stub = new SqliteDatabaseWrapperSpy.Builder()
                 .conInsertRetornando(1)
                 .build();
-        Database sut = new TestableDatabase(spy);
+        Database sut = new TestableDatabase(stub);
         Exception exception = assertThrows(RuntimeException.class, () -> sut.crearGrupo("", INVITACION_GRUPO));
         assertEquals("El nombre es inválido", exception.getMessage());
     }
 
     @Test
     public void lanzarExcepcion_cuandoSeIntentaCrearGrupoConInvitacionInvalida() {
-        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+        SqliteDatabaseWrapperSpy stub = new SqliteDatabaseWrapperSpy.Builder()
                 .conInsertRetornando(1)
                 .build();
-        Database sut = new TestableDatabase(spy);
+        Database sut = new TestableDatabase(stub);
         Exception exception = assertThrows(RuntimeException.class, () -> sut.crearGrupo(NOMBRE_GRUPO, ""));
         assertEquals("La invitación es inválida", exception.getMessage());
     }
@@ -81,10 +81,10 @@ public class CrearGrupoDebe {
 
     @Test
     public void retornarGrupo_cuandoSeInsertaGrupoEnBaseDeDatos() {
-        ISQLiteDatabaseWrapper spy = new SqliteDatabaseWrapperSpy.Builder()
+        ISQLiteDatabaseWrapper stub = new SqliteDatabaseWrapperSpy.Builder()
                 .conInsertRetornando(14)
                 .build();
-        Database database = new TestableDatabase(spy);
+        Database database = new TestableDatabase(stub);
         Grupo sut = database.crearGrupo(NOMBRE_GRUPO, INVITACION_GRUPO);
 
         assertNotNull(sut);
@@ -95,10 +95,10 @@ public class CrearGrupoDebe {
 
     @Test
     public void lanzarExcepcion_cuandoInsertRetornaError() {
-        ISQLiteDatabaseWrapper spy = new SqliteDatabaseWrapperSpy.Builder()
+        ISQLiteDatabaseWrapper stub = new SqliteDatabaseWrapperSpy.Builder()
                 .conInsertRetornando(-1)
                 .build();
-        Database database = new TestableDatabase(spy);
+        Database database = new TestableDatabase(stub);
         Exception exception = assertThrows(RuntimeException.class, () -> database.crearGrupo(NOMBRE_GRUPO, INVITACION_GRUPO));
         assertEquals("Error creando grupo", exception.getMessage());
     }

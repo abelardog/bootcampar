@@ -105,7 +105,7 @@ public class CrearInscripcionDebe {
         assertEquals(ID_USUARIO, spy.getInsertedValues().get("UsuarioId"));
         assertEquals(ID_CURSO, spy.getInsertedValues().get("CursoId"));
         assertEquals(PUNTUACION_INSCRIPCION, spy.getInsertedValues().get("Puntuacion"));
-        assertEquals(1, spy.getInsertedValues().get("Favorito"));
+        assertEquals(FAVORITO_INSCRIPCION, spy.getInsertedValues().get("Favorito"));
         assertEquals(ULTIMA_LECCION_INSCRIPCION, spy.getInsertedValues().get("UltimaLeccion"));
     }
 

@@ -40,7 +40,7 @@ public class BorrarInscripcionDebe {
         Database sut = new TestableDatabase(spy);
         sut.borrarInscripcion(inscripcion);
 
-        assertEquals(String.valueOf(ID), spy.getWhereArgs()[0]);
+        assertEquals(String.valueOf(ID_INSCRIPCION), spy.getWhereArgs()[0]);
     }
 
     @Test

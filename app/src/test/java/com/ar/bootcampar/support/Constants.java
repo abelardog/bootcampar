@@ -14,6 +14,7 @@ public class Constants {
     public static final String CLAVE = "123456";
     public static final Rol ROL = Rol.Estudiante;
     public static final String TELEFONO = "1234-5678";
+    public static final long OTRO_ID_USUARIO = 2;
     public static final String OTRO_NOMBRE = "Juan";
     public static final String OTRO_APELLIDO = "Perez";
     public static final String OTRO_EMAIL = "juan.perez@gmail.com";
@@ -38,6 +39,12 @@ public class Constants {
     public static final String DESCRIPCION_CURSO = "Con este curso sabrá programar en JavaScript desde un carrito de compras a un e-commerce!";
     @Deprecated
     public static final boolean ES_FAVORITO_CURSO = true;
+    public static final long OTRO_ID_CURSO = 19;
+    public static final String OTRA_IMAGEN_CURSO = "https://www.imgur.com/abc";
+    public static final String OTRO_TITULO_CURSO = "Maestría en JS";
+    public static final String OTRA_DESCRIPCION_CURSO = "Con este curso podrá programar en JS.";
+    @Deprecated
+    public static final boolean OTRO_ES_FAVORITO_CURSO = false;
 
     // Constantes para Grupo
     public static final String NOMBRE_GRUPO = "Grupo de Programación en JavaScript";
@@ -48,6 +55,7 @@ public class Constants {
     public static final String INVITACION_GRUPO_INVALIDA = "";
 
     // Constantes para Inscripción
+    public static int ID_INSCRIPCION = 55;
     public static final int PUNTUACION_INSCRIPCION = 9;
     public static final boolean FAVORITO_INSCRIPCION = true;
     public static final int ULTIMA_LECCION_INSCRIPCION = 4;
@@ -55,4 +63,8 @@ public class Constants {
     public static final Course CURSO_INVALIDO = null;
     public static final int PUNTUACION_INSCRIPCION_INVALIDA = -1;
     public static final int ULTIMA_LECCION_INSCRIPCION_INVALIDA = -1;
+    public static final int OTRO_ID_INSCRIPCION = 66;
+    public static final int OTRA_PUNTUACION_INSCRIPCION = 7;
+    public static final boolean OTRO_FAVORITO_INSCRIPCION = false;
+    public static final int OTRA_ULTIMA_LECCION_INSCRIPCION = 5;
 }

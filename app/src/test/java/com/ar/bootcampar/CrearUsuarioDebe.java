@@ -19,40 +19,40 @@ import org.junit.runner.RunWith;
 public class CrearUsuarioDebe {
     @Test
     public void lanzarExcepcion_cuandoSeIntentaCrearUsuarioConNombreInvalido() {
-        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+        SqliteDatabaseWrapperSpy stub = new SqliteDatabaseWrapperSpy.Builder()
                 .conInsertRetornando(1)
                 .build();
-        Database sut = new TestableDatabase(spy);
+        Database sut = new TestableDatabase(stub);
         Exception exception = assertThrows(RuntimeException.class, () -> sut.crearUsuario(NOMBRE_INVALIDO, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO));
         assertEquals("El nombre es inválido", exception.getMessage());
     }
 
     @Test
     public void lanzarExcepcion_cuandoSeIntentaCrearUsuarioConApellidoInvalido() {
-        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+        SqliteDatabaseWrapperSpy stub = new SqliteDatabaseWrapperSpy.Builder()
                 .conInsertRetornando(1)
                 .build();
-        Database sut = new TestableDatabase(spy);
+        Database sut = new TestableDatabase(stub);
         Exception exception = assertThrows(RuntimeException.class, () -> sut.crearUsuario(NOMBRE, APELLIDO_INVALIDO, EMAIL, CLAVE, ROL, TELEFONO));
         assertEquals("El apellido es inválido", exception.getMessage());
     }
 
     @Test
     public void lanzarExcepcion_cuandoSeIntentaCrearUsuarioConEmailInvalido() {
-        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+        SqliteDatabaseWrapperSpy stub = new SqliteDatabaseWrapperSpy.Builder()
                 .conInsertRetornando(1)
                 .build();
-        Database sut = new TestableDatabase(spy);
+        Database sut = new TestableDatabase(stub);
         Exception exception = assertThrows(RuntimeException.class, () -> sut.crearUsuario(NOMBRE, APELLIDO, EMAIL_INVALIDO, CLAVE, ROL, TELEFONO));
         assertEquals("El email es inválido", exception.getMessage());
     }
 
     @Test
     public void lanzarExcepcion_cuandoSeIntentaCrearUsuarioConClaveInvalida() {
-        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+        SqliteDatabaseWrapperSpy stub = new SqliteDatabaseWrapperSpy.Builder()
                 .conInsertRetornando(1)
                 .build();
-        Database sut = new TestableDatabase(spy);
+        Database sut = new TestableDatabase(stub);
         Exception exception = assertThrows(RuntimeException.class, () -> sut.crearUsuario(NOMBRE, APELLIDO, EMAIL, CLAVE_INVALIDA, ROL, TELEFONO));
         assertEquals("La clave es inválida", exception.getMessage());
     }
@@ -126,10 +126,10 @@ public class CrearUsuarioDebe {
 
     @Test
     public void retornarUsuario_cuandoSeInsertaUsuarioEnBaseDeDatos() {
-        ISQLiteDatabaseWrapper spy = new SqliteDatabaseWrapperSpy.Builder()
+        ISQLiteDatabaseWrapper stub = new SqliteDatabaseWrapperSpy.Builder()
                 .conInsertRetornando(14)
                 .build();
-        Database database = new TestableDatabase(spy);
+        Database database = new TestableDatabase(stub);
         Usuario sut = database.crearUsuario(NOMBRE, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO);
 
         assertNotNull(sut);
@@ -144,10 +144,10 @@ public class CrearUsuarioDebe {
 
     @Test
     public void lanzarExcepcion_cuandoInsertRetornaError() {
-        ISQLiteDatabaseWrapper spy = new SqliteDatabaseWrapperSpy.Builder()
+        ISQLiteDatabaseWrapper stub = new SqliteDatabaseWrapperSpy.Builder()
                 .conInsertRetornando(-1)
                 .build();
-        Database database = new TestableDatabase(spy);
+        Database database = new TestableDatabase(stub);
         Exception exception = assertThrows(RuntimeException.class, () -> database.crearUsuario(NOMBRE, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO));
         assertEquals("Error creando usuario", exception.getMessage());
     }

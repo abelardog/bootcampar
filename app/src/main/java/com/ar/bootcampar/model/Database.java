@@ -668,7 +668,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             values.put(ColumnaRelacionUsuario, usuario.getId());
             values.put(ColumnaRelacionCurso, curso.getId());
             values.put(ColumnaPuntuacion, puntuacion);
-            values.put(ColumnaFavorito, favorito? 1 : 0);
+            values.put(ColumnaFavorito, favorito);
             values.put(ColumnaUltimaLeccion, ultimaLeccion);
 
             database.beginTransaction();
@@ -702,6 +702,39 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             if (affected != 1) {
                 throw new RuntimeException(String.format("Se esperaba borrar una única inscripción pero se borraron %d", affected));
             }
+        }
+        finally {
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    @Override
+    public Inscripcion modificarInscripcion(Inscripcion inscripcion, Usuario nuevoUsuario, Course nuevoCurso, int nuevaPuntuacion, boolean nuevoFavorito, int nuevaUltimaLeccion) {
+        ISQLiteDatabaseWrapper database = null;
+
+        Guardia.esObjetoValido(inscripcion, "La inscripción es nula");
+        Guardia.esObjetoValido(nuevoUsuario, "El usuario es nulo");
+        Guardia.esObjetoValido(nuevoCurso, "El curso es nulo");
+
+        try {
+            Inscripcion nuevaInscripcion = new Inscripcion(inscripcion.getId(), nuevoUsuario, nuevoCurso, nuevaPuntuacion, nuevoFavorito, nuevaUltimaLeccion);
+
+            database = getInternalWritableDatabase();
+            IContentValuesWrapper values = createContentValues();
+            values.put(ColumnaRelacionUsuario, nuevoUsuario.getId());
+            values.put(ColumnaRelacionCurso, nuevoCurso.getId());
+            values.put(ColumnaPuntuacion, nuevaPuntuacion);
+            values.put(ColumnaFavorito, nuevoFavorito);
+            values.put(ColumnaUltimaLeccion, nuevaUltimaLeccion);
+            int affected = database.update(TablaInscripcion, values, ColumnaId + "=?",
+                    new String[] { Long.toString(inscripcion.getId()) });
+            if (affected == 1) {
+                return nuevaInscripcion;
+            }
+
+            throw new RuntimeException(String.format("Se esperaba modificar una única inscripción pero se modificaron %d", affected));
         }
         finally {
             if (database != null) {
