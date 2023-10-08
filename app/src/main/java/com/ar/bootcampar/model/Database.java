@@ -156,29 +156,8 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     @Override
     public Usuario buscarUsuarioOExplotar(long id) {
-        ISQLiteDatabaseWrapper database = null;
-        ICursorWrapper cursor = null;
-
-        try {
-            database = getInternalReadableDatabase();
-            cursor = database.query(TablaUsuario, CamposUsuario,
-                    ColumnaId + "=?", new String[] { Long.toString(id) },
-                    null, null, null);
-            if (cursor.getCount() == 1) {
-                return obtenerUsuarioDeCursor(cursor);
-            }
-
-            throw new RuntimeException(String.format("Se esperaba encontrar un único usuario con id %d, se encontraron %d", id, cursor.getCount()));
-        }
-        finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-
-            if (database != null) {
-                database.close();
-            }
-        }
+        return (Usuario)buscarElementoOExplotar(TablaUsuario, CamposUsuario, id,
+                Database::obtenerUsuarioDeCursor, "Se esperaba encontrar un único usuario con id %d, se encontraron %d");
     }
 
     @NonNull
@@ -258,29 +237,8 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     @Override
     public Grupo buscarGrupoOExplotar(long id) {
-        ISQLiteDatabaseWrapper database = null;
-        ICursorWrapper cursor = null;
-
-        try {
-            database = getInternalReadableDatabase();
-            cursor = database.query(TablaGrupo, CamposGrupo,
-                    ColumnaId + "=?", new String[] { String.valueOf(id) },
-                    null, null, null);
-            if (cursor.getCount() == 1) {
-                return obtenerGrupoDeCursor(cursor);
-            }
-
-            throw new RuntimeException(String.format("Se esperaba encontrar un grupo con id %d pero se encontraron %d", id, cursor.getCount()));
-        }
-        finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-
-            if (database != null) {
-                database.close();
-            }
-        }
+        return (Grupo)buscarElementoOExplotar(TablaGrupo, CamposGrupo, id,
+                Database::obtenerGrupoDeCursor, "Se esperaba encontrar un grupo con id %d pero se encontraron %d");
     }
 
     @Override
@@ -513,7 +471,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
     }
 
-    public Object buscarElementoONada(String tabla, String[] campos, String columna, String valor, Function<ICursorWrapper, Object> creator, String mensajeError) {
+    private Object buscarElementoONada(String tabla, String[] campos, String columna, String valor, Function<ICursorWrapper, Object> creator, String mensajeError) {
         ISQLiteDatabaseWrapper database = null;
         ICursorWrapper cursor = null;
 
@@ -530,6 +488,32 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             }
 
             throw new RuntimeException(String.format(mensajeError, valor));
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    private Object buscarElementoOExplotar(String tabla, String[] campos, long id, Function<ICursorWrapper, Object> creador, String mensajeError) {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+
+        try {
+            database = getInternalReadableDatabase();
+            cursor = database.query(tabla, campos,
+                    ColumnaId + "=?", new String[] { Long.toString(id) },
+                    null, null, null);
+            if (cursor.getCount() == 1) {
+                return creador.apply(cursor);
+            }
+
+            throw new RuntimeException(String.format(mensajeError, id, cursor.getCount()));
         }
         finally {
             if (cursor != null) {
