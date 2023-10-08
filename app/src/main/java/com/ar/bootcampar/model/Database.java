@@ -11,6 +11,7 @@ import com.ar.bootcampar.model.utilities.Guardia;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 public class Database extends SQLiteOpenHelper implements IDatabase {
     private static final String ColumnaId = "Id";
@@ -142,34 +143,15 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     @Override
     public Usuario crearUsuario(String nombre, String apellido, String email, String clave, Rol rol, String telefono) {
-        ISQLiteDatabaseWrapper database = null;
+        IContentValuesWrapper values = createContentValues();
+        values.put(ColumnaNombre, nombre);
+        values.put(ColumnaApellido, apellido);
+        values.put(ColumnaEmail, email);
+        values.put(ColumnaClave, clave);
+        values.put(ColumnaRol, Rol.asInt(rol));
+        values.put(ColumnaTelefono, telefono);
 
-        try {
-            database = getInternalWritableDatabase();
-            IContentValuesWrapper values = createContentValues();
-            values.put(ColumnaNombre, nombre);
-            values.put(ColumnaApellido, apellido);
-            values.put(ColumnaEmail, email);
-            values.put(ColumnaClave, clave);
-            values.put(ColumnaRol, Rol.asInt(rol));
-            values.put(ColumnaTelefono, telefono);
-            database.beginTransaction();
-            long id = database.insert(TablaUsuario, null, values);
-
-            if (id != -1) {
-                Usuario usuario = new Usuario(id, nombre, apellido, email, clave, rol, telefono);
-                database.setTransactionSuccessful();
-                return usuario;
-            }
-
-            throw new RuntimeException("Error creando usuario");
-        }
-        finally {
-            if (database != null) {
-                database.endTransaction();
-                database.close();
-            }
-        }
+        return (Usuario)crearElemento(TablaUsuario, values, id -> new Usuario(id, nombre, apellido, email, clave, rol, telefono), "Error creando usuario");
     }
 
     @Override
@@ -246,105 +228,40 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     @Override
     public Usuario modificarUsuario(Usuario usuario, String nuevoNombre, String nuevoApellido, String nuevoEmail, String nuevaClave, Rol nuevoRol, String nuevoTelefono) {
         Guardia.esObjetoValido(usuario, "El usuario es nulo");
-        ISQLiteDatabaseWrapper database = null;
 
-        try {
-            Usuario nuevoUsuario = new Usuario(usuario.getId(), nuevoNombre, nuevoApellido, nuevoEmail, nuevaClave, nuevoRol, nuevoTelefono);
-            database = getInternalWritableDatabase();
-            IContentValuesWrapper values = createContentValues();
-            values.put(ColumnaNombre, nuevoNombre);
-            values.put(ColumnaApellido, nuevoApellido);
-            values.put(ColumnaEmail, nuevoEmail);
-            values.put(ColumnaClave, nuevaClave);
-            values.put(ColumnaRol, Rol.asInt(nuevoRol));
-            values.put(ColumnaTelefono, nuevoTelefono);
-            int affected = database.update(TablaUsuario, values, ColumnaId + "=?",
-                    new String[] { Long.toString(usuario.getId()) });
-            if (affected == 1) {
-                return nuevoUsuario;
-            }
+        IContentValuesWrapper values = createContentValues();
+        values.put(ColumnaNombre, nuevoNombre);
+        values.put(ColumnaApellido, nuevoApellido);
+        values.put(ColumnaEmail, nuevoEmail);
+        values.put(ColumnaClave, nuevaClave);
+        values.put(ColumnaRol, Rol.asInt(nuevoRol));
+        values.put(ColumnaTelefono, nuevoTelefono);
 
-            throw new RuntimeException(String.format("Se esperaba modificar un único usuario pero se modificaron %d", affected));
-        }
-        finally {
-            if (database != null) {
-                database.close();
-            }
-        }
+        return (Usuario)modificarElemento(TablaUsuario, usuario.getId(), values, id -> new Usuario(id, nuevoNombre, nuevoApellido, nuevoEmail, nuevaClave, nuevoRol, nuevoTelefono), "Se esperaba modificar un único usuario pero se modificaron %d");
     }
 
     @Override
     public void borrarUsuario(Usuario usuario) {
         Guardia.esObjetoValido(usuario, "El usuario es nulo");
-
-        ISQLiteDatabaseWrapper database = null;
-
-        try {
-            database = getInternalWritableDatabase();
-            int affected = database.delete(TablaUsuario, ColumnaId + "=?",
-                    new String[] { Long.toString(usuario.getId()) });
-            if (affected != 1) {
-                throw new RuntimeException(String.format("Se esperaba borrar un único usuario pero se borraron %d", affected));
-            }
-        }
-        finally {
-            if (database != null) {
-                database.close();
-            }
-        }
+        borrarElemento(TablaUsuario, usuario.getId(), "Se esperaba borrar un único usuario pero se borraron %d");
     }
 
     @Override
     public Division crearDivision(Usuario usuario, Grupo grupo) {
-        ISQLiteDatabaseWrapper database = null;
+        IContentValuesWrapper values = createContentValues();
+        values.put(ColumnaRelacionUsuario, usuario.getId());
+        values.put(ColumnaRelacionGrupo, grupo.getId());
 
-        try {
-            database = getInternalWritableDatabase();
-            IContentValuesWrapper values = createContentValues();
-            values.put(ColumnaRelacionUsuario, usuario.getId());
-            values.put(ColumnaRelacionGrupo, grupo.getId());
-            database.beginTransaction();
-            long id = database.insert(TablaDivision, null, values);
-            if (id != -1) {
-                database.setTransactionSuccessful();
-                return new Division(id, usuario, grupo);
-            }
-
-            throw new RuntimeException("Error creando usuario");
-        }
-        finally {
-            if (database != null) {
-                database.endTransaction();
-                database.close();
-            }
-        }
+        return (Division)crearElemento(TablaDivision, values, id -> new Division(id, usuario, grupo), "Error creando usuario");
     }
 
     @Override
     public Grupo crearGrupo(String nombre, String invitacion) {
-        ISQLiteDatabaseWrapper database = null;
+        IContentValuesWrapper values = createContentValues();
+        values.put(ColumnaNombre, nombre);
+        values.put(ColumnaInvitacion, invitacion);
 
-        try {
-            database = getInternalWritableDatabase();
-            IContentValuesWrapper values = createContentValues();
-            values.put(ColumnaNombre, nombre);
-            values.put(ColumnaInvitacion, invitacion);
-            database.beginTransaction();
-            long id = database.insert(TablaGrupo, null, values);
-            if (id != -1) {
-                Grupo grupo = new Grupo(id, nombre, invitacion);
-                database.setTransactionSuccessful();
-                return grupo;
-            }
-
-            throw new RuntimeException("Error creando grupo");
-        }
-        finally {
-            if (database != null) {
-                database.endTransaction();
-                database.close();
-            }
-        }
+        return (Grupo)crearElemento(TablaGrupo, values, id -> new Grupo(id, nombre, invitacion), "Error creando grupo");
     }
 
     @Override
@@ -417,177 +334,68 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     @Override
     public void borrarGrupo(Grupo grupo) {
         Guardia.esObjetoValido(grupo, "El grupo es nulo");
-
-        ISQLiteDatabaseWrapper database = null;
-        try {
-            database = getInternalWritableDatabase();
-            int affected = database.delete(TablaGrupo, ColumnaId + "=?",
-                    new String[] { Long.toString(grupo.getId()) });
-            if (affected != 1) {
-                throw new RuntimeException(String.format("Se esperaba borrar un único grupo pero se borraron %d", affected));
-            }
-        }
-        finally {
-            if (database != null) {
-                database.close();
-            }
-        }
+        borrarElemento(TablaGrupo, grupo.getId(), "Se esperaba borrar un único grupo pero se borraron %d");
     }
 
     @Override
     public Grupo modificarGrupo(Grupo grupo, String nuevoNombre, String nuevaInvitacion) {
         Guardia.esObjetoValido(grupo, "El grupo es nulo");
 
-        ISQLiteDatabaseWrapper database = null;
+        IContentValuesWrapper values = createContentValues();
+        values.put(ColumnaNombre, nuevoNombre);
+        values.put(ColumnaInvitacion, nuevaInvitacion);
 
-        try {
-            Grupo nuevoGrupo = new Grupo(grupo.getId(), nuevoNombre, nuevaInvitacion);
-            database = getInternalWritableDatabase();
-            IContentValuesWrapper values = createContentValues();
-            values.put(ColumnaNombre, nuevoNombre);
-            values.put(ColumnaInvitacion, nuevaInvitacion);
-            int affected = database.update(TablaGrupo, values, ColumnaId + "=?",
-                    new String[] { Long.toString(grupo.getId()) });
-            if (affected == 1) {
-                return nuevoGrupo;
-            }
-
-            throw new RuntimeException(String.format("Se esperaba modificar un único grupo pero se modificaron %d", affected));
-        }
-        finally {
-            if (database != null) {
-                database.close();
-            }
-        }
+        return (Grupo)modificarElemento(TablaGrupo, grupo.getId(), values, id -> new Grupo(grupo.getId(), nuevoNombre, nuevaInvitacion), "Se esperaba modificar un único grupo pero se modificaron %d");
     }
 
     @Override
     public Categoria crearCategoria(String nombre, String descripcion) {
-        ISQLiteDatabaseWrapper database = null;
-
-        try {
-            database = getInternalWritableDatabase();
-            IContentValuesWrapper values = createContentValues();
-            values.put(ColumnaNombre, nombre);
-            values.put(ColumnaDescripcion, descripcion);
-            database.beginTransaction();
-            long id = database.insert(TablaCategoria, null, values);
-            if (id != -1) {
-                database.setTransactionSuccessful();
-                return new Categoria(id, nombre, descripcion);
-            }
-
-            throw new RuntimeException("Error creando categoría");
-        }
-        finally {
-            if (database != null) {
-                database.endTransaction();
-                database.close();
-            }
-        }
+        IContentValuesWrapper values = createContentValues();
+        values.put(ColumnaNombre, nombre);
+        values.put(ColumnaDescripcion, descripcion);
+        return (Categoria)crearElemento(TablaCategoria, values, id -> new Categoria(id, nombre, descripcion), "Error creando categoría");
     }
 
     @Override
     public void borrarCategoria(Categoria categoria) {
-        ISQLiteDatabaseWrapper database = null;
-
-        try {
-            database = getInternalWritableDatabase();
-            int affected = database.delete(TablaCategoria, ColumnaId + "=?",
-                    new String[] { Long.toString(categoria.getId()) });
-            if (affected != 1) {
-                throw new RuntimeException(String.format("Se esperaba borrar una única categoría pero se borraron %d", affected));
-            }
-        }
-        finally {
-            if (database != null) {
-                database.close();
-            }
-        }
+        Guardia.esObjetoValido(categoria, "La categoría es nula");
+        borrarElemento(TablaCategoria, categoria.getId(), "Se esperaba borrar una única categoría pero se borraron %d");
     }
 
     @Override
     public Categoria modificarCategoria(Categoria categoria, String nuevoNombre, String nuevaDescripcion) {
-        ISQLiteDatabaseWrapper database = null;
+        Guardia.esObjetoValido(categoria, "La categoría es nula");
 
-        try {
-            database = getInternalWritableDatabase();
-            IContentValuesWrapper values = createContentValues();
-            values.put(ColumnaNombre, nuevoNombre);
-            values.put(ColumnaDescripcion, nuevaDescripcion);
-            int affected = database.update(TablaCategoria, values, ColumnaId + "=?",
-                    new String[] { Long.toString(categoria.getId()) });
-            if (affected == 1) {
-                return new Categoria(categoria.getId(), nuevoNombre, nuevaDescripcion);
-            }
+        IContentValuesWrapper values = createContentValues();
+        values.put(ColumnaNombre, nuevoNombre);
+        values.put(ColumnaDescripcion, nuevaDescripcion);
 
-            throw new RuntimeException(String.format("Se esperaba modificar una única categoría pero se modificaron %d", affected));
-        }
-        finally {
-            if (database != null) {
-                database.close();
-            }
-        }
+        return (Categoria)modificarElemento(TablaCategoria, categoria.getId(), values, id -> new Categoria(categoria.getId(), nuevoNombre, nuevaDescripcion), "Se esperaba modificar una única categoría pero se modificaron %d");
     }
 
     @Override
     public Leccion crearLeccion(String titulo, String contenido, int duracion, int orden, Course curso) {
-        ISQLiteDatabaseWrapper database = null;
-
-        try {
-            database = getInternalWritableDatabase();
-            IContentValuesWrapper values = createContentValues();
-            values.put(ColumnaTitulo, titulo);
-            values.put(ColumnaContenido, contenido);
-            values.put(ColumnaDuracion, duracion);
-            values.put(ColumnaOrden, orden);
-            values.put(ColumnaRelacionCurso, curso.getId());
-            database.beginTransaction();
-            long id = database.insert(TablaLeccion, null, values);
-
-            if (id != -1) {
-                Leccion leccion = new Leccion(id, titulo, contenido, duracion, orden, curso);
-                database.setTransactionSuccessful();
-                return leccion;
-            }
-
-            throw new RuntimeException("Error creando lección");
-        }
-        finally {
-            if (database != null) {
-                database.endTransaction();
-                database.close();
-            }
-        }
+        IContentValuesWrapper values = createContentValues();
+        values.put(ColumnaTitulo, titulo);
+        values.put(ColumnaContenido, contenido);
+        values.put(ColumnaDuracion, duracion);
+        values.put(ColumnaOrden, orden);
+        values.put(ColumnaRelacionCurso, curso.getId());
+        return (Leccion)crearElemento(TablaLeccion, values, id -> new Leccion(id, titulo, contenido, duracion, orden, curso), "Error creando lección");
     }
 
     @Override
     public Leccion modificarLeccion(Leccion leccion, String nuevoTitulo, String nuevoContenido, int nuevaDuracion, int nuevoOrden, Course nuevoCurso) {
-        ISQLiteDatabaseWrapper database = null;
+        Guardia.esObjetoValido(leccion, "La lección es nula");
 
-        try {
-            Leccion nuevaLeccion = new Leccion(leccion.getId(), nuevoTitulo, nuevoContenido, nuevaDuracion, nuevoOrden, nuevoCurso);
+        IContentValuesWrapper values = createContentValues();
+        values.put(ColumnaTitulo, nuevoTitulo);
+        values.put(ColumnaContenido, nuevoContenido);
+        values.put(ColumnaDuracion, nuevaDuracion);
+        values.put(ColumnaOrden, nuevoOrden);
+        values.put(ColumnaRelacionCurso, nuevoCurso.getId());
 
-            database = getInternalWritableDatabase();
-            IContentValuesWrapper values = createContentValues();
-            values.put(ColumnaTitulo, nuevoTitulo);
-            values.put(ColumnaContenido, nuevoContenido);
-            values.put(ColumnaDuracion, nuevaDuracion);
-            values.put(ColumnaOrden, nuevoOrden);
-            values.put(ColumnaRelacionCurso, nuevoCurso.getId());
-            int affected = database.update(TablaLeccion, values, ColumnaId + "=?",
-                    new String[] { Long.toString(leccion.getId()) });
-            if (affected == 1) {
-                return nuevaLeccion;
-            }
-
-            throw new RuntimeException(String.format("Se esperaba modificar una única lección pero se modificaron %d", affected));
-        }
-        finally {
-            if (database != null) {
-                database.close();
-            }
-        }
+        return (Leccion)modificarElemento(TablaLeccion, leccion.getId(), values, id -> new Leccion(id, nuevoTitulo, nuevoContenido, nuevaDuracion, nuevoOrden, nuevoCurso), "Se esperaba modificar una única lección pero se modificaron %d");
     }
 
     @Override
@@ -638,109 +446,45 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     @Override
     public void borrarLeccion(Leccion leccion) {
-        ISQLiteDatabaseWrapper database = null;
-
-        try {
-            database = getInternalWritableDatabase();
-            int affected = database.delete(TablaLeccion, ColumnaId + "=?",
-                    new String[] { Long.toString(leccion.getId()) });
-            if (affected != 1) {
-                throw new RuntimeException(String.format("Se esperaba borrar una única lección pero se borraron %d", affected));
-            }
-        }
-        finally {
-            if (database != null) {
-                database.close();
-            }
-        }
+        Guardia.esObjetoValido(leccion, "La lección es nula");
+        borrarElemento(TablaLeccion, leccion.getId(), "Se esperaba borrar una única lección pero se borraron %d");
     }
 
     @Override
     public Inscripcion crearInscripcion(Usuario usuario, Course curso, int puntuacion, boolean favorito, int ultimaLeccion) {
-        ISQLiteDatabaseWrapper database = null;
-
         Guardia.esObjetoValido(usuario, "El usuario es nulo");
         Guardia.esObjetoValido(curso, "El curso es nulo");
 
-        try {
-            database = getInternalWritableDatabase();
-            IContentValuesWrapper values = createContentValues();
-            values.put(ColumnaRelacionUsuario, usuario.getId());
-            values.put(ColumnaRelacionCurso, curso.getId());
-            values.put(ColumnaPuntuacion, puntuacion);
-            values.put(ColumnaFavorito, favorito);
-            values.put(ColumnaUltimaLeccion, ultimaLeccion);
+        IContentValuesWrapper values = createContentValues();
+        values.put(ColumnaRelacionUsuario, usuario.getId());
+        values.put(ColumnaRelacionCurso, curso.getId());
+        values.put(ColumnaPuntuacion, puntuacion);
+        values.put(ColumnaFavorito, favorito);
+        values.put(ColumnaUltimaLeccion, ultimaLeccion);
 
-            database.beginTransaction();
-            long id = database.insert(TablaInscripcion, null, values);
-            if (id != -1) {
-                Inscripcion inscripcion = new Inscripcion(id, usuario, curso, puntuacion, favorito, ultimaLeccion);
-                database.setTransactionSuccessful();
-                return inscripcion;
-            }
-
-            throw new RuntimeException("Error creando inscripción");
-        }
-        finally {
-            if (database != null) {
-                database.endTransaction();
-                database.close();
-            }
-        }
+        return (Inscripcion)crearElemento(TablaInscripcion, values, id -> new Inscripcion(id, usuario, curso, puntuacion, favorito, ultimaLeccion), "Error creando inscripción");
     }
 
     @Override
     public void borrarInscripcion(Inscripcion inscripcion) {
-        ISQLiteDatabaseWrapper database = null;
-
         Guardia.esObjetoValido(inscripcion, "La inscripción es nula");
-
-        try {
-            database = getInternalWritableDatabase();
-            int affected = database.delete(TablaInscripcion, ColumnaId + "=?",
-                    new String[] { Long.toString(inscripcion.getId()) });
-            if (affected != 1) {
-                throw new RuntimeException(String.format("Se esperaba borrar una única inscripción pero se borraron %d", affected));
-            }
-        }
-        finally {
-            if (database != null) {
-                database.close();
-            }
-        }
+        borrarElemento(TablaInscripcion, inscripcion.getId(), "Se esperaba borrar una única inscripción pero se borraron %d");
     }
 
     @Override
     public Inscripcion modificarInscripcion(Inscripcion inscripcion, Usuario nuevoUsuario, Course nuevoCurso, int nuevaPuntuacion, boolean nuevoFavorito, int nuevaUltimaLeccion) {
-        ISQLiteDatabaseWrapper database = null;
-
         Guardia.esObjetoValido(inscripcion, "La inscripción es nula");
         Guardia.esObjetoValido(nuevoUsuario, "El usuario es nulo");
         Guardia.esObjetoValido(nuevoCurso, "El curso es nulo");
 
-        try {
-            Inscripcion nuevaInscripcion = new Inscripcion(inscripcion.getId(), nuevoUsuario, nuevoCurso, nuevaPuntuacion, nuevoFavorito, nuevaUltimaLeccion);
+        IContentValuesWrapper values = createContentValues();
+        values.put(ColumnaRelacionUsuario, nuevoUsuario.getId());
+        values.put(ColumnaRelacionCurso, nuevoCurso.getId());
+        values.put(ColumnaPuntuacion, nuevaPuntuacion);
+        values.put(ColumnaFavorito, nuevoFavorito);
+        values.put(ColumnaUltimaLeccion, nuevaUltimaLeccion);
 
-            database = getInternalWritableDatabase();
-            IContentValuesWrapper values = createContentValues();
-            values.put(ColumnaRelacionUsuario, nuevoUsuario.getId());
-            values.put(ColumnaRelacionCurso, nuevoCurso.getId());
-            values.put(ColumnaPuntuacion, nuevaPuntuacion);
-            values.put(ColumnaFavorito, nuevoFavorito);
-            values.put(ColumnaUltimaLeccion, nuevaUltimaLeccion);
-            int affected = database.update(TablaInscripcion, values, ColumnaId + "=?",
-                    new String[] { Long.toString(inscripcion.getId()) });
-            if (affected == 1) {
-                return nuevaInscripcion;
-            }
-
-            throw new RuntimeException(String.format("Se esperaba modificar una única inscripción pero se modificaron %d", affected));
-        }
-        finally {
-            if (database != null) {
-                database.close();
-            }
-        }
+        return (Inscripcion)modificarElemento(TablaInscripcion, inscripcion.getId(), values, id -> new Inscripcion(inscripcion.getId(), nuevoUsuario, nuevoCurso, nuevaPuntuacion, nuevoFavorito, nuevaUltimaLeccion), "Se esperaba modificar una única inscripción pero se modificaron %d");
     }
 
     protected ISQLiteDatabaseWrapper getInternalReadableDatabase() {
@@ -753,5 +497,67 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     protected IContentValuesWrapper createContentValues() {
         return new ContentValuesWrapper();
+    }
+
+    private void borrarElemento(String tabla, long id, String mensajeError) {
+        ISQLiteDatabaseWrapper database = null;
+
+        try {
+            database = getInternalWritableDatabase();
+            int affected = database.delete(tabla, ColumnaId + "=?", new String[] { Long.toString(id) });
+            if (affected != 1) {
+                throw new RuntimeException(String.format(mensajeError, affected));
+            }
+        }
+        finally {
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    private Object crearElemento(String tabla, IContentValuesWrapper valores, Function<Long, Object> creador, String mensajeError) {
+        ISQLiteDatabaseWrapper database = null;
+
+        try {
+            database = getInternalWritableDatabase();
+            database.beginTransaction();
+            long id = database.insert(tabla, null, valores);
+
+            if (id != -1) {
+                Object object = creador.apply(id);
+                database.setTransactionSuccessful();
+                return object;
+            }
+
+            throw new RuntimeException(mensajeError);
+        }
+        finally {
+            if (database != null) {
+                database.endTransaction();
+                database.close();
+            }
+        }
+    }
+
+    private Object modificarElemento(String tabla, long id, IContentValuesWrapper values, Function<Long, Object> creador, String mensajeError) {
+        ISQLiteDatabaseWrapper database = null;
+
+        try {
+            Object nuevoElemento = creador.apply(id);
+            database = getInternalWritableDatabase();
+            int affected = database.update(tabla, values, ColumnaId + "=?",
+                    new String[] { Long.toString(id) });
+            if (affected == 1) {
+                return nuevoElemento;
+            }
+
+            throw new RuntimeException(String.format(mensajeError, affected));
+        }
+        finally {
+            if (database != null) {
+                database.close();
+            }
+        }
     }
 }
