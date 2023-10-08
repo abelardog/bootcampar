@@ -38,7 +38,7 @@ public class BorrarUsuarioDebe {
         Database sut = new TestableDatabase(spy);
         sut.borrarUsuario(usuario);
 
-        assertEquals(String.valueOf(ID), spy.getWhereArgs()[0]);
+        assertEquals(String.valueOf(ID_USUARIO), spy.getWhereArgs()[0]);
     }
 
     @Test

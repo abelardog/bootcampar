@@ -7,6 +7,7 @@ import com.ar.bootcampar.model.Usuario;
 public class Constants {
     // Constantes para Usuario
     public static final long ID = 1;
+    public static final long ID_USUARIO = 13;
     public static final String NOMBRE = "Luis";
     public static final String APELLIDO = "Agote";
     public static final String EMAIL = "luis.agote@gmail.com";
@@ -31,6 +32,7 @@ public class Constants {
     public static final int ORDEN_LECCION = 1;
 
     // Constantes para Curso
+    public static final long ID_CURSO = 18;
     public static final String IMAGEN_CURSO = "https://www.imgur.com/xyz";
     public static final String TITULO_CURSO = "Maestría en JavaScript";
     public static final String DESCRIPCION_CURSO = "Con este curso sabrá programar en JavaScript desde un carrito de compras a un e-commerce!";

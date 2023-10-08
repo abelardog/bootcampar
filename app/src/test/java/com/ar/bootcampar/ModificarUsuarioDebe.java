@@ -148,7 +148,7 @@ public class ModificarUsuarioDebe {
         Usuario sut = database.modificarUsuario(usuario, NOMBRE, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO);
 
         assertNotNull(sut);
-        assertEquals(ID, sut.getId());
+        assertEquals(ID_USUARIO, sut.getId());
         assertEquals(NOMBRE, sut.getNombre());
         assertEquals(APELLIDO, sut.getApellido());
         assertEquals(EMAIL, sut.getEmail());

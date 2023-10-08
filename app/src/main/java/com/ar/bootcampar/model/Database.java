@@ -35,6 +35,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     private static final String ColumnaRelacionUsuario = "UsuarioId";
     private static final String ColumnaPuntuacion = "Puntuacion";
     private static final String ColumnaFavorito = "Favorito";
+    private static final String ColumnaUltimaLeccion = "UltimaLeccion";
     private static final String TablaInscripcion = "Inscripciones";
     private static final String TablaCurricula = "Curriculas";
     private static final String ColumnaContenido = "Contenido";
@@ -82,6 +83,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 ColumnaRelacionCurso + " INTEGER NOT NULL,\n" +
                 ColumnaPuntuacion + " INTEGER,\n" +
                 ColumnaFavorito + " INTEGER,\n" +
+                ColumnaUltimaLeccion + " INTEGER,\n" +
                 "  FOREIGN KEY (" + ColumnaRelacionUsuario + ") REFERENCES " + TablaUsuario + " (" + ColumnaId + ") ON DELETE CASCADE ON UPDATE NO ACTION,\n" +
                 "  FOREIGN KEY (" + ColumnaRelacionCurso + ") REFERENCES " + TablaCurso + " (" + ColumnaId + ") ON DELETE CASCADE ON UPDATE NO ACTION\n);");
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TablaCategoria + " (\n" +
@@ -648,6 +650,40 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
         finally {
             if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    @Override
+    public Inscripcion crearInscripcion(Usuario usuario, Course curso, int puntuacion, boolean favorito, int ultimaLeccion) {
+        ISQLiteDatabaseWrapper database = null;
+
+        Guardia.esObjetoValido(usuario, "El usuario es nulo");
+        Guardia.esObjetoValido(curso, "El curso es nulo");
+
+        try {
+            database = getInternalWritableDatabase();
+            IContentValuesWrapper values = createContentValues();
+            values.put(ColumnaRelacionUsuario, usuario.getId());
+            values.put(ColumnaRelacionCurso, curso.getId());
+            values.put(ColumnaPuntuacion, puntuacion);
+            values.put(ColumnaFavorito, favorito? 1 : 0);
+            values.put(ColumnaUltimaLeccion, ultimaLeccion);
+
+            database.beginTransaction();
+            long id = database.insert(TablaInscripcion, null, values);
+            if (id != -1) {
+                Inscripcion inscripcion = new Inscripcion(id, usuario, curso, puntuacion, favorito, ultimaLeccion);
+                database.setTransactionSuccessful();
+                return inscripcion;
+            }
+
+            throw new RuntimeException("Error creando inscripción");
+        }
+        finally {
+            if (database != null) {
+                database.endTransaction();
                 database.close();
             }
         }

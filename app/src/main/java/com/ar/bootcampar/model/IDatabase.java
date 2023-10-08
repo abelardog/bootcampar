@@ -27,5 +27,6 @@ public interface IDatabase {
     void borrarCategoria(Categoria categoria);
     Categoria modificarCategoria(Categoria categoria, String nuevoNombre, String nuevaDescripcion);
 
+    Inscripcion crearInscripcion(Usuario usuario, Course curso, int puntuacion, boolean favorito, int ultimaLeccion);
     void borrarInscripcion(Inscripcion inscripcion);
 }
