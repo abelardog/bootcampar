@@ -228,31 +228,16 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     @Override
     public Usuario modificarUsuario(Usuario usuario, String nuevoNombre, String nuevoApellido, String nuevoEmail, String nuevaClave, Rol nuevoRol, String nuevoTelefono) {
         Guardia.esObjetoValido(usuario, "El usuario es nulo");
-        ISQLiteDatabaseWrapper database = null;
 
-        try {
-            Usuario nuevoUsuario = new Usuario(usuario.getId(), nuevoNombre, nuevoApellido, nuevoEmail, nuevaClave, nuevoRol, nuevoTelefono);
-            database = getInternalWritableDatabase();
-            IContentValuesWrapper values = createContentValues();
-            values.put(ColumnaNombre, nuevoNombre);
-            values.put(ColumnaApellido, nuevoApellido);
-            values.put(ColumnaEmail, nuevoEmail);
-            values.put(ColumnaClave, nuevaClave);
-            values.put(ColumnaRol, Rol.asInt(nuevoRol));
-            values.put(ColumnaTelefono, nuevoTelefono);
-            int affected = database.update(TablaUsuario, values, ColumnaId + "=?",
-                    new String[] { Long.toString(usuario.getId()) });
-            if (affected == 1) {
-                return nuevoUsuario;
-            }
+        IContentValuesWrapper values = createContentValues();
+        values.put(ColumnaNombre, nuevoNombre);
+        values.put(ColumnaApellido, nuevoApellido);
+        values.put(ColumnaEmail, nuevoEmail);
+        values.put(ColumnaClave, nuevaClave);
+        values.put(ColumnaRol, Rol.asInt(nuevoRol));
+        values.put(ColumnaTelefono, nuevoTelefono);
 
-            throw new RuntimeException(String.format("Se esperaba modificar un único usuario pero se modificaron %d", affected));
-        }
-        finally {
-            if (database != null) {
-                database.close();
-            }
-        }
+        return (Usuario)modificarElemento(TablaUsuario, usuario.getId(), values, id -> new Usuario(id, nuevoNombre, nuevoApellido, nuevoEmail, nuevaClave, nuevoRol, nuevoTelefono), "Se esperaba modificar un único usuario pero se modificaron %d");
     }
 
     @Override
@@ -356,27 +341,11 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     public Grupo modificarGrupo(Grupo grupo, String nuevoNombre, String nuevaInvitacion) {
         Guardia.esObjetoValido(grupo, "El grupo es nulo");
 
-        ISQLiteDatabaseWrapper database = null;
+        IContentValuesWrapper values = createContentValues();
+        values.put(ColumnaNombre, nuevoNombre);
+        values.put(ColumnaInvitacion, nuevaInvitacion);
 
-        try {
-            Grupo nuevoGrupo = new Grupo(grupo.getId(), nuevoNombre, nuevaInvitacion);
-            database = getInternalWritableDatabase();
-            IContentValuesWrapper values = createContentValues();
-            values.put(ColumnaNombre, nuevoNombre);
-            values.put(ColumnaInvitacion, nuevaInvitacion);
-            int affected = database.update(TablaGrupo, values, ColumnaId + "=?",
-                    new String[] { Long.toString(grupo.getId()) });
-            if (affected == 1) {
-                return nuevoGrupo;
-            }
-
-            throw new RuntimeException(String.format("Se esperaba modificar un único grupo pero se modificaron %d", affected));
-        }
-        finally {
-            if (database != null) {
-                database.close();
-            }
-        }
+        return (Grupo)modificarElemento(TablaGrupo, grupo.getId(), values, id -> new Grupo(grupo.getId(), nuevoNombre, nuevaInvitacion), "Se esperaba modificar un único grupo pero se modificaron %d");
     }
 
     @Override
@@ -395,26 +364,13 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     @Override
     public Categoria modificarCategoria(Categoria categoria, String nuevoNombre, String nuevaDescripcion) {
-        ISQLiteDatabaseWrapper database = null;
+        Guardia.esObjetoValido(categoria, "La categoría es nula");
 
-        try {
-            database = getInternalWritableDatabase();
-            IContentValuesWrapper values = createContentValues();
-            values.put(ColumnaNombre, nuevoNombre);
-            values.put(ColumnaDescripcion, nuevaDescripcion);
-            int affected = database.update(TablaCategoria, values, ColumnaId + "=?",
-                    new String[] { Long.toString(categoria.getId()) });
-            if (affected == 1) {
-                return new Categoria(categoria.getId(), nuevoNombre, nuevaDescripcion);
-            }
+        IContentValuesWrapper values = createContentValues();
+        values.put(ColumnaNombre, nuevoNombre);
+        values.put(ColumnaDescripcion, nuevaDescripcion);
 
-            throw new RuntimeException(String.format("Se esperaba modificar una única categoría pero se modificaron %d", affected));
-        }
-        finally {
-            if (database != null) {
-                database.close();
-            }
-        }
+        return (Categoria)modificarElemento(TablaCategoria, categoria.getId(), values, id -> new Categoria(categoria.getId(), nuevoNombre, nuevaDescripcion), "Se esperaba modificar una única categoría pero se modificaron %d");
     }
 
     @Override
@@ -430,31 +386,16 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     @Override
     public Leccion modificarLeccion(Leccion leccion, String nuevoTitulo, String nuevoContenido, int nuevaDuracion, int nuevoOrden, Course nuevoCurso) {
-        ISQLiteDatabaseWrapper database = null;
+        Guardia.esObjetoValido(leccion, "La lección es nula");
 
-        try {
-            Leccion nuevaLeccion = new Leccion(leccion.getId(), nuevoTitulo, nuevoContenido, nuevaDuracion, nuevoOrden, nuevoCurso);
+        IContentValuesWrapper values = createContentValues();
+        values.put(ColumnaTitulo, nuevoTitulo);
+        values.put(ColumnaContenido, nuevoContenido);
+        values.put(ColumnaDuracion, nuevaDuracion);
+        values.put(ColumnaOrden, nuevoOrden);
+        values.put(ColumnaRelacionCurso, nuevoCurso.getId());
 
-            database = getInternalWritableDatabase();
-            IContentValuesWrapper values = createContentValues();
-            values.put(ColumnaTitulo, nuevoTitulo);
-            values.put(ColumnaContenido, nuevoContenido);
-            values.put(ColumnaDuracion, nuevaDuracion);
-            values.put(ColumnaOrden, nuevoOrden);
-            values.put(ColumnaRelacionCurso, nuevoCurso.getId());
-            int affected = database.update(TablaLeccion, values, ColumnaId + "=?",
-                    new String[] { Long.toString(leccion.getId()) });
-            if (affected == 1) {
-                return nuevaLeccion;
-            }
-
-            throw new RuntimeException(String.format("Se esperaba modificar una única lección pero se modificaron %d", affected));
-        }
-        finally {
-            if (database != null) {
-                database.close();
-            }
-        }
+        return (Leccion)modificarElemento(TablaLeccion, leccion.getId(), values, id -> new Leccion(id, nuevoTitulo, nuevoContenido, nuevaDuracion, nuevoOrden, nuevoCurso), "Se esperaba modificar una única lección pero se modificaron %d");
     }
 
     @Override
@@ -532,35 +473,18 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     @Override
     public Inscripcion modificarInscripcion(Inscripcion inscripcion, Usuario nuevoUsuario, Course nuevoCurso, int nuevaPuntuacion, boolean nuevoFavorito, int nuevaUltimaLeccion) {
-        ISQLiteDatabaseWrapper database = null;
-
         Guardia.esObjetoValido(inscripcion, "La inscripción es nula");
         Guardia.esObjetoValido(nuevoUsuario, "El usuario es nulo");
         Guardia.esObjetoValido(nuevoCurso, "El curso es nulo");
 
-        try {
-            Inscripcion nuevaInscripcion = new Inscripcion(inscripcion.getId(), nuevoUsuario, nuevoCurso, nuevaPuntuacion, nuevoFavorito, nuevaUltimaLeccion);
+        IContentValuesWrapper values = createContentValues();
+        values.put(ColumnaRelacionUsuario, nuevoUsuario.getId());
+        values.put(ColumnaRelacionCurso, nuevoCurso.getId());
+        values.put(ColumnaPuntuacion, nuevaPuntuacion);
+        values.put(ColumnaFavorito, nuevoFavorito);
+        values.put(ColumnaUltimaLeccion, nuevaUltimaLeccion);
 
-            database = getInternalWritableDatabase();
-            IContentValuesWrapper values = createContentValues();
-            values.put(ColumnaRelacionUsuario, nuevoUsuario.getId());
-            values.put(ColumnaRelacionCurso, nuevoCurso.getId());
-            values.put(ColumnaPuntuacion, nuevaPuntuacion);
-            values.put(ColumnaFavorito, nuevoFavorito);
-            values.put(ColumnaUltimaLeccion, nuevaUltimaLeccion);
-            int affected = database.update(TablaInscripcion, values, ColumnaId + "=?",
-                    new String[] { Long.toString(inscripcion.getId()) });
-            if (affected == 1) {
-                return nuevaInscripcion;
-            }
-
-            throw new RuntimeException(String.format("Se esperaba modificar una única inscripción pero se modificaron %d", affected));
-        }
-        finally {
-            if (database != null) {
-                database.close();
-            }
-        }
+        return (Inscripcion)modificarElemento(TablaInscripcion, inscripcion.getId(), values, id -> new Inscripcion(inscripcion.getId(), nuevoUsuario, nuevoCurso, nuevaPuntuacion, nuevoFavorito, nuevaUltimaLeccion), "Se esperaba modificar una única inscripción pero se modificaron %d");
     }
 
     protected ISQLiteDatabaseWrapper getInternalReadableDatabase() {
@@ -611,6 +535,27 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         finally {
             if (database != null) {
                 database.endTransaction();
+                database.close();
+            }
+        }
+    }
+
+    private Object modificarElemento(String tabla, long id, IContentValuesWrapper values, Function<Long, Object> creador, String mensajeError) {
+        ISQLiteDatabaseWrapper database = null;
+
+        try {
+            Object nuevoElemento = creador.apply(id);
+            database = getInternalWritableDatabase();
+            int affected = database.update(tabla, values, ColumnaId + "=?",
+                    new String[] { Long.toString(id) });
+            if (affected == 1) {
+                return nuevoElemento;
+            }
+
+            throw new RuntimeException(String.format(mensajeError, affected));
+        }
+        finally {
+            if (database != null) {
                 database.close();
             }
         }
