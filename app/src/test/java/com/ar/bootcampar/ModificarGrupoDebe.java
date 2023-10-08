@@ -1,6 +1,7 @@
 package com.ar.bootcampar;
 
 import static com.ar.bootcampar.support.Constants.*;
+import static com.ar.bootcampar.support.DummyMaker.crearGrupoDePrueba;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -31,7 +32,7 @@ public class ModificarGrupoDebe {
 
     @Test
     public void lanzarExcepcion_cuandoSeQuiereUsarUnNombreInvalido() {
-        Grupo grupo = crearGrupoPorDefecto();
+        Grupo grupo = crearGrupoDePrueba();
         Database sut = new TestableDatabase(new SqliteDatabaseWrapperSpy.Builder().build());
         Exception exception = assertThrows(RuntimeException.class, () -> sut.modificarGrupo(grupo, "", INVITACION_GRUPO));
         assertEquals("El nombre es inválido", exception.getMessage());
@@ -39,7 +40,7 @@ public class ModificarGrupoDebe {
 
     @Test
     public void lanzarExcepcion_cuandoSeQuiereUsarUnaInvitacionInvalida() {
-        Grupo grupo = crearGrupoPorDefecto();
+        Grupo grupo = crearGrupoDePrueba();
         Database sut = new TestableDatabase(new SqliteDatabaseWrapperSpy.Builder().build());
         Exception exception = assertThrows(RuntimeException.class, () -> sut.modificarGrupo(grupo, NOMBRE, ""));
         assertEquals("La invitación es inválida", exception.getMessage());
@@ -47,7 +48,7 @@ public class ModificarGrupoDebe {
 
     @Test
     public void noSetearTransaccionComoExitosa_cuandoElNombreEsInvalido() {
-        Grupo grupo = crearGrupoPorDefecto();
+        Grupo grupo = crearGrupoDePrueba();
         SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
                 .conInsertRetornando(1)
                 .build();
@@ -58,7 +59,7 @@ public class ModificarGrupoDebe {
 
     @Test
     public void noSetearTransaccionComoExitosa_cuandoLaInvitacionEsInvalida() {
-        Grupo grupo = crearGrupoPorDefecto();
+        Grupo grupo = crearGrupoDePrueba();
         SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
                 .conInsertRetornando(1)
                 .build();
@@ -69,7 +70,7 @@ public class ModificarGrupoDebe {
 
     @Test
     public void recibirTodosLosDatosDelGrupo() {
-        Grupo grupo = crearGrupoPorDefecto();
+        Grupo grupo = crearGrupoDePrueba();
         SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
                 .conUpdateRetornando(1)
                 .build();
@@ -82,7 +83,7 @@ public class ModificarGrupoDebe {
 
     @Test
     public void insertarDatosEnTablaGrupo() {
-        Grupo grupo = crearGrupoPorDefecto();
+        Grupo grupo = crearGrupoDePrueba();
         SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
                 .conUpdateRetornando(1)
                 .build();
@@ -94,7 +95,7 @@ public class ModificarGrupoDebe {
 
     @Test
     public void retornarGrupoModificado_cuandoSeModificaGrupoEnBaseDeDatos() {
-        Grupo grupo = crearGrupoPorDefecto();
+        Grupo grupo = crearGrupoDePrueba();
         ISQLiteDatabaseWrapper spy = new SqliteDatabaseWrapperSpy.Builder()
                 .conUpdateRetornando(1)
                 .build();
@@ -114,7 +115,7 @@ public class ModificarGrupoDebe {
 
     @Theory
     public void lanzarExcepcion_cuandoUpdateRetornaError(@FromDataPoints("affected rows invalidos") int affectedRowsInvalido) {
-        Grupo grupo = crearGrupoPorDefecto();
+        Grupo grupo = crearGrupoDePrueba();
         ISQLiteDatabaseWrapper spy = new SqliteDatabaseWrapperSpy.Builder()
                 .conUpdateRetornando(affectedRowsInvalido)
                 .build();
@@ -126,7 +127,7 @@ public class ModificarGrupoDebe {
 
     @Test
     public void cerrarBaseDeDatos_cuandoUpdateRetornaError() {
-        Grupo grupo = crearGrupoPorDefecto();
+        Grupo grupo = crearGrupoDePrueba();
         SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
                 .conUpdateRetornando(0)
                 .build();
@@ -138,7 +139,7 @@ public class ModificarGrupoDebe {
 
     @Test
     public void cerrarBaseDeDatos_cuandoUpdateRetornaExito() {
-        Grupo grupo = crearGrupoPorDefecto();
+        Grupo grupo = crearGrupoDePrueba();
         SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
                 .conUpdateRetornando(1)
                 .build();
@@ -146,9 +147,5 @@ public class ModificarGrupoDebe {
         Database database = new TestableDatabase(spy);
         database.modificarGrupo(grupo, NOMBRE_GRUPO, INVITACION_GRUPO);
         assertTrue(spy.getCloseCalled());
-    }
-
-    private static Grupo crearGrupoPorDefecto() {
-        return new Grupo(ID, NOMBRE_GRUPO, INVITACION_GRUPO);
     }
 }

@@ -35,6 +35,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     private static final String ColumnaRelacionUsuario = "UsuarioId";
     private static final String ColumnaPuntuacion = "Puntuacion";
     private static final String ColumnaFavorito = "Favorito";
+    private static final String ColumnaUltimaLeccion = "UltimaLeccion";
     private static final String TablaInscripcion = "Inscripciones";
     private static final String TablaCurricula = "Curriculas";
     private static final String ColumnaContenido = "Contenido";
@@ -82,6 +83,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 ColumnaRelacionCurso + " INTEGER NOT NULL,\n" +
                 ColumnaPuntuacion + " INTEGER,\n" +
                 ColumnaFavorito + " INTEGER,\n" +
+                ColumnaUltimaLeccion + " INTEGER,\n" +
                 "  FOREIGN KEY (" + ColumnaRelacionUsuario + ") REFERENCES " + TablaUsuario + " (" + ColumnaId + ") ON DELETE CASCADE ON UPDATE NO ACTION,\n" +
                 "  FOREIGN KEY (" + ColumnaRelacionCurso + ") REFERENCES " + TablaCurso + " (" + ColumnaId + ") ON DELETE CASCADE ON UPDATE NO ACTION\n);");
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TablaCategoria + " (\n" +
@@ -138,6 +140,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         createDatabase(db);
     }
 
+    @Override
     public Usuario crearUsuario(String nombre, String apellido, String email, String clave, Rol rol, String telefono) {
         ISQLiteDatabaseWrapper database = null;
 
@@ -169,6 +172,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
     }
 
+    @Override
     public Usuario buscarUsuarioOExplotar(long id) {
         ISQLiteDatabaseWrapper database = null;
         ICursorWrapper cursor = null;
@@ -209,6 +213,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 cursorHelper.getStringFrom(ColumnaTelefono));
     }
 
+    @Override
     public Usuario buscarUsuarioONada(String email) {
         ISQLiteDatabaseWrapper database = null;
         ICursorWrapper cursor = null;
@@ -238,6 +243,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
     }
 
+    @Override
     public Usuario modificarUsuario(Usuario usuario, String nuevoNombre, String nuevoApellido, String nuevoEmail, String nuevaClave, Rol nuevoRol, String nuevoTelefono) {
         Guardia.esObjetoValido(usuario, "El usuario es nulo");
         ISQLiteDatabaseWrapper database = null;
@@ -267,6 +273,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
     }
 
+    @Override
     public void borrarUsuario(Usuario usuario) {
         Guardia.esObjetoValido(usuario, "El usuario es nulo");
 
@@ -287,6 +294,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
     }
 
+    @Override
     public Division crearDivision(Usuario usuario, Grupo grupo) {
         ISQLiteDatabaseWrapper database = null;
 
@@ -312,6 +320,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
     }
 
+    @Override
     public Grupo crearGrupo(String nombre, String invitacion) {
         ISQLiteDatabaseWrapper database = null;
 
@@ -338,6 +347,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
     }
 
+    @Override
     public Grupo buscarGrupoONada(String invitacion) {
         ISQLiteDatabaseWrapper database = null;
         ICursorWrapper cursor = null;
@@ -377,6 +387,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 cursorHelper.getStringFrom(ColumnaInvitacion));
     }
 
+    @Override
     public Grupo buscarGrupoOExplotar(long id) {
         ISQLiteDatabaseWrapper database = null;
         ICursorWrapper cursor = null;
@@ -403,6 +414,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
     }
 
+    @Override
     public void borrarGrupo(Grupo grupo) {
         Guardia.esObjetoValido(grupo, "El grupo es nulo");
 
@@ -422,6 +434,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
     }
 
+    @Override
     public Grupo modificarGrupo(Grupo grupo, String nuevoNombre, String nuevaInvitacion) {
         Guardia.esObjetoValido(grupo, "El grupo es nulo");
 
@@ -517,6 +530,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
     }
 
+    @Override
     public Leccion crearLeccion(String titulo, String contenido, int duracion, int orden, Course curso) {
         ISQLiteDatabaseWrapper database = null;
 
@@ -547,6 +561,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
     }
 
+    @Override
     public Leccion modificarLeccion(Leccion leccion, String nuevoTitulo, String nuevoContenido, int nuevaDuracion, int nuevoOrden, Course nuevoCurso) {
         ISQLiteDatabaseWrapper database = null;
 
@@ -575,24 +590,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
     }
 
-    public void borrarLeccion(Leccion leccion) {
-        ISQLiteDatabaseWrapper database = null;
-
-        try {
-            database = getInternalWritableDatabase();
-            int affected = database.delete(TablaLeccion, ColumnaId + "=?",
-                    new String[] { Long.toString(leccion.getId()) });
-            if (affected != 1) {
-                throw new RuntimeException(String.format("Se esperaba borrar una única lección pero se borraron %d", affected));
-            }
-        }
-        finally {
-            if (database != null) {
-                database.close();
-            }
-        }
-    }
-
+    @Override
     public List<Leccion> buscarLecciones(Course curso) {
         ISQLiteDatabaseWrapper database = null;
         ICursorWrapper cursor = null;
@@ -636,6 +634,113 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             }
         }
 
+    }
+
+    @Override
+    public void borrarLeccion(Leccion leccion) {
+        ISQLiteDatabaseWrapper database = null;
+
+        try {
+            database = getInternalWritableDatabase();
+            int affected = database.delete(TablaLeccion, ColumnaId + "=?",
+                    new String[] { Long.toString(leccion.getId()) });
+            if (affected != 1) {
+                throw new RuntimeException(String.format("Se esperaba borrar una única lección pero se borraron %d", affected));
+            }
+        }
+        finally {
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    @Override
+    public Inscripcion crearInscripcion(Usuario usuario, Course curso, int puntuacion, boolean favorito, int ultimaLeccion) {
+        ISQLiteDatabaseWrapper database = null;
+
+        Guardia.esObjetoValido(usuario, "El usuario es nulo");
+        Guardia.esObjetoValido(curso, "El curso es nulo");
+
+        try {
+            database = getInternalWritableDatabase();
+            IContentValuesWrapper values = createContentValues();
+            values.put(ColumnaRelacionUsuario, usuario.getId());
+            values.put(ColumnaRelacionCurso, curso.getId());
+            values.put(ColumnaPuntuacion, puntuacion);
+            values.put(ColumnaFavorito, favorito);
+            values.put(ColumnaUltimaLeccion, ultimaLeccion);
+
+            database.beginTransaction();
+            long id = database.insert(TablaInscripcion, null, values);
+            if (id != -1) {
+                Inscripcion inscripcion = new Inscripcion(id, usuario, curso, puntuacion, favorito, ultimaLeccion);
+                database.setTransactionSuccessful();
+                return inscripcion;
+            }
+
+            throw new RuntimeException("Error creando inscripción");
+        }
+        finally {
+            if (database != null) {
+                database.endTransaction();
+                database.close();
+            }
+        }
+    }
+
+    @Override
+    public void borrarInscripcion(Inscripcion inscripcion) {
+        ISQLiteDatabaseWrapper database = null;
+
+        Guardia.esObjetoValido(inscripcion, "La inscripción es nula");
+
+        try {
+            database = getInternalWritableDatabase();
+            int affected = database.delete(TablaInscripcion, ColumnaId + "=?",
+                    new String[] { Long.toString(inscripcion.getId()) });
+            if (affected != 1) {
+                throw new RuntimeException(String.format("Se esperaba borrar una única inscripción pero se borraron %d", affected));
+            }
+        }
+        finally {
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    @Override
+    public Inscripcion modificarInscripcion(Inscripcion inscripcion, Usuario nuevoUsuario, Course nuevoCurso, int nuevaPuntuacion, boolean nuevoFavorito, int nuevaUltimaLeccion) {
+        ISQLiteDatabaseWrapper database = null;
+
+        Guardia.esObjetoValido(inscripcion, "La inscripción es nula");
+        Guardia.esObjetoValido(nuevoUsuario, "El usuario es nulo");
+        Guardia.esObjetoValido(nuevoCurso, "El curso es nulo");
+
+        try {
+            Inscripcion nuevaInscripcion = new Inscripcion(inscripcion.getId(), nuevoUsuario, nuevoCurso, nuevaPuntuacion, nuevoFavorito, nuevaUltimaLeccion);
+
+            database = getInternalWritableDatabase();
+            IContentValuesWrapper values = createContentValues();
+            values.put(ColumnaRelacionUsuario, nuevoUsuario.getId());
+            values.put(ColumnaRelacionCurso, nuevoCurso.getId());
+            values.put(ColumnaPuntuacion, nuevaPuntuacion);
+            values.put(ColumnaFavorito, nuevoFavorito);
+            values.put(ColumnaUltimaLeccion, nuevaUltimaLeccion);
+            int affected = database.update(TablaInscripcion, values, ColumnaId + "=?",
+                    new String[] { Long.toString(inscripcion.getId()) });
+            if (affected == 1) {
+                return nuevaInscripcion;
+            }
+
+            throw new RuntimeException(String.format("Se esperaba modificar una única inscripción pero se modificaron %d", affected));
+        }
+        finally {
+            if (database != null) {
+                database.close();
+            }
+        }
     }
 
     protected ISQLiteDatabaseWrapper getInternalReadableDatabase() {

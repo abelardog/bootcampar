@@ -25,6 +25,11 @@ public class ContentValuesWrapper implements IContentValuesWrapper {
     }
 
     @Override
+    public void put(String key, Boolean value) {
+        contentValues.put(key, value);
+    }
+
+    @Override
     public Object get(String key) {
         return contentValues.get(key);
     }

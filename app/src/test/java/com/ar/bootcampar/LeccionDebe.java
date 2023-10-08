@@ -50,7 +50,7 @@ public class LeccionDebe {
     }
 
     @DataPoints("cadenas invalidas")
-    public static String[] nombresInvalidos() {
+    public static String[] cadenasInvalidos() {
         return new String[] { "", null, "   " };
     }
 

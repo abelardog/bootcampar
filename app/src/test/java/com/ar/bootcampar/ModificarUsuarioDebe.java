@@ -1,6 +1,7 @@
 package com.ar.bootcampar;
 
 import static com.ar.bootcampar.support.Constants.*;
+import static com.ar.bootcampar.support.DummyMaker.crearUsuarioDePrueba;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -34,7 +35,7 @@ public class ModificarUsuarioDebe {
 
     @Test
     public void lanzarExcepcion_cuandoSeQuiereUsarUnNombreInvalido() {
-        Usuario usuario = crearUsuario();
+        Usuario usuario = crearUsuarioDePrueba();
         Database sut = new TestableDatabase(new SqliteDatabaseWrapperSpy.Builder().build());
         Exception exception = assertThrows(RuntimeException.class, () -> sut.modificarUsuario(usuario, "", APELLIDO, EMAIL, CLAVE, ROL, TELEFONO));
         assertEquals("El nombre es inválido", exception.getMessage());
@@ -42,7 +43,7 @@ public class ModificarUsuarioDebe {
 
     @Test
     public void lanzarExcepcion_cuandoSeQuiereUsarUnApellidoInvalido() {
-        Usuario usuario = crearUsuario();
+        Usuario usuario = crearUsuarioDePrueba();
         Database sut = new TestableDatabase(new SqliteDatabaseWrapperSpy.Builder().build());
         Exception exception = assertThrows(RuntimeException.class, () -> sut.modificarUsuario(usuario, NOMBRE, "", EMAIL, CLAVE, ROL, TELEFONO));
         assertEquals("El apellido es inválido", exception.getMessage());
@@ -50,7 +51,7 @@ public class ModificarUsuarioDebe {
 
     @Test
     public void lanzarExcepcion_cuandoSeQuiereUsarUnEmailInvalido() {
-        Usuario usuario = crearUsuario();
+        Usuario usuario = crearUsuarioDePrueba();
         Database sut = new TestableDatabase(new SqliteDatabaseWrapperSpy.Builder().build());
         Exception exception = assertThrows(RuntimeException.class, () -> sut.modificarUsuario(usuario, NOMBRE, APELLIDO, "", CLAVE, ROL, TELEFONO));
         assertEquals("El email es inválido", exception.getMessage());
@@ -58,7 +59,7 @@ public class ModificarUsuarioDebe {
 
     @Test
     public void lanzarExcepcion_cuandoSeQuiereUsarUnClaveInvalida() {
-        Usuario usuario = crearUsuario();
+        Usuario usuario = crearUsuarioDePrueba();
         Database sut = new TestableDatabase(new SqliteDatabaseWrapperSpy.Builder().build());
         Exception exception = assertThrows(RuntimeException.class, () -> sut.modificarUsuario(usuario, NOMBRE, APELLIDO, EMAIL, "", ROL, TELEFONO));
         assertEquals("La clave es inválida", exception.getMessage());
@@ -66,7 +67,7 @@ public class ModificarUsuarioDebe {
 
     @Test
     public void noSetearTransaccionComoExitosa_cuandoElNombreEsInvalido() {
-        Usuario usuario = crearUsuario();
+        Usuario usuario = crearUsuarioDePrueba();
         SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
                 .conInsertRetornando(1)
                 .build();
@@ -77,7 +78,7 @@ public class ModificarUsuarioDebe {
 
     @Test
     public void noSetearTransaccionComoExitosa_cuandoElApellidoEsInvalido() {
-        Usuario usuario = crearUsuario();
+        Usuario usuario = crearUsuarioDePrueba();
         SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
                 .conInsertRetornando(1)
                 .build();
@@ -88,7 +89,7 @@ public class ModificarUsuarioDebe {
 
     @Test
     public void noSetearTransaccionComoExitosa_cuandoElEmailEsInvalido() {
-        Usuario usuario = crearUsuario();
+        Usuario usuario = crearUsuarioDePrueba();
         SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
                 .conInsertRetornando(1)
                 .build();
@@ -99,7 +100,7 @@ public class ModificarUsuarioDebe {
 
     @Test
     public void noSetearTransaccionComoExitosa_cuandoLaClaveEsInvalida() {
-        Usuario usuario = crearUsuario();
+        Usuario usuario = crearUsuarioDePrueba();
         SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
                 .conInsertRetornando(1)
                 .build();
@@ -110,29 +111,24 @@ public class ModificarUsuarioDebe {
 
     @Test
     public void recibirTodosLosDatosDeUsuario() {
-        Usuario usuario = crearUsuario();
+        Usuario usuario = crearUsuarioDePrueba();
         SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
                 .conUpdateRetornando(1)
                 .build();
         Database sut = new TestableDatabase(spy);
-        sut.modificarUsuario(usuario, NOMBRE, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO);
+        sut.modificarUsuario(usuario, OTRO_NOMBRE, OTRO_APELLIDO, OTRO_EMAIL, OTRA_CLAVE, OTRO_ROL, OTRO_TELEFONO);
 
-        assertEquals(NOMBRE, spy.getInsertedValues().get("Nombre"));
-        assertEquals(APELLIDO, spy.getInsertedValues().get("Apellido"));
-        assertEquals(EMAIL, spy.getInsertedValues().get("Email"));
-        assertEquals(CLAVE, spy.getInsertedValues().get("Clave"));
-        assertEquals(Rol.asInt(ROL), spy.getInsertedValues().get("Rol"));
-        assertEquals(TELEFONO, spy.getInsertedValues().get("Telefono"));
-    }
-
-    @NonNull
-    private static Usuario crearUsuario() {
-        return new Usuario(ID, "Juan", "Perez", "juan.perez@gmail.com", "112233", Rol.Estudiante, "1111-2222");
+        assertEquals(OTRO_NOMBRE, spy.getInsertedValues().get("Nombre"));
+        assertEquals(OTRO_APELLIDO, spy.getInsertedValues().get("Apellido"));
+        assertEquals(OTRO_EMAIL, spy.getInsertedValues().get("Email"));
+        assertEquals(OTRA_CLAVE, spy.getInsertedValues().get("Clave"));
+        assertEquals(Rol.asInt(OTRO_ROL), spy.getInsertedValues().get("Rol"));
+        assertEquals(OTRO_TELEFONO, spy.getInsertedValues().get("Telefono"));
     }
 
     @Test
-    public void insertarDatosEnTablaUsuario() {
-        Usuario usuario = crearUsuario();
+    public void insertarDatosEnTablaUsuarioDePru    () {
+        Usuario usuario = crearUsuarioDePrueba();
         SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
                 .conUpdateRetornando(1)
                 .build();
@@ -144,7 +140,7 @@ public class ModificarUsuarioDebe {
 
     @Test
     public void retornarUsuarioModificado_cuandoSeModificaUsuarioEnBaseDeDatos() {
-        Usuario usuario = crearUsuario();
+        Usuario usuario = crearUsuarioDePrueba();
         ISQLiteDatabaseWrapper spy = new SqliteDatabaseWrapperSpy.Builder()
                 .conUpdateRetornando(1)
                 .build();
@@ -152,7 +148,7 @@ public class ModificarUsuarioDebe {
         Usuario sut = database.modificarUsuario(usuario, NOMBRE, APELLIDO, EMAIL, CLAVE, ROL, TELEFONO);
 
         assertNotNull(sut);
-        assertEquals(ID, sut.getId());
+        assertEquals(ID_USUARIO, sut.getId());
         assertEquals(NOMBRE, sut.getNombre());
         assertEquals(APELLIDO, sut.getApellido());
         assertEquals(EMAIL, sut.getEmail());
@@ -168,7 +164,7 @@ public class ModificarUsuarioDebe {
 
     @Theory
     public void lanzarExcepcion_cuandoUpdateRetornaError(@FromDataPoints("affected rows invalidos") int affectedRowsInvalido) {
-        Usuario usuario = crearUsuario();
+        Usuario usuario = crearUsuarioDePrueba();
         ISQLiteDatabaseWrapper spy = new SqliteDatabaseWrapperSpy.Builder()
                 .conUpdateRetornando(affectedRowsInvalido)
                 .build();
@@ -180,7 +176,7 @@ public class ModificarUsuarioDebe {
 
     @Test
     public void cerrarBaseDeDatos_cuandoUpdateRetornaError() {
-        Usuario usuario = crearUsuario();
+        Usuario usuario = crearUsuarioDePrueba();
         SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
                 .conUpdateRetornando(0)
                 .build();
@@ -192,7 +188,7 @@ public class ModificarUsuarioDebe {
 
     @Test
     public void cerrarBaseDeDatos_cuandoUpdateRetornaExito() {
-        Usuario usuario = crearUsuario();
+        Usuario usuario = crearUsuarioDePrueba();
         SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
                 .conUpdateRetornando(1)
                 .build();
