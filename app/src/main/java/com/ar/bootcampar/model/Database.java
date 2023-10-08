@@ -11,6 +11,7 @@ import com.ar.bootcampar.model.utilities.Guardia;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 public class Database extends SQLiteOpenHelper implements IDatabase {
     private static final String ColumnaId = "Id";
@@ -142,34 +143,15 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     @Override
     public Usuario crearUsuario(String nombre, String apellido, String email, String clave, Rol rol, String telefono) {
-        ISQLiteDatabaseWrapper database = null;
+        IContentValuesWrapper values = createContentValues();
+        values.put(ColumnaNombre, nombre);
+        values.put(ColumnaApellido, apellido);
+        values.put(ColumnaEmail, email);
+        values.put(ColumnaClave, clave);
+        values.put(ColumnaRol, Rol.asInt(rol));
+        values.put(ColumnaTelefono, telefono);
 
-        try {
-            database = getInternalWritableDatabase();
-            IContentValuesWrapper values = createContentValues();
-            values.put(ColumnaNombre, nombre);
-            values.put(ColumnaApellido, apellido);
-            values.put(ColumnaEmail, email);
-            values.put(ColumnaClave, clave);
-            values.put(ColumnaRol, Rol.asInt(rol));
-            values.put(ColumnaTelefono, telefono);
-            database.beginTransaction();
-            long id = database.insert(TablaUsuario, null, values);
-
-            if (id != -1) {
-                Usuario usuario = new Usuario(id, nombre, apellido, email, clave, rol, telefono);
-                database.setTransactionSuccessful();
-                return usuario;
-            }
-
-            throw new RuntimeException("Error creando usuario");
-        }
-        finally {
-            if (database != null) {
-                database.endTransaction();
-                database.close();
-            }
-        }
+        return (Usuario)crearElemento(TablaUsuario, values, id -> new Usuario(id, nombre, apellido, email, clave, rol, telefono), "Error creando usuario");
     }
 
     @Override
@@ -281,55 +263,20 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     @Override
     public Division crearDivision(Usuario usuario, Grupo grupo) {
-        ISQLiteDatabaseWrapper database = null;
+        IContentValuesWrapper values = createContentValues();
+        values.put(ColumnaRelacionUsuario, usuario.getId());
+        values.put(ColumnaRelacionGrupo, grupo.getId());
 
-        try {
-            database = getInternalWritableDatabase();
-            IContentValuesWrapper values = createContentValues();
-            values.put(ColumnaRelacionUsuario, usuario.getId());
-            values.put(ColumnaRelacionGrupo, grupo.getId());
-            database.beginTransaction();
-            long id = database.insert(TablaDivision, null, values);
-            if (id != -1) {
-                database.setTransactionSuccessful();
-                return new Division(id, usuario, grupo);
-            }
-
-            throw new RuntimeException("Error creando usuario");
-        }
-        finally {
-            if (database != null) {
-                database.endTransaction();
-                database.close();
-            }
-        }
+        return (Division)crearElemento(TablaDivision, values, id -> new Division(id, usuario, grupo), "Error creando usuario");
     }
 
     @Override
     public Grupo crearGrupo(String nombre, String invitacion) {
-        ISQLiteDatabaseWrapper database = null;
+        IContentValuesWrapper values = createContentValues();
+        values.put(ColumnaNombre, nombre);
+        values.put(ColumnaInvitacion, invitacion);
 
-        try {
-            database = getInternalWritableDatabase();
-            IContentValuesWrapper values = createContentValues();
-            values.put(ColumnaNombre, nombre);
-            values.put(ColumnaInvitacion, invitacion);
-            database.beginTransaction();
-            long id = database.insert(TablaGrupo, null, values);
-            if (id != -1) {
-                Grupo grupo = new Grupo(id, nombre, invitacion);
-                database.setTransactionSuccessful();
-                return grupo;
-            }
-
-            throw new RuntimeException("Error creando grupo");
-        }
-        finally {
-            if (database != null) {
-                database.endTransaction();
-                database.close();
-            }
-        }
+        return (Grupo)crearElemento(TablaGrupo, values, id -> new Grupo(id, nombre, invitacion), "Error creando grupo");
     }
 
     @Override
@@ -434,28 +381,10 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     @Override
     public Categoria crearCategoria(String nombre, String descripcion) {
-        ISQLiteDatabaseWrapper database = null;
-
-        try {
-            database = getInternalWritableDatabase();
-            IContentValuesWrapper values = createContentValues();
-            values.put(ColumnaNombre, nombre);
-            values.put(ColumnaDescripcion, descripcion);
-            database.beginTransaction();
-            long id = database.insert(TablaCategoria, null, values);
-            if (id != -1) {
-                database.setTransactionSuccessful();
-                return new Categoria(id, nombre, descripcion);
-            }
-
-            throw new RuntimeException("Error creando categoría");
-        }
-        finally {
-            if (database != null) {
-                database.endTransaction();
-                database.close();
-            }
-        }
+        IContentValuesWrapper values = createContentValues();
+        values.put(ColumnaNombre, nombre);
+        values.put(ColumnaDescripcion, descripcion);
+        return (Categoria)crearElemento(TablaCategoria, values, id -> new Categoria(id, nombre, descripcion), "Error creando categoría");
     }
 
     @Override
@@ -490,33 +419,13 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     @Override
     public Leccion crearLeccion(String titulo, String contenido, int duracion, int orden, Course curso) {
-        ISQLiteDatabaseWrapper database = null;
-
-        try {
-            database = getInternalWritableDatabase();
-            IContentValuesWrapper values = createContentValues();
-            values.put(ColumnaTitulo, titulo);
-            values.put(ColumnaContenido, contenido);
-            values.put(ColumnaDuracion, duracion);
-            values.put(ColumnaOrden, orden);
-            values.put(ColumnaRelacionCurso, curso.getId());
-            database.beginTransaction();
-            long id = database.insert(TablaLeccion, null, values);
-
-            if (id != -1) {
-                Leccion leccion = new Leccion(id, titulo, contenido, duracion, orden, curso);
-                database.setTransactionSuccessful();
-                return leccion;
-            }
-
-            throw new RuntimeException("Error creando lección");
-        }
-        finally {
-            if (database != null) {
-                database.endTransaction();
-                database.close();
-            }
-        }
+        IContentValuesWrapper values = createContentValues();
+        values.put(ColumnaTitulo, titulo);
+        values.put(ColumnaContenido, contenido);
+        values.put(ColumnaDuracion, duracion);
+        values.put(ColumnaOrden, orden);
+        values.put(ColumnaRelacionCurso, curso.getId());
+        return (Leccion)crearElemento(TablaLeccion, values, id -> new Leccion(id, titulo, contenido, duracion, orden, curso), "Error creando lección");
     }
 
     @Override
@@ -602,36 +511,17 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     @Override
     public Inscripcion crearInscripcion(Usuario usuario, Course curso, int puntuacion, boolean favorito, int ultimaLeccion) {
-        ISQLiteDatabaseWrapper database = null;
-
         Guardia.esObjetoValido(usuario, "El usuario es nulo");
         Guardia.esObjetoValido(curso, "El curso es nulo");
 
-        try {
-            database = getInternalWritableDatabase();
-            IContentValuesWrapper values = createContentValues();
-            values.put(ColumnaRelacionUsuario, usuario.getId());
-            values.put(ColumnaRelacionCurso, curso.getId());
-            values.put(ColumnaPuntuacion, puntuacion);
-            values.put(ColumnaFavorito, favorito);
-            values.put(ColumnaUltimaLeccion, ultimaLeccion);
+        IContentValuesWrapper values = createContentValues();
+        values.put(ColumnaRelacionUsuario, usuario.getId());
+        values.put(ColumnaRelacionCurso, curso.getId());
+        values.put(ColumnaPuntuacion, puntuacion);
+        values.put(ColumnaFavorito, favorito);
+        values.put(ColumnaUltimaLeccion, ultimaLeccion);
 
-            database.beginTransaction();
-            long id = database.insert(TablaInscripcion, null, values);
-            if (id != -1) {
-                Inscripcion inscripcion = new Inscripcion(id, usuario, curso, puntuacion, favorito, ultimaLeccion);
-                database.setTransactionSuccessful();
-                return inscripcion;
-            }
-
-            throw new RuntimeException("Error creando inscripción");
-        }
-        finally {
-            if (database != null) {
-                database.endTransaction();
-                database.close();
-            }
-        }
+        return (Inscripcion)crearElemento(TablaInscripcion, values, id -> new Inscripcion(id, usuario, curso, puntuacion, favorito, ultimaLeccion), "Error creando inscripción");
     }
 
     @Override
@@ -697,6 +587,30 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
         finally {
             if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    private Object crearElemento(String tabla, IContentValuesWrapper valores, Function<Long, Object> creador, String mensajeError) {
+        ISQLiteDatabaseWrapper database = null;
+
+        try {
+            database = getInternalWritableDatabase();
+            database.beginTransaction();
+            long id = database.insert(tabla, null, valores);
+
+            if (id != -1) {
+                Object object = creador.apply(id);
+                database.setTransactionSuccessful();
+                return object;
+            }
+
+            throw new RuntimeException(mensajeError);
+        }
+        finally {
+            if (database != null) {
+                database.endTransaction();
                 database.close();
             }
         }
