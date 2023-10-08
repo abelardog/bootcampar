@@ -18,16 +18,6 @@ import org.junit.runner.RunWith;
 
 @RunWith(Theories.class)
 public class InscripcionDebe {
-    private static final String NOMBRE_GRUPO = "Grupo de programadores de JavaScript";
-    private static final String INVITACION_GRUPO = "112233";
-    private static final int PUNTUACION_INSCRIPCION = 9;
-    private static final boolean FAVORITO_INSCRIPCION = true;
-    private static final int ULTIMA_LECCION_INSCRIPCION = 4;
-    private static final Usuario USUARIO_INVALIDO = null;
-    private static final Course CURSO_INVALIDO = null;
-    private static final int PUNTUACION_INSCRIPCION_INVALIDA = -1;
-    private static final int ULTIMA_LECCION_INSCRIPCION_INVALIDA = -1;
-
     @Test
     public void serCreado_cuandoLosDatosSonCorrectos() {
         Usuario usuario = crearUsuarioPorDefecto();

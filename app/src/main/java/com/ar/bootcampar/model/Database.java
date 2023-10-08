@@ -653,6 +653,27 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
     }
 
+    @Override
+    public void borrarInscripcion(Inscripcion inscripcion) {
+        ISQLiteDatabaseWrapper database = null;
+
+        Guardia.esObjetoValido(inscripcion, "La inscripción es nula");
+
+        try {
+            database = getInternalWritableDatabase();
+            int affected = database.delete(TablaInscripcion, ColumnaId + "=?",
+                    new String[] { Long.toString(inscripcion.getId()) });
+            if (affected != 1) {
+                throw new RuntimeException(String.format("Se esperaba borrar una única inscripción pero se borraron %d", affected));
+            }
+        }
+        finally {
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
     protected ISQLiteDatabaseWrapper getInternalReadableDatabase() {
         return new SQLiteDatabaseWrapper(this.getReadableDatabase());
     }

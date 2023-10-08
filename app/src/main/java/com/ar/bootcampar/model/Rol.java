@@ -1,7 +1,8 @@
 package com.ar.bootcampar.model;
 
 public enum Rol {
-    Estudiante(0);
+    Estudiante(0),
+    Administrador(1);
 
     private final int id;
 
