@@ -276,22 +276,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     @Override
     public void borrarUsuario(Usuario usuario) {
         Guardia.esObjetoValido(usuario, "El usuario es nulo");
-
-        ISQLiteDatabaseWrapper database = null;
-
-        try {
-            database = getInternalWritableDatabase();
-            int affected = database.delete(TablaUsuario, ColumnaId + "=?",
-                    new String[] { Long.toString(usuario.getId()) });
-            if (affected != 1) {
-                throw new RuntimeException(String.format("Se esperaba borrar un único usuario pero se borraron %d", affected));
-            }
-        }
-        finally {
-            if (database != null) {
-                database.close();
-            }
-        }
+        borrarElemento(TablaUsuario, usuario.getId(), "Se esperaba borrar un único usuario pero se borraron %d");
     }
 
     @Override
@@ -417,21 +402,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     @Override
     public void borrarGrupo(Grupo grupo) {
         Guardia.esObjetoValido(grupo, "El grupo es nulo");
-
-        ISQLiteDatabaseWrapper database = null;
-        try {
-            database = getInternalWritableDatabase();
-            int affected = database.delete(TablaGrupo, ColumnaId + "=?",
-                    new String[] { Long.toString(grupo.getId()) });
-            if (affected != 1) {
-                throw new RuntimeException(String.format("Se esperaba borrar un único grupo pero se borraron %d", affected));
-            }
-        }
-        finally {
-            if (database != null) {
-                database.close();
-            }
-        }
+        borrarElemento(TablaGrupo, grupo.getId(), "Se esperaba borrar un único grupo pero se borraron %d");
     }
 
     @Override
@@ -489,21 +460,8 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     @Override
     public void borrarCategoria(Categoria categoria) {
-        ISQLiteDatabaseWrapper database = null;
-
-        try {
-            database = getInternalWritableDatabase();
-            int affected = database.delete(TablaCategoria, ColumnaId + "=?",
-                    new String[] { Long.toString(categoria.getId()) });
-            if (affected != 1) {
-                throw new RuntimeException(String.format("Se esperaba borrar una única categoría pero se borraron %d", affected));
-            }
-        }
-        finally {
-            if (database != null) {
-                database.close();
-            }
-        }
+        Guardia.esObjetoValido(categoria, "La categoría es nula");
+        borrarElemento(TablaCategoria, categoria.getId(), "Se esperaba borrar una única categoría pero se borraron %d");
     }
 
     @Override
@@ -638,21 +596,8 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     @Override
     public void borrarLeccion(Leccion leccion) {
-        ISQLiteDatabaseWrapper database = null;
-
-        try {
-            database = getInternalWritableDatabase();
-            int affected = database.delete(TablaLeccion, ColumnaId + "=?",
-                    new String[] { Long.toString(leccion.getId()) });
-            if (affected != 1) {
-                throw new RuntimeException(String.format("Se esperaba borrar una única lección pero se borraron %d", affected));
-            }
-        }
-        finally {
-            if (database != null) {
-                database.close();
-            }
-        }
+        Guardia.esObjetoValido(leccion, "La lección es nula");
+        borrarElemento(TablaLeccion, leccion.getId(), "Se esperaba borrar una única lección pero se borraron %d");
     }
 
     @Override
@@ -691,23 +636,8 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     @Override
     public void borrarInscripcion(Inscripcion inscripcion) {
-        ISQLiteDatabaseWrapper database = null;
-
         Guardia.esObjetoValido(inscripcion, "La inscripción es nula");
-
-        try {
-            database = getInternalWritableDatabase();
-            int affected = database.delete(TablaInscripcion, ColumnaId + "=?",
-                    new String[] { Long.toString(inscripcion.getId()) });
-            if (affected != 1) {
-                throw new RuntimeException(String.format("Se esperaba borrar una única inscripción pero se borraron %d", affected));
-            }
-        }
-        finally {
-            if (database != null) {
-                database.close();
-            }
-        }
+        borrarElemento(TablaInscripcion, inscripcion.getId(), "Se esperaba borrar una única inscripción pero se borraron %d");
     }
 
     @Override
@@ -753,5 +683,22 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     protected IContentValuesWrapper createContentValues() {
         return new ContentValuesWrapper();
+    }
+
+    private void borrarElemento(String tabla, long id, String mensajeError) {
+        ISQLiteDatabaseWrapper database = null;
+
+        try {
+            database = getInternalWritableDatabase();
+            int affected = database.delete(tabla, ColumnaId + "=?", new String[] { Long.toString(id) });
+            if (affected != 1) {
+                throw new RuntimeException(String.format(mensajeError, affected));
+            }
+        }
+        finally {
+            if (database != null) {
+                database.close();
+            }
+        }
     }
 }
