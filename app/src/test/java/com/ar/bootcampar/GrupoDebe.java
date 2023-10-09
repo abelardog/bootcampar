@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 
 import com.ar.bootcampar.model.Grupo;
-import com.ar.bootcampar.model.Usuario;
 
 import org.junit.Test;
 import org.junit.experimental.theories.DataPoints;

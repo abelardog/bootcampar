@@ -2,7 +2,6 @@ package com.ar.bootcampar;
 
 import static com.ar.bootcampar.support.Constants.*;
 import static com.ar.bootcampar.support.DummyMaker.crearCursoDePrueba;
-import static com.ar.bootcampar.support.DummyMaker.crearGrupoDePrueba;
 import static com.ar.bootcampar.support.DummyMaker.crearInscripcionDePrueba;
 import static com.ar.bootcampar.support.DummyMaker.crearOtraInscripcionDePrueba;
 import static com.ar.bootcampar.support.DummyMaker.crearOtroCursoDePrueba;
@@ -16,7 +15,6 @@ import static org.junit.Assert.assertTrue;
 
 import com.ar.bootcampar.model.Course;
 import com.ar.bootcampar.model.Database;
-import com.ar.bootcampar.model.Grupo;
 import com.ar.bootcampar.model.ISQLiteDatabaseWrapper;
 import com.ar.bootcampar.model.Inscripcion;
 import com.ar.bootcampar.model.Usuario;
@@ -101,7 +99,6 @@ public class ModificarInscripcionDebe {
         assertThrows(RuntimeException.class, () -> sut.modificarInscripcion(inscripcion, crearUsuarioDePrueba(), crearCursoDePrueba(), PUNTUACION_INSCRIPCION_INVALIDA, FAVORITO_INSCRIPCION, ULTIMA_LECCION_INSCRIPCION));
         assertFalse(spy.getTransactionSuccessfulCalled());
     }
-
 
     @Test
     public void noSetearTransaccionComoExitosa_cuandoLaUltimaLeccionEsInvalida() {
