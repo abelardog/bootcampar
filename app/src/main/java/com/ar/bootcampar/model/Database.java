@@ -5,13 +5,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.Group;
 
 import com.ar.bootcampar.model.utilities.Guardia;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 public class Database extends SQLiteOpenHelper implements IDatabase {
     private static final String ColumnaId = "Id";
@@ -32,11 +33,13 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     private static final String ColumnaTitulo = "Titulo";
     private static final String ColumnaDescripcion = "Descripcion";
     private static final String ColumnaNivel = "Nivel";
+    private static final String[] CamposCurso = new String[] { ColumnaId, ColumnaTitulo, ColumnaDescripcion, ColumnaNivel };
     private static final String TablaCurso = "Cursos";
     private static final String ColumnaRelacionUsuario = "UsuarioId";
     private static final String ColumnaPuntuacion = "Puntuacion";
     private static final String ColumnaFavorito = "Favorito";
     private static final String ColumnaUltimaLeccion = "UltimaLeccion";
+    private static final String[] CamposInscripcion = new String[] { ColumnaId, ColumnaRelacionUsuario, ColumnaRelacionCurso, ColumnaPuntuacion, ColumnaFavorito, ColumnaUltimaLeccion };
     private static final String TablaInscripcion = "Inscripciones";
     private static final String TablaCurricula = "Curriculas";
     private static final String ColumnaContenido = "Contenido";
@@ -162,16 +165,20 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     @NonNull
     private static Usuario obtenerUsuarioDeCursor(ICursorWrapper cursor) {
-        cursor.moveToFirst();
+        return obtenerUsuarioDeCursor(cursor, "");
+    }
+
+    @NonNull
+    private static Usuario obtenerUsuarioDeCursor(ICursorWrapper cursor, String prefijo) {
         CursorHelper cursorHelper = new CursorHelper(cursor);
         return new Usuario(
-                cursorHelper.getLongFrom(ColumnaId),
-                cursorHelper.getStringFrom(ColumnaNombre),
-                cursorHelper.getStringFrom(ColumnaApellido),
-                cursorHelper.getStringFrom(ColumnaEmail),
-                cursorHelper.getStringFrom(ColumnaClave),
-                Rol.fromInt(cursorHelper.getIntFrom(ColumnaRol)),
-                cursorHelper.getStringFrom(ColumnaTelefono));
+                cursorHelper.getLongFrom(prefijo + ColumnaId),
+                cursorHelper.getStringFrom(prefijo + ColumnaNombre),
+                cursorHelper.getStringFrom(prefijo + ColumnaApellido),
+                cursorHelper.getStringFrom(prefijo + ColumnaEmail),
+                cursorHelper.getStringFrom(prefijo + ColumnaClave),
+                Rol.fromInt(cursorHelper.getIntFrom(prefijo + ColumnaRol)),
+                cursorHelper.getStringFrom(prefijo + ColumnaTelefono));
     }
 
     @Override
@@ -227,12 +234,45 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     @NonNull
     private static Grupo obtenerGrupoDeCursor(ICursorWrapper cursor) {
-        cursor.moveToFirst();
         CursorHelper cursorHelper = new CursorHelper(cursor);
         return new Grupo(
                 cursorHelper.getLongFrom(ColumnaId),
                 cursorHelper.getStringFrom(ColumnaNombre),
                 cursorHelper.getStringFrom(ColumnaInvitacion));
+    }
+
+    @NonNull
+    private static Course obtenerCursoDeCursor(ICursorWrapper cursor, String prefijo) {
+        CursorHelper cursorHelper = new CursorHelper(cursor);
+        return new Course(
+                cursorHelper.getLongFrom(prefijo + ColumnaId),
+                cursorHelper.getStringFrom(prefijo + ColumnaTitulo),
+                cursorHelper.getStringFrom(prefijo + ColumnaDescripcion),
+                false, "");
+    }
+
+    @NonNull
+    private static Inscripcion obtenerInscripcionDeCursor(ICursorWrapper cursor, Usuario usuario) {
+        CursorHelper cursorHelper = new CursorHelper(cursor);
+        return new Inscripcion(
+                cursorHelper.getLongFrom(ColumnaId),
+                usuario,
+                obtenerCursoDeCursor(cursor, TablaCurso + "." + ColumnaId),
+                cursorHelper.getIntFrom(ColumnaPuntuacion),
+                cursorHelper.getIntFrom(ColumnaFavorito) != 0,
+                cursorHelper.getIntFrom(ColumnaUltimaLeccion));
+    }
+
+    @NonNull
+    private static Inscripcion obtenerInscripcionDeCursor(ICursorWrapper cursor, String prefijo) {
+        CursorHelper cursorHelper = new CursorHelper(cursor);
+        return new Inscripcion(
+                cursorHelper.getLongFrom(prefijo + ColumnaId),
+                obtenerUsuarioDeCursor(cursor, TablaUsuario + "."),
+                obtenerCursoDeCursor(cursor, TablaCurso + "."),
+                cursorHelper.getIntFrom(prefijo + ColumnaPuntuacion),
+                cursorHelper.getIntFrom(prefijo + ColumnaFavorito) == 0,
+                cursorHelper.getIntFrom(prefijo + ColumnaUltimaLeccion));
     }
 
     @Override
@@ -351,7 +391,6 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 database.close();
             }
         }
-
     }
 
     @Override
@@ -395,6 +434,90 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         values.put(ColumnaUltimaLeccion, nuevaUltimaLeccion);
 
         return (Inscripcion)modificarElemento(TablaInscripcion, inscripcion.getId(), values, id -> new Inscripcion(inscripcion.getId(), nuevoUsuario, nuevoCurso, nuevaPuntuacion, nuevoFavorito, nuevaUltimaLeccion), "Se esperaba modificar una única inscripción pero se modificaron %d");
+    }
+
+    @Override
+    public List<Inscripcion> buscarInscripciones(Usuario usuario) {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+
+        try {
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaInscripcion + ", " + TablaCurso,
+                     concatenarVectores(
+                            agregarNombreDeTablaEnColumnas(TablaInscripcion, CamposInscripcion),
+                            agregarNombreDeTablaEnColumnas(TablaCurso, CamposCurso)),
+                    ColumnaRelacionUsuario + "=? AND " + ColumnaRelacionCurso + " = " + TablaCurso + "." + ColumnaId,
+                    new String[] { String.valueOf(usuario.getId()) }, null, null, null);
+            if (cursor.getCount() == 0) {
+                return new ArrayList<>();
+            }
+
+            List<Inscripcion> resultado = new ArrayList<>();
+            if (cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    resultado.add(obtenerInscripcionDeCursor(cursor, usuario));
+                    cursor.moveToNext();
+                }
+            }
+
+            return resultado;
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    @Override
+    public Inscripcion buscarInscripcionOExplotar(long id) {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+
+        try {
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaInscripcion + ", " + TablaCurso + ", " + TablaUsuario,
+                    concatenarVectores(
+                            agregarNombreDeTablaEnColumnas(TablaInscripcion, CamposInscripcion),
+                            agregarNombreDeTablaEnColumnas(TablaCurso, CamposCurso),
+                            agregarNombreDeTablaEnColumnas(TablaUsuario, CamposUsuario)),
+                    ColumnaRelacionUsuario + "=? AND " + ColumnaRelacionCurso + " = " + TablaCurso + "." + ColumnaId +
+                            " AND " + ColumnaRelacionUsuario + " = " + TablaUsuario + "." + ColumnaId,
+                    new String[] { String.valueOf(id) }, null, null, null);
+
+            if (cursor.getCount() == 1) {
+                return obtenerInscripcionDeCursor(cursor, TablaInscripcion + ".");
+            }
+
+            throw new RuntimeException(String.format("Se esperaba encontrar una única inscripción con id %d, se encontraron %d", id, cursor.getCount()));
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    private String[] agregarNombreDeTablaEnColumnas(String tabla, String[] campos) {
+        return Arrays.stream(campos).map(s -> tabla + "." + s).toArray(String[]::new);
+    }
+
+    private String[] concatenarVectores(String[]... vectores) {
+        String[] resultado = new String[] { };
+        for (String[] v : vectores) {
+            resultado = Stream.concat(Arrays.stream(resultado), Arrays.stream(v)).toArray(String[]::new);
+        }
+
+        return resultado;
     }
 
     protected ISQLiteDatabaseWrapper getInternalReadableDatabase() {
