@@ -2,6 +2,7 @@
 [![commit][commit-img]][commit-url]
 [![discuss][discuss-img]][discuss-url]
 [![issues][issues-img]][issues-url]
+[![buildall][buildall-img]][buildall-url]
 
 # BOOTCAMPAR
 ![Imagen de WhatsApp 2023-09-15 a las 23 47 04](https://github.com/abelardog/bootcampar/assets/106390254/cdc7939c-7fe8-436c-a3f5-274e46004f12)
@@ -68,4 +69,5 @@ https://drive.google.com/file/d/1Vh5k2U7IZW36KHvUsbqYsCwuzqwLTipP/view
 [issues-url]: https://github.com/abelardog/bootcampar/issues
 [discuss-img]: https://img.shields.io/github/discussions/abelardog/bootcampar
 [discuss-url]: https://github.com/abelardog/bootcampar/discussions
-
+[buildall-img]: https://github.com/abelardog/bootcampar/actions/workflows/android.yml/badge.svg
+[buildall-url]: https://github.com/abelardog/bootcampar/actions/workflows/android.yml
