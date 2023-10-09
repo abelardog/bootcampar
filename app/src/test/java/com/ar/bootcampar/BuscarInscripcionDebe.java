@@ -2,12 +2,10 @@ package com.ar.bootcampar;
 
 import static com.ar.bootcampar.support.Constants.*;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import com.ar.bootcampar.model.Database;
-import com.ar.bootcampar.model.Grupo;
 import com.ar.bootcampar.model.IDatabase;
 import com.ar.bootcampar.model.Rol;
 import com.ar.bootcampar.support.CursorWrapperStub;
@@ -47,61 +45,20 @@ public class BuscarInscripcionDebe {
                 .conCountRetornando(1)
                 .build();
     }
-/*
+
     @Test
-    public void buscarDatosEnTablaGrupo_cuandoSeBuscaPorId() {
+    public void buscarDatosEnTablaInscripciones_cuandoSeBuscaPorId() {
         CursorWrapperStub cursorStub = crearCursorStub();
         SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
                 .conQueryRetornando(cursorStub)
                 .build();
 
         Database sut = new TestableDatabase(spy);
-        sut.buscarGrupoOExplotar(ID);
+        sut.buscarInscripcionOExplotar(ID_INSCRIPCION);
 
-        assertEquals("Grupos", spy.getTableName());
-    }
-
-    @Test
-    public void retornarNull_cuandoNoSeEncuentraInvitacion() {
-        CursorWrapperStub cursorStub = new CursorWrapperStub.Builder()
-                .conCountRetornando(0)
-                .build();
-        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
-                .conQueryRetornando(cursorStub)
-                .build();
-
-        Database sut = new TestableDatabase(spy);
-        Grupo resultado = sut.buscarGrupoONada(INVITACION_GRUPO);
-
-        assertNull(resultado);
-    }
-
-    @Test
-    public void buscarDatosEnTablaGrupo_cuandoSeBuscaPorInvitacion() {
-        CursorWrapperStub cursorStub = crearCursorStub();
-        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
-                .conQueryRetornando(cursorStub)
-                .build();
-
-        Database sut = new TestableDatabase(spy);
-        sut.buscarGrupoONada(INVITACION_GRUPO);
-
-        assertEquals("Grupos", spy.getTableName());
-    }
-
-    @Test
-    public void lanzarExcepcion_cuandoSeEncuentranVariosGruposConLaMismaInvitacion() {
-        CursorWrapperStub cursorStub = new CursorWrapperStub.Builder()
-                .conCountRetornando(3)
-                .build();
-        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
-                .conQueryRetornando(cursorStub)
-                .build();
-
-        Database sut = new TestableDatabase(spy);
-        Exception exception = assertThrows(RuntimeException.class, () -> sut.buscarGrupoONada(INVITACION_GRUPO));
-        assertTrue(exception.getMessage().startsWith("Se encontraron varios grupos con la misma invitación "));
-        assertTrue(exception.getMessage().endsWith(INVITACION_GRUPO));
+        assertTrue(spy.getTableName().contains("Inscripciones"));
+        assertTrue(spy.getTableName().contains("Cursos"));
+        assertTrue(spy.getTableName().contains("Usuarios"));
     }
 
     @DataPoints("count invalidos")
@@ -119,34 +76,10 @@ public class BuscarInscripcionDebe {
                 .build();
 
         Database sut = new TestableDatabase(spy);
-        Exception exception = assertThrows(RuntimeException.class, () -> sut.buscarGrupoOExplotar(ID));
-        assertTrue(exception.getMessage().startsWith("Se esperaba encontrar un grupo con id"));
+        Exception exception = assertThrows(RuntimeException.class, () -> sut.buscarInscripcionOExplotar(ID));
+        assertTrue(exception.getMessage().startsWith("Se esperaba encontrar una única inscripción con id"));
         assertTrue(exception.getMessage().contains(String.valueOf(ID)));
         assertTrue(exception.getMessage().endsWith(String.valueOf(countInvalidos)));
-    }
-
-    @Test
-    public void cerrarBaseDeDatos_cuandoNoSeEncuentraPorInvitacion() {
-        probarCerrarBaseDeDatosAlBuscarSinExito(0, (IDatabase sut) -> {
-            sut.buscarGrupoONada(INVITACION_GRUPO);
-            return true;
-        });
-    }
-
-    @Test
-    public void cerrarBaseDeDatos_cuandoSeEncuentraUnGrupoPorInvitacion() {
-        probarCerrarBaseDeDatosAlBuscarConExito((IDatabase sut) -> {
-            sut.buscarGrupoONada(INVITACION_GRUPO);
-            return true;
-        });
-    }
-
-    @Test
-    public void cerrarBaseDeDatos_cuandoSeEncuentranMuchosPorInvitacion() {
-        probarCerrarBaseDeDatosAlBuscarSinExito(2, (IDatabase sut) -> {
-            sut.buscarGrupoONada(INVITACION_GRUPO);
-            return true;
-        });
     }
 
     @Test
@@ -158,17 +91,17 @@ public class BuscarInscripcionDebe {
     }
 
     @Test
-    public void cerrarBaseDeDatos_cuandoSeEncuentraUnGrupoPorId() {
+    public void cerrarBaseDeDatos_cuandoSeEncuentraUnaInscripcionPorId() {
         probarCerrarBaseDeDatosAlBuscarConExito((IDatabase sut) -> {
-            sut.buscarGrupoOExplotar(ID);
+            sut.buscarInscripcionOExplotar(ID);
             return true;
         });
     }
 
     @Test
-    public void cerrarBaseDeDatos_cuandoSeEncuentranVariosGruposPorId() {
+    public void cerrarBaseDeDatos_cuandoSeEncuentranVariasInscripcionesPorId() {
         probarCerrarBaseDeDatosAlBuscarSinExito(2, (IDatabase sut) -> {
-            sut.buscarGrupoOExplotar(ID);
+            sut.buscarInscripcionOExplotar(ID);
             return true;
         });
     }
@@ -203,41 +136,17 @@ public class BuscarInscripcionDebe {
     }
 
     @Test
-    public void cerrarCursor_cuandoNoSeEncuentraPorInvitacion() {
-        probarCerrarCursorAlBuscarSinExito(0, (IDatabase sut) -> {
-            sut.buscarGrupoONada(INVITACION_GRUPO);
-            return true;
-        });
-    }
-
-    @Test
-    public void cerrarCursor_cuandoSeEncuentraUnGrupoPorInvitacion() {
-        probarCerrarCursorAlBuscarConExito((IDatabase sut) -> {
-            sut.buscarGrupoONada(INVITACION_GRUPO);
-            return true;
-        });
-    }
-
-    @Test
-    public void cerrarCursor_cuandoSeEncuentranMuchosPorInvitacion() {
-        probarCerrarCursorAlBuscarSinExito(2, (IDatabase sut) -> {
-            sut.buscarGrupoONada(INVITACION_GRUPO);
-            return true;
-        });
-    }
-
-    @Test
     public void cerrarCursor_cuandoNoSeEncuentraPorId() {
         probarCerrarCursorAlBuscarSinExito(0, (IDatabase sut) -> {
-            sut.buscarGrupoOExplotar(ID);
+            sut.buscarInscripcionOExplotar(ID);
             return true;
         });
     }
 
     @Test
-    public void cerrarCursor_cuandoSeEncuentraUnGrupoPorId() {
+    public void cerrarCursor_cuandoSeEncuentraUnaInscripcionPorId() {
         probarCerrarCursorAlBuscarConExito((IDatabase sut) -> {
-            sut.buscarGrupoOExplotar(ID);
+            sut.buscarInscripcionOExplotar(ID);
             return true;
         });
     }
@@ -253,7 +162,7 @@ public class BuscarInscripcionDebe {
         Database sut = new TestableDatabase(spy);
         try {
             assertion.apply(sut);
-        } catch (Exception ex) {
+        } catch (Exception ignored) {
         }
 
         assertTrue(cursorStub.getCloseCalled());
@@ -269,5 +178,5 @@ public class BuscarInscripcionDebe {
         assertion.apply(sut);
 
         assertTrue(cursorStub.getCloseCalled());
-    }*/
+    }
 }
