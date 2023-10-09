@@ -165,16 +165,20 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     @NonNull
     private static Usuario obtenerUsuarioDeCursor(ICursorWrapper cursor) {
-        cursor.moveToFirst();
+        return obtenerUsuarioDeCursor(cursor, "");
+    }
+
+    @NonNull
+    private static Usuario obtenerUsuarioDeCursor(ICursorWrapper cursor, String prefijo) {
         CursorHelper cursorHelper = new CursorHelper(cursor);
         return new Usuario(
-                cursorHelper.getLongFrom(ColumnaId),
-                cursorHelper.getStringFrom(ColumnaNombre),
-                cursorHelper.getStringFrom(ColumnaApellido),
-                cursorHelper.getStringFrom(ColumnaEmail),
-                cursorHelper.getStringFrom(ColumnaClave),
-                Rol.fromInt(cursorHelper.getIntFrom(ColumnaRol)),
-                cursorHelper.getStringFrom(ColumnaTelefono));
+                cursorHelper.getLongFrom(prefijo + ColumnaId),
+                cursorHelper.getStringFrom(prefijo + ColumnaNombre),
+                cursorHelper.getStringFrom(prefijo + ColumnaApellido),
+                cursorHelper.getStringFrom(prefijo + ColumnaEmail),
+                cursorHelper.getStringFrom(prefijo + ColumnaClave),
+                Rol.fromInt(cursorHelper.getIntFrom(prefijo + ColumnaRol)),
+                cursorHelper.getStringFrom(prefijo + ColumnaTelefono));
     }
 
     @Override
@@ -238,12 +242,12 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     @NonNull
-    private static Course obtenerCursoDeCursor(ICursorWrapper cursor, String id) {
+    private static Course obtenerCursoDeCursor(ICursorWrapper cursor, String prefijo) {
         CursorHelper cursorHelper = new CursorHelper(cursor);
         return new Course(
-                cursorHelper.getLongFrom(id),
-                cursorHelper.getStringFrom(ColumnaTitulo),
-                cursorHelper.getStringFrom(ColumnaDescripcion),
+                cursorHelper.getLongFrom(prefijo + ColumnaId),
+                cursorHelper.getStringFrom(prefijo + ColumnaTitulo),
+                cursorHelper.getStringFrom(prefijo + ColumnaDescripcion),
                 false, "");
     }
 
@@ -257,6 +261,18 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 cursorHelper.getIntFrom(ColumnaPuntuacion),
                 cursorHelper.getIntFrom(ColumnaFavorito) != 0,
                 cursorHelper.getIntFrom(ColumnaUltimaLeccion));
+    }
+
+    @NonNull
+    private static Inscripcion obtenerInscripcionDeCursor(ICursorWrapper cursor, String prefijo) {
+        CursorHelper cursorHelper = new CursorHelper(cursor);
+        return new Inscripcion(
+                cursorHelper.getLongFrom(prefijo + ColumnaId),
+                obtenerUsuarioDeCursor(cursor, TablaUsuario + "."),
+                obtenerCursoDeCursor(cursor, TablaCurso + "."),
+                cursorHelper.getIntFrom(prefijo + ColumnaPuntuacion),
+                cursorHelper.getIntFrom(prefijo + ColumnaFavorito) == 0,
+                cursorHelper.getIntFrom(prefijo + ColumnaUltimaLeccion));
     }
 
     @Override
@@ -458,12 +474,50 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
     }
 
+    @Override
+    public Inscripcion buscarInscripcionOExplotar(long id) {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+
+        try {
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaInscripcion + ", " + TablaCurso + ", " + TablaUsuario,
+                    concatenarVectores(
+                            agregarNombreDeTablaEnColumnas(TablaInscripcion, CamposInscripcion),
+                            agregarNombreDeTablaEnColumnas(TablaCurso, CamposCurso),
+                            agregarNombreDeTablaEnColumnas(TablaUsuario, CamposUsuario)),
+                    ColumnaRelacionUsuario + "=? AND " + ColumnaRelacionCurso + " = " + TablaCurso + "." + ColumnaId +
+                            " AND " + ColumnaRelacionUsuario + " = " + TablaUsuario + "." + ColumnaId,
+                    new String[] { String.valueOf(id) }, null, null, null);
+
+            if (cursor.getCount() == 1) {
+                return obtenerInscripcionDeCursor(cursor, TablaInscripcion + ".");
+            }
+
+            throw new RuntimeException(String.format("Se esperaba encontrar una única inscripción con id %d, se encontraron %d", id, cursor.getCount()));
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
     private String[] agregarNombreDeTablaEnColumnas(String tabla, String[] campos) {
         return Arrays.stream(campos).map(s -> tabla + "." + s).toArray(String[]::new);
     }
 
-    private String[] concatenarVectores(String[] primero, String[] segundo) {
-        return Stream.concat(Arrays.stream(primero), Arrays.stream(segundo)).toArray(String[]::new);
+    private String[] concatenarVectores(String[]... vectores) {
+        String[] resultado = new String[] { };
+        for (String[] v : vectores) {
+            resultado = Stream.concat(Arrays.stream(resultado), Arrays.stream(v)).toArray(String[]::new);
+        }
+
+        return resultado;
     }
 
     protected ISQLiteDatabaseWrapper getInternalReadableDatabase() {

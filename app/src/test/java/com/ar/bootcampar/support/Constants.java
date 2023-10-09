@@ -37,6 +37,7 @@ public class Constants {
     public static final String IMAGEN_CURSO = "https://www.imgur.com/xyz";
     public static final String TITULO_CURSO = "Maestría en JavaScript";
     public static final String DESCRIPCION_CURSO = "Con este curso sabrá programar en JavaScript desde un carrito de compras a un e-commerce!";
+    public static final int NIVEL_CURSO = 1;
     @Deprecated
     public static final boolean ES_FAVORITO_CURSO = true;
     public static final long OTRO_ID_CURSO = 19;
@@ -55,7 +56,7 @@ public class Constants {
     public static final String INVITACION_GRUPO_INVALIDA = "";
 
     // Constantes para Inscripción
-    public static int ID_INSCRIPCION = 55;
+    public static long ID_INSCRIPCION = 55;
     public static final int PUNTUACION_INSCRIPCION = 9;
     public static final boolean FAVORITO_INSCRIPCION = true;
     public static final int ULTIMA_LECCION_INSCRIPCION = 4;
