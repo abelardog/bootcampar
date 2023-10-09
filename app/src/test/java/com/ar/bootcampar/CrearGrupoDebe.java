@@ -11,10 +11,7 @@ import com.ar.bootcampar.support.SqliteDatabaseWrapperSpy;
 import com.ar.bootcampar.support.TestableDatabase;
 
 import org.junit.Test;
-import org.junit.experimental.theories.Theories;
-import org.junit.runner.RunWith;
 
-@RunWith(Theories.class)
 public class CrearGrupoDebe {
     @Test
     public void lanzarExcepcion_cuandoSeIntentaCrearGrupoConNombreInvalido() {
