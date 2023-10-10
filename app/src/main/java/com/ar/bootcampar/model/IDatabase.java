@@ -10,6 +10,10 @@ public interface IDatabase {
     void borrarUsuario(Usuario usuario);
 
     Division crearDivision(Usuario usuario, Grupo grupo);
+    void borrarDivision(Division division);
+    Division modificarDivision(Usuario usuario, Grupo grupo);git stat
+
+
 
     Grupo crearGrupo(String nombre, String invitacion);
     Grupo buscarGrupoONada(String invitacion);

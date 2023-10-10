@@ -218,6 +218,17 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     @Override
+    public void borrarDivision(Division division) {
+        Guardia.esObjetoValido(division, "La division es nula");
+        borrarElemento(TablaDivision, division.getId(), "Se esperaba borrar una única division");
+    }
+
+    @Override
+    public Division modificarDivision(Usuario usuario, Grupo grupo) {
+        return null;
+    }
+
+    @Override
     public Grupo crearGrupo(String nombre, String invitacion) {
         IContentValuesWrapper values = createContentValues();
         values.put(ColumnaNombre, nombre);
