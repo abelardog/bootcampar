@@ -1,7 +1,5 @@
 package com.ar.bootcampar.model;
 
-import android.database.Cursor;
-
 public class CursorHelper {
     private final ICursorWrapper cursor;
 
