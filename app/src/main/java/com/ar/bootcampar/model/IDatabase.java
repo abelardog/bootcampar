@@ -34,9 +34,9 @@ public interface IDatabase {
     Inscripcion buscarInscripcionOExplotar(long id);
 
 
-    Currículas crearCurriculas(Curso curso, Grupo grupo);
-    Currículas modificarCurriulas(Currículas currículas, Curso nuevocourse, Grupo nuevogrupo);
-    void borrarCurriculas(Currículas currículas);
+    Curricula crearCurriculas(Curso curso, Grupo grupo);
+    Curricula modificarCurriulas(Curricula curricula, Curso nuevocourse, Grupo nuevogrupo);
+    void borrarCurriculas(Curricula curricula);
 
 
 

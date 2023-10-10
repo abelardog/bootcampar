@@ -2,7 +2,7 @@ package com.ar.bootcampar.model;
 
 import java.io.Serializable;
 
-public class Currículas implements Serializable {
+public class Curricula implements Serializable {
 
     private final long id;
 
@@ -11,7 +11,7 @@ public class Currículas implements Serializable {
     private final  Grupo grupo;
 
 
-    public Currículas(long id, Curso curso, Grupo grupo) {
+    public Curricula(long id, Curso curso, Grupo grupo) {
         this.id = id;
         this.curso = curso;
         this.grupo = grupo;

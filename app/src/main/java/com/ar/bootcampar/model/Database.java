@@ -548,33 +548,33 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
 
     @Override
-    public Currículas crearCurriculas(Curso nuevocourse, Grupo nuevogrupo) {
+    public Curricula crearCurriculas(Curso nuevocourse, Grupo nuevogrupo) {
         IContentValuesWrapper values = createContentValues();
 
         values.put(ColumnaRelacionCurso, nuevocourse.getId());
         values.put(ColumnaRelacionGrupo, nuevogrupo.getId());
 
-        return (Currículas)crearElemento(TablaCurricula, values, id -> new Currículas(id,nuevocourse,nuevogrupo), "Error crear curricula");
+        return (Curricula)crearElemento(TablaCurricula, values, id -> new Curricula(id,nuevocourse,nuevogrupo), "Error crear curricula");
 
     }
 
     @Override
-    public Currículas modificarCurriulas(Currículas currículas, Curso nuevocourse, Grupo nuevogrupo) {
-        Guardia.esObjetoValido(currículas, "Las curriculas son nulas");
+    public Curricula modificarCurriulas(Curricula curricula, Curso nuevocourse, Grupo nuevogrupo) {
+        Guardia.esObjetoValido(curricula, "Las curriculas son nulas");
 
         IContentValuesWrapper values = createContentValues();
         values.put(ColumnaRelacionCurso, nuevocourse.getId());
         values.put(ColumnaRelacionGrupo, nuevogrupo.getId());
 
-        return (Currículas)modificarElemento(TablaCurricula, currículas.getId(), values, id -> new Currículas(currículas.getId(), nuevocourse, nuevogrupo),"Se esperaba modificar una unica Curricula");
+        return (Curricula)modificarElemento(TablaCurricula, curricula.getId(), values, id -> new Curricula(curricula.getId(), nuevocourse, nuevogrupo),"Se esperaba modificar una unica Curricula");
 
     }
 
 
     @Override
-    public void borrarCurriculas(Currículas currículas) {
-        Guardia.esObjetoValido(currículas, "Las curriculas es nula");
-        borrarElemento(TablaCurricula, currículas.getId(), "Se esperaba borrar una unica curricula ");
+    public void borrarCurriculas(Curricula curricula) {
+        Guardia.esObjetoValido(curricula, "Las curriculas es nula");
+        borrarElemento(TablaCurricula, curricula.getId(), "Se esperaba borrar una unica curricula ");
     }
 
     private String[] agregarNombreDeTablaEnColumnas(String tabla, String[] campos) {
