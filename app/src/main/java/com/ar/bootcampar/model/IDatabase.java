@@ -11,7 +11,7 @@ public interface IDatabase {
 
     Division crearDivision(Usuario usuario, Grupo grupo);
     void borrarDivision(Division division);
-    Division modificarDivision(Usuario usuario, Grupo grupo);git stat
+    Division modificarDivision(Division division, Usuario nuevoUsuario, Grupo nuevoGrupo);
 
 
 
