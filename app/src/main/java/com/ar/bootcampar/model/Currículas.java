@@ -16,7 +16,7 @@ public class Currículas implements Serializable {
         this.course = course;
         this.grupo = grupo;
     }
-    
+
     public long getId() {return id;}
     public Course getCourse(){return course;}
     public Grupo getGrupo(){return grupo;}

@@ -507,6 +507,76 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @Override
+    public Currículas crearCurriculas(Course nuevocourse, Grupo nuevogrupo) {
+        IContentValuesWrapper values = createContentValues();
+
+        values.put(ColumnaRelacionCurso, nuevocourse.getId());
+        values.put(ColumnaRelacionGrupo, nuevogrupo.getId());
+
+        return (Currículas)crearElemento(TablaCurricula, values, id -> new Currículas(id,nuevocourse,nuevogrupo), "Error crear curricula");
+
+    }
+
+    @Override
+    public Currículas modificarCurriulas(Currículas currículas,Course nuevocourse, Grupo nuevogrupo) {
+        Guardia.esObjetoValido(currículas, "Las curriculas son nulas");
+
+        IContentValuesWrapper values = createContentValues();
+        values.put(ColumnaRelacionCurso, nuevocourse.getId());
+        values.put(ColumnaRelacionGrupo, nuevogrupo.getId());
+
+        return (Currículas)modificarElemento(TablaCurricula, currículas.getId(), values, id -> new Currículas(currículas.getId(), nuevocourse, nuevogrupo),"Se esperaba modificar una unica Curricula");
+
+    }
+
+
+    @Override
+    public void borrarCurriculas(Currículas currículas) {
+        Guardia.esObjetoValido(currículas, "Las curriculas es nula");
+        borrarElemento(TablaCurricula, currículas.getId(), "Se esperaba borrar una unica curricula ");
+    }
+
     private String[] agregarNombreDeTablaEnColumnas(String tabla, String[] campos) {
         return Arrays.stream(campos).map(s -> tabla + "." + s).toArray(String[]::new);
     }
@@ -648,4 +718,5 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             }
         }
     }
+
 }
