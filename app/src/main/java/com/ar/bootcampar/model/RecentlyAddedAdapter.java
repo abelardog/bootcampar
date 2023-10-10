@@ -3,7 +3,6 @@ package com.ar.bootcampar.model;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,7 +13,7 @@ import com.ar.bootcampar.R;
 import java.util.List;
 
 public class RecentlyAddedAdapter extends RecyclerView.Adapter<RecentlyAddedAdapter.RecentlyAddedView> {
-    private List<Course> list;
+    private List<Curso> list;
     private OnItemClickListener onItemClickListener;
 
     public interface OnItemClickListener{
@@ -39,7 +38,7 @@ public class RecentlyAddedAdapter extends RecyclerView.Adapter<RecentlyAddedAdap
         }
     }
 
-    public RecentlyAddedAdapter(List<Course> elements, OnItemClickListener listener) {
+    public RecentlyAddedAdapter(List<Curso> elements, OnItemClickListener listener) {
         this.list = elements;
         this.onItemClickListener = listener;
     }
@@ -56,8 +55,8 @@ public class RecentlyAddedAdapter extends RecyclerView.Adapter<RecentlyAddedAdap
 
     @Override
     public void onBindViewHolder(@NonNull RecentlyAddedView holder, int position) {
-        Course course = list.get(position);
-        holder.textView.setText(course.getTitle());
+        Curso curso = list.get(position);
+        holder.textView.setText(curso.getTitle());
     }
 
     @Override

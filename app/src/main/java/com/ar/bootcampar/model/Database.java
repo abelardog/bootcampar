@@ -242,9 +242,9 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     @NonNull
-    private static Course obtenerCursoDeCursor(ICursorWrapper cursor, String prefijo) {
+    private static Curso obtenerCursoDeCursor(ICursorWrapper cursor, String prefijo) {
         CursorHelper cursorHelper = new CursorHelper(cursor);
-        return new Course(
+        return new Curso(
                 cursorHelper.getLongFrom(prefijo + ColumnaId),
                 cursorHelper.getStringFrom(prefijo + ColumnaTitulo),
                 cursorHelper.getStringFrom(prefijo + ColumnaDescripcion),
@@ -324,7 +324,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     @Override
-    public Leccion crearLeccion(String titulo, String contenido, int duracion, int orden, Course curso) {
+    public Leccion crearLeccion(String titulo, String contenido, int duracion, int orden, Curso curso) {
         IContentValuesWrapper values = createContentValues();
         values.put(ColumnaTitulo, titulo);
         values.put(ColumnaContenido, contenido);
@@ -335,7 +335,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     @Override
-    public Leccion modificarLeccion(Leccion leccion, String nuevoTitulo, String nuevoContenido, int nuevaDuracion, int nuevoOrden, Course nuevoCurso) {
+    public Leccion modificarLeccion(Leccion leccion, String nuevoTitulo, String nuevoContenido, int nuevaDuracion, int nuevoOrden, Curso nuevoCurso) {
         Guardia.esObjetoValido(leccion, "La lección es nula");
 
         IContentValuesWrapper values = createContentValues();
@@ -349,7 +349,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     @Override
-    public List<Leccion> buscarLecciones(Course curso) {
+    public List<Leccion> buscarLecciones(Curso curso) {
         ISQLiteDatabaseWrapper database = null;
         ICursorWrapper cursor = null;
 
@@ -400,7 +400,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     @Override
-    public Inscripcion crearInscripcion(Usuario usuario, Course curso, int puntuacion, boolean favorito, int ultimaLeccion) {
+    public Inscripcion crearInscripcion(Usuario usuario, Curso curso, int puntuacion, boolean favorito, int ultimaLeccion) {
         Guardia.esObjetoValido(usuario, "El usuario es nulo");
         Guardia.esObjetoValido(curso, "El curso es nulo");
 
@@ -421,7 +421,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     @Override
-    public Inscripcion modificarInscripcion(Inscripcion inscripcion, Usuario nuevoUsuario, Course nuevoCurso, int nuevaPuntuacion, boolean nuevoFavorito, int nuevaUltimaLeccion) {
+    public Inscripcion modificarInscripcion(Inscripcion inscripcion, Usuario nuevoUsuario, Curso nuevoCurso, int nuevaPuntuacion, boolean nuevoFavorito, int nuevaUltimaLeccion) {
         Guardia.esObjetoValido(inscripcion, "La inscripción es nula");
         Guardia.esObjetoValido(nuevoUsuario, "El usuario es nulo");
         Guardia.esObjetoValido(nuevoCurso, "El curso es nulo");
@@ -548,7 +548,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
 
     @Override
-    public Currículas crearCurriculas(Course nuevocourse, Grupo nuevogrupo) {
+    public Currículas crearCurriculas(Curso nuevocourse, Grupo nuevogrupo) {
         IContentValuesWrapper values = createContentValues();
 
         values.put(ColumnaRelacionCurso, nuevocourse.getId());
@@ -559,7 +559,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     @Override
-    public Currículas modificarCurriulas(Currículas currículas,Course nuevocourse, Grupo nuevogrupo) {
+    public Currículas modificarCurriulas(Currículas currículas, Curso nuevocourse, Grupo nuevogrupo) {
         Guardia.esObjetoValido(currículas, "Las curriculas son nulas");
 
         IContentValuesWrapper values = createContentValues();
