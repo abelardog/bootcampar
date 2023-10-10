@@ -51,7 +51,7 @@
     <string name="title_my_courses">Mis cursos</string>
     <string name="btn_profile_fav">Mis favoritos</string>
     <string name="btn_profile_conf">Configuracion</string>
-    <string name="subtitle_profile">Ver mas curos y talleres</string>
+    <string name="subtitle_profile">Ver más cursos y talleres</string>
     <string name="profile_lang">Python</string>
     <string name="arroy_left">►</string>
     <string name="arroy_right">◄</string>
@@ -122,8 +122,15 @@
     <string name="complete_profile_data_please">Por favor complete todos los datos.</string>
     <string name="contact">Contacto</string>
     <string name="ingrese_codigo_invitacion">Ingrese su código de invitación</string>
+    <string name="title_class">Python</string>
+    <string name="chapter">chapter1</string>
+    <string name="introduction_class">Introduction</string>
+    <string name="classDescription">classDescription</string>
+    <string name="qualification_class">qualification</string>
     <string name="search_button_text">Buscar</string>
     <string name="choose_categories_text">Elija categorías</string>
     <string name="insert_search_text">Ingrese texto para buscar</string>
     <string name="select_categories_text">Seleccione categorías</string>
+    <string name="invalid_invitation_code">La invitacion %s es inválida.</string>
+    <string name="registered_user_with_same_mail_exists">Ya existe un usuario registrado con el e-mail %s</string>
 </resources>
