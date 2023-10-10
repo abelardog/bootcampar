@@ -677,6 +677,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 return null;
             }
             else if (cursor.getCount() == 1) {
+                cursor.moveToFirst();
                 return creator.apply(cursor);
             }
 
@@ -703,6 +704,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                     ColumnaId + "=?", new String[] { Long.toString(id) },
                     null, null, null);
             if (cursor.getCount() == 1) {
+                cursor.moveToFirst();
                 return creador.apply(cursor);
             }
 
