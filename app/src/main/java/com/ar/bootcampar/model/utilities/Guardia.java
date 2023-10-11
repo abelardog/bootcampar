@@ -1,9 +1,5 @@
 package com.ar.bootcampar.model.utilities;
 
-import com.ar.bootcampar.model.Course;
-import com.ar.bootcampar.model.Grupo;
-import com.ar.bootcampar.model.Usuario;
-
 public class Guardia {
     public static void esCadenaNoVacia(String cadena, String mensajeFallo) {
         if (cadena == null || cadena.trim().isEmpty()) throw new RuntimeException(mensajeFallo);

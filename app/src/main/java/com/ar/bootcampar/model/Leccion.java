@@ -10,9 +10,9 @@ public class Leccion implements Serializable {
     private String contenido;
     private int duracion;
     private int orden;
-    private Course curso;
+    private Curso curso;
 
-    public Leccion(long id, String titulo, String contenido, int duracion, int orden, Course curso) {
+    public Leccion(long id, String titulo, String contenido, int duracion, int orden, Curso curso) {
         Guardia.esIdentificadorValido(id, "El id es inválido");
         Guardia.esCadenaNoVacia(titulo, "El título es inválido");
         Guardia.esCadenaNoVacia(contenido, "El contenido es inválido");
@@ -32,5 +32,5 @@ public class Leccion implements Serializable {
     public String getContenido() { return contenido; }
     public int getDuracion() { return duracion; }
     public int getOrden() { return orden; }
-    public Course getCurso() { return curso; }
+    public Curso getCurso() { return curso; }
 }

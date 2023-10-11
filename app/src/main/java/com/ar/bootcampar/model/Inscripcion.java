@@ -5,12 +5,12 @@ import com.ar.bootcampar.model.utilities.Guardia;
 public class Inscripcion {
     private final long id;
     private final Usuario usuario;
-    private final Course curso;
+    private final Curso curso;
     private final int puntuacion;
     private final boolean favorito;
     private final int ultimaLeccion;
 
-    public Inscripcion(long id, Usuario usuario, Course curso, int puntuacion, boolean favorito, int ultimaLeccion) {
+    public Inscripcion(long id, Usuario usuario, Curso curso, int puntuacion, boolean favorito, int ultimaLeccion) {
         Guardia.esIdentificadorValido(id, "El id es inválido");
         Guardia.esObjetoValido(usuario, "El usuario es inválido");
         Guardia.esObjetoValido(curso, "El curso es inválido");
@@ -33,7 +33,7 @@ public class Inscripcion {
         return usuario;
     }
 
-    public Course getCurso() {
+    public Curso getCurso() {
         return curso;
     }
 

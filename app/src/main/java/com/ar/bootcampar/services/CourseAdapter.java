@@ -11,15 +11,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ar.bootcampar.R;
-import com.ar.bootcampar.model.Course;
+import com.ar.bootcampar.model.Curso;
 
 import java.util.List;
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder> {
-    private List<Course> courseList;
+    private List<Curso> listaCursos;
 
-    public CourseAdapter(List<Course> courseList) {
-        this.courseList = courseList;
+    public CourseAdapter(List<Curso> listaCursos) {
+        this.listaCursos = listaCursos;
     }
 
     @NonNull
@@ -31,13 +31,13 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Course course = courseList.get(position);
+        Curso curso = listaCursos.get(position);
 
         // aqui se va a asignar los valores a los elementos de la vista que mostraran el curso, para la imagen, el titulo y el icono de favorito
-        holder.imageViewCourse.setImageResource(getImageResourceByName(course.getImageName(), holder.itemView.getContext()));
-        holder.textViewCourseTitle.setText(course.getTitle());
+        holder.imageViewCourse.setImageResource(getImageResourceByName(curso.getImageName(), holder.itemView.getContext()));
+        holder.textViewCourseTitle.setText(curso.getTitle());
 
-        if (course.isFavorite()) {
+        if (curso.isFavorite()) {
             holder.imageViewFavorite.setImageResource(R.drawable.ic_filled_heart);
         } else {
             holder.imageViewFavorite.setImageResource(R.drawable.ic_empty_heart);
@@ -46,7 +46,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return courseList.size();
+        return listaCursos.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
