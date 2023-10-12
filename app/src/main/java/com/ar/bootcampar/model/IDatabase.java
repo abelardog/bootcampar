@@ -35,11 +35,11 @@ public interface IDatabase {
     List<Inscripcion> buscarInscripciones(Usuario usuario);
     Inscripcion buscarInscripcionOExplotar(long id);
 
-    Curricula crearCurriculas(Curso curso, Grupo grupo);
-    Curricula modificarCurriulas(Curricula curricula, Curso nuevocourse, Grupo nuevogrupo);
-    void borrarCurriculas(Curricula curricula);
+    Curricula crearCurricula(Curso curso, Grupo grupo);
+    Curricula modificarCurricula(Curricula curricula, Curso nuevocourse, Grupo nuevogrupo);
+    void borrarCurricula(Curricula curricula);
 
-    void borrarCategorizaciones(Categorizaciones categorizaciones);
-    Categorizaciones crearCategorizaciones(Course course, Categoria categoria);
-    Categorizaciones modificarCategorizaciones(Categorizaciones categorizaciones, Course nuevocourse, Categoria nuevacategoria);
+    void borrarCategorizacion(Categorizacion categorizacion);
+    Categorizacion crearCategorizacion(Curso curso, Categoria categoria);
+    Categorizacion modificarCategorizacion(Categorizacion categorizacion, Curso nuevoCurso, Categoria nuevaCategoria);
 }
