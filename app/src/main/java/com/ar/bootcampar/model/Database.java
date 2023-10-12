@@ -719,25 +719,25 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             }
         }
     }
-    public Course crearCourse(String imageName, String title, String description){
+    public Curso crearCurso(String imageName, String title, String description){
 
         IContentValuesWrapper values = createContentValues();
         values.put(ColumnaImageName, imageName);
         values.put(ColumnaTitle, title);
         values.put(ColumnaDescription, description);
 
-        return (Course)crearElemento(TablaCourse, values, id -> new Course(id, imageName, title, description), "Error creando inscripción");
+        return (Curso)crearElemento(TablaCurso, values, id -> new Curso(id, imageName, title, description), "Error creando inscripción");
      }
      
     @Override
-    public void borrarCourse(Course course) {
-    Guardia.esObjetoValido(course, "El curso es nulo");
-    borrarElemento(TablaCourse, course.getId(), "Se esperaba borrar un único curso pero se borraron %d");
+    public void borrarCurso(Curso curso) {
+    Guardia.esObjetoValido(curso, "El curso es nulo");
+    borrarElemento(TablaCurso, curso.getId(), "Se esperaba borrar un único curso pero se borraron %d");
     }
 
 
     @Override
-    public Course modificarCourse(Course course, String imageName, String title, String description) {
+    public Curso modificarCurso(Courso curso, String imageName, String title, String description) {
     Guardia.esObjetoValido(course, "El curso es nulo");
    
     IContentValuesWrapper values = createContentValues();
@@ -746,6 +746,6 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     values.put(ColumnaDescription, description);
 
 
-    return (Course)modificarElemento(TablaCourse, course.getId(), values, id -> new Course(course.getId(), imageName, title, description), "Se esperaba modificar un único curso pero se modificaron %d");
+    return (Curso)modificarElemento(TablaCurso, curso.getId(), values, id -> new Curso(curso.getId(), imageName, title, description), "Se esperaba modificar un único curso pero se modificaron %d");
     }
 }

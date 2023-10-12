@@ -43,8 +43,8 @@ public interface IDatabase {
     Categorizacion crearCategorizacion(Curso curso, Categoria categoria);
     Categorizacion modificarCategorizacion(Categorizacion categorizacion, Curso nuevoCurso, Categoria nuevaCategoria);
 
-    void borrarCourse(Course course);
-    Course crearCourse(string imageName, string title, string description);
-    Course modificarCourse(string imageName, string title, string description);
+    void borrarCourse(Curso curso);
+    Course crearCurso(string imageName, string title, string description);
+    Course modificarCurso(string imageName, string title, string description);
 
 }
