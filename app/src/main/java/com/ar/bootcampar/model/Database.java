@@ -719,4 +719,33 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             }
         }
     }
+    public Course crearCourse(String imageName, String title, String description){
+
+        IContentValuesWrapper values = createContentValues();
+        values.put(ColumnaImageName, imageName);
+        values.put(ColumnaTitle, title);
+        values.put(ColumnaDescription, description);
+
+        return (Course)crearElemento(TablaCourse, values, id -> new Course(id, imageName, title, description), "Error creando inscripción");
+     }
+     
+    @Override
+    public void borrarCourse(Course course) {
+    Guardia.esObjetoValido(course, "El curso es nulo");
+    borrarElemento(TablaCourse, course.getId(), "Se esperaba borrar un único curso pero se borraron %d");
+    }
+
+
+    @Override
+    public Course modificarCourse(Course course, String imageName, String title, String description) {
+    Guardia.esObjetoValido(course, "El curso es nulo");
+   
+    IContentValuesWrapper values = createContentValues();
+    values.put(ColumnaImageName, imageName);
+    values.put(ColumnaTitle, title);
+    values.put(ColumnaDescription, description);
+
+
+    return (Course)modificarElemento(TablaCourse, course.getId(), values, id -> new Course(course.getId(), imageName, title, description), "Se esperaba modificar un único curso pero se modificaron %d");
+    }
 }
