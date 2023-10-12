@@ -738,7 +738,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     @Override
     public Curso modificarCurso(Courso curso, String imageName, String title, String description) {
-    Guardia.esObjetoValido(course, "El curso es nulo");
+    Guardia.esObjetoValido(curso, "El curso es nulo");
    
     IContentValuesWrapper values = createContentValues();
     values.put(ColumnaImageName, imageName);
