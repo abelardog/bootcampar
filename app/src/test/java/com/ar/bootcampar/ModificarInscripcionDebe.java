@@ -13,7 +13,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
-import com.ar.bootcampar.model.Course;
+import com.ar.bootcampar.model.Curso;
 import com.ar.bootcampar.model.Database;
 import com.ar.bootcampar.model.ISQLiteDatabaseWrapper;
 import com.ar.bootcampar.model.Inscripcion;
@@ -153,7 +153,7 @@ public class ModificarInscripcionDebe {
     @Test
     public void retornarInscripcionModificado_cuandoSeModificaInscripcionEnBaseDeDatos() {
         Usuario usuario = crearOtroUsuarioDePrueba();
-        Course curso = crearOtroCursoDePrueba();
+        Curso curso = crearOtroCursoDePrueba();
         Inscripcion inscripcion = crearInscripcionDePrueba();
 
         ISQLiteDatabaseWrapper spy = new SqliteDatabaseWrapperSpy.Builder()

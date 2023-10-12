@@ -10,6 +10,8 @@ public interface IDatabase {
     void borrarUsuario(Usuario usuario);
 
     Division crearDivision(Usuario usuario, Grupo grupo);
+    void borrarDivision(Division division);
+    Division modificarDivision(Division division, Usuario nuevoUsuario, Grupo nuevoGrupo);
 
     Grupo crearGrupo(String nombre, String invitacion);
     Grupo buscarGrupoONada(String invitacion);
@@ -18,59 +20,26 @@ public interface IDatabase {
     void borrarGrupo(Grupo grupo);
     Grupo modificarGrupo(Grupo grupo, String nuevoNombre, String nuevaInvitacion);
 
-    Leccion crearLeccion(String titulo, String contenido, int duracion, int orden, Course curso);
-    Leccion modificarLeccion(Leccion leccion, String nuevoTitulo, String nuevoContenido, int nuevaDuracion, int nuevoOrden, Course nuevoCurso);
-    List<Leccion> buscarLecciones(Course curso);
+    Leccion crearLeccion(String titulo, String contenido, int duracion, int orden, Curso curso);
+    Leccion modificarLeccion(Leccion leccion, String nuevoTitulo, String nuevoContenido, int nuevaDuracion, int nuevoOrden, Curso nuevoCurso);
+    List<Leccion> buscarLecciones(Curso curso);
     void borrarLeccion(Leccion leccion);
 
     Categoria crearCategoria(String nombre, String descripcion);
     void borrarCategoria(Categoria categoria);
     Categoria modificarCategoria(Categoria categoria, String nuevoNombre, String nuevaDescripcion);
 
-    Inscripcion crearInscripcion(Usuario usuario, Course curso, int puntuacion, boolean favorito, int ultimaLeccion);
+    Inscripcion crearInscripcion(Usuario usuario, Curso curso, int puntuacion, boolean favorito, int ultimaLeccion);
     void borrarInscripcion(Inscripcion inscripcion);
-    Inscripcion modificarInscripcion(Inscripcion inscripcion, Usuario nuevoUsuario, Course nuevoCurso, int nuevaPuntuacion, boolean nuevoFavorito, int nuevaUltimaLeccion);
+    Inscripcion modificarInscripcion(Inscripcion inscripcion, Usuario nuevoUsuario, Curso nuevoCurso, int nuevaPuntuacion, boolean nuevoFavorito, int nuevaUltimaLeccion);
     List<Inscripcion> buscarInscripciones(Usuario usuario);
     Inscripcion buscarInscripcionOExplotar(long id);
 
+    Curricula crearCurriculas(Curso curso, Grupo grupo);
+    Curricula modificarCurriulas(Curricula curricula, Curso nuevocourse, Grupo nuevogrupo);
+    void borrarCurriculas(Curricula curricula);
 
-
-
-
-
-
-
-
-
-   void borrarCategorizaciones(Categorizaciones categorizaciones);
-   Categorizaciones crearCategorizaciones(Course course, Categoria categoria);
-   Categorizaciones modificarCategorizaciones(Categorizaciones categorizaciones, Course nuevocourse, Categoria nuevacategoria);
-
-
-
-
-
-
-
-
-
-
-
-
+    void borrarCategorizaciones(Categorizaciones categorizaciones);
+    Categorizaciones crearCategorizaciones(Course course, Categoria categoria);
+    Categorizaciones modificarCategorizaciones(Categorizaciones categorizaciones, Course nuevocourse, Categoria nuevacategoria);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

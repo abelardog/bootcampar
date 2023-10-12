@@ -6,7 +6,7 @@ import static com.ar.bootcampar.support.Constants.*;
 import static com.ar.bootcampar.support.DummyMaker.crearCursoDePrueba;
 import static com.ar.bootcampar.support.DummyMaker.crearUsuarioDePrueba;
 
-import com.ar.bootcampar.model.Course;
+import com.ar.bootcampar.model.Curso;
 import com.ar.bootcampar.model.Database;
 import com.ar.bootcampar.model.ISQLiteDatabaseWrapper;
 import com.ar.bootcampar.model.Inscripcion;
@@ -120,7 +120,7 @@ public class CrearInscripcionDebe {
     @Test
     public void retornarInscripcion_cuandoSeInsertaInscripcionEnBaseDeDatos() {
         Usuario usuario = crearUsuarioDePrueba();
-        Course curso = crearCursoDePrueba();
+        Curso curso = crearCursoDePrueba();
         ISQLiteDatabaseWrapper spy = new SqliteDatabaseWrapperSpy.Builder()
                 .conInsertRetornando(14)
                 .build();
