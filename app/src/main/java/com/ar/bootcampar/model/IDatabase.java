@@ -13,8 +13,6 @@ public interface IDatabase {
     void borrarDivision(Division division);
     Division modificarDivision(Division division, Usuario nuevoUsuario, Grupo nuevoGrupo);
 
-
-
     Grupo crearGrupo(String nombre, String invitacion);
     Grupo buscarGrupoONada(String invitacion);
     Grupo buscarGrupoOExplotar(long id);
@@ -37,26 +35,11 @@ public interface IDatabase {
     List<Inscripcion> buscarInscripciones(Usuario usuario);
     Inscripcion buscarInscripcionOExplotar(long id);
 
+    Curricula crearCurricula(Curso curso, Grupo grupo);
+    Curricula modificarCurricula(Curricula curricula, Curso nuevocourse, Grupo nuevogrupo);
+    void borrarCurricula(Curricula curricula);
 
-    Curricula crearCurriculas(Curso curso, Grupo grupo);
-    Curricula modificarCurriulas(Curricula curricula, Curso nuevocourse, Grupo nuevogrupo);
-    void borrarCurriculas(Curricula curricula);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    void borrarCategorizacion(Categorizacion categorizacion);
+    Categorizacion crearCategorizacion(Curso curso, Categoria categoria);
+    Categorizacion modificarCategorizacion(Categorizacion categorizacion, Curso nuevoCurso, Categoria nuevaCategoria);
 }

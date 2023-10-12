@@ -50,6 +50,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     private static final String TablaCategoria = "Categorias";
     private static final String ColumnaRelacionCategoria  = "CategoriaId";
     private static final String TablaCategorizacion = "Categorizaciones";
+    private Object categorizaciones ;
 
     public static IDatabase CreateWith(Context applicationContext) {
         return new Database(applicationContext, "bootcampar.db", null, 1);
@@ -525,74 +526,54 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @Override
-    public Curricula crearCurriculas(Curso nuevocourse, Grupo nuevogrupo) {
-        IContentValuesWrapper values = createContentValues();
-
-        values.put(ColumnaRelacionCurso, nuevocourse.getId());
-        values.put(ColumnaRelacionGrupo, nuevogrupo.getId());
-
-        return (Curricula)crearElemento(TablaCurricula, values, id -> new Curricula(id,nuevocourse,nuevogrupo), "Error crear curricula");
-
+    public void borrarCategorizacion(Categorizacion categorizacion) {
+        Guardia.esObjetoValido(categorizacion,"La categorización es nula");
+        borrarElemento(TablaCategorizacion, categorizacion.getId(), "Se esperaba borrar una única categorización pero se borraron %d" );
     }
 
     @Override
-    public Curricula modificarCurriulas(Curricula curricula, Curso nuevocourse, Grupo nuevogrupo) {
-        Guardia.esObjetoValido(curricula, "Las curriculas son nulas");
-
-        IContentValuesWrapper values = createContentValues();
-        values.put(ColumnaRelacionCurso, nuevocourse.getId());
-        values.put(ColumnaRelacionGrupo, nuevogrupo.getId());
-
-        return (Curricula)modificarElemento(TablaCurricula, curricula.getId(), values, id -> new Curricula(curricula.getId(), nuevocourse, nuevogrupo),"Se esperaba modificar una unica Curricula");
-
+    public Categorizacion crearCategorizacion(Curso nuevoCurso, Categoria nuevaCategoria) {
+      IContentValuesWrapper values = createContentValues();
+        values.put(ColumnaRelacionCurso, nuevoCurso.getId());
+        values.put(ColumnaRelacionCategoria, nuevaCategoria.getId());
+        return (Categorizacion) crearElemento(TablaCategorizacion, values, id -> new Categorizacion(id,nuevoCurso,nuevaCategoria), "Error crear nueva categorizaciones");
     }
 
+    @Override
+    public Curricula crearCurricula(Curso nuevoCurso, Grupo nuevoGrupo) {
+        IContentValuesWrapper values = createContentValues();
+
+        values.put(ColumnaRelacionCurso, nuevoCurso.getId());
+        values.put(ColumnaRelacionGrupo, nuevoGrupo.getId());
+
+        return (Curricula)crearElemento(TablaCurricula, values, id -> new Curricula(id, nuevoCurso, nuevoGrupo), "Error crear curricula");
+    }
 
     @Override
-    public void borrarCurriculas(Curricula curricula) {
-        Guardia.esObjetoValido(curricula, "Las curriculas es nula");
-        borrarElemento(TablaCurricula, curricula.getId(), "Se esperaba borrar una unica curricula ");
+    public Categorizacion modificarCategorizacion(Categorizacion categorizacion, Curso nuevoCurso, Categoria nuevaCategoria) {
+        Guardia.esObjetoValido(categorizacion, "La categorización es nula");
+        IContentValuesWrapper values = createContentValues();
+        values.put(ColumnaRelacionCurso, nuevoCurso.getId());
+        values.put(ColumnaRelacionCategoria, nuevaCategoria.getId());
+        return (Categorizacion) modificarElemento(TablaCategorizacion, categorizacion.getId(), values, id -> new Categorizacion(categorizacion.getId(), nuevoCurso, nuevaCategoria),"Se esperaba modificar una unica categorización pero se modificaron %d");
+    }
+
+    @Override
+    public Curricula modificarCurricula(Curricula curricula, Curso nuevoCurso, Grupo nuevoGrupo) {
+        Guardia.esObjetoValido(curricula, "La currícula son nulas");
+
+        IContentValuesWrapper values = createContentValues();
+        values.put(ColumnaRelacionCurso, nuevoCurso.getId());
+        values.put(ColumnaRelacionGrupo, nuevoGrupo.getId());
+
+        return (Curricula)modificarElemento(TablaCurricula, curricula.getId(), values, id -> new Curricula(curricula.getId(), nuevoCurso, nuevoGrupo),"Se esperaba modificar una única currícula pero se modificaron %d");
+    }
+
+    @Override
+    public void borrarCurricula(Curricula curricula) {
+        Guardia.esObjetoValido(curricula, "La currícula es nula");
+        borrarElemento(TablaCurricula, curricula.getId(), "Se esperaba borrar una única curricula pero se borraron %d");
     }
 
     private String[] agregarNombreDeTablaEnColumnas(String tabla, String[] campos) {
@@ -738,5 +719,4 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             }
         }
     }
-
 }
