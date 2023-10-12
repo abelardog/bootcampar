@@ -35,6 +35,8 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     private static final String ColumnaNivel = "Nivel";
     private static final String[] CamposCurso = new String[] { ColumnaId, ColumnaTitulo, ColumnaDescripcion, ColumnaNivel };
     private static final String TablaCurso = "Cursos";
+    private static final String ColumnaIsFavorite = "IsFavorite";
+    private static final String ColumnaImageName = "Imagen";
     private static final String ColumnaRelacionUsuario = "UsuarioId";
     private static final String ColumnaPuntuacion = "Puntuacion";
     private static final String ColumnaFavorito = "Favorito";
@@ -557,6 +559,38 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         values.put(ColumnaRelacionCurso, nuevoCurso.getId());
         values.put(ColumnaRelacionCategoria, nuevaCategoria.getId());
         return (Categorizacion) modificarElemento(TablaCategorizacion, categorizacion.getId(), values, id -> new Categorizacion(categorizacion.getId(), nuevoCurso, nuevaCategoria),"Se esperaba modificar una unica categorización pero se modificaron %d");
+    }
+
+    @Override
+    public Curso crearCurso(String title, String description, Boolean isFavorite, String imageName) {
+
+        IContentValuesWrapper values = createContentValues();
+        values.put(ColumnaTitulo, title);
+        values.put(ColumnaDescripcion, description);
+        values.put(ColumnaIsFavorite, isFavorite);
+        values.put(ColumnaImageName, imageName);
+
+        return (Curso)crearElemento(TablaCurso, values, id -> new Curso(id, title, description, isFavorite, imageName), "Error creando inscripción");
+    }
+
+    @Override
+    public Curso modificarCurso(Curso curso, String title, String description, Boolean isFavorite, String imageName) {
+        Guardia.esObjetoValido(curso, "El curso es nulo");
+
+        IContentValuesWrapper values = createContentValues();
+        values.put(ColumnaTitulo, title);
+        values.put(ColumnaDescripcion, description);
+        values.put(ColumnaIsFavorite, isFavorite);
+        values.put(ColumnaImageName, imageName);
+
+
+        return (Curso)modificarElemento(TablaCurso, curso.getId(), values, id -> new Curso(curso.getId(), title, description, isFavorite, imageName), "Se esperaba modificar un único curso pero se modificaron %d");
+    }
+
+    @Override
+    public void borrarCurso(Curso curso) {
+        Guardia.esObjetoValido(curso, "El curso es nulo");
+        borrarElemento(TablaCurso, curso.getId(), "Se esperaba borrar un único curso pero se borraron %d");
     }
 
     @Override
