@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThrows;
 
-import com.ar.bootcampar.model.Course;
+import com.ar.bootcampar.model.Curso;
 import com.ar.bootcampar.model.Inscripcion;
 import com.ar.bootcampar.model.Usuario;
 
@@ -21,7 +21,7 @@ public class InscripcionDebe {
     @Test
     public void serCreado_cuandoLosDatosSonCorrectos() {
         Usuario usuario = crearUsuarioPorDefecto();
-        Course curso = crearCursoPorDefecto();
+        Curso curso = crearCursoPorDefecto();
         Inscripcion sut = new Inscripcion(ID, usuario, curso, PUNTUACION_INSCRIPCION, FAVORITO_INSCRIPCION, ULTIMA_LECCION_INSCRIPCION);
 
         assertEquals(ID, sut.getId());
@@ -32,8 +32,8 @@ public class InscripcionDebe {
         assertEquals(ULTIMA_LECCION_INSCRIPCION, sut.getUltimaLeccion());
     }
 
-    private static Course crearCursoPorDefecto() {
-        return new Course(ID, TITULO_CURSO, DESCRIPCION_CURSO, ES_FAVORITO_CURSO, IMAGEN_CURSO);
+    private static Curso crearCursoPorDefecto() {
+        return new Curso(ID, TITULO_CURSO, DESCRIPCION_CURSO, ES_FAVORITO_CURSO, IMAGEN_CURSO);
     }
 
     private static Usuario crearUsuarioPorDefecto() {
@@ -48,7 +48,7 @@ public class InscripcionDebe {
     @Theory
     public void lanzarExcepcion_cuandoIdEsInvalido(@FromDataPoints("ids invalidos") int idInvalido) {
         Usuario usuario = crearUsuarioPorDefecto();
-        Course curso = crearCursoPorDefecto();
+        Curso curso = crearCursoPorDefecto();
 
         Exception exception = assertThrows(RuntimeException.class, () -> new Inscripcion(idInvalido, usuario, curso, PUNTUACION_INSCRIPCION, FAVORITO_INSCRIPCION, ULTIMA_LECCION_INSCRIPCION));
         assertEquals("El id es inválido", exception.getMessage());
@@ -56,7 +56,7 @@ public class InscripcionDebe {
 
     @Test
     public void lanzarExcepcion_cuandoElUsuarioEsInvalido() {
-        Course curso = crearCursoPorDefecto();
+        Curso curso = crearCursoPorDefecto();
 
         Exception exception = assertThrows(RuntimeException.class, () -> new Inscripcion(ID, USUARIO_INVALIDO, curso, PUNTUACION_INSCRIPCION, FAVORITO_INSCRIPCION, ULTIMA_LECCION_INSCRIPCION));
         assertEquals("El usuario es inválido", exception.getMessage());
@@ -73,7 +73,7 @@ public class InscripcionDebe {
     @Test
     public void lanzarExcepcion_cuandoLaPuntuacionEsInvalida() {
         Usuario usuario = crearUsuarioPorDefecto();
-        Course curso = crearCursoPorDefecto();
+        Curso curso = crearCursoPorDefecto();
 
         Exception exception = assertThrows(RuntimeException.class, () -> new Inscripcion(ID, usuario, curso, PUNTUACION_INSCRIPCION_INVALIDA, FAVORITO_INSCRIPCION, ULTIMA_LECCION_INSCRIPCION));
         assertEquals("La puntuación es inválida", exception.getMessage());
@@ -82,7 +82,7 @@ public class InscripcionDebe {
     @Test
     public void lanzarExcepcion_cuandoLaUltimaLeccionEsInvalida() {
         Usuario usuario = crearUsuarioPorDefecto();
-        Course curso = crearCursoPorDefecto();
+        Curso curso = crearCursoPorDefecto();
 
         Exception exception = assertThrows(RuntimeException.class, () -> new Inscripcion(ID, usuario, curso, PUNTUACION_INSCRIPCION, FAVORITO_INSCRIPCION, ULTIMA_LECCION_INSCRIPCION_INVALIDA));
         assertEquals("La última lección es inválida", exception.getMessage());

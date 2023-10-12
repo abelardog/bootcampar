@@ -1,6 +1,6 @@
 package com.ar.bootcampar.support;
 
-import com.ar.bootcampar.model.Course;
+import com.ar.bootcampar.model.Curso;
 import com.ar.bootcampar.model.Rol;
 import com.ar.bootcampar.model.Usuario;
 
@@ -61,7 +61,7 @@ public class Constants {
     public static final boolean FAVORITO_INSCRIPCION = true;
     public static final int ULTIMA_LECCION_INSCRIPCION = 4;
     public static final Usuario USUARIO_INVALIDO = null;
-    public static final Course CURSO_INVALIDO = null;
+    public static final Curso CURSO_INVALIDO = null;
     public static final int PUNTUACION_INSCRIPCION_INVALIDA = -1;
     public static final int ULTIMA_LECCION_INSCRIPCION_INVALIDA = -1;
     public static final int OTRO_ID_INSCRIPCION = 66;

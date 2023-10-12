@@ -3,7 +3,7 @@ package com.ar.bootcampar.activities;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.ar.bootcampar.model.Course;
+import com.ar.bootcampar.model.Curso;
 import com.ar.bootcampar.services.CourseAdapter;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,7 +17,6 @@ import com.ar.bootcampar.databinding.ActivityCourseListBinding;
 
 import com.ar.bootcampar.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CourseListActivity extends AppCompatActivity {
@@ -32,11 +31,11 @@ public class CourseListActivity extends AppCompatActivity {
         binding = ActivityCourseListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        List<Course> courseList = Course.getDefaultCourses();
+        List<Curso> listaCursos = Curso.getDefaultCourses();
 
         RecyclerView recyclerView = findViewById(R.id.recyclerViewCourses);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        CourseAdapter adapter = new CourseAdapter(courseList);
+        CourseAdapter adapter = new CourseAdapter(listaCursos);
         recyclerView.setAdapter(adapter);
     }
 
