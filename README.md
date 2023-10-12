@@ -2,8 +2,9 @@
 [![commit][commit-img]][commit-url]
 [![discuss][discuss-img]][discuss-url]
 [![issues][issues-img]][issues-url]
+[![buildall][buildall-img]][buildall-url]
 
-# BOOTCAMPAR 
+# BOOTCAMPAR
 ![Imagen de WhatsApp 2023-09-15 a las 23 47 04](https://github.com/abelardog/bootcampar/assets/106390254/cdc7939c-7fe8-436c-a3f5-274e46004f12)
 
 Esta es una app nativa de Android desarrollada como proyecto para la materia de Aplicaciones Móviles del Instituto Superior Politécnico de Córdoba (ISPC). Permite a los estudiantes del bootcamp BootcampAR acceder a los videos de los cursos, calificarlos, marcar favoritos y organizar su aprendizaje.
@@ -33,7 +34,7 @@ más profunda.
 "BootcampAr Mobile" es una plataforma de aprendizaje en línea que ofrece cursos sobre tecnología y desarrollo de software. Los usuarios pueden registrarse, acceder a una variedad de cursos, comprarlos con una pasarela de pago integrada y realizar un seguimiento de su progreso en los mismos.
 
 ## TECNOLOGÍAS
-- Android Studio 
+- Android Studio
 - Java
 - Firebase Cloud Messaging
 - Firebase Realtime Database
@@ -42,14 +43,23 @@ más profunda.
 El código de este proyecto está bajo la licencia MIT. Es de uso libre para propósitos de estudio e investigación.
 
 ## INTEGRANTES
-- Lidio Guedez -  GitHub: lidioguedez 
-- Pamela Sol Pilotti - GitHub: Pamela198713 
-- Leonardo Daniel Vivas - GitHub: LeonardoEC 
-- Roberto Alfonso - GitHub: rpgrca 
-- Lucia Ailen Leonetti - GitHub: LuciaL152 
-- Facundo Manuel Díaz - GitHub: facumd 
-- Yuliana Paula Capdevila - GitHub: YuliCap 
-- Maria Celeste Esquivel Gimenez - GitHub: celesteeg 
+- Lidio Guedez -  GitHub: lidioguedez
+- Pamela Sol Pilotti - GitHub: Pamela198713
+- Leonardo Daniel Vivas - GitHub: LeonardoEC
+- Roberto Alfonso - GitHub: rpgrca
+- Lucia Ailen Leonetti - GitHub: LuciaL152
+- Facundo Manuel Díaz - GitHub: facumd
+- Yuliana Paula Capdevila - GitHub: YuliCap
+- Maria Celeste Esquivel Gimenez - GitHub: celesteeg
+
+## DEMOSTRACIÓN DEL PROYECTO EN VIDEO
+https://drive.google.com/file/d/1Vh5k2U7IZW36KHvUsbqYsCwuzqwLTipP/view
+
+## VISTAZO GENERAL DE LA APP
+![bootcampar-sprint-1-part1](https://github.com/abelardog/bootcampar/assets/95236196/f0d99ca6-3a45-4207-88e3-76efe493ee48)
+![bootcampar-sprint-1-part2](https://github.com/abelardog/bootcampar/assets/95236196/dac52ec5-ce01-4f6b-af26-22221ba73aa2)
+![bootcampar-sprint-1-part3](https://github.com/abelardog/bootcampar/assets/95236196/f15750de-0465-4fff-9004-b2a3ce0cdb4f)
+
 
 [commit-img]: https://img.shields.io/github/commit-activity/w/abelardog/bootcampar/develop
 [commit-url]: https://github.com/abelardog/bootcampar/graphs/code-frequency
@@ -59,3 +69,5 @@ El código de este proyecto está bajo la licencia MIT. Es de uso libre para pro
 [issues-url]: https://github.com/abelardog/bootcampar/issues
 [discuss-img]: https://img.shields.io/github/discussions/abelardog/bootcampar
 [discuss-url]: https://github.com/abelardog/bootcampar/discussions
+[buildall-img]: https://github.com/abelardog/bootcampar/actions/workflows/android.yml/badge.svg
+[buildall-url]: https://github.com/abelardog/bootcampar/actions/workflows/android.yml
