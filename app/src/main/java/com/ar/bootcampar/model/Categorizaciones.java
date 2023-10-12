@@ -14,5 +14,33 @@ public class Categorizaciones implements Serializable {
         this.course = course;
         this.categoria = categoria;
     }
+    public long getId(){return  id;}
+
+    public Categoria getCategoria() {
+        return categoria;
+
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
+

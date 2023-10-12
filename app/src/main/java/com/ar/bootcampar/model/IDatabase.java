@@ -32,4 +32,45 @@ public interface IDatabase {
     Inscripcion modificarInscripcion(Inscripcion inscripcion, Usuario nuevoUsuario, Course nuevoCurso, int nuevaPuntuacion, boolean nuevoFavorito, int nuevaUltimaLeccion);
     List<Inscripcion> buscarInscripciones(Usuario usuario);
     Inscripcion buscarInscripcionOExplotar(long id);
+
+
+
+
+
+
+
+
+
+
+   void borrarCategorizaciones(Categorizaciones categorizaciones);
+   Categorizaciones crearCategorizaciones(Course course, Categoria categoria);
+   Categorizaciones modificarCategorizaciones(Categorizaciones categorizaciones, Course nuevocourse, Categoria nuevacategoria);
+
+
+
+
+
+
+
+
+
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

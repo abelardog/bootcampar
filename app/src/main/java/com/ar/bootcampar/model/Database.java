@@ -50,6 +50,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     private static final String TablaCategoria = "Categorias";
     private static final String ColumnaRelacionCategoria  = "CategoriaId";
     private static final String TablaCategorizacion = "Categorizaciones";
+    private Object categorizaciones ;
 
     public static IDatabase CreateWith(Context applicationContext) {
         return new Database(applicationContext, "bootcampar.db", null, 1);
@@ -506,6 +507,36 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             }
         }
     }
+
+    @Override
+    public void borrarCategorizaciones(Categorizaciones categorizaciones) {
+        Guardia.esObjetoValido(categorizaciones,"la categorizacion es nula");
+        borrarElemento(TablaCategorizacion, categorizaciones.getId(), "se esperaba borrar una unica categorizacion" );
+
+    }
+
+
+
+    @Override
+    public Categorizaciones crearCategorizaciones(Course nuevocourse, Categoria nuevacategoria) {
+      IContentValuesWrapper values = createContentValues();
+        values.put(ColumnaRelacionCurso, nuevocourse.getId());
+        values.put(ColumnaRelacionCategoria, nuevacategoria.getId());
+        return (Categorizaciones) crearElemento(TablaCategorizacion, values, id -> new Categorizaciones(id,nuevocourse,nuevacategoria), "Error crear nueva categorizaciones");
+
+    }
+
+    @Override
+    public Categorizaciones modificarCategorizaciones(Course nuevocourse, Categoria nuevacategoria) {
+        Guardia.esObjetoValido(categorizaciones, "Las categorizaciones son nulas");
+        IContentValuesWrapper values = createContentValues();
+        values.put(ColumnaRelacionCurso, nuevocourse.getId());
+        values.put(ColumnaRelacionCategoria, nuevacategoria.getId());
+        return (Categorizaciones) modificarElemento(TablaCategorizacion, categorizaciones.getId(), values, id -> new Categorizaciones(categorizaciones.getId(), nuevocourse, nuevacategoria),"Se esperaba modificar una unica Categorizaciones");
+
+    }
+
+
 
     private String[] agregarNombreDeTablaEnColumnas(String tabla, String[] campos) {
         return Arrays.stream(campos).map(s -> tabla + "." + s).toArray(String[]::new);
