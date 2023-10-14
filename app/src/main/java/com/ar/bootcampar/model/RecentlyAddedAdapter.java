@@ -3,7 +3,6 @@ package com.ar.bootcampar.model;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,19 +13,34 @@ import com.ar.bootcampar.R;
 import java.util.List;
 
 public class RecentlyAddedAdapter extends RecyclerView.Adapter<RecentlyAddedAdapter.RecentlyAddedView> {
-    private List<String> list;
+    private List<Curso> list;
+    private OnItemClickListener onItemClickListener;
 
+    public interface OnItemClickListener{
+        void onItemClick(int position);
+    }
     public class RecentlyAddedView extends RecyclerView.ViewHolder {
         TextView textView;
 
         public RecentlyAddedView(View view) {
             super(view);
             textView = (TextView)view.findViewById(R.id.recently_added_item_title);
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getBindingAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        onItemClickListener.onItemClick(position);
+                    }
+                }
+            });
         }
     }
 
-    public RecentlyAddedAdapter(List<String> elements) {
+    public RecentlyAddedAdapter(List<Curso> elements, OnItemClickListener listener) {
         this.list = elements;
+        this.onItemClickListener = listener;
     }
 
     @NonNull
@@ -41,7 +55,8 @@ public class RecentlyAddedAdapter extends RecyclerView.Adapter<RecentlyAddedAdap
 
     @Override
     public void onBindViewHolder(@NonNull RecentlyAddedView holder, int position) {
-        holder.textView.setText(list.get(position));
+        Curso curso = list.get(position);
+        holder.textView.setText(curso.getTitle());
     }
 
     @Override

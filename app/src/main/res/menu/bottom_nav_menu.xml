@@ -7,6 +7,16 @@
         android:title="@string/title_home" />
 
     <item
+        android:id="@+id/navigation_courses"
+        android:icon="?android:attr/actionModeWebSearchDrawable"
+        android:title="@string/courses" />
+<!--
+    <item
+        android:id="@+id/navigation_search"
+        android:icon="?android:attr/accessibilityFlags"
+        android:title="Buscar" />
+-->
+    <item
         android:id="@+id/navigation_help"
         android:icon="@android:drawable/ic_menu_help"
         android:title="@string/title_help" />
@@ -15,5 +25,10 @@
         android:id="@+id/navigation_notifications"
         android:icon="@drawable/baseline_person_24"
         android:title="@string/title_profile" />
+
+    <item
+        android:id="@+id/navigation_contact"
+        android:icon="@android:drawable/sym_action_email"
+        android:title="@string/contact" />
 
 </menu>
