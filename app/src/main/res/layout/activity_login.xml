@@ -111,4 +111,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textForgotPassword" />
 
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="407dp"
+        android:layout_height="84dp"
+        android:tint="#1A01B2"
+        app:srcCompat="@drawable/header_logo"
+        tools:layout_editor_absoluteX="2dp"
+        tools:layout_editor_absoluteY="27dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
