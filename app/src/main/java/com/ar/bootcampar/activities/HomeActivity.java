@@ -42,7 +42,7 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         if (usuario != null) {
-            if (usuario.getRol() != Rol.Estudiante) {
+            if (usuario.getRol() == Rol.Estudiante) {
                 NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_home_user);
                 NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
                 NavigationUI.setupWithNavController(binding.navView, navController);
