@@ -133,4 +133,8 @@
     <string name="select_categories_text">Seleccione categorías</string>
     <string name="invalid_invitation_code">La invitacion %s es inválida.</string>
     <string name="registered_user_with_same_mail_exists">Ya existe un usuario registrado con el e-mail %s</string>
+    <string name="grupos">Grupos</string>
+    <string name="curriculum">Currícula</string>
+    <string name="lecciones">Lecciones</string>
+    <string name="categorias">Categorias</string>
 </resources>
