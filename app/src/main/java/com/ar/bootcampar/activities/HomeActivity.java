@@ -1,6 +1,11 @@
 package com.ar.bootcampar.activities;
 
 import android.os.Bundle;
+import android.view.View;
+
+import com.ar.bootcampar.model.Rol;
+import com.ar.bootcampar.model.Usuario;
+import com.ar.bootcampar.services.SharedPreferencesManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -26,8 +31,33 @@ public class HomeActivity extends AppCompatActivity {
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_help, R.id.navigation_notifications)
                 .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_home);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(binding.navView, navController);
+
+        Usuario usuario = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            usuario = getIntent().getSerializableExtra("usuarioActivo", Usuario.class);
+        }
+
+        if (usuario == null) {
+            usuario = new SharedPreferencesManager(getApplicationContext()).cargarUsuario();
+        }
+
+        if (usuario != null) {
+            if (usuario.getRol() != Rol.Estudiante) {
+                NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_home_user);
+                NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+                NavigationUI.setupWithNavController(binding.navView, navController);
+
+                View view = findViewById(R.id.nav_host_fragment_activity_home_admin);
+                view.setVisibility(View.GONE);
+            }
+            else {
+                NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_home_admin);
+                NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+                NavigationUI.setupWithNavController(binding.navView, navController);
+
+                View view = findViewById(R.id.nav_host_fragment_activity_home_user);
+                view.setVisibility(View.GONE);
+            }
+        }
     }
 }
