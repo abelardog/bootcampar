@@ -66,7 +66,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         createDatabase(db);
     }
 
-    private static void createDatabase(ISQLiteDatabaseWrapper db) {
+    private void createDatabase(ISQLiteDatabaseWrapper db) {
         db.execSQL("PRAGMA foreign_keys=ON");
         db.execSQL("PRAGMA foreign_key_check");
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TablaUsuario + "(\n" +
@@ -128,6 +128,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         db.execSQL("PRAGMA foreign_keys=ON");
         db.execSQL("PRAGMA foreign_key_check");
         db.execSQL("INSERT INTO " + TablaGrupo + "(Nombre, Invitacion) VALUES ('Grupo de Programadores', '112233')");
+        crearUsuario("Admin", "Admin", "admin@gmail.com", "123456", Rol.Administrador, "");
     }
 
     @Override
