@@ -12,8 +12,8 @@
 
     <ImageView
         android:id="@+id/imageView7"
-        android:layout_width="408dp"
-        android:layout_height="0dp"
+        android:layout_width="413dp"
+        android:layout_height="109dp"
         android:layout_marginBottom="85dp"
         android:background="#1A01B2"
         app:layout_constraintBottom_toTopOf="@+id/textView15"
@@ -54,8 +54,8 @@
 
     <TextView
         android:id="@+id/textView17"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="186dp"
+        android:layout_height="35dp"
         android:layout_marginEnd="54dp"
         android:layout_marginBottom="111dp"
         android:text="Nivel"
@@ -113,8 +113,8 @@
 
     <TextView
         android:id="@+id/textView20"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="94dp"
+        android:layout_height="99dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="19dp"
         android:layout_marginEnd="26dp"
@@ -125,7 +125,8 @@
         app:layout_constraintBottom_toTopOf="@+id/textView18"
         app:layout_constraintEnd_toStartOf="@+id/textView17"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+        app:layout_constraintTop_toBottomOf="@+id/textView15"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/button7"
