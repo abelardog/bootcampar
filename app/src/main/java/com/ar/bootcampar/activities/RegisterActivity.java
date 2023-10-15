@@ -2,7 +2,9 @@ package com.ar.bootcampar.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.View;
@@ -13,6 +15,8 @@ import com.ar.bootcampar.R;
 import com.ar.bootcampar.model.LogicServices;
 import com.ar.bootcampar.model.Rol;
 import com.ar.bootcampar.model.Usuario;
+import com.ar.bootcampar.services.SharedPreferencesManager;
+import com.google.gson.Gson;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -41,8 +45,10 @@ public class RegisterActivity extends AppCompatActivity {
             if (resultado.first != null) {
                 Toast.makeText(this, R.string.registration_success_message, Toast.LENGTH_SHORT).show();
 
+                GrabarUsuarioActivoEnPreferencias(resultado.first);
+
                 Intent intent = new Intent(this, HomeActivity.class);
-                intent.putExtra("usuario", resultado.first);
+                intent.putExtra("usuarioActivo", resultado.first);
                 startActivity(intent);
             }
             else {
@@ -53,4 +59,10 @@ public class RegisterActivity extends AppCompatActivity {
             Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
+
+    private void GrabarUsuarioActivoEnPreferencias(Usuario usuario) {
+        SharedPreferencesManager manager = new SharedPreferencesManager(getApplicationContext());
+        manager.grabarUsuario(usuario);
+    }
 }
+
