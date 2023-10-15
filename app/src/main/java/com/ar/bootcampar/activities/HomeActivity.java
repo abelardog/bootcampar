@@ -47,15 +47,15 @@ public class HomeActivity extends AppCompatActivity {
                 NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
                 NavigationUI.setupWithNavController(binding.navView, navController);
 
-                View view = findViewById(R.id.nav_host_fragment_activity_home_admin);
+                View view = findViewById(R.id.nav_view_admin);
                 view.setVisibility(View.GONE);
             }
             else {
-                NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_home_admin);
+                NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_home_user);
                 NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-                NavigationUI.setupWithNavController(binding.navView, navController);
+                NavigationUI.setupWithNavController(binding.navViewAdmin, navController);
 
-                View view = findViewById(R.id.nav_host_fragment_activity_home_user);
+                View view = findViewById(R.id.nav_view);
                 view.setVisibility(View.GONE);
             }
         }
