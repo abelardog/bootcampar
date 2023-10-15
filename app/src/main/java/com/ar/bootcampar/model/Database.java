@@ -55,7 +55,8 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     private Object categorizaciones ;
 
     public static IDatabase CreateWith(Context applicationContext) {
-        return new Database(applicationContext, "bootcampar.db", null, 1);
+        // Version 2: Agregar administrador en base de datos
+        return new Database(applicationContext, "bootcampar.db", null, 2);
     }
 
     protected Database(Context applicationContext, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -68,7 +69,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         createDatabase(db);
     }
 
-    private static void createDatabase(ISQLiteDatabaseWrapper db) {
+    private void createDatabase(ISQLiteDatabaseWrapper db) {
         db.execSQL("PRAGMA foreign_keys=ON");
         db.execSQL("PRAGMA foreign_key_check");
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TablaUsuario + "(\n" +
@@ -129,7 +130,8 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 "  FOREIGN KEY (" + ColumnaRelacionUsuario + ") REFERENCES " + TablaUsuario + " (" + ColumnaId + ") ON DELETE CASCADE ON UPDATE NO ACTION\n);");
         db.execSQL("PRAGMA foreign_keys=ON");
         db.execSQL("PRAGMA foreign_key_check");
-        db.execSQL("INSERT INTO " + TablaGrupo + "(Nombre, Invitacion) VALUES ('Grupo de Programadores', '112233')");
+        db.execSQL("INSERT INTO " + TablaGrupo + "(" + ColumnaNombre + ", " + ColumnaInvitacion + ") VALUES ('Grupo de Programadores', '112233')");
+        db.execSQL("INSERT INTO " + TablaUsuario + "("+ ColumnaNombre + ", " + ColumnaApellido + ", " + ColumnaEmail + ", " + ColumnaClave + ", " + ColumnaRol + ", " + ColumnaTelefono + ") VALUES ('Admin', 'Admin', 'admin@gmail.com', '123456', 1, '')");
     }
 
     @Override

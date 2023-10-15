@@ -1,10 +1,14 @@
 package com.ar.bootcampar.model;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Pair;
+import android.widget.Toast;
 
 import com.ar.bootcampar.R;
+import com.ar.bootcampar.activities.HomeActivity;
 import com.ar.bootcampar.activities.ResetPasswordActivity;
+import com.ar.bootcampar.services.SharedPreferencesManager;
 
 public class LogicServices {
     private Context context;
@@ -40,5 +44,24 @@ public class LogicServices {
         else {
             return Pair.create(null, context.getString(R.string.please_complete_data_message));
         }
+    }
+
+    public Pair<Usuario, String> ingresarUsuario(String email, String clave) {
+        if (!email.isEmpty() && ResetPasswordActivity.isValidEmail(email) && !clave.isEmpty()) {
+            Usuario usuario = database.buscarUsuarioONada(email);
+            if (usuario == null) {
+                return Pair.create(null, context.getString(R.string.invalidLoginMessage));
+            }
+
+            return Pair.create(usuario, context.getString(R.string.welcomeMessage));
+        }
+        else {
+            return Pair.create(null, context.getString(R.string.invalidLoginMessage));
+        }
+    }
+
+    public void GrabarUsuarioActivoEnPreferencias(Usuario usuario) {
+        SharedPreferencesManager manager = new SharedPreferencesManager(context);
+        manager.grabarUsuario(usuario);
     }
 }

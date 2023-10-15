@@ -2,7 +2,9 @@ package com.ar.bootcampar.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.View;
@@ -13,6 +15,8 @@ import com.ar.bootcampar.R;
 import com.ar.bootcampar.model.LogicServices;
 import com.ar.bootcampar.model.Rol;
 import com.ar.bootcampar.model.Usuario;
+import com.ar.bootcampar.services.SharedPreferencesManager;
+import com.google.gson.Gson;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -36,13 +40,15 @@ public class RegisterActivity extends AppCompatActivity {
         String invitationCode = ((EditText)findViewById(R.id.editInvitationCode)).getText().toString();
 
         try {
-            LogicServices database = new LogicServices(RegisterActivity.this);
-            Pair<Usuario, String> resultado = database.registrarUsuario(firstname, lastname, email, password, confirmPassword, Rol.Estudiante, "", invitationCode);
+            LogicServices logicService = new LogicServices(RegisterActivity.this);
+            Pair<Usuario, String> resultado = logicService.registrarUsuario(firstname, lastname, email, password, confirmPassword, Rol.Estudiante, "", invitationCode);
             if (resultado.first != null) {
                 Toast.makeText(this, R.string.registration_success_message, Toast.LENGTH_SHORT).show();
 
+                logicService.GrabarUsuarioActivoEnPreferencias(resultado.first);
+
                 Intent intent = new Intent(this, HomeActivity.class);
-                intent.putExtra("usuario", resultado.first);
+                intent.putExtra("usuarioActivo", resultado.first);
                 startActivity(intent);
             }
             else {
@@ -54,3 +60,4 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 }
+

@@ -13,6 +13,7 @@ public enum Rol {
     public static Rol fromInt(int rol) {
         switch (rol) {
             case 0: return Estudiante;
+            case 1: return Administrador;
         }
 
         return null;

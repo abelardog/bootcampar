@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_admin_groups"
+        android:icon="@drawable/baseline_edit_24"
+        android:title="@string/grupos" />
+
+    <item
+        android:id="@+id/navigation_admin_courses"
+        android:icon="@drawable/baseline_edit_24"
+        android:title="@string/courses" />
+
+    <item
+        android:id="@+id/navigation_admin_curriculums"
+        android:icon="@drawable/baseline_edit_24"
+        android:title="@string/curriculum" />
+
+    <item
+        android:id="@+id/navigation_admin_lessons"
+        android:icon="@drawable/baseline_edit_24"
+        android:title="@string/lecciones" />
+
+    <item
+        android:id="@+id/navigation_admin_categories"
+        android:icon="@drawable/baseline_edit_24"
+        android:title="@string/categorias" />
+
+</menu>
