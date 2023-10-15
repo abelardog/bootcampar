@@ -8,6 +8,7 @@ import android.widget.Toast;
 import com.ar.bootcampar.R;
 import com.ar.bootcampar.activities.HomeActivity;
 import com.ar.bootcampar.activities.ResetPasswordActivity;
+import com.ar.bootcampar.services.SharedPreferencesManager;
 
 public class LogicServices {
     private Context context;
@@ -57,5 +58,10 @@ public class LogicServices {
         else {
             return Pair.create(null, context.getString(R.string.invalidLoginMessage));
         }
+    }
+
+    public void GrabarUsuarioActivoEnPreferencias(Usuario usuario) {
+        SharedPreferencesManager manager = new SharedPreferencesManager(context);
+        manager.grabarUsuario(usuario);
     }
 }
