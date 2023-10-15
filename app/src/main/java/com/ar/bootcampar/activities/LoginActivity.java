@@ -28,14 +28,18 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onLoginClick(View view) {
+        LogicServices logicServices = new LogicServices(getApplicationContext());
         String email = ((TextView)findViewById(R.id.editEmailAddress)).getText().toString();
         String clave = ((TextView)findViewById(R.id.editTextPassword)).getText().toString();
 
-        Pair<Usuario, String> resultado = new LogicServices(getApplicationContext()).ingresarUsuario(email, clave);
+        Pair<Usuario, String> resultado = logicServices.ingresarUsuario(email, clave);
         Toast.makeText(getApplicationContext(), resultado.second, Toast.LENGTH_SHORT).show();
 
         if (resultado.first != null) {
+            logicServices.GrabarUsuarioActivoEnPreferencias(resultado.first);
+
             Intent intent = new Intent(this, HomeActivity.class);
+            intent.putExtra("usuarioActivo", resultado.first);
             startActivity(intent);
         }
     }
