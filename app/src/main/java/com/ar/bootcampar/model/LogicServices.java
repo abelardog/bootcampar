@@ -49,15 +49,12 @@ public class LogicServices {
     public Pair<Usuario, String> ingresarUsuario(String email, String clave) {
         if (!email.isEmpty() && ResetPasswordActivity.isValidEmail(email) && !clave.isEmpty()) {
             Usuario usuario = database.buscarUsuarioONada(email);
-            if (usuario == null) {
-                return Pair.create(null, context.getString(R.string.invalidLoginMessage));
+            if (usuario != null) {
+                return Pair.create(usuario, context.getString(R.string.welcomeMessage));
             }
+        }
 
-            return Pair.create(usuario, context.getString(R.string.welcomeMessage));
-        }
-        else {
-            return Pair.create(null, context.getString(R.string.invalidLoginMessage));
-        }
+        return Pair.create(null, context.getString(R.string.invalidLoginMessage));
     }
 
     public void GrabarUsuarioActivoEnPreferencias(Usuario usuario) {
