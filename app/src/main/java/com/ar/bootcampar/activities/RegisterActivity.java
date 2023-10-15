@@ -40,12 +40,12 @@ public class RegisterActivity extends AppCompatActivity {
         String invitationCode = ((EditText)findViewById(R.id.editInvitationCode)).getText().toString();
 
         try {
-            LogicServices database = new LogicServices(RegisterActivity.this);
-            Pair<Usuario, String> resultado = database.registrarUsuario(firstname, lastname, email, password, confirmPassword, Rol.Estudiante, "", invitationCode);
+            LogicServices logicService = new LogicServices(RegisterActivity.this);
+            Pair<Usuario, String> resultado = logicService.registrarUsuario(firstname, lastname, email, password, confirmPassword, Rol.Estudiante, "", invitationCode);
             if (resultado.first != null) {
                 Toast.makeText(this, R.string.registration_success_message, Toast.LENGTH_SHORT).show();
 
-                GrabarUsuarioActivoEnPreferencias(resultado.first);
+                logicService.GrabarUsuarioActivoEnPreferencias(resultado.first);
 
                 Intent intent = new Intent(this, HomeActivity.class);
                 intent.putExtra("usuarioActivo", resultado.first);
@@ -58,11 +58,6 @@ public class RegisterActivity extends AppCompatActivity {
         catch (Exception ex) {
             Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private void GrabarUsuarioActivoEnPreferencias(Usuario usuario) {
-        SharedPreferencesManager manager = new SharedPreferencesManager(getApplicationContext());
-        manager.grabarUsuario(usuario);
     }
 }
 
