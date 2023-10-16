@@ -256,6 +256,42 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 Database::obtenerGrupoDeCursor,"Se encontraron varios grupos con la misma invitación %s");
     }
 
+    @Override
+    public List<Grupo> listarGrupos() {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+        List<Grupo> resultado = new ArrayList<>();
+
+        try {
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaGrupo, CamposGrupo, null, null, null, null, null);
+
+            if (cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    CursorHelper cursorHelper = new CursorHelper(cursor);
+                    Grupo grupo = new Grupo(
+                            cursorHelper.getLongFrom(ColumnaId),
+                            cursorHelper.getStringFrom(ColumnaNombre),
+                            cursorHelper.getStringFrom(ColumnaInvitacion));
+
+                    resultado.add(grupo);
+                    cursor.moveToNext();
+                }
+            }
+
+            return resultado;
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
     @NonNull
     private static Grupo obtenerGrupoDeCursor(ICursorWrapper cursor) {
         CursorHelper cursorHelper = new CursorHelper(cursor);

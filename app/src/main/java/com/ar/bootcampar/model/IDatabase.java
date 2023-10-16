@@ -16,7 +16,7 @@ public interface IDatabase {
     Grupo crearGrupo(String nombre, String invitacion);
     Grupo buscarGrupoONada(String invitacion);
     Grupo buscarGrupoOExplotar(long id);
-
+    List<Grupo> listarGrupos();
     void borrarGrupo(Grupo grupo);
     Grupo modificarGrupo(Grupo grupo, String nuevoNombre, String nuevaInvitacion);
 

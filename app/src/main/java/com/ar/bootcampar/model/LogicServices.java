@@ -63,7 +63,7 @@ public class LogicServices {
     }
 
     public Tupla<Usuario, String> ingresarUsuario(String email, String clave) {
-        if (!esCadenaInvalida(email) && esEmailValido(email) && esCadenaInvalida(clave)) {
+        if (!esCadenaInvalida(email) && esEmailValido(email) && !esCadenaInvalida(clave)) {
             Usuario usuario = database.buscarUsuarioONada(email);
             if (usuario != null) {
                 return new Tupla(usuario, getStringFromContext(R.string.welcomeMessage));
@@ -84,6 +84,14 @@ public class LogicServices {
     public void GrabarUsuarioActivoEnPreferencias(Usuario usuario) {
         SharedPreferencesManager manager = new SharedPreferencesManager(context);
         manager.grabarUsuario(usuario);
+    }
+
+    public void borrarGrupo(Grupo grupo) {
+        database.borrarGrupo(grupo);
+    }
+
+    public List<Grupo> listarGrupos() {
+        return database.listarGrupos();
     }
 
     public static boolean esEmailValido(CharSequence target) {
