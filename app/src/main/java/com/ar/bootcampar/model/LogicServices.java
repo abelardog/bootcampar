@@ -100,4 +100,12 @@ public class LogicServices {
     private static boolean esCadenaInvalida(CharSequence valor) {
         return esCadenaInvalida(valor.toString());
     }
+
+    public void borrarLeccion(Leccion leccion) {
+        database.borrarLeccion(leccion);;
+    }
+
+    public List<Leccion> listarLecciones() {
+        return database.listarLecciones();
+    }
 }
