@@ -46,4 +46,5 @@ public interface IDatabase {
     Curso crearCurso(String title, String description, Boolean isFavorite, String imageName);
     Curso modificarCurso(Curso curso, String title, String description, Boolean isFavorite, String imageName);
     void borrarCurso(Curso curso);
+    List<Curso> listarCursos();
 }

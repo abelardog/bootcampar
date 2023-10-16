@@ -2,13 +2,23 @@ package com.ar.bootcampar.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import com.ar.bootcampar.R;
+import com.ar.bootcampar.model.Curso;
+import com.ar.bootcampar.model.Grupo;
+import com.ar.bootcampar.model.LogicServices;
+import com.ar.bootcampar.services.CursosListAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +35,7 @@ public class EditCoursesFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private CursosListAdapter adapter;
 
     public EditCoursesFragment() {
         // Required empty public constructor
@@ -62,5 +73,36 @@ public class EditCoursesFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_edit_courses, container, false);
+    }
+
+    @Override
+    public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        if (v.getId() == R.id.groupListView) {
+            MenuInflater inflater = getActivity().getMenuInflater();
+            inflater.inflate(R.menu.crud_item_context_menu, menu);
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+        if (info != null) {
+            if (item.getItemId() == R.id.menu_item_edit) {
+                return true;
+            } else if (item.getItemId() == R.id.menu_delete_item) {
+                Curso curso = (Curso)adapter.getItem(info.position);
+                LogicServices logicServices = new LogicServices(getActivity());
+                logicServices.borrarCurso(curso);
+                adapter.cambiarCursos(logicServices.listarCursos());
+                adapter.notifyDataSetChanged();
+                return true;
+            }
+        }
+        else {
+            return true;
+        }
+
+        return super.onContextItemSelected(item);
     }
 }
