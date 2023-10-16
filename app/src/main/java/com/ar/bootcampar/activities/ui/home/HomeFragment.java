@@ -20,6 +20,7 @@ import com.ar.bootcampar.model.Curso;
 import com.ar.bootcampar.model.RecentlyAddedAdapter;
 import com.ar.bootcampar.R;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,7 +47,7 @@ public class HomeFragment extends Fragment implements RecentlyAddedAdapter.OnIte
         RecyclerViewLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(RecyclerViewLayoutManager);
         AddItemsToRecyclerViewArrayList();
-        adapter = new RecentlyAddedAdapter(source.stream().filter(p -> p.isFavorite() == false).collect(Collectors.toList()), this);
+        adapter = new RecentlyAddedAdapter(new ArrayList<>(source), this);
         HorizontalLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(HorizontalLayout);
         recyclerView.setAdapter(adapter);
@@ -63,7 +64,7 @@ public class HomeFragment extends Fragment implements RecentlyAddedAdapter.OnIte
     }
 
     public void AddItemsToRecyclerViewArrayList() {
-        source = Curso.getDefaultCourses().stream().filter(c -> c.isFavorite() == false).collect(Collectors.toList());
+        source = new ArrayList<>(Curso.getDefaultCourses());
     }
 
     @Override

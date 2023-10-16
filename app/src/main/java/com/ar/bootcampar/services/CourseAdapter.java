@@ -37,11 +37,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         holder.imageViewCourse.setImageResource(getImageResourceByName(curso.getImageName(), holder.itemView.getContext()));
         holder.textViewCourseTitle.setText(curso.getTitle());
 
-        if (curso.isFavorite()) {
-            holder.imageViewFavorite.setImageResource(R.drawable.ic_filled_heart);
-        } else {
-            holder.imageViewFavorite.setImageResource(R.drawable.ic_empty_heart);
-        }
+        holder.imageViewFavorite.setImageResource(R.drawable.ic_filled_heart);
     }
 
     @Override

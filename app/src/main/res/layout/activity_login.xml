@@ -36,15 +36,15 @@
         android:backgroundTint="@color/earthBlue"
         android:onClick="onClickRegister"
         android:text="@string/registerButtonText"
-        android:textSize="20sp"
         android:textColor="@color/white"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.05" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <EditText
         android:id="@+id/editEmailAddress"
@@ -85,16 +85,18 @@
         android:layout_width="286dp"
         android:layout_height="36dp"
         android:layout_marginTop="32dp"
+        android:onClick="goToResetPassword"
         android:text="@string/forgotPasswordText"
         android:textAlignment="center"
         android:textColor="@color/mangoOrange"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:onClick="goToResetPassword"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/button"
+        app:layout_constraintVertical_bias="0.332" />
 
     <TextView
         android:id="@+id/textView2"
@@ -110,5 +112,16 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textForgotPassword" />
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="361dp"
+        android:layout_height="81dp"
+        app:layout_constraintBottom_toTopOf="@+id/editEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/header_logo"
+        app:tint="#1A01B2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -40,25 +40,25 @@ public class LogicServices {
             if (clave.equals(confirmarClave)) {
                 Grupo grupo = database.buscarGrupoONada(invitacion);
                 if (grupo == null) {
-                    return new Tupla(null, String.format(getStringFromContext(R.string.invalid_invitation_code), invitacion));
+                    return new Tupla<>(null, String.format(getStringFromContext(R.string.invalid_invitation_code), invitacion));
                 }
 
                 Usuario usuario = database.buscarUsuarioONada(email);
                 if (usuario != null) {
-                    return new Tupla(null, String.format(getStringFromContext(R.string.registered_user_with_same_mail_exists), email));
+                    return new Tupla<>(null, String.format(getStringFromContext(R.string.registered_user_with_same_mail_exists), email));
                 }
 
                 usuario = database.crearUsuario(nombre, apellido, email, clave, rol, telefono);
                 Division division = database.crearDivision(usuario, grupo);
 
-                return new Tupla(usuario, getStringFromContext(R.string.registration_success_message));
+                return new Tupla<>(usuario, getStringFromContext(R.string.registration_success_message));
             }
             else {
-                return new Tupla(null, getStringFromContext(R.string.password_dont_match_message));
+                return new Tupla<>(null, getStringFromContext(R.string.password_dont_match_message));
             }
         }
         else {
-            return new Tupla(null, getStringFromContext(R.string.please_complete_data_message));
+            return new Tupla<>(null, getStringFromContext(R.string.please_complete_data_message));
         }
     }
 
@@ -66,11 +66,11 @@ public class LogicServices {
         if (!esCadenaInvalida(email) && esEmailValido(email) && !esCadenaInvalida(clave)) {
             Usuario usuario = database.buscarUsuarioONada(email);
             if (usuario != null) {
-                return new Tupla(usuario, getStringFromContext(R.string.welcomeMessage));
+                return new Tupla<>(usuario, getStringFromContext(R.string.welcomeMessage));
             }
         }
 
-        return new Tupla(null, getStringFromContext(R.string.invalidLoginMessage));
+        return new Tupla<>(null, getStringFromContext(R.string.invalidLoginMessage));
     }
 
     private static boolean esCadenaInvalida(String valor) {

@@ -17,11 +17,11 @@ public class DummyMaker {
     }
 
     public static Curso crearCursoDePrueba() {
-        return new Curso(ID_CURSO, TITULO_CURSO, DESCRIPCION_CURSO, NIVEL_CURSO, IMAGEN_CURSO);
+        return new Curso(ID_CURSO, TITULO_CURSO, DESCRIPCION_CURSO, IMAGEN_CURSO, NIVEL_CURSO);
     }
 
     public static Curso crearOtroCursoDePrueba() {
-        return new Curso(OTRO_ID_CURSO, OTRO_TITULO_CURSO, OTRA_DESCRIPCION_CURSO, NIVEL_CURSO, OTRA_IMAGEN_CURSO);
+        return new Curso(OTRO_ID_CURSO, OTRO_TITULO_CURSO, OTRA_DESCRIPCION_CURSO, OTRA_IMAGEN_CURSO, OTRO_NIVEL_CURSO);
     }
 
     public static Grupo crearGrupoDePrueba() {
