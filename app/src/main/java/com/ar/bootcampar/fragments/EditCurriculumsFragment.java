@@ -74,7 +74,6 @@ public class EditCurriculumsFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_edit_curriculums, container, false);
     }
 
-
     @Override
     public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
