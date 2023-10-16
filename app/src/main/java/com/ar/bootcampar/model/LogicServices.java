@@ -1,6 +1,7 @@
 package com.ar.bootcampar.model;
 
 import android.content.Context;
+import android.util.Patterns;
 
 import com.ar.bootcampar.R;
 import com.ar.bootcampar.activities.ResetPasswordActivity;
@@ -22,7 +23,7 @@ public class LogicServices {
     }
 
     public Tupla<Usuario, String> registrarUsuario(String nombre, String apellido, String email, String clave, String confirmarClave, Rol rol, String telefono, String invitacion) {
-        if (!esCadenaInvalida(nombre) && !esCadenaInvalida(apellido) && ResetPasswordActivity.isValidEmail(email) && !esCadenaInvalida(clave) && !esCadenaInvalida(confirmarClave) && esCadenaInvalida(invitacion)) {
+        if (!esCadenaInvalida(nombre) && !esCadenaInvalida(apellido) && esEmailValido(email) && !esCadenaInvalida(clave) && !esCadenaInvalida(confirmarClave) && esCadenaInvalida(invitacion)) {
             if (clave.equals(confirmarClave)) {
                 Grupo grupo = database.buscarGrupoONada(invitacion);
                 if (grupo == null) {
@@ -49,7 +50,7 @@ public class LogicServices {
     }
 
     public Tupla<Usuario, String> ingresarUsuario(String email, String clave) {
-        if (!esCadenaInvalida(email) && ResetPasswordActivity.isValidEmail(email) && esCadenaInvalida(clave)) {
+        if (!esCadenaInvalida(email) && esEmailValido(email) && esCadenaInvalida(clave)) {
             Usuario usuario = database.buscarUsuarioONada(email);
             if (usuario != null) {
                 return new Tupla(usuario, getStringFromContext(R.string.welcomeMessage));
@@ -59,7 +60,7 @@ public class LogicServices {
         return new Tupla(null, getStringFromContext(R.string.invalidLoginMessage));
     }
 
-    private boolean esCadenaInvalida(String valor) {
+    private static boolean esCadenaInvalida(String valor) {
         return (valor == null || valor.trim().isEmpty());
     }
 
@@ -70,5 +71,13 @@ public class LogicServices {
     public void GrabarUsuarioActivoEnPreferencias(Usuario usuario) {
         SharedPreferencesManager manager = new SharedPreferencesManager(context);
         manager.grabarUsuario(usuario);
+    }
+
+    public static boolean esEmailValido(CharSequence target) {
+        return (target != null && !esCadenaInvalida(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
+    }
+
+    private static boolean esCadenaInvalida(CharSequence valor) {
+        return esCadenaInvalida(valor.toString());
     }
 }
