@@ -2,13 +2,27 @@ package com.ar.bootcampar.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ar.bootcampar.R;
+import com.ar.bootcampar.model.Categoria;
+import com.ar.bootcampar.model.Database;
+import com.ar.bootcampar.model.IDatabase;
+import com.ar.bootcampar.model.LogicServices;
 import com.ar.bootcampar.services.CategoriasListAdapter;
 
 /**
@@ -63,6 +77,79 @@ public class EditCategoriesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit_categories, container, false);
+        View view = inflater.inflate(R.layout.fragment_edit_categories, container, false);
+
+        IDatabase database = Database.CreateWith(getActivity());
+        ListView listView = (ListView)view.findViewById(R.id.categoryListView);
+        registerForContextMenu(listView);
+        adapter = new CategoriasListAdapter(database.listarCategorias());
+        listView.setAdapter(adapter);
+
+        Button button = (Button)view.findViewById(R.id.buttonSaveCategory);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String nombre = ((TextView)getView().findViewById(R.id.editCategoryName)).getText().toString();
+                String descripcion = ((TextView)getView().findViewById(R.id.editCategoryDescription)).getText().toString();
+
+                // TODO: Mover esto a LogicServices.grabarCategoria y ajustar metodos
+                if (!nombre.isEmpty() && !descripcion.isEmpty()) {
+                    Categoria categoria = database.buscarCategoriaONada(nombre);
+                    if (categoria == null) {
+                        categoria = database.crearCategoria(nombre, descripcion);
+                        if (categoria != null) {
+                            adapter.cambiarCategorias(database.listarCategorias());
+                            adapter.notifyDataSetChanged();
+                            Toast.makeText(getContext(), "Categoría creada", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(getContext(), "No se pudo crear la categoría", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    else {
+                        Toast.makeText(getContext(), "La categoría ya existe", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else {
+                    Toast.makeText(getContext(), "Por favor complete los datos", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        return view;
+    }
+
+    @Override
+    public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        if (v.getId() == R.id.categoryListView) {
+            MenuInflater inflater = getActivity().getMenuInflater();
+            // TODO: Descomentar cuando se acepte el PR con este menu
+            //inflater.inflate(R.menu.crud_item_context_menu, menu);
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        /*
+        TODO: Descomentar cuando se acepte el PR con esos ids
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+        if (info != null) {
+            if (item.getItemId() == R.id.menu_item_edit) {
+                return true;
+            }
+            else if (item.getItemId() == R.id.menu_delete_item) {
+                Categoria categoria = (Categoria) adapter.getItem(info.position);
+                LogicServices logicServices = new LogicServices(getActivity());
+                logicServices.borrarCategoria(categoria);
+                adapter.cambiarCategorias(logicServices.listarCategorias());
+                adapter.notifyDataSetChanged();
+                return true;
+            }
+        }
+        else {
+            return true;
+        }*/
+        return super.onContextItemSelected(item);
     }
 }

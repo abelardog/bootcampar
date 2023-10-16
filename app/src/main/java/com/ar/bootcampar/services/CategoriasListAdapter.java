@@ -14,6 +14,10 @@ import java.util.List;
 public class CategoriasListAdapter extends BaseAdapter {
     private List<Categoria> categorias;
 
+    public CategoriasListAdapter(List<Categoria> categorias) {
+        this.categorias = categorias;
+    }
+
     @Override
     public int getCount() {
         return this.categorias.size();

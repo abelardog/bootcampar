@@ -369,7 +369,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                     Categoria categoria = new Categoria(
                             cursorHelper.getLongFrom(ColumnaId),
                             cursorHelper.getStringFrom(ColumnaNombre),
-                            cursorHelper.getStringFrom(ColumnaInvitacion));
+                            cursorHelper.getStringFrom(ColumnaDescripcion));
 
                     resultado.add(categoria);
                     cursor.moveToNext();
