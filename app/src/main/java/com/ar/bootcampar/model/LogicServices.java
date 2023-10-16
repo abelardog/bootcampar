@@ -62,7 +62,7 @@ public class LogicServices {
     }
 
     public Tupla<Usuario, String> ingresarUsuario(String email, String clave) {
-        if (!esCadenaInvalida(email) && esEmailValido(email) && esCadenaInvalida(clave)) {
+        if (!esCadenaInvalida(email) && esEmailValido(email) && !esCadenaInvalida(clave)) {
             Usuario usuario = database.buscarUsuarioONada(email);
             if (usuario != null) {
                 return new Tupla(usuario, getStringFromContext(R.string.welcomeMessage));
