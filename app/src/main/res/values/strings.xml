@@ -137,4 +137,6 @@
     <string name="curriculum">Currícula</string>
     <string name="lecciones">Lecciones</string>
     <string name="categorias">Categorias</string>
+    <string name="nombre">Nombre</string>
+    <string name="descripcion">Descripcion</string>
 </resources>
