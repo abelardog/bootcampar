@@ -309,7 +309,8 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 cursorHelper.getLongFrom(prefijo + ColumnaId),
                 cursorHelper.getStringFrom(prefijo + ColumnaTitulo),
                 cursorHelper.getStringFrom(prefijo + ColumnaDescripcion),
-                "", cursorHelper.getIntFrom(prefijo + ColumnaNivel));
+                cursorHelper.getStringFrom(prefijo + ColumnaImagen),
+                cursorHelper.getIntFrom(prefijo + ColumnaNivel));
     }
 
     @NonNull
