@@ -42,6 +42,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     private static final String ColumnaUltimaLeccion = "UltimaLeccion";
     private static final String[] CamposInscripcion = new String[] { ColumnaId, ColumnaRelacionUsuario, ColumnaRelacionCurso, ColumnaPuntuacion, ColumnaFavorito, ColumnaUltimaLeccion };
     private static final String TablaInscripcion = "Inscripciones";
+    private static final String[] CamposCurricula = new String[] { ColumnaId, ColumnaRelacionCurso, ColumnaRelacionGrupo };
     private static final String TablaCurricula = "Curriculas";
     private static final String ColumnaContenido = "Contenido";
     private static final String ColumnaDuracion = "Duracion";
@@ -295,11 +296,16 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     @NonNull
     private static Grupo obtenerGrupoDeCursor(ICursorWrapper cursor) {
+        return obtenerGrupoDeCursor(cursor, "");
+    }
+
+    @NonNull
+    private static Grupo obtenerGrupoDeCursor(ICursorWrapper cursor, String prefijo) {
         CursorHelper cursorHelper = new CursorHelper(cursor);
         return new Grupo(
-                cursorHelper.getLongFrom(ColumnaId),
-                cursorHelper.getStringFrom(ColumnaNombre),
-                cursorHelper.getStringFrom(ColumnaInvitacion));
+                cursorHelper.getLongFrom(prefijo + ColumnaId),
+                cursorHelper.getStringFrom(prefijo + ColumnaNombre),
+                cursorHelper.getStringFrom(prefijo + ColumnaInvitacion));
     }
 
     @NonNull
@@ -352,6 +358,15 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 cursorHelper.getIntFrom(prefijo + ColumnaPuntuacion),
                 cursorHelper.getIntFrom(prefijo + ColumnaFavorito) == 0,
                 cursorHelper.getIntFrom(prefijo + ColumnaUltimaLeccion));
+    }
+
+    @NonNull
+    private static Curricula obtenerCurriculaDeCursor(ICursorWrapper cursor, String prefijo) {
+        CursorHelper cursorHelper = new CursorHelper(cursor);
+        return new Curricula(
+                cursorHelper.getLongFrom(prefijo + ColumnaId),
+                obtenerCursoDeCursor(cursor, TablaCurso + "_"),
+                obtenerGrupoDeCursor(cursor, TablaGrupo + "_"));
     }
 
     @Override
@@ -789,6 +804,45 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     public void borrarCurricula(Curricula curricula) {
         Guardia.esObjetoValido(curricula, "La currícula es nula");
         borrarElemento(TablaCurricula, curricula.getId(), "Se esperaba borrar una única curricula pero se borraron %d");
+    }
+
+    @Override
+    public List<Curricula> listarCurriculas() {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+        List<Curricula> resultado = new ArrayList<>();
+
+        try {
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaCurricula + ", " + TablaGrupo + ", " + TablaCurso,
+                    concatenarVectores(
+                            agregarNombreDeTablaEnColumnas(TablaCurricula, CamposCurricula),
+                            agregarNombreDeTablaEnColumnas(TablaCurso, CamposCurso),
+                            agregarNombreDeTablaEnColumnas(TablaGrupo, CamposGrupo)),
+                    ColumnaRelacionCurso + " = " + TablaCurso + "." + ColumnaId +
+                            " AND " + ColumnaRelacionGrupo + " = " + TablaGrupo + "." + ColumnaId,
+                    null, null, null, null);
+
+            if (cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    Curricula curricula = obtenerCurriculaDeCursor(cursor, TablaCurricula + ".");
+                    resultado.add(curricula);
+                    cursor.moveToNext();
+                }
+            }
+
+            return resultado;
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
+
     }
 
     private String[] agregarNombreDeTablaEnColumnas(String tabla, String[] campos) {

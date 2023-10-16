@@ -41,6 +41,7 @@ public interface IDatabase {
     Curricula crearCurricula(Curso curso, Grupo grupo);
     Curricula modificarCurricula(Curricula curricula, Curso nuevocourse, Grupo nuevogrupo);
     void borrarCurricula(Curricula curricula);
+    List<Curricula> listarCurriculas();
 
     void borrarCategorizacion(Categorizacion categorizacion);
     Categorizacion crearCategorizacion(Curso curso, Categoria categoria);
