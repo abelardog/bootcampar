@@ -117,11 +117,11 @@
         android:id="@+id/imageView9"
         android:layout_width="407dp"
         android:layout_height="84dp"
-        android:tint="#1A01B2"
         app:layout_constraintBottom_toTopOf="@+id/editEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/header_logo" />
+        app:srcCompat="@drawable/header_logo"
+        app:tint="#1A01B2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
