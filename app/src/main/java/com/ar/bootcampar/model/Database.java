@@ -337,6 +337,12 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     @Override
+    public Categoria buscarCategoriaONada(String nombre) {
+        return (Categoria)buscarElementoONada(TablaCategoria, CamposCategoria, ColumnaNombre, nombre,
+                Database::obtenerGrupoDeCursor,"Se encontraron varias categorías con el mismo nombre %s");
+    }
+
+    @Override
     public Categoria modificarCategoria(Categoria categoria, String nuevoNombre, String nuevaDescripcion) {
         Guardia.esObjetoValido(categoria, "La categoría es nula");
 
