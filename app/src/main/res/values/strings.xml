@@ -139,4 +139,6 @@
     <string name="categorias">Categorias</string>
     <string name="nombre">Nombre</string>
     <string name="descripcion">Descripcion</string>
+    <string name="grabar">Grabar</string>
+    <string name="ingrese_descripcion">Ingrese la descripción</string>
 </resources>

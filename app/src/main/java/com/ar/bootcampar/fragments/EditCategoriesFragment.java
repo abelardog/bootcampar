@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ar.bootcampar.R;
+import com.ar.bootcampar.services.CategoriasListAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +26,7 @@ public class EditCategoriesFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private CategoriasListAdapter adapter;
 
     public EditCategoriesFragment() {
         // Required empty public constructor
