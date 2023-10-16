@@ -102,13 +102,13 @@ public class LogicServices {
         return esCadenaInvalida(valor.toString());
     }
 
- feature/creacion-lecciones
     public void borrarLeccion(Leccion leccion) {
         database.borrarLeccion(leccion);
     }
 
     public List<Leccion> listarLecciones() {
         return database.listarLecciones();
+    }
       
     public void borrarCategoria(Categoria categoria) {
         this.database.borrarCategoria(categoria);
@@ -116,6 +116,5 @@ public class LogicServices {
 
     public List<Categoria> listarCategorias() {
         return this.database.listarCategorias();
- develop
     }
 }
