@@ -498,7 +498,6 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 database.close();
             }
         }
-
     }
 
     @Override
@@ -678,6 +677,45 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     public void borrarCurso(Curso curso) {
         Guardia.esObjetoValido(curso, "El curso es nulo");
         borrarElemento(TablaCurso, curso.getId(), "Se esperaba borrar un único curso pero se borraron %d");
+    }
+
+    @Override
+    public List<Curso> listarCursos() {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+        List<Curso> resultado = new ArrayList<>();
+
+        try {
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaCurso, CamposCurso,
+                    null, null, null, null, null);
+
+            if (cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    CursorHelper cursorHelper = new CursorHelper(cursor);
+                    Curso curso = new Curso(
+                            cursorHelper.getLongFrom(ColumnaId),
+                            cursorHelper.getStringFrom(ColumnaTitulo),
+                            cursorHelper.getStringFrom(ColumnaDescripcion),
+                            cursorHelper.getIntFrom(ColumnaIsFavorite) == 1,
+                            cursorHelper.getStringFrom(ColumnaImageName));
+
+                    resultado.add(curso);
+                    cursor.moveToNext();
+                }
+            }
+
+            return resultado;
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
     }
 
     @Override
