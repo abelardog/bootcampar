@@ -49,6 +49,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     private static final String ColumnaOrden = "Orden";
     private static final String[] CamposLeccion = new String[] { ColumnaId, ColumnaTitulo, ColumnaContenido, ColumnaDuracion, ColumnaOrden };
     private static final String TablaLeccion = "Lecciones";
+    private static final String[] CamposCategoria = new String[] { ColumnaId, ColumnaNombre, ColumnaDescripcion };
     private static final String TablaCategoria = "Categorias";
     private static final String ColumnaRelacionCategoria  = "CategoriaId";
     private static final String TablaCategorizacion = "Categorizaciones";
@@ -344,6 +345,42 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         values.put(ColumnaDescripcion, nuevaDescripcion);
 
         return (Categoria)modificarElemento(TablaCategoria, categoria.getId(), values, id -> new Categoria(categoria.getId(), nuevoNombre, nuevaDescripcion), "Se esperaba modificar una única categoría pero se modificaron %d");
+    }
+
+    @Override
+    public List<Categoria> listarCategorias() {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+        List<Categoria> resultado = new ArrayList<>();
+
+        try {
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaCategoria, CamposCategoria, null, null, null, null, null);
+
+            if (cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    CursorHelper cursorHelper = new CursorHelper(cursor);
+                    Categoria categoria = new Categoria(
+                            cursorHelper.getLongFrom(ColumnaId),
+                            cursorHelper.getStringFrom(ColumnaNombre),
+                            cursorHelper.getStringFrom(ColumnaInvitacion));
+
+                    resultado.add(categoria);
+                    cursor.moveToNext();
+                }
+            }
+
+            return resultado;
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
     }
 
     @Override
