@@ -2,21 +2,17 @@ package com.ar.bootcampar.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Pair;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ar.bootcampar.R;
 import com.ar.bootcampar.model.LogicServices;
+import com.ar.bootcampar.model.utilities.Tupla;
 import com.ar.bootcampar.model.Rol;
 import com.ar.bootcampar.model.Usuario;
-import com.ar.bootcampar.services.SharedPreferencesManager;
-import com.google.gson.Gson;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -41,18 +37,18 @@ public class RegisterActivity extends AppCompatActivity {
 
         try {
             LogicServices logicService = new LogicServices(RegisterActivity.this);
-            Pair<Usuario, String> resultado = logicService.registrarUsuario(firstname, lastname, email, password, confirmPassword, Rol.Estudiante, "", invitationCode);
-            if (resultado.first != null) {
+            Tupla<Usuario, String> resultado = logicService.registrarUsuario(firstname, lastname, email, password, confirmPassword, Rol.Estudiante, "", invitationCode);
+            if (resultado.izquierda != null) {
                 Toast.makeText(this, R.string.registration_success_message, Toast.LENGTH_SHORT).show();
 
-                logicService.GrabarUsuarioActivoEnPreferencias(resultado.first);
+                logicService.GrabarUsuarioActivoEnPreferencias(resultado.izquierda);
 
                 Intent intent = new Intent(this, HomeActivity.class);
-                intent.putExtra("usuarioActivo", resultado.first);
+                intent.putExtra("usuarioActivo", resultado.derecha);
                 startActivity(intent);
             }
             else {
-                Toast.makeText(this, resultado.second, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, resultado.derecha, Toast.LENGTH_SHORT).show();
             }
         }
         catch (Exception ex) {
@@ -60,4 +56,3 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 }
-

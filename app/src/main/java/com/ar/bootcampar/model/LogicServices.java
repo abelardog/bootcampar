@@ -1,60 +1,70 @@
 package com.ar.bootcampar.model;
 
 import android.content.Context;
-import android.content.Intent;
-import android.util.Pair;
-import android.widget.Toast;
 
 import com.ar.bootcampar.R;
-import com.ar.bootcampar.activities.HomeActivity;
 import com.ar.bootcampar.activities.ResetPasswordActivity;
+import com.ar.bootcampar.model.utilities.Tupla;
 import com.ar.bootcampar.services.SharedPreferencesManager;
 
 public class LogicServices {
-    private Context context;
-    private IDatabase database;
+    private final Context context;
+    private final IDatabase database;
 
     public LogicServices(Context context) {
         this.context = context;
-        database = Database.CreateWith(context);
+        this.database = Database.CreateWith(context);
     }
 
-    public Pair<Usuario, String> registrarUsuario(String nombre, String apellido, String email, String clave, String confirmarClave, Rol rol, String telefono, String invitacion) {
-        if (! nombre.isEmpty() && ! apellido.isEmpty() && ResetPasswordActivity.isValidEmail(email) && !clave.isEmpty() && !confirmarClave.isEmpty() && !invitacion.isEmpty()) {
+    public LogicServices(Context context, IDatabase database) {
+        this.context = context;
+        this.database = database;
+    }
+
+    public Tupla<Usuario, String> registrarUsuario(String nombre, String apellido, String email, String clave, String confirmarClave, Rol rol, String telefono, String invitacion) {
+        if (!esCadenaInvalida(nombre) && !esCadenaInvalida(apellido) && ResetPasswordActivity.isValidEmail(email) && !esCadenaInvalida(clave) && !esCadenaInvalida(confirmarClave) && esCadenaInvalida(invitacion)) {
             if (clave.equals(confirmarClave)) {
                 Grupo grupo = database.buscarGrupoONada(invitacion);
                 if (grupo == null) {
-                    return Pair.create(null, String.format(context.getString(R.string.invalid_invitation_code), invitacion));
+                    return new Tupla(null, String.format(getStringFromContext(R.string.invalid_invitation_code), invitacion));
                 }
 
                 Usuario usuario = database.buscarUsuarioONada(email);
                 if (usuario != null) {
-                    return Pair.create(null, String.format(context.getString(R.string.registered_user_with_same_mail_exists), email));
+                    return new Tupla(null, String.format(getStringFromContext(R.string.registered_user_with_same_mail_exists), email));
                 }
 
                 usuario = database.crearUsuario(nombre, apellido, email, clave, rol, telefono);
                 Division division = database.crearDivision(usuario, grupo);
 
-                return Pair.create(usuario, context.getString(R.string.registration_success_message));
+                return new Tupla(usuario, getStringFromContext(R.string.registration_success_message));
             }
             else {
-                return Pair.create(null, context.getString(R.string.password_dont_match_message));
+                return new Tupla(null, getStringFromContext(R.string.password_dont_match_message));
             }
         }
         else {
-            return Pair.create(null, context.getString(R.string.please_complete_data_message));
+            return new Tupla(null, getStringFromContext(R.string.please_complete_data_message));
         }
     }
 
-    public Pair<Usuario, String> ingresarUsuario(String email, String clave) {
-        if (!email.isEmpty() && ResetPasswordActivity.isValidEmail(email) && !clave.isEmpty()) {
+    public Tupla<Usuario, String> ingresarUsuario(String email, String clave) {
+        if (!esCadenaInvalida(email) && ResetPasswordActivity.isValidEmail(email) && esCadenaInvalida(clave)) {
             Usuario usuario = database.buscarUsuarioONada(email);
             if (usuario != null) {
-                return Pair.create(usuario, context.getString(R.string.welcomeMessage));
+                return new Tupla(usuario, getStringFromContext(R.string.welcomeMessage));
             }
         }
 
-        return Pair.create(null, context.getString(R.string.invalidLoginMessage));
+        return new Tupla(null, getStringFromContext(R.string.invalidLoginMessage));
+    }
+
+    private boolean esCadenaInvalida(String valor) {
+        return (valor == null || valor.trim().isEmpty());
+    }
+
+    protected String getStringFromContext(int id) {
+        return context.getString(id);
     }
 
     public void GrabarUsuarioActivoEnPreferencias(Usuario usuario) {
