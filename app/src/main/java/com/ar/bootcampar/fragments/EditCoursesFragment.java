@@ -13,10 +13,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ar.bootcampar.R;
 import com.ar.bootcampar.model.Curso;
+import com.ar.bootcampar.model.Database;
 import com.ar.bootcampar.model.Grupo;
+import com.ar.bootcampar.model.IDatabase;
 import com.ar.bootcampar.model.LogicServices;
 import com.ar.bootcampar.services.CursosListAdapter;
 
@@ -72,13 +78,52 @@ public class EditCoursesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit_courses, container, false);
+        View view = inflater.inflate(R.layout.fragment_edit_courses, container, false);
+
+        IDatabase database = Database.CreateWith(getActivity());
+        ListView listView = (ListView)view.findViewById(R.id.courseListView);
+        registerForContextMenu(listView);
+        adapter = new CursosListAdapter(database.listarCursos());
+        listView.setAdapter(adapter);
+
+        Button button = (Button)view.findViewById(R.id.buttonSaveCourse);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String titulo = ((TextView)getView().findViewById(R.id.editCourseTitle)).getText().toString();
+                String descripcion = ((TextView)getView().findViewById(R.id.editCourseDescription)).getText().toString();
+
+                // TODO: Mover esto a LogicServices.grabarGrupo y ajustar metodos
+                if (!titulo.isEmpty() && !descripcion.isEmpty()) {
+                    Curso curso = database.buscarCursoONada(titulo);
+                    if (curso == null) {
+                        curso = database.crearCurso(titulo, descripcion, 0, "");
+                        if (curso != null) {
+                            adapter.cambiarCursos(database.listarCursos());
+                            adapter.notifyDataSetChanged();
+                            Toast.makeText(getContext(), "Curso creado", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(getContext(), "No se pudo crear el curso", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    else {
+                        Toast.makeText(getContext(), "El curso ya existe", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else {
+                    Toast.makeText(getContext(), "Por favor complete los datos", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        return view;
     }
 
     @Override
     public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        if (v.getId() == R.id.groupListView) {
+        if (v.getId() == R.id.courseListView) {
             MenuInflater inflater = getActivity().getMenuInflater();
             inflater.inflate(R.menu.crud_item_context_menu, menu);
         }
