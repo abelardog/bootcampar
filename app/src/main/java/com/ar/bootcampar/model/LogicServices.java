@@ -10,6 +10,8 @@ import com.ar.bootcampar.activities.HomeActivity;
 import com.ar.bootcampar.activities.ResetPasswordActivity;
 import com.ar.bootcampar.services.SharedPreferencesManager;
 
+import java.util.List;
+
 public class LogicServices {
     private Context context;
     private IDatabase database;
@@ -63,5 +65,13 @@ public class LogicServices {
     public void GrabarUsuarioActivoEnPreferencias(Usuario usuario) {
         SharedPreferencesManager manager = new SharedPreferencesManager(context);
         manager.grabarUsuario(usuario);
+    }
+
+    public void borrarGrupo(Grupo grupo) {
+        database.borrarGrupo(grupo);
+    }
+
+    public List<Grupo> listarGrupos() {
+        return database.listarGrupos();
     }
 }
