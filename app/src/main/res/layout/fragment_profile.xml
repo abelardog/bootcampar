@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/imageView4"
-        android:layout_width="116dp"
-        android:layout_height="108dp"
+        android:layout_width="154dp"
+        android:layout_height="147dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="200dp"
@@ -21,18 +21,21 @@
 
     <TextView
         android:id="@+id/textProfileUserEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="130dp"
+        android:layout_height="20dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="24dp"
         android:text="Student_Email"
+        app:layout_constraintBottom_toTopOf="@+id/materialToolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.024"
         app:layout_constraintStart_toEndOf="@+id/imageView4"
         app:layout_constraintTop_toBottomOf="@+id/textProfileUserLastName" />
 
     <TextView
         android:id="@+id/textProfileUserName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="138dp"
+        android:layout_height="28dp"
         android:layout_marginTop="36dp"
         android:text="Student_Name"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,11 +45,13 @@
 
     <TextView
         android:id="@+id/textProfileUserLastName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="134dp"
+        android:layout_height="25dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:text="Student_LastName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/imageView4"
         app:layout_constraintTop_toBottomOf="@+id/textProfileUserName" />
 
