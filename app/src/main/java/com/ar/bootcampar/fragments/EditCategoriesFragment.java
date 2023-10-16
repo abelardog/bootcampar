@@ -124,15 +124,12 @@ public class EditCategoriesFragment extends Fragment {
         super.onCreateContextMenu(menu, v, menuInfo);
         if (v.getId() == R.id.categoryListView) {
             MenuInflater inflater = getActivity().getMenuInflater();
-            // TODO: Descomentar cuando se acepte el PR con este menu
-            //inflater.inflate(R.menu.crud_item_context_menu, menu);
+            inflater.inflate(R.menu.crud_item_context_menu, menu);
         }
     }
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
-        /*
-        TODO: Descomentar cuando se acepte el PR con esos ids
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
         if (info != null) {
             if (item.getItemId() == R.id.menu_item_edit) {
@@ -149,7 +146,7 @@ public class EditCategoriesFragment extends Fragment {
         }
         else {
             return true;
-        }*/
+        }
         return super.onContextItemSelected(item);
     }
 }
