@@ -8,7 +8,21 @@ import com.ar.bootcampar.activities.ResetPasswordActivity;
 import com.ar.bootcampar.model.utilities.Tupla;
 import com.ar.bootcampar.services.SharedPreferencesManager;
 
+import java.util.regex.Pattern;
+
 public class LogicServices {
+    // Copiado de Patterns.EMAIL_ADDRESS para las pruebas unitarias
+    private static final Pattern EMAIL_ADDRESS
+            = Pattern.compile(
+            "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
+                    "\\@" +
+                    "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+                    "(" +
+                    "\\." +
+                    "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+                    ")+"
+    );
+
     private final Context context;
     private final IDatabase database;
 
@@ -23,7 +37,7 @@ public class LogicServices {
     }
 
     public Tupla<Usuario, String> registrarUsuario(String nombre, String apellido, String email, String clave, String confirmarClave, Rol rol, String telefono, String invitacion) {
-        if (!esCadenaInvalida(nombre) && !esCadenaInvalida(apellido) && esEmailValido(email) && !esCadenaInvalida(clave) && !esCadenaInvalida(confirmarClave) && esCadenaInvalida(invitacion)) {
+        if (!esCadenaInvalida(nombre) && !esCadenaInvalida(apellido) && esEmailValido(email) && !esCadenaInvalida(clave) && !esCadenaInvalida(confirmarClave) && !esCadenaInvalida(invitacion)) {
             if (clave.equals(confirmarClave)) {
                 Grupo grupo = database.buscarGrupoONada(invitacion);
                 if (grupo == null) {
@@ -74,7 +88,7 @@ public class LogicServices {
     }
 
     public static boolean esEmailValido(CharSequence target) {
-        return (target != null && !esCadenaInvalida(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
+        return (target != null && !esCadenaInvalida(target) && EMAIL_ADDRESS.matcher(target).matches());
     }
 
     private static boolean esCadenaInvalida(CharSequence valor) {
