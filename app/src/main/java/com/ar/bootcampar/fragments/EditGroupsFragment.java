@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,6 +69,11 @@ public class EditGroupsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_edit_groups, container, false);
 
+        IDatabase database = Database.CreateWith(getActivity());
+        ListView listView = (ListView)view.findViewById(R.id.groupListView);
+        GruposListAdapter adapter = new GruposListAdapter(database.listarGrupos());
+        listView.setAdapter(adapter);
+
         Button button = (Button)view.findViewById(R.id.buttonSaveGroup);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,11 +83,12 @@ public class EditGroupsFragment extends Fragment {
 
                 // TODO: Mover esto a LogicServices.grabarGrupo y ajustar metodos
                 if (!nombre.isEmpty() && !invitacion.isEmpty()) {
-                    IDatabase database = Database.CreateWith(getContext());
                     Grupo grupo = database.buscarGrupoONada(invitacion);
                     if (grupo == null) {
                         grupo = database.crearGrupo(nombre, invitacion);
                         if (grupo != null) {
+                            adapter.cambiarGrupos(database.listarGrupos());
+                            adapter.notifyDataSetChanged();
                             Toast.makeText(getContext(), "Grupo creado", Toast.LENGTH_SHORT).show();
                         }
                         else {
@@ -97,6 +104,8 @@ public class EditGroupsFragment extends Fragment {
                 }
             }
         });
+
         return view;
     }
 }
+
