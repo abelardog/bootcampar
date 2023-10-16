@@ -102,6 +102,14 @@ public class LogicServices {
         return esCadenaInvalida(valor.toString());
     }
 
+    public void borrarLeccion(Leccion leccion) {
+        database.borrarLeccion(leccion);
+    }
+
+    public List<Leccion> listarLecciones() {
+        return database.listarLecciones();
+    }
+      
     public void borrarCategoria(Categoria categoria) {
         this.database.borrarCategoria(categoria);
     }

@@ -312,6 +312,18 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     @NonNull
+    private static Leccion obtenerLeccionDeCursor(ICursorWrapper cursor, String prefijo) {
+        CursorHelper cursorHelper = new CursorHelper(cursor);
+        return new Leccion(
+                cursorHelper.getLongFrom(prefijo + ColumnaId),
+                cursorHelper.getStringFrom(prefijo + ColumnaTitulo),
+                cursorHelper.getStringFrom(prefijo + ColumnaContenido),
+                cursorHelper.getIntFrom(prefijo + ColumnaDuracion),
+                cursorHelper.getIntFrom(prefijo + ColumnaOrden),
+                obtenerCursoDeCursor(cursor, TablaCurso + "."));
+    }
+
+    @NonNull
     private static Inscripcion obtenerInscripcionDeCursor(ICursorWrapper cursor, Usuario usuario) {
         CursorHelper cursorHelper = new CursorHelper(cursor);
         return new Inscripcion(
@@ -477,6 +489,42 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                             cursorHelper.getIntFrom(ColumnaOrden),
                             curso);
 
+                    resultado.add(leccion);
+                    cursor.moveToNext();
+                }
+            }
+
+            return resultado;
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    @Override
+    public List<Leccion> listarLecciones() {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+        List<Leccion> resultado = new ArrayList<>();
+
+        try {
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaLeccion + ", " + TablaCurso,
+                    concatenarVectores(
+                            agregarNombreDeTablaEnColumnas(TablaLeccion, CamposLeccion),
+                            agregarNombreDeTablaEnColumnas(TablaCurso, CamposCurso)),
+                    TablaLeccion + "." + ColumnaRelacionCurso + " = " + TablaCurso + "." + ColumnaId,
+                    null, null, null, null);
+
+            if (cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    Leccion leccion = obtenerLeccionDeCursor(cursor, TablaLeccion + ".");
                     resultado.add(leccion);
                     cursor.moveToNext();
                 }
@@ -672,6 +720,45 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     public void borrarCurso(Curso curso) {
         Guardia.esObjetoValido(curso, "El curso es nulo");
         borrarElemento(TablaCurso, curso.getId(), "Se esperaba borrar un único curso pero se borraron %d");
+    }
+
+    @Override
+    public List<Curso> listarCursos() {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+        List<Curso> resultado = new ArrayList<>();
+
+        try {
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaCurso, CamposCurso,
+                    null, null, null, null, null);
+
+            if (cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    CursorHelper cursorHelper = new CursorHelper(cursor);
+                    Curso curso = new Curso(
+                            cursorHelper.getLongFrom(ColumnaId),
+                            cursorHelper.getStringFrom(ColumnaTitulo),
+                            cursorHelper.getStringFrom(ColumnaDescripcion),
+                            cursorHelper.getIntFrom(ColumnaIsFavorite) == 1,
+                            cursorHelper.getStringFrom(ColumnaImageName));
+
+                    resultado.add(curso);
+                    cursor.moveToNext();
+                }
+            }
+
+            return resultado;
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
     }
 
     @Override

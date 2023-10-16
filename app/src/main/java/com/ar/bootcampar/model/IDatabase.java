@@ -23,6 +23,7 @@ public interface IDatabase {
     Leccion crearLeccion(String titulo, String contenido, int duracion, int orden, Curso curso);
     Leccion modificarLeccion(Leccion leccion, String nuevoTitulo, String nuevoContenido, int nuevaDuracion, int nuevoOrden, Curso nuevoCurso);
     List<Leccion> buscarLecciones(Curso curso);
+    List<Leccion> listarLecciones();
     void borrarLeccion(Leccion leccion);
 
     Categoria crearCategoria(String nombre, String descripcion);
@@ -48,4 +49,5 @@ public interface IDatabase {
     Curso crearCurso(String title, String description, Boolean isFavorite, String imageName);
     Curso modificarCurso(Curso curso, String title, String description, Boolean isFavorite, String imageName);
     void borrarCurso(Curso curso);
+    List<Curso> listarCursos();
 }
