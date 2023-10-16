@@ -32,4 +32,10 @@ public class RegistracionDebe {
         Tupla<Usuario, String> resultado = new TestableLogicServices().registrarUsuario(NOMBRE, apellidoInvalido, EMAIL, CLAVE, CLAVE, Rol.Estudiante, TELEFONO, "112233");
         assertNull(resultado.izquierda);
     }
+
+    @Theory
+    public void retornarNulo_cuandoElEmailEsInvalido(@FromDataPoints("cadenas invalidas") String emailInvalido) {
+        Tupla<Usuario, String> resultado = new TestableLogicServices().registrarUsuario(NOMBRE, APELLIDO, emailInvalido, CLAVE, CLAVE, Rol.Estudiante, TELEFONO, "112233");
+        assertNull(resultado.izquierda);
+    }
 }
