@@ -271,7 +271,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 cursorHelper.getLongFrom(prefijo + ColumnaId),
                 cursorHelper.getStringFrom(prefijo + ColumnaTitulo),
                 cursorHelper.getStringFrom(prefijo + ColumnaDescripcion),
-                false, "");
+                false, "", cursorHelper.getIntFrom(prefijo + ColumnaNivel));
     }
 
     @NonNull
@@ -564,19 +564,20 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     @Override
-    public Curso crearCurso(String title, String description, Boolean isFavorite, String imageName) {
+    public Curso crearCurso(String title, String description, Boolean isFavorite, String imageName, int nivel) {
 
         IContentValuesWrapper values = createContentValues();
         values.put(ColumnaTitulo, title);
         values.put(ColumnaDescripcion, description);
         values.put(ColumnaIsFavorite, isFavorite);
         values.put(ColumnaImageName, imageName);
+        values.put(ColumnaNivel, nivel);
 
-        return (Curso)crearElemento(TablaCurso, values, id -> new Curso(id, title, description, isFavorite, imageName), "Error creando inscripción");
+        return (Curso)crearElemento(TablaCurso, values, id -> new Curso(id, title, description, isFavorite, imageName, nivel), "Error creando curso");
     }
 
     @Override
-    public Curso modificarCurso(Curso curso, String title, String description, Boolean isFavorite, String imageName) {
+    public Curso modificarCurso(Curso curso, String title, String description, Boolean isFavorite, String imageName, int nivel) {
         Guardia.esObjetoValido(curso, "El curso es nulo");
 
         IContentValuesWrapper values = createContentValues();
@@ -584,9 +585,9 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         values.put(ColumnaDescripcion, description);
         values.put(ColumnaIsFavorite, isFavorite);
         values.put(ColumnaImageName, imageName);
+        values.put(ColumnaNivel, nivel);
 
-
-        return (Curso)modificarElemento(TablaCurso, curso.getId(), values, id -> new Curso(curso.getId(), title, description, isFavorite, imageName), "Se esperaba modificar un único curso pero se modificaron %d");
+        return (Curso)modificarElemento(TablaCurso, curso.getId(), values, id -> new Curso(curso.getId(), title, description, isFavorite, imageName, nivel), "Se esperaba modificar un único curso pero se modificaron %d");
     }
 
     @Override
