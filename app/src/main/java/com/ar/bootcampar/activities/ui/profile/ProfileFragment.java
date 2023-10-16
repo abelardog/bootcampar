@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -15,6 +16,8 @@ import com.ar.bootcampar.R;
 import com.ar.bootcampar.activities.CourseListActivity;
 import com.ar.bootcampar.activities.EditProfileActivity;
 import com.ar.bootcampar.databinding.FragmentProfileBinding;
+import com.ar.bootcampar.model.Usuario;
+import com.ar.bootcampar.services.SharedPreferencesManager;
 
 public class ProfileFragment extends Fragment {
 
@@ -49,6 +52,14 @@ public class ProfileFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        Usuario usuario = null;
+        usuario = new SharedPreferencesManager(getActivity()).cargarUsuario();
+        if (usuario != null) {
+            ((TextView)root.findViewById(R.id.textProfileUserName)).setText(usuario.getNombre());
+            ((TextView)root.findViewById(R.id.textProfileUserLastName)).setText(usuario.getApellido());
+            ((TextView)root.findViewById(R.id.textProfileUserEmail)).setText(usuario.getEmail());
+        }
 
         return root;
     }
