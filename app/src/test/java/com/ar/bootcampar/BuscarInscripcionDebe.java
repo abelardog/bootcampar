@@ -40,8 +40,8 @@ public class BuscarInscripcionDebe {
 
     private static CursorWrapperStub crearCursorStub() {
         return new CursorWrapperStub.Builder()
-                .conColumnas(Arrays.asList("Inscripciones.Id", "Inscripciones.CursoId", "Cursos.Id", "Cursos.Titulo", "Cursos.Descripcion", "Cursos.Nivel", "Inscripciones.UsuarioId", "Usuarios.Id", "Usuarios.Nombre", "Usuarios.Apellido", "Usuarios.Email", "Usuarios.Clave", "Usuarios.Rol", "Usuarios.Telefono", "Inscripciones.Puntuacion", "Inscripciones.Favorito", "Inscripciones.UltimaLeccion"))
-                .conValores(Arrays.asList(ID_INSCRIPCION, ID_CURSO, ID_CURSO, TITULO_CURSO, DESCRIPCION_CURSO, NIVEL_CURSO, ID_USUARIO, ID_USUARIO, NOMBRE, APELLIDO, EMAIL, CLAVE, Rol.asInt(ROL), TELEFONO, PUNTUACION_INSCRIPCION, FAVORITO_INSCRIPCION? 1 : 0, ULTIMA_LECCION_INSCRIPCION))
+                .conColumnas(Arrays.asList("Inscripciones.Id", "Inscripciones.CursoId", "Cursos.Id", "Cursos.Titulo", "Cursos.Descripcion", "Cursos.Nivel", "Cursos.Imagen", "Inscripciones.UsuarioId", "Usuarios.Id", "Usuarios.Nombre", "Usuarios.Apellido", "Usuarios.Email", "Usuarios.Clave", "Usuarios.Rol", "Usuarios.Telefono", "Inscripciones.Puntuacion", "Inscripciones.Favorito", "Inscripciones.UltimaLeccion"))
+                .conValores(Arrays.asList(ID_INSCRIPCION, ID_CURSO, ID_CURSO, TITULO_CURSO, DESCRIPCION_CURSO, NIVEL_CURSO, IMAGEN_CURSO, ID_USUARIO, ID_USUARIO, NOMBRE, APELLIDO, EMAIL, CLAVE, Rol.asInt(ROL), TELEFONO, PUNTUACION_INSCRIPCION, FAVORITO_INSCRIPCION? 1 : 0, ULTIMA_LECCION_INSCRIPCION))
                 .conCountRetornando(1)
                 .build();
     }

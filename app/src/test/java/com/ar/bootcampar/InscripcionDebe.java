@@ -33,7 +33,7 @@ public class InscripcionDebe {
     }
 
     private static Curso crearCursoPorDefecto() {
-        return new Curso(ID, TITULO_CURSO, DESCRIPCION_CURSO, ES_FAVORITO_CURSO, IMAGEN_CURSO);
+        return new Curso(ID, TITULO_CURSO, DESCRIPCION_CURSO, NIVEL_CURSO, IMAGEN_CURSO);
     }
 
     private static Usuario crearUsuarioPorDefecto() {
