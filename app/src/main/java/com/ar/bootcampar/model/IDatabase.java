@@ -23,6 +23,7 @@ public interface IDatabase {
     Leccion crearLeccion(String titulo, String contenido, int duracion, int orden, Curso curso);
     Leccion modificarLeccion(Leccion leccion, String nuevoTitulo, String nuevoContenido, int nuevaDuracion, int nuevoOrden, Curso nuevoCurso);
     List<Leccion> buscarLecciones(Curso curso);
+    List<Leccion> listarLecciones();
     void borrarLeccion(Leccion leccion);
 
     Categoria crearCategoria(String nombre, String descripcion);
