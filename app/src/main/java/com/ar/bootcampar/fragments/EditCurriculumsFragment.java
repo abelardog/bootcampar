@@ -2,13 +2,22 @@ package com.ar.bootcampar.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import com.ar.bootcampar.R;
+import com.ar.bootcampar.model.Curricula;
+import com.ar.bootcampar.model.LogicServices;
+import com.ar.bootcampar.services.CurriculasListAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +34,7 @@ public class EditCurriculumsFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private CurriculasListAdapter adapter;
 
     public EditCurriculumsFragment() {
         // Required empty public constructor
@@ -62,5 +72,37 @@ public class EditCurriculumsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_edit_curriculums, container, false);
+    }
+
+
+    @Override
+    public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        if (v.getId() == R.id.curriculumListView) {
+            MenuInflater inflater = getActivity().getMenuInflater();
+            inflater.inflate(R.menu.crud_item_context_menu, menu);
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+        if (info != null) {
+            if (item.getItemId() == R.id.menu_item_edit) {
+                return true;
+            } else if (item.getItemId() == R.id.menu_delete_item) {
+                Curricula curricula = (Curricula) adapter.getItem(info.position);
+                LogicServices logicServices = new LogicServices(getActivity());
+                logicServices.borrarCurricula(curricula);
+                adapter.cambiarCurriculas(logicServices.listarCurriculas());
+                adapter.notifyDataSetChanged();
+                return true;
+            }
+        }
+        else {
+            return true;
+        }
+
+        return super.onContextItemSelected(item);
     }
 }
