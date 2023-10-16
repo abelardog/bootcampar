@@ -327,7 +327,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 cursorHelper.getStringFrom(prefijo + ColumnaContenido),
                 cursorHelper.getIntFrom(prefijo + ColumnaDuracion),
                 cursorHelper.getIntFrom(prefijo + ColumnaOrden),
-                obtenerCursoDeCursor(cursor, TablaCurso + "."));
+                obtenerCursoDeCursor(cursor, TablaCurso + "_"));
     }
 
     @NonNull
@@ -336,7 +336,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         return new Inscripcion(
                 cursorHelper.getLongFrom(ColumnaId),
                 usuario,
-                obtenerCursoDeCursor(cursor, TablaCurso + "." + ColumnaId),
+                obtenerCursoDeCursor(cursor, TablaCurso + "_" + ColumnaId),
                 cursorHelper.getIntFrom(ColumnaPuntuacion),
                 cursorHelper.getIntFrom(ColumnaFavorito) != 0,
                 cursorHelper.getIntFrom(ColumnaUltimaLeccion));
@@ -347,8 +347,8 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         CursorHelper cursorHelper = new CursorHelper(cursor);
         return new Inscripcion(
                 cursorHelper.getLongFrom(prefijo + ColumnaId),
-                obtenerUsuarioDeCursor(cursor, TablaUsuario + "."),
-                obtenerCursoDeCursor(cursor, TablaCurso + "."),
+                obtenerUsuarioDeCursor(cursor, TablaUsuario + "_"),
+                obtenerCursoDeCursor(cursor, TablaCurso + "_"),
                 cursorHelper.getIntFrom(prefijo + ColumnaPuntuacion),
                 cursorHelper.getIntFrom(prefijo + ColumnaFavorito) == 0,
                 cursorHelper.getIntFrom(prefijo + ColumnaUltimaLeccion));
@@ -531,7 +531,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
             if (cursor.moveToFirst()) {
                 while (!cursor.isAfterLast()) {
-                    Leccion leccion = obtenerLeccionDeCursor(cursor, TablaLeccion + ".");
+                    Leccion leccion = obtenerLeccionDeCursor(cursor, TablaLeccion + "_");
                     resultado.add(leccion);
                     cursor.moveToNext();
                 }
@@ -792,7 +792,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     private String[] agregarNombreDeTablaEnColumnas(String tabla, String[] campos) {
-        return Arrays.stream(campos).map(s -> tabla + "." + s).toArray(String[]::new);
+        return Arrays.stream(campos).map(s -> tabla + "." + s + " AS " + tabla + "_" + s).toArray(String[]::new);
     }
 
     private String[] concatenarVectores(String[]... vectores) {
