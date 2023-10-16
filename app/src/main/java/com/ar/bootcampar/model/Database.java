@@ -648,7 +648,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                     new String[] { String.valueOf(id) }, null, null, null);
 
             if (cursor.getCount() == 1) {
-                return obtenerInscripcionDeCursor(cursor, TablaInscripcion + ".");
+                return obtenerInscripcionDeCursor(cursor, TablaInscripcion + "_");
             }
 
             throw new RuntimeException(String.format("Se esperaba encontrar una única inscripción con id %d, se encontraron %d", id, cursor.getCount()));
