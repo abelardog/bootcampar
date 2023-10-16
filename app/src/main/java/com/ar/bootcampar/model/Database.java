@@ -698,30 +698,30 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     // TODO: Borrar isFavorite
     @Override
-    public Curso crearCurso(String title, String description, Boolean isFavorite, String imageName, int nivel) {
+    public Curso crearCurso(String title, String description, Boolean isFavorite, String imagen, int nivel) {
 
         IContentValuesWrapper values = createContentValues();
         values.put(ColumnaTitulo, title);
         values.put(ColumnaDescripcion, description);
-        values.put(ColumnaIsFavorite, isFavorite);
-        values.put(ColumnaImageName, imageName);
+        values.put(ColumnaFavorito, isFavorite);
+        values.put(ColumnaImagen, imagen);
         values.put(ColumnaNivel, nivel);
 
-        return (Curso)crearElemento(TablaCurso, values, id -> new Curso(id, title, description, isFavorite, imageName, nivel), "Error creando curso");
+        return (Curso)crearElemento(TablaCurso, values, id -> new Curso(id, title, description, isFavorite, imagen, nivel), "Error creando curso");
     }
 
     @Override
-    public Curso modificarCurso(Curso curso, String title, String description, Boolean isFavorite, String imageName, int nivel) {
+    public Curso modificarCurso(Curso curso, String title, String description, Boolean isFavorite, String imagen, int nivel) {
         Guardia.esObjetoValido(curso, "El curso es nulo");
 
         IContentValuesWrapper values = createContentValues();
         values.put(ColumnaTitulo, title);
         values.put(ColumnaDescripcion, description);
-        values.put(ColumnaIsFavorite, isFavorite);
-        values.put(ColumnaImageName, imageName);
+        values.put(ColumnaFavorito, isFavorite);
+        values.put(ColumnaImagen, imagen);
         values.put(ColumnaNivel, nivel);
 
-        return (Curso)modificarElemento(TablaCurso, curso.getId(), values, id -> new Curso(curso.getId(), title, description, isFavorite, imageName, nivel), "Se esperaba modificar un único curso pero se modificaron %d");
+        return (Curso)modificarElemento(TablaCurso, curso.getId(), values, id -> new Curso(curso.getId(), title, description, isFavorite, imagen, nivel), "Se esperaba modificar un único curso pero se modificaron %d");
     }
 
     @Override
@@ -748,8 +748,9 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                             cursorHelper.getLongFrom(ColumnaId),
                             cursorHelper.getStringFrom(ColumnaTitulo),
                             cursorHelper.getStringFrom(ColumnaDescripcion),
-                            cursorHelper.getIntFrom(ColumnaNivel),
-                            cursorHelper.getStringFrom(ColumnaImagen));
+                            false,
+                            cursorHelper.getStringFrom(ColumnaImagen),
+                            cursorHelper.getIntFrom(ColumnaNivel));
 
                     resultado.add(curso);
                     cursor.moveToNext();
