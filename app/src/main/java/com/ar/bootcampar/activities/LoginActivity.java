@@ -6,9 +6,9 @@ import android.os.Bundle;
 
 import com.ar.bootcampar.R;
 import com.ar.bootcampar.model.LogicServices;
+import com.ar.bootcampar.model.utilities.Tupla;
 import com.ar.bootcampar.model.Usuario;
 
-import android.util.Pair;
 import android.view.View;
 import android.widget.TextView;
 import android.content.Intent;
@@ -32,14 +32,14 @@ public class LoginActivity extends AppCompatActivity {
         String email = ((TextView)findViewById(R.id.editEmailAddress)).getText().toString();
         String clave = ((TextView)findViewById(R.id.editTextPassword)).getText().toString();
 
-        Pair<Usuario, String> resultado = logicServices.ingresarUsuario(email, clave);
-        Toast.makeText(getApplicationContext(), resultado.second, Toast.LENGTH_SHORT).show();
+        Tupla<Usuario, String> resultado = logicServices.ingresarUsuario(email, clave);
+        Toast.makeText(getApplicationContext(), resultado.derecha, Toast.LENGTH_SHORT).show();
 
-        if (resultado.first != null) {
-            logicServices.GrabarUsuarioActivoEnPreferencias(resultado.first);
+        if (resultado.izquierda != null) {
+            logicServices.GrabarUsuarioActivoEnPreferencias(resultado.izquierda);
 
             Intent intent = new Intent(this, HomeActivity.class);
-            intent.putExtra("usuarioActivo", resultado.first);
+            intent.putExtra("usuarioActivo", resultado.izquierda);
             startActivity(intent);
         }
     }
