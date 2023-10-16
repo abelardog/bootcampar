@@ -107,12 +107,11 @@ public class ModificarCursoDebe {
         assertFalse(spy.getTransactionSuccessfulCalled());
     }
 
-/*
     @Test
     public void recibirTodosLosDatosDeCurso() {
         Curso curso = crearCursoDePrueba();
         SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
-                .conInsertRetornando(1)
+                .conUpdateRetornando(1)
                 .build();
         Database sut = new TestableDatabase(spy);
         sut.modificarCurso(curso, OTRO_TITULO_CURSO, OTRA_DESCRIPCION_CURSO, OTRO_ES_FAVORITO_CURSO, OTRA_IMAGEN_CURSO, OTRO_NIVEL_CURSO);
@@ -122,7 +121,6 @@ public class ModificarCursoDebe {
         assertEquals(OTRA_IMAGEN_CURSO, spy.getInsertedValues().get("Imagen"));
         assertEquals(OTRO_NIVEL_CURSO, spy.getInsertedValues().get("Nivel"));
     }
-*/
 
     @Test
     public void insertarDatosEnTablaCursoDePrueba() {
