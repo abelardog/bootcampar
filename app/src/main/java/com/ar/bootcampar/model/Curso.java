@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Curso {
-    private long id;
-    private String imageName;
-    private String title;
-    private String description;
-    @Deprecated
-    private boolean isFavorite;
+    private final long id;
+    private final String imagen;
+    private final String title;
+    private final String description;
+    private final int nivel;
 
     private int nivel;
 
@@ -30,16 +29,17 @@ public class Curso {
     }
 
     public String getImageName() {
-        return imageName;
+        return imagen;
     }
 
     public String getTitle() {
         return title;
     }
 
+    // TODO: Borrar
     @Deprecated
     public boolean isFavorite() {
-        return isFavorite;
+        return false;
     }
 
     public String getDescription() { return description; }

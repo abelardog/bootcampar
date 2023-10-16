@@ -1,13 +1,12 @@
 package com.ar.bootcampar.model;
 
 import android.content.Context;
-import android.util.Patterns;
 
 import com.ar.bootcampar.R;
-import com.ar.bootcampar.activities.ResetPasswordActivity;
 import com.ar.bootcampar.model.utilities.Tupla;
 import com.ar.bootcampar.services.SharedPreferencesManager;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class LogicServices {
@@ -64,7 +63,7 @@ public class LogicServices {
     }
 
     public Tupla<Usuario, String> ingresarUsuario(String email, String clave) {
-        if (!esCadenaInvalida(email) && esEmailValido(email) && esCadenaInvalida(clave)) {
+        if (!esCadenaInvalida(email) && esEmailValido(email) && !esCadenaInvalida(clave)) {
             Usuario usuario = database.buscarUsuarioONada(email);
             if (usuario != null) {
                 return new Tupla(usuario, getStringFromContext(R.string.welcomeMessage));
@@ -87,11 +86,43 @@ public class LogicServices {
         manager.grabarUsuario(usuario);
     }
 
+    public void borrarGrupo(Grupo grupo) {
+        database.borrarGrupo(grupo);
+    }
+
+    public List<Grupo> listarGrupos() {
+        return database.listarGrupos();
+    }
+
     public static boolean esEmailValido(CharSequence target) {
         return (target != null && !esCadenaInvalida(target) && EMAIL_ADDRESS.matcher(target).matches());
     }
 
     private static boolean esCadenaInvalida(CharSequence valor) {
         return esCadenaInvalida(valor.toString());
+    }
+
+    public void borrarCurso(Curso curso) {
+        database.borrarCurso(curso);
+    }
+
+    public List<Curso> listarCursos() {
+        return database.listarCursos();
+    }
+
+    public void borrarLeccion(Leccion leccion) {
+        database.borrarLeccion(leccion);
+    }
+
+    public List<Leccion> listarLecciones() {
+        return database.listarLecciones();
+    }
+      
+    public void borrarCategoria(Categoria categoria) {
+        this.database.borrarCategoria(categoria);
+    }
+
+    public List<Categoria> listarCategorias() {
+        return this.database.listarCategorias();
     }
 }

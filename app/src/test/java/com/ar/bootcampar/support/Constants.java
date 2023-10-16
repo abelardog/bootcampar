@@ -38,8 +38,6 @@ public class Constants {
     public static final String TITULO_CURSO = "Maestría en JavaScript";
     public static final String DESCRIPCION_CURSO = "Con este curso sabrá programar en JavaScript desde un carrito de compras a un e-commerce!";
     public static final int NIVEL_CURSO = 1;
-    @Deprecated
-    public static final boolean ES_FAVORITO_CURSO = true;
     public static final long OTRO_ID_CURSO = 19;
     public static final String OTRA_IMAGEN_CURSO = "https://www.imgur.com/abc";
     public static final String OTRO_TITULO_CURSO = "Maestría en JS";
