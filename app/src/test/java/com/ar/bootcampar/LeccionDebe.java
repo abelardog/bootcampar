@@ -46,7 +46,7 @@ public class LeccionDebe {
 
     @NonNull
     private static Curso crearCursoPorDefecto() {
-        return new Curso(ID, TITULO_CURSO, DESCRIPCION_CURSO, ES_FAVORITO_CURSO, IMAGEN_CURSO, NIVEL_CURSO);
+        return new Curso(ID, TITULO_CURSO, DESCRIPCION_CURSO, IMAGEN_CURSO, NIVEL_CURSO);
     }
 
     @DataPoints("cadenas invalidas")

@@ -698,12 +698,11 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     // TODO: Borrar isFavorite
     @Override
-    public Curso crearCurso(String title, String description, Boolean isFavorite, String imagen, int nivel) {
+    public Curso crearCurso(String title, String description, String imagen, int nivel) {
 
         IContentValuesWrapper values = createContentValues();
         values.put(ColumnaTitulo, title);
         values.put(ColumnaDescripcion, description);
-        values.put(ColumnaFavorito, isFavorite);
         values.put(ColumnaImagen, imagen);
         values.put(ColumnaNivel, nivel);
 
@@ -711,13 +710,12 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     @Override
-    public Curso modificarCurso(Curso curso, String title, String description, Boolean isFavorite, String imagen, int nivel) {
+    public Curso modificarCurso(Curso curso, String title, String description, String imagen, int nivel) {
         Guardia.esObjetoValido(curso, "El curso es nulo");
 
         IContentValuesWrapper values = createContentValues();
         values.put(ColumnaTitulo, title);
         values.put(ColumnaDescripcion, description);
-        values.put(ColumnaFavorito, isFavorite);
         values.put(ColumnaImagen, imagen);
         values.put(ColumnaNivel, nivel);
 

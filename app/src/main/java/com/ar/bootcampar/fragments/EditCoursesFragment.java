@@ -97,7 +97,7 @@ public class EditCoursesFragment extends Fragment {
                 if (!titulo.isEmpty() && !descripcion.isEmpty()) {
                     Curso curso = database.buscarCursoONada(titulo);
                     if (curso == null) {
-                        curso = database.crearCurso(titulo, descripcion, false,"", 1);
+                        curso = database.crearCurso(titulo, descripcion,"", 1);
                         if (curso != null) {
                             adapter.cambiarCursos(database.listarCursos());
                             adapter.notifyDataSetChanged();
