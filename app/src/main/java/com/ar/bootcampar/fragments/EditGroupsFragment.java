@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -73,6 +74,17 @@ public class EditGroupsFragment extends Fragment {
         ListView listView = (ListView)view.findViewById(R.id.groupListView);
         GruposListAdapter adapter = new GruposListAdapter(database.listarGrupos());
         listView.setAdapter(adapter);
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Grupo grupo = (Grupo)parent.getAdapter().getItem(position);
+                database.borrarGrupo(grupo);
+                adapter.cambiarGrupos(database.listarGrupos());
+                adapter.notifyDataSetChanged();
+                return true;
+            }
+        });
 
         Button button = (Button)view.findViewById(R.id.buttonSaveGroup);
         button.setOnClickListener(new View.OnClickListener() {
