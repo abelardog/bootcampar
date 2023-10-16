@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.ar.bootcampar.R;
+import com.ar.bootcampar.model.LogicServices;
+import com.ar.bootcampar.model.utilities.Tupla;
+import com.ar.bootcampar.model.Usuario;
 
 import android.view.View;
 import android.widget.TextView;
@@ -25,21 +28,19 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onLoginClick(View view) {
-        TextView usernameTextView = (TextView)findViewById(R.id.editEmailAddress);
-        if (usernameTextView.getText().toString().equals("alumno@gmail.com")) {
-            TextView passwordTextView = (TextView)findViewById(R.id.editTextPassword);
-            if (passwordTextView.getText().toString().equals("123456")) {
-                Toast.makeText(getApplicationContext(), R.string.welcomeMessage, Toast.LENGTH_SHORT).show();
+        LogicServices logicServices = new LogicServices(getApplicationContext());
+        String email = ((TextView)findViewById(R.id.editEmailAddress)).getText().toString();
+        String clave = ((TextView)findViewById(R.id.editTextPassword)).getText().toString();
 
-                Intent intent = new Intent(this, HomeActivity.class);
-                startActivity(intent);
-            }
-            else {
-                Toast.makeText(getApplicationContext(), R.string.invalidLoginMessage, Toast.LENGTH_LONG).show();
-            }
-        }
-        else {
-            Toast.makeText(getApplicationContext(), R.string.invalidLoginMessage, Toast.LENGTH_LONG).show();
+        Tupla<Usuario, String> resultado = logicServices.ingresarUsuario(email, clave);
+        Toast.makeText(getApplicationContext(), resultado.derecha, Toast.LENGTH_SHORT).show();
+
+        if (resultado.izquierda != null) {
+            logicServices.GrabarUsuarioActivoEnPreferencias(resultado.izquierda);
+
+            Intent intent = new Intent(this, HomeActivity.class);
+            intent.putExtra("usuarioActivo", resultado.izquierda);
+            startActivity(intent);
         }
     }
 

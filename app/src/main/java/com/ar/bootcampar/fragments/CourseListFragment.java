@@ -10,10 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ar.bootcampar.R;
-import com.ar.bootcampar.model.Course;
+import com.ar.bootcampar.model.Curso;
 import com.ar.bootcampar.services.CourseAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -29,11 +28,11 @@ public class CourseListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_course_list, container, false);
 
-        List<Course> courseList = Course.getDefaultCourses();
+        List<Curso> listaCursos = Curso.getDefaultCourses();
 
         RecyclerView recyclerView = rootView.findViewById(R.id.recyclerViewCourses);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        CourseAdapter adapter = new CourseAdapter(courseList);
+        CourseAdapter adapter = new CourseAdapter(listaCursos);
         recyclerView.setAdapter(adapter);
 
         return rootView;

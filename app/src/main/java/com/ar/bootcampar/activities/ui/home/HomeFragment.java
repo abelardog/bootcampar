@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -16,9 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ar.bootcampar.MainActivity;
 import com.ar.bootcampar.activities.CourseDetailActivity;
-import com.ar.bootcampar.databinding.ActivityHomeBinding;
 import com.ar.bootcampar.databinding.FragmentHomeBinding;
-import com.ar.bootcampar.model.Course;
+import com.ar.bootcampar.model.Curso;
 import com.ar.bootcampar.model.RecentlyAddedAdapter;
 import com.ar.bootcampar.R;
 
@@ -30,7 +28,7 @@ public class HomeFragment extends Fragment implements RecentlyAddedAdapter.OnIte
 
     private FragmentHomeBinding binding;
     RecyclerView recyclerView;
-    List<Course> source;
+    List<Curso> source;
     RecyclerView.LayoutManager RecyclerViewLayoutManager;
     RecentlyAddedAdapter adapter;
     LinearLayoutManager HorizontalLayout;
@@ -49,7 +47,7 @@ public class HomeFragment extends Fragment implements RecentlyAddedAdapter.OnIte
         RecyclerViewLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(RecyclerViewLayoutManager);
         AddItemsToRecyclerViewArrayList();
-        adapter = new RecentlyAddedAdapter(source.stream().filter(p -> p.isFavorite() == false).collect(Collectors.toList()), this);
+        adapter = new RecentlyAddedAdapter(new ArrayList<>(source), this);
         HorizontalLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(HorizontalLayout);
         recyclerView.setAdapter(adapter);
@@ -66,7 +64,7 @@ public class HomeFragment extends Fragment implements RecentlyAddedAdapter.OnIte
     }
 
     public void AddItemsToRecyclerViewArrayList() {
-        source = Course.getDefaultCourses().stream().filter(c -> c.isFavorite() == false).collect(Collectors.toList());
+        source = new ArrayList<>(Curso.getDefaultCourses());
     }
 
     @Override
@@ -78,7 +76,7 @@ public class HomeFragment extends Fragment implements RecentlyAddedAdapter.OnIte
     @Override
     public void onItemClick(int position) {
 
-        Course selectedItem = source.get(position);
+        Curso selectedItem = source.get(position);
 
         Intent intent = new Intent(getActivity(), CourseDetailActivity.class);
         intent.putExtra("loggedIn", loggedIn);

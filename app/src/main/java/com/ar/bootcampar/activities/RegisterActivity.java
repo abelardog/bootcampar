@@ -9,6 +9,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ar.bootcampar.R;
+import com.ar.bootcampar.model.LogicServices;
+import com.ar.bootcampar.model.utilities.Tupla;
+import com.ar.bootcampar.model.Rol;
+import com.ar.bootcampar.model.Usuario;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -31,18 +35,24 @@ public class RegisterActivity extends AppCompatActivity {
         String confirmPassword = ((EditText)findViewById(R.id.editConfirmPassword)).getText().toString();
         String invitationCode = ((EditText)findViewById(R.id.editInvitationCode)).getText().toString();
 
-        if (! firstname.isEmpty() && ! lastname.isEmpty() && ResetPasswordActivity.isValidEmail(email) && !password.isEmpty() && !confirmPassword.isEmpty() && !invitationCode.isEmpty()) {
-            if (password.equals(confirmPassword)) {
+        try {
+            LogicServices logicService = new LogicServices(RegisterActivity.this);
+            Tupla<Usuario, String> resultado = logicService.registrarUsuario(firstname, lastname, email, password, confirmPassword, Rol.Estudiante, "", invitationCode);
+            if (resultado.izquierda != null) {
                 Toast.makeText(this, R.string.registration_success_message, Toast.LENGTH_SHORT).show();
+
+                logicService.GrabarUsuarioActivoEnPreferencias(resultado.izquierda);
+
                 Intent intent = new Intent(this, HomeActivity.class);
+                intent.putExtra("usuarioActivo", resultado.derecha);
                 startActivity(intent);
             }
             else {
-                Toast.makeText(this, R.string.password_dont_match_message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, resultado.derecha, Toast.LENGTH_SHORT).show();
             }
         }
-        else {
-            Toast.makeText(this, R.string.please_complete_data_message, Toast.LENGTH_SHORT).show();
+        catch (Exception ex) {
+            Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 }

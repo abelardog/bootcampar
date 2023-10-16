@@ -1,5 +1,7 @@
 package com.ar.bootcampar.activities;
 
+import static com.ar.bootcampar.model.LogicServices.esEmailValido;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -22,14 +24,10 @@ public class ResetPasswordActivity extends AppCompatActivity {
     public void resetPassword(View view) {
         EditText emailEditText  = (EditText)findViewById(R.id.editTextEmailRecovery);
         String email = emailEditText.getText().toString();
-        if (isValidEmail(email))
+        if (esEmailValido(email))
         {
             Toast.makeText(this, R.string.restoration_mail_sent, Toast.LENGTH_SHORT).show();
         }
-    }
-
-    public static boolean isValidEmail(CharSequence target) {
-        return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }
 
     public void goBack(View view) {
