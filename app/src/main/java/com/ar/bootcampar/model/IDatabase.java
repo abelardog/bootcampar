@@ -16,17 +16,20 @@ public interface IDatabase {
     Grupo crearGrupo(String nombre, String invitacion);
     Grupo buscarGrupoONada(String invitacion);
     Grupo buscarGrupoOExplotar(long id);
-
+    List<Grupo> listarGrupos();
     void borrarGrupo(Grupo grupo);
     Grupo modificarGrupo(Grupo grupo, String nuevoNombre, String nuevaInvitacion);
 
     Leccion crearLeccion(String titulo, String contenido, int duracion, int orden, Curso curso);
     Leccion modificarLeccion(Leccion leccion, String nuevoTitulo, String nuevoContenido, int nuevaDuracion, int nuevoOrden, Curso nuevoCurso);
     List<Leccion> buscarLecciones(Curso curso);
+    List<Leccion> listarLecciones();
     void borrarLeccion(Leccion leccion);
 
     Categoria crearCategoria(String nombre, String descripcion);
     void borrarCategoria(Categoria categoria);
+    Categoria buscarCategoriaONada(String nombre);
+    List<Categoria> listarCategorias();
     Categoria modificarCategoria(Categoria categoria, String nuevoNombre, String nuevaDescripcion);
 
     Inscripcion crearInscripcion(Usuario usuario, Curso curso, int puntuacion, boolean favorito, int ultimaLeccion);
@@ -43,7 +46,9 @@ public interface IDatabase {
     Categorizacion crearCategorizacion(Curso curso, Categoria categoria);
     Categorizacion modificarCategorizacion(Categorizacion categorizacion, Curso nuevoCurso, Categoria nuevaCategoria);
 
-    Curso crearCurso(String title, String description, Boolean isFavorite, String imageName);
-    Curso modificarCurso(Curso curso, String title, String description, Boolean isFavorite, String imageName);
+    Curso crearCurso(String titulo, String descripcion, int nivel, String imagen);
+    Curso modificarCurso(Curso curso, String titulo, String descripcion, int nivel, String imagen);
     void borrarCurso(Curso curso);
+    List<Curso> listarCursos();
+    Curso buscarCursoONada(String titulo);
 }

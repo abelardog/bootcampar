@@ -33,10 +33,9 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     private static final String ColumnaTitulo = "Titulo";
     private static final String ColumnaDescripcion = "Descripcion";
     private static final String ColumnaNivel = "Nivel";
-    private static final String[] CamposCurso = new String[] { ColumnaId, ColumnaTitulo, ColumnaDescripcion, ColumnaNivel };
+    private static final String ColumnaImagen = "Imagen";
+    private static final String[] CamposCurso = new String[] { ColumnaId, ColumnaTitulo, ColumnaDescripcion, ColumnaNivel, ColumnaImagen };
     private static final String TablaCurso = "Cursos";
-    private static final String ColumnaIsFavorite = "IsFavorite";
-    private static final String ColumnaImageName = "Imagen";
     private static final String ColumnaRelacionUsuario = "UsuarioId";
     private static final String ColumnaPuntuacion = "Puntuacion";
     private static final String ColumnaFavorito = "Favorito";
@@ -49,6 +48,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     private static final String ColumnaOrden = "Orden";
     private static final String[] CamposLeccion = new String[] { ColumnaId, ColumnaTitulo, ColumnaContenido, ColumnaDuracion, ColumnaOrden };
     private static final String TablaLeccion = "Lecciones";
+    private static final String[] CamposCategoria = new String[] { ColumnaId, ColumnaNombre, ColumnaDescripcion };
     private static final String TablaCategoria = "Categorias";
     private static final String ColumnaRelacionCategoria  = "CategoriaId";
     private static final String TablaCategorizacion = "Categorizaciones";
@@ -56,7 +56,8 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     public static IDatabase CreateWith(Context applicationContext) {
         // Version 2: Agregar administrador en base de datos
-        return new Database(applicationContext, "bootcampar.db", null, 2);
+        // Version 3: Agregar imagen al curso en base de datos
+        return new Database(applicationContext, "bootcampar.db", null, 3);
     }
 
     protected Database(Context applicationContext, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -84,7 +85,8 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 ColumnaId + " INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 ColumnaTitulo + " TEXT NOT NULL,\n" +
                 ColumnaDescripcion + " TEXT,\n" +
-                ColumnaNivel + " INTEGER NOT NULL\n);");
+                ColumnaNivel + " INTEGER NOT NULL,\n" +
+                ColumnaImagen + " TEXT\n);");
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TablaInscripcion + " (\n" +
                 ColumnaId + " INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 ColumnaRelacionUsuario + " INTEGER NOT NULL,\n" +
@@ -255,6 +257,42 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 Database::obtenerGrupoDeCursor,"Se encontraron varios grupos con la misma invitación %s");
     }
 
+    @Override
+    public List<Grupo> listarGrupos() {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+        List<Grupo> resultado = new ArrayList<>();
+
+        try {
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaGrupo, CamposGrupo, null, null, null, null, null);
+
+            if (cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    CursorHelper cursorHelper = new CursorHelper(cursor);
+                    Grupo grupo = new Grupo(
+                            cursorHelper.getLongFrom(ColumnaId),
+                            cursorHelper.getStringFrom(ColumnaNombre),
+                            cursorHelper.getStringFrom(ColumnaInvitacion));
+
+                    resultado.add(grupo);
+                    cursor.moveToNext();
+                }
+            }
+
+            return resultado;
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
     @NonNull
     private static Grupo obtenerGrupoDeCursor(ICursorWrapper cursor) {
         CursorHelper cursorHelper = new CursorHelper(cursor);
@@ -271,7 +309,25 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 cursorHelper.getLongFrom(prefijo + ColumnaId),
                 cursorHelper.getStringFrom(prefijo + ColumnaTitulo),
                 cursorHelper.getStringFrom(prefijo + ColumnaDescripcion),
-                false, "");
+                cursorHelper.getIntFrom(prefijo + ColumnaNivel),
+                cursorHelper.getStringFrom(prefijo + ColumnaImagen));
+    }
+
+    @NonNull
+    private static Curso obtenerCursoDeCursor(ICursorWrapper cursor) {
+        return obtenerCursoDeCursor(cursor, "");
+    }
+
+    @NonNull
+    private static Leccion obtenerLeccionDeCursor(ICursorWrapper cursor, String prefijo) {
+        CursorHelper cursorHelper = new CursorHelper(cursor);
+        return new Leccion(
+                cursorHelper.getLongFrom(prefijo + ColumnaId),
+                cursorHelper.getStringFrom(prefijo + ColumnaTitulo),
+                cursorHelper.getStringFrom(prefijo + ColumnaContenido),
+                cursorHelper.getIntFrom(prefijo + ColumnaDuracion),
+                cursorHelper.getIntFrom(prefijo + ColumnaOrden),
+                obtenerCursoDeCursor(cursor, TablaCurso + "."));
     }
 
     @NonNull
@@ -336,6 +392,12 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     @Override
+    public Categoria buscarCategoriaONada(String nombre) {
+        return (Categoria)buscarElementoONada(TablaCategoria, CamposCategoria, ColumnaNombre, nombre,
+                Database::obtenerGrupoDeCursor,"Se encontraron varias categorías con el mismo nombre %s");
+    }
+
+    @Override
     public Categoria modificarCategoria(Categoria categoria, String nuevoNombre, String nuevaDescripcion) {
         Guardia.esObjetoValido(categoria, "La categoría es nula");
 
@@ -344,6 +406,42 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         values.put(ColumnaDescripcion, nuevaDescripcion);
 
         return (Categoria)modificarElemento(TablaCategoria, categoria.getId(), values, id -> new Categoria(categoria.getId(), nuevoNombre, nuevaDescripcion), "Se esperaba modificar una única categoría pero se modificaron %d");
+    }
+
+    @Override
+    public List<Categoria> listarCategorias() {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+        List<Categoria> resultado = new ArrayList<>();
+
+        try {
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaCategoria, CamposCategoria, null, null, null, null, null);
+
+            if (cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    CursorHelper cursorHelper = new CursorHelper(cursor);
+                    Categoria categoria = new Categoria(
+                            cursorHelper.getLongFrom(ColumnaId),
+                            cursorHelper.getStringFrom(ColumnaNombre),
+                            cursorHelper.getStringFrom(ColumnaDescripcion));
+
+                    resultado.add(categoria);
+                    cursor.moveToNext();
+                }
+            }
+
+            return resultado;
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
     }
 
     @Override
@@ -398,6 +496,42 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                             cursorHelper.getIntFrom(ColumnaOrden),
                             curso);
 
+                    resultado.add(leccion);
+                    cursor.moveToNext();
+                }
+            }
+
+            return resultado;
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    @Override
+    public List<Leccion> listarLecciones() {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+        List<Leccion> resultado = new ArrayList<>();
+
+        try {
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaLeccion + ", " + TablaCurso,
+                    concatenarVectores(
+                            agregarNombreDeTablaEnColumnas(TablaLeccion, CamposLeccion),
+                            agregarNombreDeTablaEnColumnas(TablaCurso, CamposCurso)),
+                    TablaLeccion + "." + ColumnaRelacionCurso + " = " + TablaCurso + "." + ColumnaId,
+                    null, null, null, null);
+
+            if (cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    Leccion leccion = obtenerLeccionDeCursor(cursor, TablaLeccion + ".");
                     resultado.add(leccion);
                     cursor.moveToNext();
                 }
@@ -563,36 +697,81 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         return (Categorizacion) modificarElemento(TablaCategorizacion, categorizacion.getId(), values, id -> new Categorizacion(categorizacion.getId(), nuevoCurso, nuevaCategoria),"Se esperaba modificar una unica categorización pero se modificaron %d");
     }
 
+    // TODO: Borrar isFavorite
     @Override
-    public Curso crearCurso(String title, String description, Boolean isFavorite, String imageName) {
+    public Curso crearCurso(String titulo, String descripcion, int nivel, String imagen) {
 
         IContentValuesWrapper values = createContentValues();
-        values.put(ColumnaTitulo, title);
-        values.put(ColumnaDescripcion, description);
-        values.put(ColumnaIsFavorite, isFavorite);
-        values.put(ColumnaImageName, imageName);
+        values.put(ColumnaTitulo, titulo);
+        values.put(ColumnaDescripcion, descripcion);
+        values.put(ColumnaNivel, 0); // TODO: Agregar nivel en argumentos
+        values.put(ColumnaImagen, imagen);
 
-        return (Curso)crearElemento(TablaCurso, values, id -> new Curso(id, title, description, isFavorite, imageName), "Error creando inscripción");
+        return (Curso)crearElemento(TablaCurso, values, id -> new Curso(id, titulo, descripcion, nivel, imagen), "Error creando curso");
     }
 
     @Override
-    public Curso modificarCurso(Curso curso, String title, String description, Boolean isFavorite, String imageName) {
+    public Curso modificarCurso(Curso curso, String titulo, String descripcion, int nivel, String imagen) {
         Guardia.esObjetoValido(curso, "El curso es nulo");
 
         IContentValuesWrapper values = createContentValues();
-        values.put(ColumnaTitulo, title);
-        values.put(ColumnaDescripcion, description);
-        values.put(ColumnaIsFavorite, isFavorite);
-        values.put(ColumnaImageName, imageName);
+        values.put(ColumnaTitulo, titulo);
+        values.put(ColumnaDescripcion, descripcion);
+        values.put(ColumnaImagen, imagen);
+        values.put(ColumnaNivel, nivel);
 
-
-        return (Curso)modificarElemento(TablaCurso, curso.getId(), values, id -> new Curso(curso.getId(), title, description, isFavorite, imageName), "Se esperaba modificar un único curso pero se modificaron %d");
+        return (Curso)modificarElemento(TablaCurso, curso.getId(), values, id -> new Curso(curso.getId(), titulo, descripcion, nivel, imagen), "Se esperaba modificar un único curso pero se modificaron %d");
     }
 
     @Override
     public void borrarCurso(Curso curso) {
         Guardia.esObjetoValido(curso, "El curso es nulo");
         borrarElemento(TablaCurso, curso.getId(), "Se esperaba borrar un único curso pero se borraron %d");
+    }
+
+    @Override
+    public List<Curso> listarCursos() {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+        List<Curso> resultado = new ArrayList<>();
+
+        try {
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaCurso, CamposCurso, null,
+                    null, null, null, null);
+
+            if (cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    CursorHelper cursorHelper = new CursorHelper(cursor);
+                    Curso curso = new Curso(
+                            cursorHelper.getLongFrom(ColumnaId),
+                            cursorHelper.getStringFrom(ColumnaTitulo),
+                            cursorHelper.getStringFrom(ColumnaDescripcion),
+                            cursorHelper.getIntFrom(ColumnaNivel),
+                            cursorHelper.getStringFrom(ColumnaImagen));
+
+                    resultado.add(curso);
+                    cursor.moveToNext();
+                }
+            }
+
+            return resultado;
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    @Override
+    public Curso buscarCursoONada(String titulo) {
+        return (Curso)buscarElementoONada(TablaCurso, CamposCurso, ColumnaTitulo, titulo,
+                Database::obtenerCursoDeCursor,"Se encontraron varios cursos con el mismo nombre %s");
     }
 
     @Override
