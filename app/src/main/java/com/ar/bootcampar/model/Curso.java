@@ -14,6 +14,13 @@ public class Curso {
     private int nivel;
 
     public Curso(long id, String title, String description, boolean isFavorite, String imageName, int nivel) {
+        if (id <= 0) throw new RuntimeException("El id es inválido");
+        if (title == null || title.trim().isEmpty()) throw new RuntimeException("El título es inválido");
+        if (description == null || description.trim().isEmpty()) throw new RuntimeException("La descripción es inválido");
+        // TODO: Encontrar como validar link
+        if (imageName == null || imageName.trim().isEmpty()) throw new RuntimeException("El link de imágen es inválido");
+        if (nivel <= 0 || nivel > 3) throw new RuntimeException("El nivel es inválido");
+
         this.id = id;
         this.title = title;
         this.description = description;
