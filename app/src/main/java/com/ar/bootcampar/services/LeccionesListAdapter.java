@@ -41,7 +41,7 @@ public class LeccionesListAdapter extends BaseAdapter {
         }
 
         Leccion leccion = (Leccion) getItem(position);
-        ((TextView) convertView.findViewById(R.id.textLessonItemOrder)).setText(leccion.getOrden());
+        ((TextView) convertView.findViewById(R.id.textLessonItemOrder)).setText(String.valueOf(leccion.getOrden()));
         ((TextView) convertView.findViewById(R.id.textLessonItemTitle)).setText(leccion.getTitulo());
         ((TextView) convertView.findViewById(R.id.textLessonItemContent)).setText(leccion.getContenido());
         return convertView;

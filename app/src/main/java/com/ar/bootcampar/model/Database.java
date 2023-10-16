@@ -309,7 +309,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 cursorHelper.getLongFrom(prefijo + ColumnaId),
                 cursorHelper.getStringFrom(prefijo + ColumnaTitulo),
                 cursorHelper.getStringFrom(prefijo + ColumnaDescripcion),
-                false, "", cursorHelper.getIntFrom(prefijo + ColumnaNivel));
+                "", cursorHelper.getIntFrom(prefijo + ColumnaNivel));
     }
 
     @NonNull
@@ -326,7 +326,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 cursorHelper.getStringFrom(prefijo + ColumnaContenido),
                 cursorHelper.getIntFrom(prefijo + ColumnaDuracion),
                 cursorHelper.getIntFrom(prefijo + ColumnaOrden),
-                obtenerCursoDeCursor(cursor, TablaCurso + "."));
+                obtenerCursoDeCursor(cursor, TablaCurso + "_"));
     }
 
     @NonNull
@@ -335,7 +335,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         return new Inscripcion(
                 cursorHelper.getLongFrom(ColumnaId),
                 usuario,
-                obtenerCursoDeCursor(cursor, TablaCurso + "." + ColumnaId),
+                obtenerCursoDeCursor(cursor, TablaCurso + "_" + ColumnaId),
                 cursorHelper.getIntFrom(ColumnaPuntuacion),
                 cursorHelper.getIntFrom(ColumnaFavorito) != 0,
                 cursorHelper.getIntFrom(ColumnaUltimaLeccion));
@@ -346,8 +346,8 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         CursorHelper cursorHelper = new CursorHelper(cursor);
         return new Inscripcion(
                 cursorHelper.getLongFrom(prefijo + ColumnaId),
-                obtenerUsuarioDeCursor(cursor, TablaUsuario + "."),
-                obtenerCursoDeCursor(cursor, TablaCurso + "."),
+                obtenerUsuarioDeCursor(cursor, TablaUsuario + "_"),
+                obtenerCursoDeCursor(cursor, TablaCurso + "_"),
                 cursorHelper.getIntFrom(prefijo + ColumnaPuntuacion),
                 cursorHelper.getIntFrom(prefijo + ColumnaFavorito) == 0,
                 cursorHelper.getIntFrom(prefijo + ColumnaUltimaLeccion));
@@ -530,7 +530,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
             if (cursor.moveToFirst()) {
                 while (!cursor.isAfterLast()) {
-                    Leccion leccion = obtenerLeccionDeCursor(cursor, TablaLeccion + ".");
+                    Leccion leccion = obtenerLeccionDeCursor(cursor, TablaLeccion + "_");
                     resultado.add(leccion);
                     cursor.moveToNext();
                 }
@@ -647,7 +647,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                     new String[] { String.valueOf(id) }, null, null, null);
 
             if (cursor.getCount() == 1) {
-                return obtenerInscripcionDeCursor(cursor, TablaInscripcion + ".");
+                return obtenerInscripcionDeCursor(cursor, TablaInscripcion + "_");
             }
 
             throw new RuntimeException(String.format("Se esperaba encontrar una única inscripción con id %d, se encontraron %d", id, cursor.getCount()));
@@ -707,7 +707,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         values.put(ColumnaImagen, imagen);
         values.put(ColumnaNivel, nivel);
 
-        return (Curso)crearElemento(TablaCurso, values, id -> new Curso(id, title, description, isFavorite, imagen, nivel), "Error creando curso");
+        return (Curso)crearElemento(TablaCurso, values, id -> new Curso(id, title, description, imagen, nivel), "Error creando curso");
     }
 
     @Override
@@ -721,7 +721,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         values.put(ColumnaImagen, imagen);
         values.put(ColumnaNivel, nivel);
 
-        return (Curso)modificarElemento(TablaCurso, curso.getId(), values, id -> new Curso(curso.getId(), title, description, isFavorite, imagen, nivel), "Se esperaba modificar un único curso pero se modificaron %d");
+        return (Curso)modificarElemento(TablaCurso, curso.getId(), values, id -> new Curso(curso.getId(), title, description, imagen, nivel), "Se esperaba modificar un único curso pero se modificaron %d");
     }
 
     @Override
@@ -748,7 +748,6 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                             cursorHelper.getLongFrom(ColumnaId),
                             cursorHelper.getStringFrom(ColumnaTitulo),
                             cursorHelper.getStringFrom(ColumnaDescripcion),
-                            false,
                             cursorHelper.getStringFrom(ColumnaImagen),
                             cursorHelper.getIntFrom(ColumnaNivel));
 
@@ -794,7 +793,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     private String[] agregarNombreDeTablaEnColumnas(String tabla, String[] campos) {
-        return Arrays.stream(campos).map(s -> tabla + "." + s).toArray(String[]::new);
+        return Arrays.stream(campos).map(s -> tabla + "." + s + " AS " + tabla + "_" + s).toArray(String[]::new);
     }
 
     private String[] concatenarVectores(String[]... vectores) {

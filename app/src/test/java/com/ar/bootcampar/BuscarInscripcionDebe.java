@@ -40,7 +40,7 @@ public class BuscarInscripcionDebe {
 
     private static CursorWrapperStub crearCursorStub() {
         return new CursorWrapperStub.Builder()
-                .conColumnas(Arrays.asList("Inscripciones.Id", "Inscripciones.CursoId", "Cursos.Id", "Cursos.Titulo", "Cursos.Descripcion", "Cursos.Nivel", "Cursos.Imagen", "Inscripciones.UsuarioId", "Usuarios.Id", "Usuarios.Nombre", "Usuarios.Apellido", "Usuarios.Email", "Usuarios.Clave", "Usuarios.Rol", "Usuarios.Telefono", "Inscripciones.Puntuacion", "Inscripciones.Favorito", "Inscripciones.UltimaLeccion"))
+                .conColumnas(Arrays.asList("Inscripciones_Id", "Inscripciones_CursoId", "Cursos_Id", "Cursos_Titulo", "Cursos_Descripcion", "Cursos_Nivel", "Cursos_Imagen", "Inscripciones_UsuarioId", "Usuarios_Id", "Usuarios_Nombre", "Usuarios_Apellido", "Usuarios_Email", "Usuarios_Clave", "Usuarios_Rol", "Usuarios_Telefono", "Inscripciones_Puntuacion", "Inscripciones_Favorito", "Inscripciones_UltimaLeccion"))
                 .conValores(Arrays.asList(ID_INSCRIPCION, ID_CURSO, ID_CURSO, TITULO_CURSO, DESCRIPCION_CURSO, NIVEL_CURSO, IMAGEN_CURSO, ID_USUARIO, ID_USUARIO, NOMBRE, APELLIDO, EMAIL, CLAVE, Rol.asInt(ROL), TELEFONO, PUNTUACION_INSCRIPCION, FAVORITO_INSCRIPCION? 1 : 0, ULTIMA_LECCION_INSCRIPCION))
                 .conCountRetornando(1)
                 .build();
