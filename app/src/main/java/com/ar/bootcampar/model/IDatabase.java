@@ -28,6 +28,8 @@ public interface IDatabase {
 
     Categoria crearCategoria(String nombre, String descripcion);
     void borrarCategoria(Categoria categoria);
+    Categoria buscarCategoriaONada(String nombre);
+    List<Categoria> listarCategorias();
     Categoria modificarCategoria(Categoria categoria, String nuevoNombre, String nuevaDescripcion);
 
     Inscripcion crearInscripcion(Usuario usuario, Curso curso, int puntuacion, boolean favorito, int ultimaLeccion);
