@@ -110,6 +110,14 @@ public class LogicServices {
         return database.listarCursos();
     }
 
+    public void borrarLeccion(Leccion leccion) {
+        database.borrarLeccion(leccion);
+    }
+
+    public List<Leccion> listarLecciones() {
+        return database.listarLecciones();
+    }
+      
     public void borrarCategoria(Categoria categoria) {
         this.database.borrarCategoria(categoria);
     }
