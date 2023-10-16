@@ -12,8 +12,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.ar.bootcampar.R;
+import com.ar.bootcampar.model.Usuario;
+import com.ar.bootcampar.services.SharedPreferencesManager;
 
 public class EditProfile extends Fragment {
 
@@ -34,5 +37,13 @@ public class EditProfile extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(EditProfileViewModel.class);
         // TODO: Use the ViewModel
+
+        Usuario usuario = null;
+        usuario = new SharedPreferencesManager(getActivity().getApplicationContext()).cargarUsuario();
+        if (usuario != null) {
+            TextView textView = view.findViewById(R.id.editProfileFirstName);
+            textView.setText(usuario.getNombre());
+            ((TextView)view.findViewById(R.id.editProfileLastName)).setText(usuario.getApellido());
+        }
     }
 }
