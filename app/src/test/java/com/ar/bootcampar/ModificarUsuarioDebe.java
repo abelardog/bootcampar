@@ -125,7 +125,7 @@ public class ModificarUsuarioDebe {
     }
 
     @Test
-    public void insertarDatosEnTablaUsuarioDePru    () {
+    public void insertarDatosEnTablaUsuarioDePrueba() {
         Usuario usuario = crearUsuarioDePrueba();
         SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
                 .conUpdateRetornando(1)

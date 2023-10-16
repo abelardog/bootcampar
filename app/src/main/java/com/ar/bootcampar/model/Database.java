@@ -309,8 +309,8 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 cursorHelper.getLongFrom(prefijo + ColumnaId),
                 cursorHelper.getStringFrom(prefijo + ColumnaTitulo),
                 cursorHelper.getStringFrom(prefijo + ColumnaDescripcion),
-                cursorHelper.getIntFrom(prefijo + ColumnaNivel),
-                cursorHelper.getStringFrom(prefijo + ColumnaImagen));
+                cursorHelper.getStringFrom(prefijo + ColumnaImagen),
+                cursorHelper.getIntFrom(prefijo + ColumnaNivel));
     }
 
     @NonNull
@@ -699,28 +699,28 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     // TODO: Borrar isFavorite
     @Override
-    public Curso crearCurso(String titulo, String descripcion, int nivel, String imagen) {
+    public Curso crearCurso(String title, String description, String imagen, int nivel) {
 
         IContentValuesWrapper values = createContentValues();
-        values.put(ColumnaTitulo, titulo);
-        values.put(ColumnaDescripcion, descripcion);
-        values.put(ColumnaNivel, 0); // TODO: Agregar nivel en argumentos
-        values.put(ColumnaImagen, imagen);
-
-        return (Curso)crearElemento(TablaCurso, values, id -> new Curso(id, titulo, descripcion, nivel, imagen), "Error creando curso");
-    }
-
-    @Override
-    public Curso modificarCurso(Curso curso, String titulo, String descripcion, int nivel, String imagen) {
-        Guardia.esObjetoValido(curso, "El curso es nulo");
-
-        IContentValuesWrapper values = createContentValues();
-        values.put(ColumnaTitulo, titulo);
-        values.put(ColumnaDescripcion, descripcion);
+        values.put(ColumnaTitulo, title);
+        values.put(ColumnaDescripcion, description);
         values.put(ColumnaImagen, imagen);
         values.put(ColumnaNivel, nivel);
 
-        return (Curso)modificarElemento(TablaCurso, curso.getId(), values, id -> new Curso(curso.getId(), titulo, descripcion, nivel, imagen), "Se esperaba modificar un único curso pero se modificaron %d");
+        return (Curso)crearElemento(TablaCurso, values, id -> new Curso(id, title, description, imagen, nivel), "Error creando curso");
+    }
+
+    @Override
+    public Curso modificarCurso(Curso curso, String title, String description, String imagen, int nivel) {
+        Guardia.esObjetoValido(curso, "El curso es nulo");
+
+        IContentValuesWrapper values = createContentValues();
+        values.put(ColumnaTitulo, title);
+        values.put(ColumnaDescripcion, description);
+        values.put(ColumnaImagen, imagen);
+        values.put(ColumnaNivel, nivel);
+
+        return (Curso)modificarElemento(TablaCurso, curso.getId(), values, id -> new Curso(curso.getId(), title, description, imagen, nivel), "Se esperaba modificar un único curso pero se modificaron %d");
     }
 
     @Override
@@ -747,8 +747,8 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                             cursorHelper.getLongFrom(ColumnaId),
                             cursorHelper.getStringFrom(ColumnaTitulo),
                             cursorHelper.getStringFrom(ColumnaDescripcion),
-                            cursorHelper.getIntFrom(ColumnaNivel),
-                            cursorHelper.getStringFrom(ColumnaImagen));
+                            cursorHelper.getStringFrom(ColumnaImagen),
+                            cursorHelper.getIntFrom(ColumnaNivel));
 
                     resultado.add(curso);
                     cursor.moveToNext();

@@ -42,7 +42,13 @@ public class Constants {
     public static final String OTRA_IMAGEN_CURSO = "https://www.imgur.com/abc";
     public static final String OTRO_TITULO_CURSO = "Maestría en JS";
     public static final String OTRA_DESCRIPCION_CURSO = "Con este curso podrá programar en JS.";
-
+    @Deprecated
+    public static final boolean OTRO_ES_FAVORITO_CURSO = false;
+    public static final int OTRO_NIVEL_CURSO = 3;
+    public static final String TITULO_CURSO_INVALIDO = "";
+    public static final String DESCRIPCION_CURSO_INVALIDA = "";
+    public static final String IMAGEN_CURSO_INVALIDA = "";
+    public static final int NIVEL_CURSO_INVALIDO = -5;
     // Constantes para Grupo
     public static final String NOMBRE_GRUPO = "Grupo de Programación en JavaScript";
     public static final String INVITACION_GRUPO = "112233";
