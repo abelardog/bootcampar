@@ -1,6 +1,7 @@
 package com.ar.bootcampar.model;
 
 import android.content.Context;
+
 import com.ar.bootcampar.R;
 import com.ar.bootcampar.model.utilities.Tupla;
 import com.ar.bootcampar.services.SharedPreferencesManager;
@@ -107,5 +108,13 @@ public class LogicServices {
 
     public List<Curso> listarCursos() {
         return database.listarCursos();
+    }
+
+    public void borrarCategoria(Categoria categoria) {
+        this.database.borrarCategoria(categoria);
+    }
+
+    public List<Categoria> listarCategorias() {
+        return this.database.listarCategorias();
     }
 }

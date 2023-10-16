@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import com.ar.bootcampar.R;
 import com.ar.bootcampar.activities.FirstFragment;
+import com.ar.bootcampar.model.Usuario;
+import com.ar.bootcampar.services.SharedPreferencesManager;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -74,6 +76,14 @@ public class ContactFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        Usuario usuario = null;
+        usuario = new SharedPreferencesManager(getActivity().getApplicationContext()).cargarUsuario();
+        if (usuario != null) {
+            ((EditText)getView().findViewById(R.id.editContactFirstName)).setText(usuario.getNombre());
+            ((EditText)getView().findViewById(R.id.editContactEmailAddress)).setText(usuario.getEmail());
+            ((EditText)getView().findViewById(R.id.editContactPhoneNumber)).setText(usuario.getTelefono());
+        }
 
         Button button = (Button)view.findViewById(R.id.buttonContact);
         button.setOnClickListener(new View.OnClickListener() {
