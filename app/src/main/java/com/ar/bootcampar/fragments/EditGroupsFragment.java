@@ -7,8 +7,14 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ar.bootcampar.R;
+import com.ar.bootcampar.model.Database;
+import com.ar.bootcampar.model.Grupo;
+import com.ar.bootcampar.model.IDatabase;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,7 +33,6 @@ public class EditGroupsFragment extends Fragment {
     private String mParam2;
 
     public EditGroupsFragment() {
-        // Required empty public constructor
     }
 
     /**
@@ -61,6 +66,37 @@ public class EditGroupsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit_groups, container, false);
+        View view = inflater.inflate(R.layout.fragment_edit_groups, container, false);
+
+        Button button = (Button)view.findViewById(R.id.buttonSaveGroup);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String nombre = ((TextView)getView().findViewById(R.id.editGroupName)).getText().toString();
+                String invitacion = ((TextView)getView().findViewById(R.id.editInviteCode)).getText().toString();
+
+                // TODO: Mover esto a LogicServices.grabarGrupo y ajustar metodos
+                if (!nombre.isEmpty() && !invitacion.isEmpty()) {
+                    IDatabase database = Database.CreateWith(getContext());
+                    Grupo grupo = database.buscarGrupoONada(invitacion);
+                    if (grupo == null) {
+                        grupo = database.crearGrupo(nombre, invitacion);
+                        if (grupo != null) {
+                            Toast.makeText(getContext(), "Grupo creado", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(getContext(), "No se pudo crear el grupo", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    else {
+                        Toast.makeText(getContext(), "El código de invitación ya existe", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else {
+                    Toast.makeText(getContext(), "Por favor complete los datos", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        return view;
     }
 }
