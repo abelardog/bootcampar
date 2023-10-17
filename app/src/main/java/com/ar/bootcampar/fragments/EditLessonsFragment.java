@@ -22,14 +22,11 @@ import android.widget.Toast;
 import com.ar.bootcampar.R;
 import com.ar.bootcampar.model.Curso;
 import com.ar.bootcampar.model.Database;
-import com.ar.bootcampar.model.Grupo;
 import com.ar.bootcampar.model.IDatabase;
 import com.ar.bootcampar.model.Leccion;
 import com.ar.bootcampar.model.LogicServices;
-import com.ar.bootcampar.services.CursosSpinnerAdapter;
+import com.ar.bootcampar.services.SpinnerAdapter;
 import com.ar.bootcampar.services.LeccionesListAdapter;
-
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -92,7 +89,7 @@ public class EditLessonsFragment extends Fragment {
         listView.setAdapter(adapter);
 
         Spinner dropdown = view.findViewById(R.id.spinner_course_lesson);
-        CursosSpinnerAdapter spinnerAdapter = new CursosSpinnerAdapter(database.listarCursos());
+        SpinnerAdapter spinnerAdapter = new SpinnerAdapter<Curso>(database.listarCursos(), Curso::getId, Curso::getTitle);
         dropdown.setAdapter(spinnerAdapter);
 
         Button button = (Button)view.findViewById(R.id.buttonSaveLesson);
