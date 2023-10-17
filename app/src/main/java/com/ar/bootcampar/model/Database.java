@@ -1,5 +1,6 @@
 package com.ar.bootcampar.model;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -881,7 +882,32 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             }
         }
     }
+    
+    @Override
+    public void actualizarFavoritoCurso(Curso curso, boolean esFavorito) {
+        ISQLiteDatabaseWrapper db = null;
+        ICursorWrapper cursor = null;
 
+        try {
+            IContentValuesWrapper values = createContentValues();
+            values.put(ColumnaFavorito, esFavorito);
+
+            db = getInternalReadableDatabase();
+            db.update(TablaCurso, values, ColumnaId + " = ?", new String[]{String.valueOf(curso.getId())});
+
+        } catch (Exception e) {
+            // manejar excepción
+        } finally {
+            if(cursor != null) {
+                cursor.close();
+            }
+            if(db != null) {
+                db.close();
+            }
+        }
+    }
+    
+    
     private String[] agregarNombreDeTablaEnColumnas(String tabla, String[] campos) {
         return Arrays.stream(campos).map(s -> tabla + "." + s + " AS " + tabla + "_" + s).toArray(String[]::new);
     }

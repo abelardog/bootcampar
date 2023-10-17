@@ -53,4 +53,5 @@ public interface IDatabase {
     void borrarCurso(Curso curso);
     List<Curso> listarCursos();
     Curso buscarCursoONada(String titulo);
+    void actualizarFavoritoCurso(Curso curso, boolean esFavorito);
 }
