@@ -49,7 +49,12 @@
 
     <!-- Strings used for fragments for profile -->
     <string name="title_my_courses">Mis cursos</string>
+    <string name="txt_profile_name">Nombre</string>
+    <string name="txt_profile_lastname">Apellido</string>
+    <string name="txt_profile_email">E-mail</string>
+    <string name="btn_profile_edit">Editar Perfil</string>
     <string name="btn_profile_fav">Mis favoritos</string>
+    <string name="alt_txt_img_profile">Imágen de Perfil</string>
     <string name="btn_profile_conf">Configuracion</string>
     <string name="subtitle_profile">Ver más cursos y talleres</string>
     <string name="profile_lang">Python</string>
