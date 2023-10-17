@@ -9,7 +9,7 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import com.ar.bootcampar.model.Database;
-import com.ar.bootcampar.model.ISQLiteDatabaseWrapper;
+import com.ar.bootcampar.model.utilities.ISQLiteDatabaseWrapper;
 import com.ar.bootcampar.model.Rol;
 import com.ar.bootcampar.model.Usuario;
 import com.ar.bootcampar.support.SqliteDatabaseWrapperSpy;

@@ -1,4 +1,4 @@
-package com.ar.bootcampar.model;
+package com.ar.bootcampar.model.utilities;
 
 public class CursorHelper {
     private final ICursorWrapper cursor;

@@ -8,7 +8,7 @@ import static com.ar.bootcampar.support.DummyMaker.crearUsuarioDePrueba;
 
 import com.ar.bootcampar.model.Curso;
 import com.ar.bootcampar.model.Database;
-import com.ar.bootcampar.model.ISQLiteDatabaseWrapper;
+import com.ar.bootcampar.model.utilities.ISQLiteDatabaseWrapper;
 import com.ar.bootcampar.model.Inscripcion;
 import com.ar.bootcampar.model.Usuario;
 import com.ar.bootcampar.support.SqliteDatabaseWrapperSpy;

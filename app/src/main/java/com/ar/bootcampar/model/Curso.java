@@ -10,7 +10,6 @@ public class Curso {
     private final String description;
     private final int nivel;
 
-
     public Curso(long id, String title, String description, String imagen, int nivel) {
         if (id <= 0) throw new RuntimeException("El id es inválido");
         if (title == null || title.trim().isEmpty()) throw new RuntimeException("El título es inválido");

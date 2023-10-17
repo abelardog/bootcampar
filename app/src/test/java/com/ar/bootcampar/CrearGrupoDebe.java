@@ -6,7 +6,7 @@ import static com.ar.bootcampar.support.Constants.*;
 
 import com.ar.bootcampar.model.Database;
 import com.ar.bootcampar.model.Grupo;
-import com.ar.bootcampar.model.ISQLiteDatabaseWrapper;
+import com.ar.bootcampar.model.utilities.ISQLiteDatabaseWrapper;
 import com.ar.bootcampar.support.SqliteDatabaseWrapperSpy;
 import com.ar.bootcampar.support.TestableDatabase;
 

@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import static com.ar.bootcampar.support.Constants.*;
 
 import com.ar.bootcampar.model.Database;
-import com.ar.bootcampar.model.ISQLiteDatabaseWrapper;
+import com.ar.bootcampar.model.utilities.ISQLiteDatabaseWrapper;
 import com.ar.bootcampar.model.Curso;
 
 import com.ar.bootcampar.support.SqliteDatabaseWrapperSpy;

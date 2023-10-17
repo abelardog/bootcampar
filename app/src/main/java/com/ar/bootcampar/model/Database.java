@@ -6,7 +6,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.NonNull;
 
+import com.ar.bootcampar.model.utilities.ContentValuesWrapper;
+import com.ar.bootcampar.model.utilities.CursorHelper;
 import com.ar.bootcampar.model.utilities.Guardia;
+import com.ar.bootcampar.model.utilities.IContentValuesWrapper;
+import com.ar.bootcampar.model.utilities.ICursorWrapper;
+import com.ar.bootcampar.model.utilities.ISQLiteDatabaseWrapper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
