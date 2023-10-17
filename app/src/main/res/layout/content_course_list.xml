@@ -8,7 +8,7 @@
     android:layout_marginBottom="8dp"
     android:layout_marginStart="4dp"
     android:layout_marginEnd="4dp"
-    tools:context=".courseListFragment">
+    tools:context=".fragments.CourseListFragment">
 
 
     <androidx.cardview.widget.CardView
@@ -59,10 +59,11 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignParentEnd="true"
-            android:layout_alignTop="@id/textViewCourseTitle"
             android:background="@color/earthBlue"
+            android:clickable="true"
             android:src="@drawable/ic_empty_heart"
-            android:clickable="true" />
+            android:onClick="toggleFavorite"
+            android:tag="@{curso}"/>
     </RelativeLayout>
 
 </RelativeLayout>
