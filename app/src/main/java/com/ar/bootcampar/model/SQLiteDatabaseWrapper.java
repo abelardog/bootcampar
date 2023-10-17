@@ -1,8 +1,11 @@
 package com.ar.bootcampar.model;
 
-import android.content.ContentValues;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import com.ar.bootcampar.model.utilities.CursorWrapper;
+import com.ar.bootcampar.model.utilities.IContentValuesWrapper;
+import com.ar.bootcampar.model.utilities.ICursorWrapper;
+import com.ar.bootcampar.model.utilities.ISQLiteDatabaseWrapper;
 
 public class SQLiteDatabaseWrapper implements ISQLiteDatabaseWrapper {
     private SQLiteDatabase sqliteDatabase;

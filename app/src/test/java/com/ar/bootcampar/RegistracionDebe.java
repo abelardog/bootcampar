@@ -3,7 +3,7 @@ package com.ar.bootcampar;
 import static com.ar.bootcampar.support.Constants.*;
 import static org.junit.Assert.assertNull;
 
-import com.ar.bootcampar.model.ICursorWrapper;
+import com.ar.bootcampar.model.utilities.ICursorWrapper;
 import com.ar.bootcampar.model.IDatabase;
 import com.ar.bootcampar.model.utilities.Tupla;
 import com.ar.bootcampar.model.Rol;

@@ -34,8 +34,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         Curso curso = listaCursos.get(position);
 
         // aqui se va a asignar los valores a los elementos de la vista que mostraran el curso, para la imagen, el titulo y el icono de favorito
-        holder.imageViewCourse.setImageResource(getImageResourceByName(curso.getImageName(), holder.itemView.getContext()));
-        holder.textViewCourseTitle.setText(curso.getTitle());
+        holder.imageViewCourse.setImageResource(getImageResourceByName(curso.getImagen(), holder.itemView.getContext()));
+        holder.textViewCourseTitle.setText(curso.getTitulo());
 
         holder.imageViewFavorite.setImageResource(R.drawable.ic_filled_heart);
     }

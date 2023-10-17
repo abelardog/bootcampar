@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import static com.ar.bootcampar.support.Constants.*;
 
 import com.ar.bootcampar.model.Database;
-import com.ar.bootcampar.model.ISQLiteDatabaseWrapper;
+import com.ar.bootcampar.model.utilities.ISQLiteDatabaseWrapper;
 import com.ar.bootcampar.model.Curso;
 
 import com.ar.bootcampar.support.SqliteDatabaseWrapperSpy;
@@ -41,7 +41,7 @@ public class CrearCursoDebe {
                 .build();
         Database sut = new TestableDatabase(stub);
         Exception exception = assertThrows(RuntimeException.class, () -> sut.crearCurso(TITULO_CURSO, DESCRIPCION_CURSO, IMAGEN_CURSO_INVALIDA, NIVEL_CURSO));
-        assertEquals("El link de imágen es inválido", exception.getMessage());
+        assertEquals("El link de imagen es inválida", exception.getMessage());
     }
 
     @Test
@@ -129,9 +129,9 @@ public class CrearCursoDebe {
 
         assertNotNull(sut);
         assertEquals(14, sut.getId());
-        assertEquals(OTRO_TITULO_CURSO, sut.getTitle());
-        assertEquals(OTRA_DESCRIPCION_CURSO, sut.getDescription());
-        assertEquals(OTRA_IMAGEN_CURSO, sut.getImageName());
+        assertEquals(OTRO_TITULO_CURSO, sut.getTitulo());
+        assertEquals(OTRA_DESCRIPCION_CURSO, sut.getDescripcion());
+        assertEquals(OTRA_IMAGEN_CURSO, sut.getImagen());
         assertEquals(OTRO_NIVEL_CURSO, sut.getNivel());
     }
 

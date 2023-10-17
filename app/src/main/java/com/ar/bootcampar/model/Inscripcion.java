@@ -2,7 +2,9 @@ package com.ar.bootcampar.model;
 
 import com.ar.bootcampar.model.utilities.Guardia;
 
-public class Inscripcion {
+import java.io.Serializable;
+
+public class Inscripcion implements Serializable {
     private final long id;
     private final Usuario usuario;
     private final Curso curso;

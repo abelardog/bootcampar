@@ -81,9 +81,14 @@ public class LogicServices {
         return context.getString(id);
     }
 
-    public void GrabarUsuarioActivoEnPreferencias(Usuario usuario) {
+    public void grabarUsuarioActivoEnPreferencias(Usuario usuario) {
         SharedPreferencesManager manager = new SharedPreferencesManager(context);
         manager.grabarUsuario(usuario);
+    }
+
+    public Usuario obtenerUsuarioActivoDePreferencias() {
+        SharedPreferencesManager manager = new SharedPreferencesManager(context);
+        return manager.cargarUsuario();
     }
 
     public void borrarGrupo(Grupo grupo) {
@@ -132,5 +137,26 @@ public class LogicServices {
 
     public List<Curricula> listarCurriculas() {
         return this.database.listarCurriculas();
+    }
+
+    public Tupla<Inscripcion, String> inscribirCurso(Usuario usuario, Curso curso) {
+        if (usuario != null && curso != null) {
+            Inscripcion inscripcion = database.buscarInscripcionONada(usuario, curso);
+            if (inscripcion == null) {
+                inscripcion = database.crearInscripcion(usuario, curso, 0, false, 0);
+                if (inscripcion != null) {
+                    return new Tupla<>(inscripcion, getStringFromContext(R.string.enrollment_success));
+                }
+                else {
+                    return new Tupla<>(null, "Error inscribiendo al curso");
+                }
+            }
+            else {
+                return new Tupla<>(inscripcion, "Ya está inscripto en el curso");
+            }
+        }
+        else {
+            return new Tupla<>(null, "Los datos son inválidos");
+        }
     }
 }

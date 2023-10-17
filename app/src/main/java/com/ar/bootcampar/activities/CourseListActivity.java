@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.ar.bootcampar.model.Curso;
+import com.ar.bootcampar.model.LogicServices;
 import com.ar.bootcampar.services.CourseAdapter;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -31,7 +32,8 @@ public class CourseListActivity extends AppCompatActivity {
         binding = ActivityCourseListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        List<Curso> listaCursos = Curso.getDefaultCourses();
+        LogicServices logicServices = new LogicServices(getApplicationContext());
+        List<Curso> listaCursos = logicServices.listarCursos();
 
         RecyclerView recyclerView = findViewById(R.id.recyclerViewCourses);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

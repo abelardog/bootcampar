@@ -1,4 +1,4 @@
-package com.ar.bootcampar.model;
+package com.ar.bootcampar.model.utilities;
 
 import android.database.Cursor;
 

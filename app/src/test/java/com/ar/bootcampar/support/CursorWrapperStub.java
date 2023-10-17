@@ -1,9 +1,7 @@
 package com.ar.bootcampar.support;
 
-import com.ar.bootcampar.model.ICursorWrapper;
+import com.ar.bootcampar.model.utilities.ICursorWrapper;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class CursorWrapperStub implements ICursorWrapper {

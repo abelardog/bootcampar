@@ -7,7 +7,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.ar.bootcampar.R;
-import com.ar.bootcampar.model.Grupo;
 import com.ar.bootcampar.model.Leccion;
 
 import java.util.List;

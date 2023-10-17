@@ -11,10 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ar.bootcampar.R;
 import com.ar.bootcampar.model.Curso;
+import com.ar.bootcampar.model.LogicServices;
 import com.ar.bootcampar.services.CourseAdapter;
 
 import java.util.List;
-
 
 public class CourseListFragment extends Fragment {
 
@@ -22,13 +22,13 @@ public class CourseListFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_course_list, container, false);
 
-        List<Curso> listaCursos = Curso.getDefaultCourses();
+        LogicServices logicServices = new LogicServices(getContext());
+        List<Curso> listaCursos = logicServices.listarCursos();
 
         RecyclerView recyclerView = rootView.findViewById(R.id.recyclerViewCourses);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

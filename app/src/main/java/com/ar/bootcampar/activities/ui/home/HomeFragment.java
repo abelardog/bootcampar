@@ -6,6 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import static com.ar.bootcampar.model.utilities.IntentConstants.COURSE_FOR_COURSE_DETAIL;
+import static com.ar.bootcampar.model.utilities.IntentConstants.LOGGED_IN_STATUS_FOR_COURSE_DETAIL;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -17,12 +20,12 @@ import com.ar.bootcampar.MainActivity;
 import com.ar.bootcampar.activities.CourseDetailActivity;
 import com.ar.bootcampar.databinding.FragmentHomeBinding;
 import com.ar.bootcampar.model.Curso;
+import com.ar.bootcampar.model.LogicServices;
 import com.ar.bootcampar.model.RecentlyAddedAdapter;
 import com.ar.bootcampar.R;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class HomeFragment extends Fragment implements RecentlyAddedAdapter.OnItemClickListener {
 
@@ -44,9 +47,11 @@ public class HomeFragment extends Fragment implements RecentlyAddedAdapter.OnIte
         View root = binding.getRoot();
 
         recyclerView = (RecyclerView) root.findViewById(R.id.recently_added_courses);
-        RecyclerViewLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+        RecyclerViewLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(RecyclerViewLayoutManager);
-        AddItemsToRecyclerViewArrayList();
+
+        LogicServices logicServices = new LogicServices(getActivity());
+        AddItemsToRecyclerViewArrayList(logicServices.listarCursos());
         adapter = new RecentlyAddedAdapter(new ArrayList<>(source), this);
         HorizontalLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(HorizontalLayout);
@@ -63,8 +68,8 @@ public class HomeFragment extends Fragment implements RecentlyAddedAdapter.OnIte
         return root;
     }
 
-    public void AddItemsToRecyclerViewArrayList() {
-        source = new ArrayList<>(Curso.getDefaultCourses());
+    public void AddItemsToRecyclerViewArrayList(List<Curso> cursos) {
+        source = cursos;
     }
 
     @Override
@@ -79,9 +84,8 @@ public class HomeFragment extends Fragment implements RecentlyAddedAdapter.OnIte
         Curso selectedItem = source.get(position);
 
         Intent intent = new Intent(getActivity(), CourseDetailActivity.class);
-        intent.putExtra("loggedIn", loggedIn);
-        intent.putExtra("title", selectedItem.getTitle());
-        intent.putExtra("description", selectedItem.getDescription());
+        intent.putExtra(LOGGED_IN_STATUS_FOR_COURSE_DETAIL, loggedIn);
+        intent.putExtra(COURSE_FOR_COURSE_DETAIL, selectedItem);
         startActivity(intent);
     }
 }

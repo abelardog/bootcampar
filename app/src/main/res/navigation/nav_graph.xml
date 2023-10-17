@@ -8,29 +8,9 @@
     <!-- app:startDestination="@id/FirstFragment"> -->
 
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="com.ar.bootcampar.activities.FirstFragment"
-        android:label="@string/course_fragment_label"
-        tools:layout="@layout/fragment_first">
-
-        <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/courseListFragment"
         android:name="com.ar.bootcampar.fragments.CourseListFragment"
         android:label="@string/course_fragment_label" />
-    <fragment
-        android:id="@+id/SecondFragment"
-        android:name="com.ar.bootcampar.activities.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
-
-        <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
-    </fragment>
 
     <fragment
         android:id="@+id/navigation_notifications"
@@ -42,6 +22,7 @@
             android:id="@+id/action_navigation_notifications_to_navigation_profile_edition"
             app:destination="@id/navigation_profile_edition"/>
     </fragment>
+
     <fragment
         android:id="@+id/navigation_profile_edition"
         android:name="com.ar.bootcampar.fragments.EditProfile"

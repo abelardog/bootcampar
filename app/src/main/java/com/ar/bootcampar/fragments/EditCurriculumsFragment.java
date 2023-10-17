@@ -93,7 +93,7 @@ public class EditCurriculumsFragment extends Fragment {
         dropdown.setAdapter(spinnerAdapter);
 
         dropdown = view.findViewById(R.id.spinner_curriculum_course);
-        spinnerAdapter = new SpinnerAdapter<Curso>(database.listarCursos(), Curso::getId, Curso::getTitle);
+        spinnerAdapter = new SpinnerAdapter<Curso>(database.listarCursos(), Curso::getId, Curso::getTitulo);
         dropdown.setAdapter(spinnerAdapter);
 
         Button button = (Button)view.findViewById(R.id.buttonSaveCurriculum);

@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.ar.bootcampar.R;
 import com.ar.bootcampar.model.Curricula;
-import com.ar.bootcampar.model.Curso;
 
 import java.util.List;
 
@@ -42,7 +41,7 @@ public class CurriculasListAdapter extends BaseAdapter {
 
         Curricula curricula = (Curricula) getItem(position);
         ((TextView) convertView.findViewById(R.id.textCurriculumItemGroup)).setText(curricula.getGrupo().getNombre());
-        ((TextView) convertView.findViewById(R.id.textCurriculumItemCourse)).setText(curricula.getCourse().getTitle());
+        ((TextView) convertView.findViewById(R.id.textCurriculumItemCourse)).setText(curricula.getCurso().getTitulo());
         return convertView;
     }
 

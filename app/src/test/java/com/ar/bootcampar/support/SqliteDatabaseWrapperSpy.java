@@ -1,8 +1,8 @@
 package com.ar.bootcampar.support;
 
-import com.ar.bootcampar.model.IContentValuesWrapper;
-import com.ar.bootcampar.model.ICursorWrapper;
-import com.ar.bootcampar.model.ISQLiteDatabaseWrapper;
+import com.ar.bootcampar.model.utilities.IContentValuesWrapper;
+import com.ar.bootcampar.model.utilities.ICursorWrapper;
+import com.ar.bootcampar.model.utilities.ISQLiteDatabaseWrapper;
 
 public class SqliteDatabaseWrapperSpy implements ISQLiteDatabaseWrapper {
     public static class Builder {

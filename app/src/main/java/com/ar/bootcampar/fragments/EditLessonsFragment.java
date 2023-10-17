@@ -89,7 +89,7 @@ public class EditLessonsFragment extends Fragment {
         listView.setAdapter(adapter);
 
         Spinner dropdown = view.findViewById(R.id.spinner_course_lesson);
-        SpinnerAdapter spinnerAdapter = new SpinnerAdapter<Curso>(database.listarCursos(), Curso::getId, Curso::getTitle);
+        SpinnerAdapter spinnerAdapter = new SpinnerAdapter<Curso>(database.listarCursos(), Curso::getId, Curso::getTitulo);
         dropdown.setAdapter(spinnerAdapter);
 
         Button button = (Button)view.findViewById(R.id.buttonSaveLesson);

@@ -19,9 +19,9 @@ public class CursoDebe {
         Curso sut = new Curso(ID_CURSO, TITULO_CURSO, DESCRIPCION_CURSO, IMAGEN_CURSO, NIVEL_CURSO);
 
         assertEquals(ID_CURSO, sut.getId());
-        assertSame(TITULO_CURSO, sut.getTitle());
-        assertSame(DESCRIPCION_CURSO, sut.getDescription());
-        assertEquals(IMAGEN_CURSO, sut.getImageName());
+        assertSame(TITULO_CURSO, sut.getTitulo());
+        assertSame(DESCRIPCION_CURSO, sut.getDescripcion());
+        assertEquals(IMAGEN_CURSO, sut.getImagen());
         assertEquals(NIVEL_CURSO, sut.getNivel());
     }
 
@@ -63,7 +63,7 @@ public class CursoDebe {
     @Theory
     public void lanzarExcepcion_cuandoLinkImagenEsInvalido(@FromDataPoints("links invalidos") String imagenInvalida) {
         Exception exception = assertThrows(RuntimeException.class, () -> new Curso(ID_CURSO, TITULO_CURSO, DESCRIPCION_CURSO, imagenInvalida, NIVEL_CURSO));
-        assertEquals("El link de imágen es inválido", exception.getMessage());
+        assertEquals("El link de imagen es inválida", exception.getMessage());
     }
     @Theory
     public void lanzarExcepcion_cuandoNivelEsInvalido(@FromDataPoints("niveles invalidos") int nivelInvalido) {

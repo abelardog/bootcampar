@@ -2,7 +2,7 @@ package com.ar.bootcampar.support;
 
 import android.content.ContentValues;
 
-import com.ar.bootcampar.model.IContentValuesWrapper;
+import com.ar.bootcampar.model.utilities.IContentValuesWrapper;
 
 import java.util.HashMap;
 import java.util.Map;
