@@ -14,14 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ar.bootcampar.R;
 import com.ar.bootcampar.model.Curso;
 import com.ar.bootcampar.model.Database;
-import com.ar.bootcampar.model.Grupo;
 import com.ar.bootcampar.model.IDatabase;
 import com.ar.bootcampar.model.LogicServices;
 import com.ar.bootcampar.services.CursosListAdapter;
@@ -90,14 +89,15 @@ public class EditCoursesFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String titulo = ((TextView)getView().findViewById(R.id.editCourseTitle)).getText().toString();
-                String descripcion = ((TextView)getView().findViewById(R.id.editCourseDescription)).getText().toString();
+                String titulo = ((EditText)getView().findViewById(R.id.editCourseTitle)).getText().toString();
+                String descripcion = ((EditText)getView().findViewById(R.id.editCourseDescription)).getText().toString();
+                String imagen = ((EditText)getView().findViewById(R.id.editCourseImage)).getText().toString();
 
                 // TODO: Mover esto a LogicServices.grabarGrupo y ajustar metodos
-                if (!titulo.isEmpty() && !descripcion.isEmpty()) {
+                if (!titulo.isEmpty() && !descripcion.isEmpty() && !imagen.isEmpty()) {
                     Curso curso = database.buscarCursoONada(titulo);
                     if (curso == null) {
-                        curso = database.crearCurso(titulo, descripcion,"", 1);
+                        curso = database.crearCurso(titulo, descripcion,imagen, 1);
                         if (curso != null) {
                             adapter.cambiarCursos(database.listarCursos());
                             adapter.notifyDataSetChanged();
