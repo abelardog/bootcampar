@@ -1,5 +1,7 @@
 package com.ar.bootcampar.activities;
 
+import static com.ar.bootcampar.model.utilities.IntentConstants.CURRENT_USER;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -44,7 +46,7 @@ public class RegisterActivity extends AppCompatActivity {
                 logicService.grabarUsuarioActivoEnPreferencias(resultado.izquierda);
 
                 Intent intent = new Intent(this, HomeActivity.class);
-                intent.putExtra("usuarioActivo", resultado.derecha);
+                intent.putExtra(CURRENT_USER, resultado.derecha);
                 startActivity(intent);
             }
             else {

@@ -1,5 +1,9 @@
 package com.ar.bootcampar.activities;
 
+import static com.ar.bootcampar.model.utilities.IntentConstants.COURSE_FOR_COURSE_DETAIL;
+import static com.ar.bootcampar.model.utilities.IntentConstants.INSCRIPTION_FOR_VIDEO_LIST;
+import static com.ar.bootcampar.model.utilities.IntentConstants.LOGGED_IN_STATUS_FOR_COURSE_DETAIL;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -15,7 +19,6 @@ import com.ar.bootcampar.model.Inscripcion;
 import com.ar.bootcampar.model.LogicServices;
 import com.ar.bootcampar.model.Usuario;
 import com.ar.bootcampar.model.utilities.Tupla;
-import com.ar.bootcampar.services.SharedPreferencesManager;
 
 public class CourseDetailActivity extends AppCompatActivity {
     private Curso curso;
@@ -26,7 +29,7 @@ public class CourseDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_course_detail);
 
         Intent intent = getIntent();
-        curso = (Curso)intent.getSerializableExtra("curso");
+        curso = (Curso)intent.getSerializableExtra(COURSE_FOR_COURSE_DETAIL);
 
         TextView textView = findViewById(R.id.detailTextView);
         textView.setText(curso.getTitulo());
@@ -34,7 +37,7 @@ public class CourseDetailActivity extends AppCompatActivity {
         textView = findViewById(R.id.detailDescription);
         textView.setText(curso.getDescripcion());
 
-        boolean loggedIn = intent.getBooleanExtra("loggedIn", false);
+        boolean loggedIn = intent.getBooleanExtra(LOGGED_IN_STATUS_FOR_COURSE_DETAIL, false);
 
         Button enroll = (Button) findViewById(R.id.detailEnrollBtn);
         if (loggedIn) {
@@ -47,7 +50,7 @@ public class CourseDetailActivity extends AppCompatActivity {
                     Toast.makeText(CourseDetailActivity.this, resultado.derecha, Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(CourseDetailActivity.this, VideoListActivity.class);
-                    intent.putExtra("inscripcion", resultado.izquierda);
+                    intent.putExtra(INSCRIPTION_FOR_VIDEO_LIST, resultado.izquierda);
                     startActivity(intent);
                 }
             });

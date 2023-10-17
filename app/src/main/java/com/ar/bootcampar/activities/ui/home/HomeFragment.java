@@ -6,6 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import static com.ar.bootcampar.model.utilities.IntentConstants.COURSE_FOR_COURSE_DETAIL;
+import static com.ar.bootcampar.model.utilities.IntentConstants.LOGGED_IN_STATUS_FOR_COURSE_DETAIL;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -81,8 +84,8 @@ public class HomeFragment extends Fragment implements RecentlyAddedAdapter.OnIte
         Curso selectedItem = source.get(position);
 
         Intent intent = new Intent(getActivity(), CourseDetailActivity.class);
-        intent.putExtra("loggedIn", loggedIn);
-        intent.putExtra("curso", selectedItem);
+        intent.putExtra(LOGGED_IN_STATUS_FOR_COURSE_DETAIL, loggedIn);
+        intent.putExtra(COURSE_FOR_COURSE_DETAIL, selectedItem);
         startActivity(intent);
     }
 }
