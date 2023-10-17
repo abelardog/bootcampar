@@ -825,7 +825,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
             if (cursor.moveToFirst()) {
                 while (!cursor.isAfterLast()) {
-                    Curricula curricula = obtenerCurriculaDeCursor(cursor, TablaCurricula + ".");
+                    Curricula curricula = obtenerCurriculaDeCursor(cursor, TablaCurricula + "_");
                     resultado.add(curricula);
                     cursor.moveToNext();
                 }

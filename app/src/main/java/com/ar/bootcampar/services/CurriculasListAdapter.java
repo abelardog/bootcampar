@@ -41,8 +41,8 @@ public class CurriculasListAdapter extends BaseAdapter {
         }
 
         Curricula curricula = (Curricula) getItem(position);
-        ((TextView) convertView.findViewById(R.id.textCourseItemTitle)).setText(curricula.getGrupo().getNombre());
-        ((TextView) convertView.findViewById(R.id.textCourseItemDescription)).setText(curricula.getCourse().getTitle());
+        ((TextView) convertView.findViewById(R.id.textCurriculumItemGroup)).setText(curricula.getGrupo().getNombre());
+        ((TextView) convertView.findViewById(R.id.textCurriculumItemCourse)).setText(curricula.getCourse().getTitle());
         return convertView;
     }
 
