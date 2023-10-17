@@ -129,9 +129,9 @@ public class CrearCursoDebe {
 
         assertNotNull(sut);
         assertEquals(14, sut.getId());
-        assertEquals(OTRO_TITULO_CURSO, sut.getTitle());
-        assertEquals(OTRA_DESCRIPCION_CURSO, sut.getDescription());
-        assertEquals(OTRA_IMAGEN_CURSO, sut.getImageName());
+        assertEquals(OTRO_TITULO_CURSO, sut.getTitulo());
+        assertEquals(OTRA_DESCRIPCION_CURSO, sut.getDescripcion());
+        assertEquals(OTRA_IMAGEN_CURSO, sut.getImagen());
         assertEquals(OTRO_NIVEL_CURSO, sut.getNivel());
     }
 

@@ -40,8 +40,8 @@ public class CursosListAdapter extends BaseAdapter {
         }
 
         Curso curso = (Curso) getItem(position);
-        ((TextView) convertView.findViewById(R.id.textCourseItemTitle)).setText(curso.getTitle());
-        ((TextView) convertView.findViewById(R.id.textCourseItemDescription)).setText(curso.getDescription());
+        ((TextView) convertView.findViewById(R.id.textCourseItemTitle)).setText(curso.getTitulo());
+        ((TextView) convertView.findViewById(R.id.textCourseItemDescription)).setText(curso.getDescripcion());
         return convertView;
     }
 

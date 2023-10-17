@@ -19,9 +19,9 @@ public class CursoDebe {
         Curso sut = new Curso(ID_CURSO, TITULO_CURSO, DESCRIPCION_CURSO, IMAGEN_CURSO, NIVEL_CURSO);
 
         assertEquals(ID_CURSO, sut.getId());
-        assertSame(TITULO_CURSO, sut.getTitle());
-        assertSame(DESCRIPCION_CURSO, sut.getDescription());
-        assertEquals(IMAGEN_CURSO, sut.getImageName());
+        assertSame(TITULO_CURSO, sut.getTitulo());
+        assertSame(DESCRIPCION_CURSO, sut.getDescripcion());
+        assertEquals(IMAGEN_CURSO, sut.getImagen());
         assertEquals(NIVEL_CURSO, sut.getNivel());
     }
 

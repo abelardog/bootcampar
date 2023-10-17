@@ -145,9 +145,9 @@ public class ModificarCursoDebe {
 
         assertNotNull(sut);
         assertEquals(18, sut.getId());
-        assertEquals(TITULO_CURSO, sut.getTitle());
-        assertEquals(DESCRIPCION_CURSO, sut.getDescription());
-        assertEquals(IMAGEN_CURSO, sut.getImageName());
+        assertEquals(TITULO_CURSO, sut.getTitulo());
+        assertEquals(DESCRIPCION_CURSO, sut.getDescripcion());
+        assertEquals(IMAGEN_CURSO, sut.getImagen());
         assertEquals(NIVEL_CURSO, sut.getNivel());
     }
 

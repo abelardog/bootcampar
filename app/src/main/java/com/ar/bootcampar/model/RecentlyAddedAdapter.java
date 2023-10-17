@@ -56,7 +56,7 @@ public class RecentlyAddedAdapter extends RecyclerView.Adapter<RecentlyAddedAdap
     @Override
     public void onBindViewHolder(@NonNull RecentlyAddedView holder, int position) {
         Curso curso = list.get(position);
-        holder.textView.setText(curso.getTitle());
+        holder.textView.setText(curso.getTitulo());
     }
 
     @Override

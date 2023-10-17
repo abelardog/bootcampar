@@ -8,8 +8,8 @@ import java.util.List;
 public class Curso {
     private final long id;
     private final String imagen;
-    private final String title;
-    private final String description;
+    private final String titulo;
+    private final String descripcion;
     private final int nivel;
 
     public Curso(long id, String titulo, String descripcion, String imagen, int nivel) {
@@ -21,21 +21,21 @@ public class Curso {
         if (nivel <= 0 || nivel > 3) throw new RuntimeException("El nivel es inválido");
 
         this.id = id;
-        this.title = titulo;
-        this.description = descripcion;
+        this.titulo = titulo;
+        this.descripcion = descripcion;
         this.imagen = imagen;
         this.nivel = nivel;
     }
 
-    public String getImageName() {
+    public String getImagen() {
         return imagen;
     }
 
-    public String getTitle() {
-        return title;
+    public String getTitulo() {
+        return titulo;
     }
 
-    public String getDescription() { return description; }
+    public String getDescripcion() { return descripcion; }
 
     public long getId() { return id; }
 

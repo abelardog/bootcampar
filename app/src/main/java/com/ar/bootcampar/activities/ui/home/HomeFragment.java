@@ -22,7 +22,6 @@ import com.ar.bootcampar.R;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class HomeFragment extends Fragment implements RecentlyAddedAdapter.OnItemClickListener {
 
@@ -80,8 +79,8 @@ public class HomeFragment extends Fragment implements RecentlyAddedAdapter.OnIte
 
         Intent intent = new Intent(getActivity(), CourseDetailActivity.class);
         intent.putExtra("loggedIn", loggedIn);
-        intent.putExtra("title", selectedItem.getTitle());
-        intent.putExtra("description", selectedItem.getDescription());
+        intent.putExtra("title", selectedItem.getTitulo());
+        intent.putExtra("description", selectedItem.getDescripcion());
         startActivity(intent);
     }
 }
