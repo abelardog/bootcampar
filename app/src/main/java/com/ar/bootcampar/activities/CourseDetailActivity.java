@@ -10,7 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ar.bootcampar.R;
-import com.ar.bootcampar.fragments.ChaptersListFragment;
+import com.ar.bootcampar.model.Curso;
 
 public class CourseDetailActivity extends AppCompatActivity {
 
@@ -19,16 +19,15 @@ public class CourseDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_detail);
 
-        String title = getIntent().getStringExtra("title");
-        String description = getIntent().getStringExtra("description");
+        Intent intent = getIntent();
+        Curso curso = (Curso)intent.getSerializableExtra("curso");
 
         TextView textView = findViewById(R.id.detailTextView);
-        textView.setText(title);
+        textView.setText(curso.getTitulo());
 
         textView = findViewById(R.id.detailDescription);
-        textView.setText(description);
+        textView.setText(curso.getDescripcion());
 
-        Intent intent = getIntent();
         boolean loggedIn = intent.getBooleanExtra("loggedIn", false);
 
         Button enroll = (Button) findViewById(R.id.detailEnrollBtn);
@@ -47,4 +46,3 @@ public class CourseDetailActivity extends AppCompatActivity {
         }
     }
 }
-

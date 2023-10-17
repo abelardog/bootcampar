@@ -62,8 +62,9 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     public static IDatabase CreateWith(Context applicationContext) {
         // Version 2: Agregar administrador en base de datos
-        // Version 3: Agregar imagen al curso en base de datos
-        return new Database(applicationContext, "bootcampar.db", null, 3);
+        // Version 3: Agregar campo imagen al curso en base de datos
+        // Version 4: Agregar cursos por defecto a la base de datos
+        return new Database(applicationContext, "bootcampar.db", null, 4);
     }
 
     protected Database(Context applicationContext, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -140,6 +141,25 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         db.execSQL("PRAGMA foreign_key_check");
         db.execSQL("INSERT INTO " + TablaGrupo + "(" + ColumnaNombre + ", " + ColumnaInvitacion + ") VALUES ('Grupo de Programadores', '112233')");
         db.execSQL("INSERT INTO " + TablaUsuario + "("+ ColumnaNombre + ", " + ColumnaApellido + ", " + ColumnaEmail + ", " + ColumnaClave + ", " + ColumnaRol + ", " + ColumnaTelefono + ") VALUES ('Admin', 'Admin', 'admin@gmail.com', '123456', 1, '')");
+
+        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
+                "'Android Básico desde 0', 'Con este curso podrá crear su primera aplicación en Android.', '2', 'android_logo')");
+        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
+                "'Programación con Java', 'Aprenda a programar en Java desde cero con este curso único!', '1', 'java')");
+        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
+                "'JavaScript para Novatos', 'Un curso simple para aprender el ABC de JavaScript.', '1', 'js')");
+        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
+                "'Master en Python', 'Conviértase en un experto utilizando nuestro curso de cero a héroe!', '3', 'python')");
+        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
+                "'Aprende Html como un Profesional', 'Este curso le enseñará a crear sitios web con diseño responsivo.', '1', 'html')");
+        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
+                "'Desarrollo con Wordpress', 'Aprenda a utilizar el framework más popular del mundo.', '1', 'wordpress')");
+        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
+                "'Test Unitarios conceptos Avanzados', 'Con este curso aprenderá a escribir código sólido utilizando pruebas unitarias.', '2', 'unittest')");
+        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
+                "'Logra el Mejor Diseño con CSS', 'Un curso de nivel avanzado para aprender a realizar animaciones en CSS.', '3', 'css')");
+        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
+                "'Angular de cero a Experto', 'El mejor curso en Angular. Aprenda realizando cinco copias de sitios populares.', '3', 'angular')");
     }
 
     @Override
