@@ -842,7 +842,44 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 database.close();
             }
         }
+    }
 
+    @Override
+    public Curricula buscarCurriculaONada(Curso curso, Grupo grupo) {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+
+        try {
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaCurricula + ", " + TablaGrupo + ", " + TablaCurso,
+                    concatenarVectores(
+                            agregarNombreDeTablaEnColumnas(TablaCurricula, CamposCurricula),
+                            agregarNombreDeTablaEnColumnas(TablaCurso, CamposCurso),
+                            agregarNombreDeTablaEnColumnas(TablaGrupo, CamposGrupo)),
+                    ColumnaRelacionCurso + " = " + TablaCurso + "." + ColumnaId +
+                            " AND " + ColumnaRelacionGrupo + " = " + TablaGrupo + "." + ColumnaId + " AND " +
+                            ColumnaRelacionCurso + " =? AND " + ColumnaRelacionGrupo + " =?",
+                    new String[] { String.valueOf(curso.getId()), String.valueOf(grupo.getId()) }, null, null, null);
+
+            if (cursor.getCount() == 0) {
+                return null;
+            }
+            else if (cursor.getCount() == 1) {
+                cursor.moveToFirst();
+                return obtenerCurriculaDeCursor(cursor, TablaCurricula + "_");
+            }
+
+            throw new RuntimeException(String.format("Se esperaba encontrar una única currícula pero se encontraron %d", cursor.getCount()));
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
     }
 
     private String[] agregarNombreDeTablaEnColumnas(String tabla, String[] campos) {

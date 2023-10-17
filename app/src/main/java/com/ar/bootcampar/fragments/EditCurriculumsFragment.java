@@ -105,7 +105,9 @@ public class EditCurriculumsFragment extends Fragment {
 
                 // TODO: Mover esto a LogicServices.grabarGrupo y ajustar metodos
                 if (grupo != null && curso != null) {
-                        Curricula curricula = database.crearCurricula(curso, grupo);
+                    Curricula curricula = database.buscarCurriculaONada(curso, grupo);
+                    if (curricula == null) {
+                        curricula = database.crearCurricula(curso, grupo);
                         if (curricula != null) {
                             adapter.cambiarCurriculas(database.listarCurriculas());
                             adapter.notifyDataSetChanged();
@@ -113,6 +115,10 @@ public class EditCurriculumsFragment extends Fragment {
                         } else {
                             Toast.makeText(getContext(), "No se pudo crear la currícula", Toast.LENGTH_SHORT).show();
                         }
+                    }
+                    else {
+                        Toast.makeText(getContext(), "La currícula ya existe", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 else {
                     Toast.makeText(getContext(), "Por favor complete los datos", Toast.LENGTH_SHORT).show();
