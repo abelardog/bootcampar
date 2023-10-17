@@ -7,6 +7,7 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ar.bootcampar.R;
+import com.ar.bootcampar.model.Inscripcion;
 
 public class VideoListActivity extends AppCompatActivity {
 
@@ -14,6 +15,8 @@ public class VideoListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_list);
+
+        Inscripcion inscripcion = (Inscripcion)getIntent().getSerializableExtra("inscripcion");
     }
 
     public void onChapterClick(View view) {
@@ -21,5 +24,3 @@ public class VideoListActivity extends AppCompatActivity {
         startActivity(intent);
     }
 }
-
-

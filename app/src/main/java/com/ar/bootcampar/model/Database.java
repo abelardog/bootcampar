@@ -705,6 +705,44 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     @Override
+    public Inscripcion buscarInscripcionONada(Usuario usuario, Curso curso) {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+
+        try {
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaInscripcion + ", " + TablaUsuario + ", " + TablaCurso,
+                    concatenarVectores(
+                            agregarNombreDeTablaEnColumnas(TablaInscripcion, CamposInscripcion),
+                            agregarNombreDeTablaEnColumnas(TablaCurso, CamposCurso),
+                            agregarNombreDeTablaEnColumnas(TablaUsuario, CamposUsuario)),
+                    ColumnaRelacionCurso + " = " + TablaCurso + "." + ColumnaId +
+                            " AND " + ColumnaRelacionUsuario + " = " + TablaUsuario + "." + ColumnaId + " AND " +
+                            ColumnaRelacionCurso + " =? AND " + ColumnaRelacionUsuario + " =?",
+                    new String[] { String.valueOf(curso.getId()), String.valueOf(usuario.getId()) }, null, null, null);
+
+            if (cursor.getCount() == 0) {
+                return null;
+            }
+            else if (cursor.getCount() == 1) {
+                cursor.moveToFirst();
+                return obtenerInscripcionDeCursor(cursor, TablaInscripcion + "_");
+            }
+
+            throw new RuntimeException(String.format("Se esperaba encontrar una única inscripción pero se encontraron %d", cursor.getCount()));
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    @Override
     public void borrarCategorizacion(Categorizacion categorizacion) {
         Guardia.esObjetoValido(categorizacion,"La categorización es nula");
         borrarElemento(TablaCategorizacion, categorizacion.getId(), "Se esperaba borrar una única categorización pero se borraron %d" );
@@ -737,7 +775,6 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         return (Categorizacion) modificarElemento(TablaCategorizacion, categorizacion.getId(), values, id -> new Categorizacion(categorizacion.getId(), nuevoCurso, nuevaCategoria),"Se esperaba modificar una unica categorización pero se modificaron %d");
     }
 
-    // TODO: Borrar isFavorite
     @Override
     public Curso crearCurso(String title, String description, String imagen, int nivel) {
 

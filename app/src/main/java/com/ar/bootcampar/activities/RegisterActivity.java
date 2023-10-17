@@ -41,7 +41,7 @@ public class RegisterActivity extends AppCompatActivity {
             if (resultado.izquierda != null) {
                 Toast.makeText(this, R.string.registration_success_message, Toast.LENGTH_SHORT).show();
 
-                logicService.GrabarUsuarioActivoEnPreferencias(resultado.izquierda);
+                logicService.grabarUsuarioActivoEnPreferencias(resultado.izquierda);
 
                 Intent intent = new Intent(this, HomeActivity.class);
                 intent.putExtra("usuarioActivo", resultado.derecha);

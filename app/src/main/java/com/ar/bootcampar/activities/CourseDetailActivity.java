@@ -11,8 +11,14 @@ import android.widget.Toast;
 
 import com.ar.bootcampar.R;
 import com.ar.bootcampar.model.Curso;
+import com.ar.bootcampar.model.Inscripcion;
+import com.ar.bootcampar.model.LogicServices;
+import com.ar.bootcampar.model.Usuario;
+import com.ar.bootcampar.model.utilities.Tupla;
+import com.ar.bootcampar.services.SharedPreferencesManager;
 
 public class CourseDetailActivity extends AppCompatActivity {
+    private Curso curso;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +26,7 @@ public class CourseDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_course_detail);
 
         Intent intent = getIntent();
-        Curso curso = (Curso)intent.getSerializableExtra("curso");
+        curso = (Curso)intent.getSerializableExtra("curso");
 
         TextView textView = findViewById(R.id.detailTextView);
         textView.setText(curso.getTitulo());
@@ -35,8 +41,13 @@ public class CourseDetailActivity extends AppCompatActivity {
             enroll.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(CourseDetailActivity.this, R.string.enrollment_success, Toast.LENGTH_SHORT).show();
+                    LogicServices logicServices = new LogicServices(getApplicationContext());
+                    Usuario usuario = logicServices.obtenerUsuarioActivoDePreferencias();
+                    Tupla<Inscripcion, String> resultado = logicServices.inscribirCurso(usuario, curso);
+                    Toast.makeText(CourseDetailActivity.this, resultado.derecha, Toast.LENGTH_SHORT).show();
+
                     Intent intent = new Intent(CourseDetailActivity.this, VideoListActivity.class);
+                    intent.putExtra("inscripcion", resultado.izquierda);
                     startActivity(intent);
                 }
             });
