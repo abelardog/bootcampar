@@ -52,7 +52,7 @@ public class ModificarCursoDebe {
         Curso curso = crearCursoDePrueba();
         Database sut = new TestableDatabase(new SqliteDatabaseWrapperSpy.Builder().build());
         Exception exception = assertThrows(RuntimeException.class, () -> sut.modificarCurso(curso, TITULO_CURSO, DESCRIPCION_CURSO, IMAGEN_CURSO_INVALIDA, NIVEL_CURSO));
-        assertEquals("El link de imágen es inválido", exception.getMessage());
+        assertEquals("El link de imagen es inválida", exception.getMessage());
     }
 
     @Test

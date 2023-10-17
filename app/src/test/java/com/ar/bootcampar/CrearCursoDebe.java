@@ -41,7 +41,7 @@ public class CrearCursoDebe {
                 .build();
         Database sut = new TestableDatabase(stub);
         Exception exception = assertThrows(RuntimeException.class, () -> sut.crearCurso(TITULO_CURSO, DESCRIPCION_CURSO, IMAGEN_CURSO_INVALIDA, NIVEL_CURSO));
-        assertEquals("El link de imágen es inválido", exception.getMessage());
+        assertEquals("El link de imagen es inválida", exception.getMessage());
     }
 
     @Test

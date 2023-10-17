@@ -63,7 +63,7 @@ public class CursoDebe {
     @Theory
     public void lanzarExcepcion_cuandoLinkImagenEsInvalido(@FromDataPoints("links invalidos") String imagenInvalida) {
         Exception exception = assertThrows(RuntimeException.class, () -> new Curso(ID_CURSO, TITULO_CURSO, DESCRIPCION_CURSO, imagenInvalida, NIVEL_CURSO));
-        assertEquals("El link de imágen es inválido", exception.getMessage());
+        assertEquals("El link de imagen es inválida", exception.getMessage());
     }
     @Theory
     public void lanzarExcepcion_cuandoNivelEsInvalido(@FromDataPoints("niveles invalidos") int nivelInvalido) {

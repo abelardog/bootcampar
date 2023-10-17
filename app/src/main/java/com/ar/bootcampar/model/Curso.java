@@ -1,5 +1,7 @@
 package com.ar.bootcampar.model;
 
+import com.ar.bootcampar.model.utilities.Guardia;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,17 +12,17 @@ public class Curso {
     private final String description;
     private final int nivel;
 
-    public Curso(long id, String title, String description, String imagen, int nivel) {
-        if (id <= 0) throw new RuntimeException("El id es inválido");
-        if (title == null || title.trim().isEmpty()) throw new RuntimeException("El título es inválido");
-        if (description == null || description.trim().isEmpty()) throw new RuntimeException("La descripción es inválida");
+    public Curso(long id, String titulo, String descripcion, String imagen, int nivel) {
+        Guardia.esIdentificadorValido(id, "El id es inválido");
+        Guardia.esCadenaNoVacia(titulo, "El título es inválido");
+        Guardia.esCadenaNoVacia(descripcion, "La descripción es inválida");
         // TODO: Encontrar como validar link
-        if (imagen == null || imagen.trim().isEmpty()) throw new RuntimeException("El link de imágen es inválido");
+        Guardia.esCadenaNoVacia(imagen, "El link de imagen es inválida");
         if (nivel <= 0 || nivel > 3) throw new RuntimeException("El nivel es inválido");
 
         this.id = id;
-        this.title = title;
-        this.description = description;
+        this.title = titulo;
+        this.description = descripcion;
         this.imagen = imagen;
         this.nivel = nivel;
     }
