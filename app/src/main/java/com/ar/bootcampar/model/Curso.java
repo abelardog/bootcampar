@@ -9,7 +9,7 @@ public class Curso {
     private final String title;
     private final String description;
     private final int nivel;
-
+//    private final boolean favorito;
 
     public Curso(long id, String title, String description, String imagen, int nivel) {
         if (id <= 0) throw new RuntimeException("El id es inválido");
@@ -53,5 +53,14 @@ public class Curso {
         listaCursos.add(new Curso(9, "Angular de cero a Experto", "El mejor curso en Angular. Aprenda realizando cinco copias de sitios populares.", "angular", 3));
 
         return listaCursos;
+    }
+
+    public boolean isFavorito() {
+        //return this.favorito;
+        return true;
+    }
+
+    public void setFavorito(boolean favorito) {
+        // this.favorito = favorito;
     }
 }

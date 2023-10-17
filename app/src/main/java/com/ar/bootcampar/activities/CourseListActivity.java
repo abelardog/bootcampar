@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.ar.bootcampar.model.Curso;
+import com.ar.bootcampar.model.Database;
 import com.ar.bootcampar.services.CourseAdapter;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -27,15 +28,17 @@ public class CourseListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityCourseListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        List<Curso> listaCursos = Curso.getDefaultCourses();
+        Database db = (Database) Database.CreateWith(getApplicationContext());
+
+        List<Curso> cursos = db.listarCursos();
 
         RecyclerView recyclerView = findViewById(R.id.recyclerViewCourses);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        CourseAdapter adapter = new CourseAdapter(listaCursos);
+
+        CourseAdapter adapter = new CourseAdapter(cursos);
         recyclerView.setAdapter(adapter);
     }
 
