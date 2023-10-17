@@ -2,10 +2,11 @@ package com.ar.bootcampar.model;
 
 import com.ar.bootcampar.model.utilities.Guardia;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Curso {
+public class Curso implements Serializable {
     private final long id;
     private final String imagen;
     private final String titulo;
