@@ -46,6 +46,7 @@ public class CourseDetailActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     LogicServices logicServices = new LogicServices(getApplicationContext());
                     Usuario usuario = logicServices.obtenerUsuarioActivoDePreferencias();
+
                     Tupla<Inscripcion, String> resultado = logicServices.inscribirCurso(usuario, curso);
                     Toast.makeText(CourseDetailActivity.this, resultado.derecha, Toast.LENGTH_SHORT).show();
 
