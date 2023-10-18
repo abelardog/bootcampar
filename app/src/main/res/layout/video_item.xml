@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textAlignment="center">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/materialToolbar4"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:backgroundTint="@color/earthBlue"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textVideoListEntryTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/temario_list_vid"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/textVideoListEntryChapter"
+        app:layout_constraintTop_toTopOf="@+id/materialToolbar4" />
+
+    <ImageView
+        android:id="@+id/imageViewPlayButton"
+        android:layout_width="56dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="12dp"
+        android:contentDescription="Reproducir"
+        android:onClick="onChapterClick"
+        app:layout_constraintBottom_toBottomOf="@+id/materialToolbar4"
+        app:layout_constraintEnd_toEndOf="@+id/materialToolbar4"
+        app:layout_constraintTop_toTopOf="@+id/materialToolbar4"
+        app:srcCompat="@drawable/ic_action_play" />
+
+    <TextView
+        android:id="@+id/textVideoListEntryChapter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:text="@string/capitulo1_list_vid"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/materialToolbar4"
+        app:layout_constraintStart_toStartOf="@+id/materialToolbar4"
+        app:layout_constraintTop_toTopOf="@+id/materialToolbar4" />
+
+    <TextView
+        android:id="@+id/textVideoListEntryDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/introduccion_list_vid"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/materialToolbar4"
+        app:layout_constraintStart_toEndOf="@+id/textVideoListEntryChapter"
+        app:layout_constraintTop_toBottomOf="@+id/textVideoListEntryTitle" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
