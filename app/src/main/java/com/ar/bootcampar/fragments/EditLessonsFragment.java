@@ -96,10 +96,17 @@ public class EditLessonsFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int orden = Integer.valueOf(((TextView)getView().findViewById(R.id.editLessonOrder)).getText().toString());
+                int orden;
                 String titulo = ((TextView)getView().findViewById(R.id.editLessonTitle)).getText().toString();
                 String contenido = ((TextView)getView().findViewById(R.id.editLessonContent)).getText().toString();
                 Curso curso = (Curso)(((Spinner)getView().findViewById(R.id.spinner_course_lesson)).getSelectedItem());
+
+                try {
+                    orden = Integer.parseInt(((TextView)getView().findViewById(R.id.editLessonOrder)).getText().toString());
+                }
+                catch (NumberFormatException nfe) {
+                    orden = 0;
+                }
 
                 // TODO: Mover esto a LogicServices.grabarGrupo y ajustar metodos
                 if (!titulo.isEmpty() && !contenido.isEmpty()) {
