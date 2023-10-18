@@ -122,6 +122,10 @@ public class LogicServices {
     public List<Leccion> listarLecciones() {
         return database.listarLecciones();
     }
+
+    public List<Leccion> buscarLecciones(Curso curso) {
+        return database.buscarLecciones(curso);
+    }
       
     public void borrarCategoria(Categoria categoria) {
         this.database.borrarCategoria(categoria);
