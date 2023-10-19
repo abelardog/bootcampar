@@ -40,6 +40,7 @@ android {
 }
 
 dependencies {
+    implementation("androidx.webkit:webkit:1.4.0")
     implementation("com.google.code.gson:gson:2.10.1")
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
