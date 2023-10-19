@@ -23,6 +23,7 @@ import com.ar.bootcampar.model.utilities.Tupla;
 public class CourseDetailActivity extends AppCompatActivity {
     private Curso curso;
 
+    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -5,12 +5,8 @@ import static com.ar.bootcampar.model.utilities.IntentConstants.LESSON_FOR_COURS
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.Toast;
+import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,11 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ar.bootcampar.R;
 import com.ar.bootcampar.databinding.ActivityCourseListBinding;
-import com.ar.bootcampar.model.Curso;
 import com.ar.bootcampar.model.Inscripcion;
 import com.ar.bootcampar.model.Leccion;
 import com.ar.bootcampar.model.LogicServices;
-import com.ar.bootcampar.services.CourseAdapter;
 import com.ar.bootcampar.services.LeccionAdapter;
 
 import java.util.List;
@@ -31,6 +25,7 @@ public class VideoListActivity extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
     private ActivityCourseListBinding binding;
 
+    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +40,8 @@ public class VideoListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         LeccionAdapter adapter = new LeccionAdapter(listaLecciones);
         recyclerView.setAdapter(adapter);
+
+        ((TextView)findViewById(R.id.textVideoListTitle)).setText(inscripcion.getCurso().getTitulo());
 
         adapter.setOnClickListener(new LeccionAdapter.OnClickListener() {
             @Override
