@@ -45,10 +45,10 @@
         app:layout_constraintTop_toBottomOf="@+id/textLessonPlayerLesson"
         app:layout_constraintVertical_bias="0.0" />
 
-    <VideoView
+    <WebView
         android:id="@+id/videoClass"
-        android:layout_width="334dp"
-        android:layout_height="139dp"
+        android:layout_width="336dp"
+        android:layout_height="186dp"
         android:layout_marginTop="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"

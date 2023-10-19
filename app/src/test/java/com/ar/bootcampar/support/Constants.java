@@ -28,9 +28,10 @@ public class Constants {
 
     // Constantes para Leccion
     public static final String TITULO_LECCION = "Introducción a JavaScript";
-    public static final String CONTENIDO_LECCION = "https://www.youtube.com/video/xyz";
+    public static final String CONTENIDO_LECCION = "En esta lección usted va a aprender...";
     public static final int DURACION_LECCION = 10;
     public static final int ORDEN_LECCION = 1;
+    public static final String VINCULO_LECCION = "https://www.youtube.com/video/xyz";
 
     // Constantes para Curso
     public static final long ID_CURSO = 18;

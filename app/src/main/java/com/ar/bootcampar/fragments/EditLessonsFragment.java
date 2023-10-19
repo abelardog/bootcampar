@@ -99,6 +99,7 @@ public class EditLessonsFragment extends Fragment {
                 int orden;
                 String titulo = ((TextView)getView().findViewById(R.id.editLessonTitle)).getText().toString();
                 String contenido = ((TextView)getView().findViewById(R.id.editLessonContent)).getText().toString();
+                String vinculo = ((TextView)getView().findViewById(R.id.editLessonLink)).getText().toString();
                 Curso curso = (Curso)(((Spinner)getView().findViewById(R.id.spinner_course_lesson)).getSelectedItem());
 
                 try {
@@ -110,7 +111,7 @@ public class EditLessonsFragment extends Fragment {
 
                 // TODO: Mover esto a LogicServices.grabarGrupo y ajustar metodos
                 if (!titulo.isEmpty() && !contenido.isEmpty()) {
-                    Leccion leccion = database.crearLeccion(titulo, contenido, 0, orden, curso);
+                    Leccion leccion = database.crearLeccion(titulo, contenido, 0, orden, vinculo, curso);
                     if (leccion != null) {
                         adapter.cambiarLecciones(database.listarLecciones());
                         adapter.notifyDataSetChanged();
