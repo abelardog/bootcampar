@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="70dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="44dp"
         android:layout_marginEnd="70dp"
         android:text="@string/registerText"
         android:textAlignment="center"
@@ -19,7 +19,7 @@
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -140,12 +140,12 @@
 
     <Button
         android:id="@+id/buttonRegister"
-        android:layout_width="354dp"
-        android:layout_height="54dp"
+        android:layout_width="232dp"
+        android:layout_height="51dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/earthBlue"
+        android:background="@drawable/rounded_button"
         android:onClick="onRegisterClick"
         android:text="@string/registerButtonText"
         android:textColor="@color/white"
