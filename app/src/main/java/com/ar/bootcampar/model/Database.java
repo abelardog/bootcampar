@@ -59,14 +59,14 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     private static final String TablaCategoria = "Categorias";
     private static final String ColumnaRelacionCategoria  = "CategoriaId";
     private static final String TablaCategorizacion = "Categorizaciones";
-    private Object categorizaciones ;
 
     public static IDatabase CreateWith(Context applicationContext) {
         // Version 2: Agregar administrador en base de datos
         // Version 3: Agregar campo imagen al curso en base de datos
         // Version 4: Agregar cursos por defecto a la base de datos
         // Version 5: Agregar link a la lección, agregar curso con lecciones de prueba
-        return new Database(applicationContext, "bootcampar.db", null, 5);
+        // Version 6: Agregar url de youtube para embeber
+        return new Database(applicationContext, "bootcampar.db", null, 6);
     }
 
     protected Database(Context applicationContext, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -146,37 +146,36 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         db.execSQL("INSERT INTO " + TablaUsuario + "("+ ColumnaNombre + ", " + ColumnaApellido + ", " + ColumnaEmail + ", " + ColumnaClave + ", " + ColumnaRol + ", " + ColumnaTelefono + ") VALUES ('Admin', 'Admin', 'admin@gmail.com', '123456', 1, '')");
         db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
                 "'Python Basics with Sam', 'Learn the basics of Python live from Sam Focht every Tuesday. This is part of a series that will cover the entire Python Programming language.', '1', 'python')");
-
         db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaImagen + ", " + ColumnaNivel + ") VALUES (" +
             "'Python Basics with Sam', 'Learn the basics of Python live from Sam Focht every Tuesday. This is part of a series that will cover the entire Python Programming language.', 'python', 1)");
         db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
-                "'Lesson 1', 'Intro to Python Livestream', 7157, 1, 'https://youtu.be/z2k9Jh3jDVU', 1)");
+                "'Lesson 1', 'Intro to Python Livestream', 7157, 1, 'https://www.youtube.com/embed/z2k9Jh3jDVU?si=Usm-VZf3o8NG6QIP', 1)");
         db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
-                "'Lesson 2', 'Python For Loops, Functions, and Random', 7129, 2, 'https://youtu.be/4UuMrebbwIo', 1)");
+                "'Lesson 2', 'Python For Loops, Functions, and Random', 7129, 2, 'https://www.youtube.com/embed/4UuMrebbwIo?si=8i4VTWPAynhgu_Aq', 1)");
         db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
-                "'Lesson 3', 'Prime Numbers, Times Tables, & More', 7185, 3, 'https://youtu.be/DhdOKh5Issw', 1)");
+                "'Lesson 3', 'Prime Numbers, Times Tables, & More', 7185, 3, 'https://www.youtube.com/embed/DhdOKh5Issw?si=WKku1m1eUUr5SW8Y', 1)");
         db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
-                "'Lesson 4', 'Find Longest Substring / Guessing Game', 7135, 4, 'https://youtu.be/hoP7_DkrmiA', 1)");
+                "'Lesson 4', 'Find Longest Substring / Guessing Game', 7135, 4, 'https://www.youtube.com/embed/hoP7_DkrmiA?si=ZwoTyReFvy3wYaX3', 1)");
         db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
-                "'Lesson 5', 'Command Line and Recursion in Python', 5644, 5, 'https://youtu.be/2T8BFVPhYPs', 1)");
+                "'Lesson 5', 'Command Line and Recursion in Python', 5644, 5, 'https://www.youtube.com/embed/2T8BFVPhYPs?si=v3GGjaLFesrJjfKl', 1)");
         db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
-                "'Lesson 6', 'Scope and Decorators', 6353, 6, 'https://youtu.be/VckRJ6v1yWU', 1)");
+                "'Lesson 6', 'Scope and Decorators', 6353, 6, 'https://www.youtube.com/embed/VckRJ6v1yWU?si=tFP2-QQkVnzPjMU0', 1)");
         db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
-                "'Lesson 7', 'Build a Shopping List for the Command Line', 3990, 7, 'https://youtu.be/xapvhkhlPNI', 1)");
+                "'Lesson 7', 'Build a Shopping List for the Command Line', 3990, 7, 'https://www.youtube.com/embed/xapvhkhlPNI?si=f2ydLAAG0y7qTc3_', 1)");
         db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
-                "'Lesson 8', 'Generators and Classes', 4712, 8, 'https://youtu.be/UzDuMsnTIGQ', 1)");
+                "'Lesson 8', 'Generators and Classes', 4712, 8, 'https://www.youtube.com/embed/UzDuMsnTIGQ?si=WJu3elsQF7izyxpb', 1)");
         db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
-                "'Lesson 9', 'Board Game, Lists and More', 5024, 9, 'https://youtu.be/1vMtftJf7tQ', 1)");
+                "'Lesson 9', 'Board Game, Lists and More', 5024, 9, 'https://www.youtube.com/embed/1vMtftJf7tQ?si=nyMJFceeo2mR-h0D', 1)");
         db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
-                "'Lesson 10', 'Chicken Nuggets and itertools', 3586, 10, 'https://youtu.be/kZNIHeCaZiM', 1)");
+                "'Lesson 10', 'Chicken Nuggets and itertools', 3586, 10, 'https://www.youtube.com/embed/kZNIHeCaZiM?si=Qh6cZj0zpN_Hx6hG', 1)");
         db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
-                "'Lesson 11', 'Tkinter Calculator', 3710, 11, 'https://youtu.be/PkLwJicRI8s', 1)");
+                "'Lesson 11', 'Tkinter Calculator', 3710, 11, 'https://www.youtube.com/embed/PkLwJicRI8s?si=8NABvmOWtl-Wt911', 1)");
         db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
-                "'Lesson 12', 'Random Password Generator', 3440, 12, 'https://youtu.be/3j6v4wBZWR8', 1)");
+                "'Lesson 12', 'Random Password Generator', 3440, 12, 'https://www.youtube.com/embed/3j6v4wBZWR8?si=jAU0j1Xja6xV8sIZ', 1)");
         db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
-                "'Lesson 13', 'Solving Python Challenges', 3874, 13, 'https://youtu.be/iVajTZgMk4M', 1)");
+                "'Lesson 13', 'Solving Python Challenges', 3874, 13, 'https://www.youtube.com/embed/iVajTZgMk4M?si=cU4eiqT_M3YlPfNy', 1)");
         db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
-                "'Lesson 14', 'Python Main Function', 3772, 14, 'https://youtu.be/mvXDQNNcDu4', 1)");
+                "'Lesson 14', 'Python Main Function', 3772, 14, 'https://www.youtube.com/embed/mvXDQNNcDu4?si=IHBFPK-ecmuwlRRf', 1)");
 
         db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
                 "'Programación con Java', 'Aprenda a programar en Java desde cero con este curso único!', '1', 'java')");
