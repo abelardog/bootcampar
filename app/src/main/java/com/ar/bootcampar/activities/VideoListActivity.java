@@ -1,11 +1,16 @@
 package com.ar.bootcampar.activities;
 
 import static com.ar.bootcampar.model.utilities.IntentConstants.INSCRIPTION_FOR_VIDEO_LIST;
+import static com.ar.bootcampar.model.utilities.IntentConstants.LESSON_FOR_COURSE;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -40,10 +45,14 @@ public class VideoListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         LeccionAdapter adapter = new LeccionAdapter(listaLecciones);
         recyclerView.setAdapter(adapter);
-    }
 
-    public void onChapterClick(View view) {
-        Intent intent = new Intent(this, CourseVideoActivity.class);
-        startActivity(intent);
+        adapter.setOnClickListener(new LeccionAdapter.OnClickListener() {
+            @Override
+            public void onClick(Leccion leccion) {
+                Intent intent = new Intent(VideoListActivity.this, CourseVideoActivity.class);
+                intent.putExtra(LESSON_FOR_COURSE, leccion);
+                startActivity(intent);
+            }
+        });
     }
 }
