@@ -51,8 +51,9 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     private static final String TablaCurricula = "Curriculas";
     private static final String ColumnaContenido = "Contenido";
     private static final String ColumnaDuracion = "Duracion";
+    private static final String ColumnaVinculo = "Vinculo";
     private static final String ColumnaOrden = "Orden";
-    private static final String[] CamposLeccion = new String[] { ColumnaId, ColumnaTitulo, ColumnaContenido, ColumnaDuracion, ColumnaOrden };
+    private static final String[] CamposLeccion = new String[] { ColumnaId, ColumnaTitulo, ColumnaContenido, ColumnaDuracion, ColumnaOrden, ColumnaVinculo };
     private static final String TablaLeccion = "Lecciones";
     private static final String[] CamposCategoria = new String[] { ColumnaId, ColumnaNombre, ColumnaDescripcion };
     private static final String TablaCategoria = "Categorias";
@@ -116,6 +117,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TablaLeccion + " (\n" +
                 ColumnaId + " INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 ColumnaTitulo + " TEXT NOT NULL,\n" +
+                ColumnaVinculo + " TEXT,\n" +
                 ColumnaContenido + " TEXT,\n" +
                 ColumnaDuracion + " INTEGER NOT NULL,\n" +
                 ColumnaOrden + " INTEGER NOT NULL,\n" +
@@ -358,6 +360,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 cursorHelper.getStringFrom(prefijo + ColumnaContenido),
                 cursorHelper.getIntFrom(prefijo + ColumnaDuracion),
                 cursorHelper.getIntFrom(prefijo + ColumnaOrden),
+                cursorHelper.getStringFrom(prefijo + ColumnaVinculo),
                 obtenerCursoDeCursor(cursor, TablaCurso + "_"));
     }
 
@@ -485,18 +488,19 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     @Override
-    public Leccion crearLeccion(String titulo, String contenido, int duracion, int orden, Curso curso) {
+    public Leccion crearLeccion(String titulo, String contenido, int duracion, int orden, String vinculo, Curso curso) {
         IContentValuesWrapper values = createContentValues();
         values.put(ColumnaTitulo, titulo);
         values.put(ColumnaContenido, contenido);
         values.put(ColumnaDuracion, duracion);
         values.put(ColumnaOrden, orden);
+        values.put(ColumnaVinculo, vinculo);
         values.put(ColumnaRelacionCurso, curso.getId());
-        return (Leccion)crearElemento(TablaLeccion, values, id -> new Leccion(id, titulo, contenido, duracion, orden, curso), "Error creando lección");
+        return (Leccion)crearElemento(TablaLeccion, values, id -> new Leccion(id, titulo, contenido, duracion, orden, vinculo, curso), "Error creando lección");
     }
 
     @Override
-    public Leccion modificarLeccion(Leccion leccion, String nuevoTitulo, String nuevoContenido, int nuevaDuracion, int nuevoOrden, Curso nuevoCurso) {
+    public Leccion modificarLeccion(Leccion leccion, String nuevoTitulo, String nuevoContenido, int nuevaDuracion, int nuevoOrden, String nuevoVinculo, Curso nuevoCurso) {
         Guardia.esObjetoValido(leccion, "La lección es nula");
 
         IContentValuesWrapper values = createContentValues();
@@ -504,9 +508,10 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         values.put(ColumnaContenido, nuevoContenido);
         values.put(ColumnaDuracion, nuevaDuracion);
         values.put(ColumnaOrden, nuevoOrden);
+        values.put(ColumnaVinculo, nuevoVinculo);
         values.put(ColumnaRelacionCurso, nuevoCurso.getId());
 
-        return (Leccion)modificarElemento(TablaLeccion, leccion.getId(), values, id -> new Leccion(id, nuevoTitulo, nuevoContenido, nuevaDuracion, nuevoOrden, nuevoCurso), "Se esperaba modificar una única lección pero se modificaron %d");
+        return (Leccion)modificarElemento(TablaLeccion, leccion.getId(), values, id -> new Leccion(id, nuevoTitulo, nuevoContenido, nuevaDuracion, nuevoOrden, nuevoVinculo, nuevoCurso), "Se esperaba modificar una única lección pero se modificaron %d");
     }
 
     @Override
@@ -534,6 +539,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                             cursorHelper.getStringFrom(ColumnaContenido),
                             cursorHelper.getIntFrom(ColumnaDuracion),
                             cursorHelper.getIntFrom(ColumnaOrden),
+                            cursorHelper.getStringFrom(ColumnaVinculo),
                             curso);
 
                     resultado.add(leccion);

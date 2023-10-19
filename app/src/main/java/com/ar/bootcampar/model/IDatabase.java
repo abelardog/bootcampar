@@ -20,8 +20,8 @@ public interface IDatabase {
     void borrarGrupo(Grupo grupo);
     Grupo modificarGrupo(Grupo grupo, String nuevoNombre, String nuevaInvitacion);
 
-    Leccion crearLeccion(String titulo, String contenido, int duracion, int orden, Curso curso);
-    Leccion modificarLeccion(Leccion leccion, String nuevoTitulo, String nuevoContenido, int nuevaDuracion, int nuevoOrden, Curso nuevoCurso);
+    Leccion crearLeccion(String titulo, String contenido, int duracion, int orden, String vinculo, Curso curso);
+    Leccion modificarLeccion(Leccion leccion, String nuevoTitulo, String nuevoContenido, int nuevaDuracion, int nuevoOrden, String nuevoVinculo, Curso nuevoCurso);
     List<Leccion> buscarLecciones(Curso curso);
     List<Leccion> listarLecciones();
     void borrarLeccion(Leccion leccion);
