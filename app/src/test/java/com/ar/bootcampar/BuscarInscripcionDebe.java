@@ -85,7 +85,7 @@ public class BuscarInscripcionDebe {
     @Test
     public void cerrarBaseDeDatos_cuandoNoSeEncuentraPorId() {
         probarCerrarBaseDeDatosAlBuscarSinExito(0, (IDatabase sut) -> {
-            sut.buscarGrupoOExplotar(ID);
+            sut.buscarInscripcionOExplotar(ID_INSCRIPCION);
             return true;
         });
     }
@@ -93,7 +93,7 @@ public class BuscarInscripcionDebe {
     @Test
     public void cerrarBaseDeDatos_cuandoSeEncuentraUnaInscripcionPorId() {
         probarCerrarBaseDeDatosAlBuscarConExito((IDatabase sut) -> {
-            sut.buscarInscripcionOExplotar(ID);
+            sut.buscarInscripcionOExplotar(ID_INSCRIPCION);
             return true;
         });
     }
@@ -101,7 +101,7 @@ public class BuscarInscripcionDebe {
     @Test
     public void cerrarBaseDeDatos_cuandoSeEncuentranVariasInscripcionesPorId() {
         probarCerrarBaseDeDatosAlBuscarSinExito(2, (IDatabase sut) -> {
-            sut.buscarInscripcionOExplotar(ID);
+            sut.buscarInscripcionOExplotar(ID_INSCRIPCION);
             return true;
         });
     }
@@ -138,7 +138,7 @@ public class BuscarInscripcionDebe {
     @Test
     public void cerrarCursor_cuandoNoSeEncuentraPorId() {
         probarCerrarCursorAlBuscarSinExito(0, (IDatabase sut) -> {
-            sut.buscarInscripcionOExplotar(ID);
+            sut.buscarInscripcionOExplotar(ID_INSCRIPCION);
             return true;
         });
     }
@@ -146,7 +146,7 @@ public class BuscarInscripcionDebe {
     @Test
     public void cerrarCursor_cuandoSeEncuentraUnaInscripcionPorId() {
         probarCerrarCursorAlBuscarConExito((IDatabase sut) -> {
-            sut.buscarInscripcionOExplotar(ID);
+            sut.buscarInscripcionOExplotar(ID_INSCRIPCION);
             return true;
         });
     }
