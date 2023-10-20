@@ -79,10 +79,10 @@
             android:name=".activities.ResetPasswordActivity"
             android:exported="false"
             android:label="Recuperar clave"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".activities.LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ar.bootcampar.MainActivity" />
+                android:value="com.ar.bootcampar.activities.LoginActivity" />
         </activity>
 
         <activity
