@@ -28,6 +28,7 @@ public interface IDatabase {
 
     Categoria crearCategoria(String nombre, String descripcion);
     void borrarCategoria(Categoria categoria);
+    Categoria buscarCategoriaOExplotar(long id);
     Categoria buscarCategoriaONada(String nombre);
     List<Categoria> listarCategorias();
     Categoria modificarCategoria(Categoria categoria, String nuevoNombre, String nuevaDescripcion);

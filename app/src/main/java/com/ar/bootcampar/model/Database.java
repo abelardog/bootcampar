@@ -383,6 +383,14 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         return obtenerGrupoDeCursor(cursor, "");
     }
 
+    private static Categoria obtenerCategoriaDeCursor(ICursorWrapper cursor) {
+        CursorHelper cursorHelper = new CursorHelper(cursor);
+        return new Categoria(
+                cursorHelper.getLongFrom(ColumnaId),
+                cursorHelper.getStringFrom(ColumnaNombre),
+                cursorHelper.getStringFrom(ColumnaDescripcion));
+    }
+
     @NonNull
     private static Grupo obtenerGrupoDeCursor(ICursorWrapper cursor, String prefijo) {
         CursorHelper cursorHelper = new CursorHelper(cursor);
@@ -494,9 +502,15 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     @Override
+    public Categoria buscarCategoriaOExplotar(long id) {
+        return (Categoria)buscarElementoOExplotar(TablaCategoria, CamposCategoria, id,
+                Database::obtenerCategoriaDeCursor, "Se esperaba encontrar una única categoría con id %d, se encontraron %d");
+    }
+
+    @Override
     public Categoria buscarCategoriaONada(String nombre) {
         return (Categoria)buscarElementoONada(TablaCategoria, CamposCategoria, ColumnaNombre, nombre,
-                Database::obtenerGrupoDeCursor,"Se encontraron varias categorías con el mismo nombre %s");
+                Database::obtenerCategoriaDeCursor,"Se encontraron varias categorías con el mismo nombre %s");
     }
 
     @Override
