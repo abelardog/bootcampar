@@ -476,6 +476,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     @Override
     public Categoria modificarCategoria(Categoria categoria, String nuevoNombre, String nuevaDescripcion) {
         Guardia.esObjetoValido(categoria, "La categoría es nula");
+        Guardia.esCadenaNoVacia(nuevoNombre, "El nombre es inválido");
 
         IContentValuesWrapper values = createContentValues();
         values.put(ColumnaNombre, nuevoNombre);

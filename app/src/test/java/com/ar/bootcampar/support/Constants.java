@@ -76,4 +76,7 @@ public class Constants {
     public static long ID_CATEGORIA = 13;
     public static String NOMBRE_CATEGORIA = "Principiantes";
     public static String DESCRIPCION_CATEGORIA = "Categoría para principiantes";
+    public static String OTRO_NOMBRE_CATEGORIA = "Avanzados";
+    public static String OTRA_DESCRIPCION_CATEGORIA = "Categoría para avanzados";
+    public static String NOMBRE_CATEGORIA_INVALIDA = "";
 }
