@@ -1,48 +1,53 @@
 package com.ar.bootcampar.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
+import static com.ar.bootcampar.model.utilities.IntentConstants.CURRENT_USER;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ar.bootcampar.R;
+import com.ar.bootcampar.model.LogicServices;
 import com.ar.bootcampar.model.Usuario;
+import com.ar.bootcampar.model.utilities.IntentConstants;
+import com.ar.bootcampar.model.utilities.Tupla;
 import com.ar.bootcampar.services.SharedPreferencesManager;
 
 public class EditProfileActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_edit_profile);
 
-        Usuario usuario = null;
-        usuario = new SharedPreferencesManager(getApplicationContext()).cargarUsuario();
+        Usuario usuario = new SharedPreferencesManager(getApplicationContext()).cargarUsuario();
         if (usuario != null) {
             ((TextView)findViewById(R.id.editProfileFirstName)).setText(usuario.getNombre());
             ((TextView)findViewById(R.id.editProfileLastName)).setText(usuario.getApellido());
         }
 
         Button button = (Button) findViewById(R.id.buttonProfileUpdate);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String firstName = ((EditText)findViewById(R.id.editProfileFirstName)).getText().toString();
-                if (! firstName.isEmpty()) {
-                    String lastName = ((EditText)findViewById(R.id.editProfileLastName)).getText().toString();
-                    if (! lastName.isEmpty()) {
-                        Toast.makeText(EditProfileActivity.this, R.string.profile_updated_successfully, Toast.LENGTH_SHORT).show();
-                        finish();
-                        return;
-                    }
-                }
+        button.setOnClickListener(v -> {
+            String firstName = ((EditText)findViewById(R.id.editProfileFirstName)).getText().toString();
+            String lastName = ((EditText)findViewById(R.id.editProfileLastName)).getText().toString();
 
-                Toast.makeText(EditProfileActivity.this, R.string.complete_profile_data_please, Toast.LENGTH_SHORT).show();
+            LogicServices logicServices = new LogicServices(getApplicationContext());
+            Tupla<Usuario, String> resultado = logicServices.modificarUsuario(usuario, firstName, lastName);
+            Toast.makeText(EditProfileActivity.this, resultado.derecha, Toast.LENGTH_SHORT).show();
+
+            if (resultado.derecha != null) {
+                new SharedPreferencesManager(getApplicationContext()).grabarUsuario(resultado.izquierda);
+                Intent intent = new Intent("update-name");
+                intent.putExtra(CURRENT_USER, resultado.izquierda);
+                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
             }
+
+            finish();
         });
     }
 }
