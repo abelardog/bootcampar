@@ -52,19 +52,20 @@
             android:name=".activities.CourseDetailActivity"
             android:exported="false"
             android:label="@string/title_course_detail"
-            android:parentActivityName=".MainActivity">
+            android:launchMode="singleTop"
+            android:parentActivityName=".activities.HomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ar.bootcampar.MainActivity" />
+                android:value="com.ar.bootcampar.activities.HomeActivity" />
         </activity>
         <activity
             android:name=".activities.RegisterActivity"
             android:exported="false"
             android:label="@string/title_register"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".activities.LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ar.bootcampar.MainActivity" />
+                android:value="com.ar.bootcampar.activities.LoginActivity" />
         </activity>
         <activity
             android:name=".activities.LoginActivity"
@@ -79,20 +80,21 @@
             android:name=".activities.ResetPasswordActivity"
             android:exported="false"
             android:label="Recuperar clave"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".activities.LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ar.bootcampar.MainActivity" />
+                android:value="com.ar.bootcampar.activities.LoginActivity" />
         </activity>
 
         <activity
             android:name=".activities.VideoListActivity"
             android:exported="false"
             android:label="Videos disponibles"
-            android:parentActivityName=".activities.HomeActivity">
+            android:launchMode="singleTop"
+            android:parentActivityName=".activities.CourseDetailActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ar.bootcampar.activities.HomeActivity" />
+                android:value="com.ar.bootcampar.activities.CourseDetailActivity" />
         </activity>
 
         <activity
