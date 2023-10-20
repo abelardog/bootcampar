@@ -2,6 +2,7 @@ package com.ar.bootcampar.support;
 
 import static com.ar.bootcampar.support.Constants.*;
 
+import com.ar.bootcampar.model.Categoria;
 import com.ar.bootcampar.model.Curso;
 import com.ar.bootcampar.model.Grupo;
 import com.ar.bootcampar.model.Inscripcion;
@@ -18,6 +19,10 @@ public class DummyMaker {
 
     public static Curso crearCursoDePrueba() {
         return new Curso(ID_CURSO, TITULO_CURSO, DESCRIPCION_CURSO, IMAGEN_CURSO, NIVEL_CURSO);
+    }
+
+    public static Categoria crearCategoriaDePrueba() {
+        return new Categoria(ID_CATEGORIA, NOMBRE_CATEGORIA, DESCRIPCION_CATEGORIA);
     }
 
     public static Curso crearOtroCursoDePrueba() {

@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import static com.ar.bootcampar.support.Constants.*;
 
+import com.ar.bootcampar.model.Categoria;
 import com.ar.bootcampar.model.Database;
 import com.ar.bootcampar.model.Grupo;
 import com.ar.bootcampar.model.utilities.ISQLiteDatabaseWrapper;
@@ -12,25 +13,15 @@ import com.ar.bootcampar.support.TestableDatabase;
 
 import org.junit.Test;
 
-public class CrearGrupoDebe {
+public class CrearCategoriaDebe {
     @Test
-    public void lanzarExcepcion_cuandoSeIntentaCrearGrupoConNombreInvalido() {
+    public void lanzarExcepcion_cuandoSeIntentaCrearCategoriaConNombreInvalido() {
         SqliteDatabaseWrapperSpy stub = new SqliteDatabaseWrapperSpy.Builder()
                 .conInsertRetornando(1)
                 .build();
         Database sut = new TestableDatabase(stub);
-        Exception exception = assertThrows(RuntimeException.class, () -> sut.crearGrupo("", INVITACION_GRUPO));
+        Exception exception = assertThrows(RuntimeException.class, () -> sut.crearCategoria("", DESCRIPCION_CATEGORIA));
         assertEquals("El nombre es inválido", exception.getMessage());
-    }
-
-    @Test
-    public void lanzarExcepcion_cuandoSeIntentaCrearGrupoConInvitacionInvalida() {
-        SqliteDatabaseWrapperSpy stub = new SqliteDatabaseWrapperSpy.Builder()
-                .conInsertRetornando(1)
-                .build();
-        Database sut = new TestableDatabase(stub);
-        Exception exception = assertThrows(RuntimeException.class, () -> sut.crearGrupo(NOMBRE_GRUPO, ""));
-        assertEquals("La invitación es inválida", exception.getMessage());
     }
 
     @Test
@@ -39,55 +30,45 @@ public class CrearGrupoDebe {
                 .conInsertRetornando(1)
                 .build();
         Database sut = new TestableDatabase(spy);
-        assertThrows(RuntimeException.class, () -> sut.crearGrupo(NOMBRE_GRUPO_INVALIDO, INVITACION_GRUPO));
+        assertThrows(RuntimeException.class, () -> sut.crearCategoria("", DESCRIPCION_CATEGORIA));
         assertFalse(spy.getTransactionSuccessfulCalled());
     }
 
     @Test
-    public void noSetearTransaccionComoExitosa_cuandoLaInvitacionEsInvalida() {
+    public void recibirTodosLosDatosDeCategoria() {
         SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
                 .conInsertRetornando(1)
                 .build();
         Database sut = new TestableDatabase(spy);
-        assertThrows(RuntimeException.class, () -> sut.crearGrupo(NOMBRE_GRUPO, INVITACION_GRUPO_INVALIDA));
-        assertFalse(spy.getTransactionSuccessfulCalled());
+        sut.crearCategoria(NOMBRE_CATEGORIA, DESCRIPCION_CATEGORIA);
+
+    assertEquals(NOMBRE_CATEGORIA, spy.getInsertedValues().get("Nombre"));
+        assertEquals(DESCRIPCION_CATEGORIA, spy.getInsertedValues().get("Descripcion"));
     }
 
     @Test
-    public void recibirTodosLosDatosDeGrupo() {
+    public void insertarDatosEnTablaCategoria() {
         SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
                 .conInsertRetornando(1)
                 .build();
         Database sut = new TestableDatabase(spy);
-        sut.crearGrupo(NOMBRE_GRUPO, INVITACION_GRUPO);
+        sut.crearCategoria(NOMBRE_CATEGORIA, DESCRIPCION_CATEGORIA);
 
-        assertEquals(NOMBRE_GRUPO, spy.getInsertedValues().get("Nombre"));
-        assertEquals(INVITACION_GRUPO, spy.getInsertedValues().get("Invitacion"));
+        assertEquals("Categorias", spy.getTableName());
     }
 
     @Test
-    public void insertarDatosEnTablaGrupo() {
-        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
-                .conInsertRetornando(1)
-                .build();
-        Database sut = new TestableDatabase(spy);
-        sut.crearGrupo(NOMBRE_GRUPO, INVITACION_GRUPO);
-
-        assertEquals("Grupos", spy.getTableName());
-    }
-
-    @Test
-    public void retornarGrupo_cuandoSeInsertaGrupoEnBaseDeDatos() {
+    public void retornarGrupo_cuandoSeInsertaCategoriaEnBaseDeDatos() {
         ISQLiteDatabaseWrapper stub = new SqliteDatabaseWrapperSpy.Builder()
                 .conInsertRetornando(14)
                 .build();
         Database database = new TestableDatabase(stub);
-        Grupo sut = database.crearGrupo(NOMBRE_GRUPO, INVITACION_GRUPO);
+        Categoria sut = database.crearCategoria(NOMBRE_CATEGORIA, DESCRIPCION_CATEGORIA);
 
         assertNotNull(sut);
         assertEquals(14, sut.getId());
-        assertEquals(NOMBRE_GRUPO, sut.getNombre());
-        assertEquals(INVITACION_GRUPO, sut.getInvitacion());
+        assertEquals(NOMBRE_CATEGORIA, sut.getNombre());
+        assertEquals(DESCRIPCION_CATEGORIA, sut.getDescripcion());
     }
 
     @Test
@@ -96,8 +77,8 @@ public class CrearGrupoDebe {
                 .conInsertRetornando(-1)
                 .build();
         Database database = new TestableDatabase(stub);
-        Exception exception = assertThrows(RuntimeException.class, () -> database.crearGrupo(NOMBRE_GRUPO, INVITACION_GRUPO));
-        assertEquals("Error creando grupo", exception.getMessage());
+        Exception exception = assertThrows(RuntimeException.class, () -> database.crearCategoria(NOMBRE_CATEGORIA, DESCRIPCION_CATEGORIA));
+        assertEquals("Error creando categoría", exception.getMessage());
     }
 
     @Test
@@ -106,7 +87,7 @@ public class CrearGrupoDebe {
                 .conInsertRetornando(-1)
                 .build();
         Database database = new TestableDatabase(spy);
-        assertThrows(RuntimeException.class, () -> database.crearGrupo(NOMBRE_GRUPO, INVITACION_GRUPO));
+        assertThrows(RuntimeException.class, () -> database.crearCategoria(NOMBRE_CATEGORIA, DESCRIPCION_CATEGORIA));
         assertTrue(spy.getBeginTransactionCalled());
         assertFalse(spy.getTransactionSuccessfulCalled());
         assertTrue(spy.getEndTransactionCalled());
@@ -118,17 +99,17 @@ public class CrearGrupoDebe {
                 .conInsertRetornando(-1)
                 .build();
         Database database = new TestableDatabase(spy);
-        assertThrows(RuntimeException.class, () -> database.crearGrupo(NOMBRE_GRUPO, INVITACION_GRUPO));
+        assertThrows(RuntimeException.class, () -> database.crearCategoria(NOMBRE_CATEGORIA, DESCRIPCION_CATEGORIA));
         assertTrue(spy.getCloseCalled());
     }
 
     @Test
-    public void cerrarBaseDeDatos_cuandoSeInsertaGrupoEnBaseDeDatos() {
+    public void cerrarBaseDeDatos_cuandoSeInsertaCategoriaEnBaseDeDatos() {
         SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
                 .conInsertRetornando(1)
                 .build();
         Database database = new TestableDatabase(spy);
-        database.crearGrupo(NOMBRE_GRUPO, INVITACION_GRUPO);
+        database.crearCategoria(NOMBRE_CATEGORIA, DESCRIPCION_CATEGORIA);
         assertTrue(spy.getCloseCalled());
     }
 }
