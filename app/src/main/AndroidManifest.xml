@@ -52,10 +52,10 @@
             android:name=".activities.CourseDetailActivity"
             android:exported="false"
             android:label="@string/title_course_detail"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".activities.HomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ar.bootcampar.MainActivity" />
+                android:value="com.ar.bootcampar.activities.HomeActivity" />
         </activity>
         <activity
             android:name=".activities.RegisterActivity"
