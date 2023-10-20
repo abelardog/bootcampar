@@ -5,9 +5,8 @@ public class Guardia {
         if (cadena == null || cadena.trim().isEmpty()) throw new RuntimeException(mensajeFallo);
     }
 
-    // TODO: El mensaje es siempre el mismo, refactorear para que el mensaje esté acá adentro y no como argumento
-    public static void esIdentificadorValido(long id, String mensajeFallo) {
-        if (id <= 0) throw new RuntimeException(mensajeFallo);
+    public static void esIdentificadorValido(long id) {
+        if (id <= 0) throw new RuntimeException("El id es inválido");
     }
 
     public static void esCeroPositivo(int duracion, String mensajeFallo) {

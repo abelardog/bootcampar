@@ -109,4 +109,8 @@
     <string name="grabar">Grabar</string>
     <string name="ingrese_descripcion">Ingrese la descripción</string>
     <string name="leccion_numero">\"Lección %d\"</string>
+    <string name="los_datos_son_invalidos">Los datos son inválidos</string>
+    <string name="administrador_no_puede_inscribirse">El administrador no se puede inscribir a un curso</string>
+    <string name="ya_esta_inscripto_en_el_curso">Ya está inscripto en el curso</string>
+    <string name="error_inscribiendo_al_curso">Error inscribiendo al curso</string>
 </resources>

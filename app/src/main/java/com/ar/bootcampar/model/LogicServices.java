@@ -152,18 +152,18 @@ public class LogicServices {
                     if (inscripcion != null) {
                         return new Tupla<>(inscripcion, getStringFromContext(R.string.enrollment_success));
                     } else {
-                        return new Tupla<>(null, "Error inscribiendo al curso");
+                        return new Tupla<>(null, context.getString(R.string.error_inscribiendo_al_curso));
                     }
                 } else {
-                    return new Tupla<>(inscripcion, "Ya está inscripto en el curso");
+                    return new Tupla<>(inscripcion, context.getString(R.string.ya_esta_inscripto_en_el_curso));
                 }
             }
             else {
-                return new Tupla<>(null, "El administrador no se puede inscribir a un curso");
+                return new Tupla<>(null, context.getString(R.string.administrador_no_puede_inscribirse));
             }
         }
         else {
-            return new Tupla<>(null, "Los datos son inválidos");
+            return new Tupla<>(null, context.getString(R.string.los_datos_son_invalidos));
         }
     }
 
@@ -171,7 +171,7 @@ public class LogicServices {
         try {
             if (usuario != null && !esCadenaInvalida(nuevoNombre) && !esCadenaInvalida(nuevoApellido)) {
                 Usuario nuevoUsuario = database.modificarUsuario(usuario, nuevoNombre, nuevoApellido, usuario.getEmail(), usuario.getClave(), usuario.getRol(), usuario.getTelefono());
-                return new Tupla<>(usuario, getStringFromContext(R.string.profile_updated_successfully));
+                return new Tupla<>(nuevoUsuario, getStringFromContext(R.string.profile_updated_successfully));
             }
 
             return new Tupla<>(null, getStringFromContext(R.string.complete_profile_data_please));

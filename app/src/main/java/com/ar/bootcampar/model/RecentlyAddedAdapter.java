@@ -13,12 +13,13 @@ import com.ar.bootcampar.R;
 import java.util.List;
 
 public class RecentlyAddedAdapter extends RecyclerView.Adapter<RecentlyAddedAdapter.RecentlyAddedView> {
-    private List<Curso> list;
-    private OnItemClickListener onItemClickListener;
+    private final List<Curso> list;
+    private final OnItemClickListener onItemClickListener;
 
     public interface OnItemClickListener{
         void onItemClick(int position);
     }
+
     public class RecentlyAddedView extends RecyclerView.ViewHolder {
         TextView textView;
 
@@ -26,13 +27,10 @@ public class RecentlyAddedAdapter extends RecyclerView.Adapter<RecentlyAddedAdap
             super(view);
             textView = (TextView)view.findViewById(R.id.recently_added_item_title);
 
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getBindingAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        onItemClickListener.onItemClick(position);
-                    }
+            view.setOnClickListener(v -> {
+                int position = getBindingAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    onItemClickListener.onItemClick(position);
                 }
             });
         }
