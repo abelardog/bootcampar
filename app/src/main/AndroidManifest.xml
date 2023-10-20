@@ -89,6 +89,7 @@
             android:name=".activities.VideoListActivity"
             android:exported="false"
             android:label="Videos disponibles"
+            android:launchMode="singleTop"
             android:parentActivityName=".activities.HomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
