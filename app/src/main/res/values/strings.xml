@@ -108,4 +108,5 @@
     <string name="descripcion">Descripcion</string>
     <string name="grabar">Grabar</string>
     <string name="ingrese_descripcion">Ingrese la descripción</string>
+    <string name="leccion_numero">\"Lección %d\"</string>
 </resources>
