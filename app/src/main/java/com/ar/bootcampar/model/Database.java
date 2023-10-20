@@ -66,7 +66,8 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         // Version 4: Agregar cursos por defecto a la base de datos
         // Version 5: Agregar link a la lección, agregar curso con lecciones de prueba
         // Version 6: Agregar url de youtube para embeber
-        return new Database(applicationContext, "bootcampar.db", null, 6);
+        // Version 7-8: Se había agregado el curso dos veces
+        return new Database(applicationContext, "bootcampar.db", null, 8);
     }
 
     protected Database(Context applicationContext, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -142,12 +143,46 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 "  FOREIGN KEY (" + ColumnaRelacionUsuario + ") REFERENCES " + TablaUsuario + " (" + ColumnaId + ") ON DELETE CASCADE ON UPDATE NO ACTION\n);");
         db.execSQL("PRAGMA foreign_keys=ON");
         db.execSQL("PRAGMA foreign_key_check");
-        db.execSQL("INSERT INTO " + TablaGrupo + "(" + ColumnaNombre + ", " + ColumnaInvitacion + ") VALUES ('Grupo de Programadores', '112233')");
-        db.execSQL("INSERT INTO " + TablaUsuario + "("+ ColumnaNombre + ", " + ColumnaApellido + ", " + ColumnaEmail + ", " + ColumnaClave + ", " + ColumnaRol + ", " + ColumnaTelefono + ") VALUES ('Admin', 'Admin', 'admin@gmail.com', '123456', 1, '')");
+
+        insertarGrupoPorDefecto(db);
+        insertarAdministrator(db);
+        insertarCursoDePythonBasicsWithSam(db);
+        insertarCursoDePatrones(db);
+
         db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
-                "'Python Basics with Sam', 'Learn the basics of Python live from Sam Focht every Tuesday. This is part of a series that will cover the entire Python Programming language.', '1', 'python')");
+                "'Programación con Java', 'Aprenda a programar en Java desde cero con este curso único!', '1', 'java')");
+        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
+                "'JavaScript para Novatos', 'Un curso simple para aprender el ABC de JavaScript.', '1', 'js')");
+        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
+                "'Master en Python', 'Conviértase en un experto utilizando nuestro curso de cero a héroe!', '3', 'python')");
+        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
+                "'Aprende Html como un Profesional', 'Este curso le enseñará a crear sitios web con diseño responsivo.', '1', 'html')");
+        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
+                "'Desarrollo con Wordpress', 'Aprenda a utilizar el framework más popular del mundo.', '1', 'wordpress')");
+        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
+                "'Test Unitarios conceptos Avanzados', 'Con este curso aprenderá a escribir código sólido utilizando pruebas unitarias.', '2', 'unittest')");
+        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
+                "'Logra el Mejor Diseño con CSS', 'Un curso de nivel avanzado para aprender a realizar animaciones en CSS.', '3', 'css')");
+        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
+                "'Angular de cero a Experto', 'El mejor curso en Angular. Aprenda realizando cinco copias de sitios populares.', '3', 'angular')");
+    }
+
+    private void insertarCursoDePatrones(ISQLiteDatabaseWrapper db) {
         db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaImagen + ", " + ColumnaNivel + ") VALUES (" +
-            "'Python Basics with Sam', 'Learn the basics of Python live from Sam Focht every Tuesday. This is part of a series that will cover the entire Python Programming language.', 'python', 1)");
+                "'Design Patterns', 'Learn about Design Patterns in JavaScript with Beau', 'js', 2)");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 1', 'Singleton Design Pattern', 290, 1, 'https://www.youtube.com/embed/bgU7FeiWKzc?si=M4Ueo_ghh9tLOjZK', 2)");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 2', 'Observer Design Pattern', 236, 2, 'https://www.youtube.com/embed/3PUVr8jFMGg?si=MStdKuUxtU69R0yj', 2)");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 3', 'Module Design Pattern', 164, 3, 'https://www.youtube.com/embed/3pXVHRT-amw?si=G5XIaQftkSQPVVr-', 2)");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 4', 'Mediator Design Pattern', 308, 4, 'https://www.youtube.com/embed/KOVc5o5kURE?si=l6faPVQUgaf37jnX', 2)");
+    }
+
+    private void insertarCursoDePythonBasicsWithSam(ISQLiteDatabaseWrapper db) {
+        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaImagen + ", " + ColumnaNivel + ") VALUES (" +
+                "'Python Basics with Sam', 'Learn the basics of Python live from Sam Focht every Tuesday. This is part of a series that will cover the entire Python Programming language.', 'python', 1)");
         db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
                 "'Lesson 1', 'Intro to Python Livestream', 7157, 1, 'https://www.youtube.com/embed/z2k9Jh3jDVU?si=Usm-VZf3o8NG6QIP', 1)");
         db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
@@ -176,23 +211,14 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 "'Lesson 13', 'Solving Python Challenges', 3874, 13, 'https://www.youtube.com/embed/iVajTZgMk4M?si=cU4eiqT_M3YlPfNy', 1)");
         db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
                 "'Lesson 14', 'Python Main Function', 3772, 14, 'https://www.youtube.com/embed/mvXDQNNcDu4?si=IHBFPK-ecmuwlRRf', 1)");
+    }
 
-        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
-                "'Programación con Java', 'Aprenda a programar en Java desde cero con este curso único!', '1', 'java')");
-        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
-                "'JavaScript para Novatos', 'Un curso simple para aprender el ABC de JavaScript.', '1', 'js')");
-        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
-                "'Master en Python', 'Conviértase en un experto utilizando nuestro curso de cero a héroe!', '3', 'python')");
-        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
-                "'Aprende Html como un Profesional', 'Este curso le enseñará a crear sitios web con diseño responsivo.', '1', 'html')");
-        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
-                "'Desarrollo con Wordpress', 'Aprenda a utilizar el framework más popular del mundo.', '1', 'wordpress')");
-        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
-                "'Test Unitarios conceptos Avanzados', 'Con este curso aprenderá a escribir código sólido utilizando pruebas unitarias.', '2', 'unittest')");
-        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
-                "'Logra el Mejor Diseño con CSS', 'Un curso de nivel avanzado para aprender a realizar animaciones en CSS.', '3', 'css')");
-        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
-                "'Angular de cero a Experto', 'El mejor curso en Angular. Aprenda realizando cinco copias de sitios populares.', '3', 'angular')");
+    private void insertarAdministrator(ISQLiteDatabaseWrapper db) {
+        db.execSQL("INSERT INTO " + TablaUsuario + "("+ ColumnaNombre + ", " + ColumnaApellido + ", " + ColumnaEmail + ", " + ColumnaClave + ", " + ColumnaRol + ", " + ColumnaTelefono + ") VALUES ('Admin', 'Admin', 'admin@gmail.com', '123456', 1, '')");
+    }
+
+    private void insertarGrupoPorDefecto(ISQLiteDatabaseWrapper db) {
+        db.execSQL("INSERT INTO " + TablaGrupo + "(" + ColumnaNombre + ", " + ColumnaInvitacion + ") VALUES ('Grupo de Programadores', '112233')");
     }
 
     @Override
