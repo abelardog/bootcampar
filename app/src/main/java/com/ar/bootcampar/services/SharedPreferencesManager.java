@@ -1,5 +1,7 @@
 package com.ar.bootcampar.services;
 
+import static com.ar.bootcampar.model.utilities.IntentConstants.CURRENT_USER;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -8,7 +10,6 @@ import com.google.gson.Gson;
 
 public class SharedPreferencesManager {
     private final String PREFS_NAME = "com.ar.bootcampar";
-    private final String KEY_USUARIO = "usuarioActivo";
     private final SharedPreferences sharedPreferences;
 
     public SharedPreferencesManager(Context context) {
@@ -16,11 +17,11 @@ public class SharedPreferencesManager {
     }
 
     public void grabarUsuario(Usuario usuario) {
-        sharedPreferences.edit().putString(KEY_USUARIO, new Gson().toJson(usuario)).apply();
+        sharedPreferences.edit().putString(CURRENT_USER, new Gson().toJson(usuario)).apply();
     }
 
     public Usuario cargarUsuario() {
-        String json = sharedPreferences.getString(KEY_USUARIO, null);
+        String json = sharedPreferences.getString(CURRENT_USER, null);
         if (json == null) {
             return null;
         }

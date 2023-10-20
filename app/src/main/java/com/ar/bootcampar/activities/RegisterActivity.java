@@ -46,7 +46,7 @@ public class RegisterActivity extends AppCompatActivity {
                 logicService.grabarUsuarioActivoEnPreferencias(resultado.izquierda);
 
                 Intent intent = new Intent(this, HomeActivity.class);
-                intent.putExtra(CURRENT_USER, resultado.derecha);
+                intent.putExtra(CURRENT_USER, resultado.izquierda);
                 startActivity(intent);
             }
         }

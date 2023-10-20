@@ -40,7 +40,7 @@ public class EditProfileActivity extends AppCompatActivity {
             Tupla<Usuario, String> resultado = logicServices.modificarUsuario(usuario, firstName, lastName);
             Toast.makeText(EditProfileActivity.this, resultado.derecha, Toast.LENGTH_SHORT).show();
 
-            if (resultado.derecha != null) {
+            if (resultado.izquierda != null) {
                 new SharedPreferencesManager(getApplicationContext()).grabarUsuario(resultado.izquierda);
                 Intent intent = new Intent(UPDATE_NAME_BROADCAST);
                 intent.putExtra(CURRENT_USER, resultado.izquierda);
