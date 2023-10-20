@@ -71,4 +71,9 @@ public class Constants {
     public static final int OTRA_PUNTUACION_INSCRIPCION = 7;
     public static final boolean OTRO_FAVORITO_INSCRIPCION = false;
     public static final int OTRA_ULTIMA_LECCION_INSCRIPCION = 5;
+
+    // Constantes para Categoría
+    public static long ID_CATEGORIA = 13;
+    public static String NOMBRE_CATEGORIA = "Principiantes";
+    public static String DESCRIPCION_CATEGORIA = "Categoría para principiantes";
 }
