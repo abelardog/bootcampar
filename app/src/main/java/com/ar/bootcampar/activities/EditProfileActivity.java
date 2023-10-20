@@ -1,6 +1,7 @@
 package com.ar.bootcampar.activities;
 
 import static com.ar.bootcampar.model.utilities.IntentConstants.CURRENT_USER;
+import static com.ar.bootcampar.model.utilities.IntentConstants.UPDATE_NAME_BROADCAST;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -15,7 +16,6 @@ import android.widget.Toast;
 import com.ar.bootcampar.R;
 import com.ar.bootcampar.model.LogicServices;
 import com.ar.bootcampar.model.Usuario;
-import com.ar.bootcampar.model.utilities.IntentConstants;
 import com.ar.bootcampar.model.utilities.Tupla;
 import com.ar.bootcampar.services.SharedPreferencesManager;
 
@@ -42,7 +42,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
             if (resultado.derecha != null) {
                 new SharedPreferencesManager(getApplicationContext()).grabarUsuario(resultado.izquierda);
-                Intent intent = new Intent("update-name");
+                Intent intent = new Intent(UPDATE_NAME_BROADCAST);
                 intent.putExtra(CURRENT_USER, resultado.izquierda);
                 LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
             }

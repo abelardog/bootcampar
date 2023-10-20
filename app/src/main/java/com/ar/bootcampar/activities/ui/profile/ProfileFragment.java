@@ -1,6 +1,7 @@
 package com.ar.bootcampar.activities.ui.profile;
 
 import static com.ar.bootcampar.model.utilities.IntentConstants.CURRENT_USER;
+import static com.ar.bootcampar.model.utilities.IntentConstants.UPDATE_NAME_BROADCAST;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -43,7 +44,7 @@ public class ProfileFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        LocalBroadcastManager.getInstance(getActivity().getApplicationContext()).registerReceiver(receiver, new IntentFilter("update-name"));
+        LocalBroadcastManager.getInstance(getActivity().getApplicationContext()).registerReceiver(receiver, new IntentFilter(UPDATE_NAME_BROADCAST));
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
