@@ -78,9 +78,16 @@ public class ContactFragment extends Fragment {
         Usuario usuario = null;
         usuario = new SharedPreferencesManager(getActivity().getApplicationContext()).cargarUsuario();
         if (usuario != null) {
-            ((EditText)getView().findViewById(R.id.editContactFirstName)).setText(usuario.getNombre());
-            ((EditText)getView().findViewById(R.id.editContactEmailAddress)).setText(usuario.getEmail());
-            ((EditText)getView().findViewById(R.id.editContactPhoneNumber)).setText(usuario.getTelefono());
+            EditText editText = ((EditText)getView().findViewById(R.id.editContactFirstName));
+            editText.setText(usuario.getNombre());
+            editText.setEnabled(false);
+
+            editText = ((EditText)getView().findViewById(R.id.editContactEmailAddress));
+            editText.setText(usuario.getEmail());
+            editText.setEnabled(false);
+
+            editText = ((EditText)getView().findViewById(R.id.editContactPhoneNumber));
+            editText.setText(usuario.getTelefono());
         }
 
         Button button = (Button)view.findViewById(R.id.buttonContact);
@@ -92,7 +99,7 @@ public class ContactFragment extends Fragment {
                 String telephone = ((EditText)getView().findViewById(R.id.editContactPhoneNumber)).getText().toString();
                 String message = ((EditText)getView().findViewById(R.id.editContactMessage)).getText().toString();
 
-                if (firstName.isEmpty() || emailAddress.isEmpty() || telephone.isEmpty() || message.isEmpty()) {
+                if (firstName.isEmpty() || emailAddress.isEmpty() || message.isEmpty()) {
                     Toast.makeText(getContext(), "Por favor complete todos los datos", Toast.LENGTH_SHORT).show();
                 }
                 else {
