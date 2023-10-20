@@ -166,4 +166,18 @@ public class LogicServices {
             return new Tupla<>(null, "Los datos son inválidos");
         }
     }
+
+    public Tupla<Usuario, String> modificarUsuario(Usuario usuario, String nuevoNombre, String nuevoApellido) {
+        try {
+            if (usuario != null && !esCadenaInvalida(nuevoNombre) && !esCadenaInvalida(nuevoApellido)) {
+                Usuario nuevoUsuario = database.modificarUsuario(usuario, nuevoNombre, nuevoApellido, usuario.getEmail(), usuario.getClave(), usuario.getRol(), usuario.getTelefono());
+                return new Tupla<>(usuario, getStringFromContext(R.string.profile_updated_successfully));
+            }
+
+            return new Tupla<>(null, getStringFromContext(R.string.complete_profile_data_please));
+        }
+        catch (Exception exception) {
+            return new Tupla<>(null, exception.getMessage());
+        }
+    }
 }
