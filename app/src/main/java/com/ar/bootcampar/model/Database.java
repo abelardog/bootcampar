@@ -453,6 +453,8 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     @Override
     public Categoria crearCategoria(String nombre, String descripcion) {
+        Guardia.esCadenaNoVacia(nombre, "El nombre es inválido");
+
         IContentValuesWrapper values = createContentValues();
         values.put(ColumnaNombre, nombre);
         values.put(ColumnaDescripcion, descripcion);
