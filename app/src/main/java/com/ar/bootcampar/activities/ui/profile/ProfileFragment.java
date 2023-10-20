@@ -16,7 +16,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.ar.bootcampar.R;
@@ -49,32 +48,18 @@ public class ProfileFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        ProfileViewModel profileViewModel =
-                new ViewModelProvider(this).get(ProfileViewModel.class);
-
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         Button button = (Button) root.findViewById(R.id.gotoEditProfile);
-        button.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                Intent intent = new Intent(getContext(), EditProfileActivity.class);
-                startActivity(intent);
-                //Navigation.findNavController(v).navigate(R.id.navigation_profile_edition);
-            }
+        button.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), EditProfileActivity.class);
+            startActivity(intent);
         });
-         button = (Button) root.findViewById(R.id.button_favorites);
-        button.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                Intent intent = new Intent(getContext(), CourseListActivity.class);
-                startActivity(intent);
-            }
+        button = (Button) root.findViewById(R.id.button_favorites);
+        button.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), CourseListActivity.class);
+            startActivity(intent);
         });
 
         textViewNombre = (TextView)root.findViewById(R.id.textProfileUserName);

@@ -13,7 +13,6 @@ import com.ar.bootcampar.R;
 import com.ar.bootcampar.model.Leccion;
 
 public class CourseVideoActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
