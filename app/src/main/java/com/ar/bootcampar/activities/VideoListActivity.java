@@ -8,12 +8,10 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.ui.AppBarConfiguration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ar.bootcampar.R;
-import com.ar.bootcampar.databinding.ActivityCourseListBinding;
 import com.ar.bootcampar.model.Inscripcion;
 import com.ar.bootcampar.model.Leccion;
 import com.ar.bootcampar.model.LogicServices;
@@ -22,9 +20,6 @@ import com.ar.bootcampar.services.LeccionAdapter;
 import java.util.List;
 
 public class VideoListActivity extends AppCompatActivity {
-    private AppBarConfiguration appBarConfiguration;
-    private ActivityCourseListBinding binding;
-
     @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,24 +27,23 @@ public class VideoListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_video_list);
 
         Inscripcion inscripcion = (Inscripcion)getIntent().getSerializableExtra(INSCRIPTION_FOR_VIDEO_LIST);
+        if (inscripcion != null) {
+            LogicServices logicServices = new LogicServices(getApplicationContext());
+            List<Leccion> listaLecciones = logicServices.buscarLecciones(inscripcion.getCurso());
 
-        LogicServices logicServices = new LogicServices(getApplicationContext());
-        List<Leccion> listaLecciones = logicServices.buscarLecciones(inscripcion.getCurso());
+            RecyclerView recyclerView = findViewById(R.id.recyclerViewLessons);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            LeccionAdapter adapter = new LeccionAdapter(listaLecciones);
+            recyclerView.setAdapter(adapter);
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerViewLessons);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        LeccionAdapter adapter = new LeccionAdapter(listaLecciones);
-        recyclerView.setAdapter(adapter);
+            ((TextView) findViewById(R.id.textVideoListTitle)).setText(inscripcion.getCurso().getTitulo());
 
-        ((TextView)findViewById(R.id.textVideoListTitle)).setText(inscripcion.getCurso().getTitulo());
-
-        adapter.setOnClickListener(new LeccionAdapter.OnClickListener() {
-            @Override
-            public void onClick(Leccion leccion) {
+            adapter.setOnClickListener(leccion -> {
                 Intent intent = new Intent(VideoListActivity.this, CourseVideoActivity.class);
                 intent.putExtra(LESSON_FOR_COURSE, leccion);
                 startActivity(intent);
-            }
-        });
+            });
+        }
+        // TODO: Mostrar toast con mensaje de error si no llega una inscripción?
     }
 }

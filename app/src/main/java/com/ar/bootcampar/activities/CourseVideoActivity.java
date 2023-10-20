@@ -18,6 +18,7 @@ public class CourseVideoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_video);
 
+        @SuppressWarnings("deprecation")
         Leccion leccion = (Leccion)getIntent().getSerializableExtra(LESSON_FOR_COURSE);
         if (leccion != null) {
             ((TextView) findViewById(R.id.textLessonPlayerTitle)).setText(leccion.getTitulo());

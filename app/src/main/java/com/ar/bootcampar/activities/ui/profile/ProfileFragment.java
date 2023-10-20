@@ -30,6 +30,7 @@ public class ProfileFragment extends Fragment {
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            @SuppressWarnings("deprecation")
             Usuario usuario = (Usuario)intent.getSerializableExtra(CURRENT_USER);
             CargarInformacionDeUsuario(usuario);
         }
