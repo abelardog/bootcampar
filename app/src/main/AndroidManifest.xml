@@ -52,6 +52,7 @@
             android:name=".activities.CourseDetailActivity"
             android:exported="false"
             android:label="@string/title_course_detail"
+            android:launchMode="singleTop"
             android:parentActivityName=".activities.HomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -90,10 +91,10 @@
             android:exported="false"
             android:label="Videos disponibles"
             android:launchMode="singleTop"
-            android:parentActivityName=".activities.HomeActivity">
+            android:parentActivityName=".activities.CourseDetailActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ar.bootcampar.activities.HomeActivity" />
+                android:value="com.ar.bootcampar.activities.CourseDetailActivity" />
         </activity>
 
         <activity
