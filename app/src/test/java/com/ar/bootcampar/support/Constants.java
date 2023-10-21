@@ -82,4 +82,7 @@ public class Constants {
 
     // Constantes para Currícula
     public static long ID_CURRICULA = 88;
+
+    // Constantes para Grupo
+    public static long ID_GRUPO = 91;
 }

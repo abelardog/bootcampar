@@ -830,7 +830,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     @Override
     public Categorizacion crearCategorizacion(Curso nuevoCurso, Categoria nuevaCategoria) {
-      IContentValuesWrapper values = createContentValues();
+        IContentValuesWrapper values = createContentValues();
         values.put(ColumnaRelacionCurso, nuevoCurso.getId());
         values.put(ColumnaRelacionCategoria, nuevaCategoria.getId());
         return (Categorizacion) crearElemento(TablaCategorizacion, values, id -> new Categorizacion(id,nuevoCurso,nuevaCategoria), "Error crear nueva categorizaciones");
@@ -838,12 +838,14 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     @Override
     public Curricula crearCurricula(Curso nuevoCurso, Grupo nuevoGrupo) {
-        IContentValuesWrapper values = createContentValues();
+        Guardia.esObjetoValido(nuevoCurso, "El curso es nulo");
+        Guardia.esObjetoValido(nuevoGrupo, "El grupo es nulo");
 
+        IContentValuesWrapper values = createContentValues();
         values.put(ColumnaRelacionCurso, nuevoCurso.getId());
         values.put(ColumnaRelacionGrupo, nuevoGrupo.getId());
 
-        return (Curricula)crearElemento(TablaCurricula, values, id -> new Curricula(id, nuevoCurso, nuevoGrupo), "Error crear curricula");
+        return (Curricula)crearElemento(TablaCurricula, values, id -> new Curricula(id, nuevoCurso, nuevoGrupo), "Error creando currícula");
     }
 
     @Override
