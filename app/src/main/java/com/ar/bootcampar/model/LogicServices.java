@@ -180,4 +180,17 @@ public class LogicServices {
             return new Tupla<>(null, exception.getMessage());
         }
     }
+
+    public Inscripcion buscarInscripcion(Usuario usuario, Curso curso) {
+        try {
+            if (usuario != null && curso != null) {
+                return database.buscarInscripcionONada(usuario, curso);
+            }
+
+            return null;
+        }
+        catch (Exception exception) {
+            return null;
+        }
+    }
 }

@@ -113,4 +113,6 @@
     <string name="administrador_no_puede_inscribirse">El administrador no se puede inscribir a un curso</string>
     <string name="ya_esta_inscripto_en_el_curso">Ya está inscripto en el curso</string>
     <string name="error_inscribiendo_al_curso">Error inscribiendo al curso</string>
+    <string name="inscribirse">Inscribirse</string>
+    <string name="ir_al_curso">Ir al curso</string>
 </resources>
