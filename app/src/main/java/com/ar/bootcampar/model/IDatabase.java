@@ -45,6 +45,7 @@ public interface IDatabase {
     void borrarCurricula(Curricula curricula);
     List<Curricula> listarCurriculas();
     Curricula buscarCurriculaONada(Curso curso, Grupo grupo);
+    Curricula buscarCurriculaOExplotar(long id);
 
     void borrarCategorizacion(Categorizacion categorizacion);
     Categorizacion crearCategorizacion(Curso curso, Categoria categoria);

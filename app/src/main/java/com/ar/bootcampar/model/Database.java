@@ -1034,6 +1034,40 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
     }
 
+    @Override
+    public Curricula buscarCurriculaOExplotar(long id) {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+
+        try {
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaCurricula + ", " + TablaGrupo + ", " + TablaCurso,
+                    concatenarVectores(
+                            agregarNombreDeTablaEnColumnas(TablaCurricula, CamposCurricula),
+                            agregarNombreDeTablaEnColumnas(TablaCurso, CamposCurso),
+                            agregarNombreDeTablaEnColumnas(TablaGrupo, CamposGrupo)),
+                    ColumnaRelacionCurso + " = " + TablaCurso + "." + ColumnaId +
+                            " AND " + ColumnaRelacionGrupo + " = " + TablaGrupo + "." + ColumnaId + " AND " +
+                            ColumnaId + " =?",
+                    new String[] { String.valueOf(id) }, null, null, null);
+
+            if (cursor.getCount() == 1) {
+                return obtenerCurriculaDeCursor(cursor, TablaCurricula + "_");
+            }
+
+            throw new RuntimeException(String.format("Se esperaba encontrar una única currícula con id %d pero se encontraron %d", id, cursor.getCount()));
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
     private String[] agregarNombreDeTablaEnColumnas(String tabla, String[] campos) {
         return Arrays.stream(campos).map(s -> tabla + "." + s + " AS " + tabla + "_" + s).toArray(String[]::new);
     }

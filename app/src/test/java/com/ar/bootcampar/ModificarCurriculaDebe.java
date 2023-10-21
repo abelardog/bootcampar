@@ -6,7 +6,6 @@ import static com.ar.bootcampar.support.DummyMaker.crearCurriculaDePrueba;
 import static com.ar.bootcampar.support.DummyMaker.crearGrupoDePrueba;
 import static com.ar.bootcampar.support.DummyMaker.crearOtroCursoDePrueba;
 import static com.ar.bootcampar.support.DummyMaker.crearOtroGrupoDePrueba;
-import static com.ar.bootcampar.support.DummyMaker.crearUsuarioDePrueba;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -18,7 +17,6 @@ import com.ar.bootcampar.model.Database;
 import com.ar.bootcampar.model.Grupo;
 import com.ar.bootcampar.model.utilities.ISQLiteDatabaseWrapper;
 import com.ar.bootcampar.model.Curricula;
-import com.ar.bootcampar.model.Usuario;
 import com.ar.bootcampar.support.SqliteDatabaseWrapperSpy;
 import com.ar.bootcampar.support.TestableDatabase;
 
