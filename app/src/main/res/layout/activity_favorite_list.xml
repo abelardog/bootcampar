@@ -35,7 +35,8 @@
             android:textColor="@color/earthBlue"
             android:textSize="22sp"
             android:textStyle="bold"
-            android:text="Cursos Disponibles"/>
+            android:textAlignment="center"
+            android:text="@string/cursos_favoritos"/>
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
