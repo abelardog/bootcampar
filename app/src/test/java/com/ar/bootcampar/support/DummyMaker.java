@@ -3,6 +3,7 @@ package com.ar.bootcampar.support;
 import static com.ar.bootcampar.support.Constants.*;
 
 import com.ar.bootcampar.model.Categoria;
+import com.ar.bootcampar.model.Curricula;
 import com.ar.bootcampar.model.Curso;
 import com.ar.bootcampar.model.Grupo;
 import com.ar.bootcampar.model.Inscripcion;
@@ -39,5 +40,11 @@ public class DummyMaker {
 
     public static Inscripcion crearOtraInscripcionDePrueba() {
         return new Inscripcion(OTRO_ID_INSCRIPCION, crearOtroUsuarioDePrueba(), crearOtroCursoDePrueba(), OTRA_PUNTUACION_INSCRIPCION, OTRO_FAVORITO_INSCRIPCION, OTRA_ULTIMA_LECCION_INSCRIPCION);
+    }
+
+    public static Curricula crearCurriculaDePrueba() {
+        Curso curso = crearCursoDePrueba();
+        Grupo grupo = crearGrupoDePrueba();
+        return new Curricula(ID_CURRICULA, curso, grupo);
     }
 }

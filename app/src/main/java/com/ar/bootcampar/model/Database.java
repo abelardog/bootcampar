@@ -951,7 +951,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     @Override
     public void borrarCurricula(Curricula curricula) {
         Guardia.esObjetoValido(curricula, "La currícula es nula");
-        borrarElemento(TablaCurricula, curricula.getId(), "Se esperaba borrar una única curricula pero se borraron %d");
+        borrarElemento(TablaCurricula, curricula.getId(), "Se esperaba borrar una única currícula pero se borraron %d");
     }
 
     @Override

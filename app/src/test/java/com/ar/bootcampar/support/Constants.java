@@ -79,4 +79,7 @@ public class Constants {
     public static String OTRO_NOMBRE_CATEGORIA = "Avanzados";
     public static String OTRA_DESCRIPCION_CATEGORIA = "Categoría para avanzados";
     public static String NOMBRE_CATEGORIA_INVALIDA = "";
+
+    // Constantes para Currícula
+    public static long ID_CURRICULA = 88;
 }

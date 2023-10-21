@@ -68,7 +68,7 @@ public class BorrarUsuarioDebe {
 
         Database database = new TestableDatabase(spy);
         Exception exception = assertThrows(RuntimeException.class, () -> database.borrarUsuario(usuario));
-        assertTrue(exception.getMessage().startsWith(exception.getMessage()));
+        assertTrue(exception.getMessage().startsWith("Se esperaba borrar un único usuario pero se borraron"));
         assertTrue(exception.getMessage().endsWith(String.valueOf(affectedRowsInvalido)));
     }
 
