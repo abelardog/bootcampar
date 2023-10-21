@@ -3,7 +3,6 @@ package com.ar.bootcampar;
 import static com.ar.bootcampar.support.Constants.*;
 import static com.ar.bootcampar.support.DummyMaker.crearUsuarioDePrueba;
 import static com.ar.bootcampar.support.DummyMaker.crearGrupoDePrueba;
-import static com.ar.bootcampar.support.DummyMaker.crearUsuarioDePrueba;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;

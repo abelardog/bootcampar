@@ -1,6 +1,10 @@
 package com.ar.bootcampar;
 
 import static com.ar.bootcampar.support.Constants.*;
+import static com.ar.bootcampar.support.TestChecker.probarCerrarBaseDeDatosAlBuscarConExito;
+import static com.ar.bootcampar.support.TestChecker.probarCerrarBaseDeDatosAlBuscarSinExito;
+import static com.ar.bootcampar.support.TestChecker.probarCerrarCursorAlBuscarConExito;
+import static com.ar.bootcampar.support.TestChecker.probarCerrarCursorAlBuscarSinExito;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
@@ -137,7 +141,7 @@ public class BuscarCategoriaDebe {
         probarCerrarBaseDeDatosAlBuscarConExito((IDatabase sut) -> {
             sut.buscarCategoriaONada(NOMBRE_CATEGORIA);
             return true;
-        });
+        }, BuscarCategoriaDebe::crearCursorStub);
     }
 
     @Test
@@ -161,7 +165,7 @@ public class BuscarCategoriaDebe {
         probarCerrarBaseDeDatosAlBuscarConExito((IDatabase sut) -> {
             sut.buscarCategoriaOExplotar(ID_CATEGORIA);
             return true;
-        });
+        }, BuscarCategoriaDebe::crearCursorStub);
     }
 
     @Test
@@ -170,35 +174,6 @@ public class BuscarCategoriaDebe {
             sut.buscarCategoriaOExplotar(ID_CATEGORIA);
             return true;
         });
-    }
-
-    private static void probarCerrarBaseDeDatosAlBuscarSinExito(int count, Function<IDatabase, Boolean> assertion) {
-        CursorWrapperStub cursorStub = new CursorWrapperStub.Builder()
-                .conCountRetornando(count)
-                .build();
-        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
-                .conQueryRetornando(cursorStub)
-                .build();
-
-        Database sut = new TestableDatabase(spy);
-        try {
-            assertion.apply(sut);
-        } catch (Exception ex) {
-        }
-
-        assertTrue(spy.getCloseCalled());
-    }
-
-    private static void probarCerrarBaseDeDatosAlBuscarConExito(Function<IDatabase, Boolean> assertion) {
-        CursorWrapperStub cursorStub = crearCursorStub();
-        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
-                .conQueryRetornando(cursorStub)
-                .build();
-
-        Database sut = new TestableDatabase(spy);
-        assertion.apply(sut);
-
-        assertTrue(spy.getCloseCalled());
     }
 
     @Test
@@ -214,7 +189,7 @@ public class BuscarCategoriaDebe {
         probarCerrarCursorAlBuscarConExito((IDatabase sut) -> {
             sut.buscarCategoriaONada(NOMBRE_CATEGORIA);
             return true;
-        });
+        }, BuscarCategoriaDebe::crearCursorStub);
     }
 
     @Test
@@ -238,35 +213,6 @@ public class BuscarCategoriaDebe {
         probarCerrarCursorAlBuscarConExito((IDatabase sut) -> {
             sut.buscarCategoriaOExplotar(ID_CATEGORIA);
             return true;
-        });
-    }
-
-    private static void probarCerrarCursorAlBuscarSinExito(int count, Function<IDatabase, Boolean> assertion) {
-        CursorWrapperStub cursorStub = new CursorWrapperStub.Builder()
-                .conCountRetornando(count)
-                .build();
-        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
-                .conQueryRetornando(cursorStub)
-                .build();
-
-        Database sut = new TestableDatabase(spy);
-        try {
-            assertion.apply(sut);
-        } catch (Exception ex) {
-        }
-
-        assertTrue(cursorStub.getCloseCalled());
-    }
-
-    private static void probarCerrarCursorAlBuscarConExito(Function<IDatabase, Boolean> assertion) {
-        CursorWrapperStub cursorStub = crearCursorStub();
-        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
-                .conQueryRetornando(cursorStub)
-                .build();
-
-        Database sut = new TestableDatabase(spy);
-        assertion.apply(sut);
-
-        assertTrue(cursorStub.getCloseCalled());
+        }, BuscarCategoriaDebe::crearCursorStub);
     }
 }

@@ -3,7 +3,6 @@ package com.ar.bootcampar;
 import static com.ar.bootcampar.support.Constants.*;
 import static com.ar.bootcampar.support.DummyMaker.crearGrupoDePrueba;
 import static com.ar.bootcampar.support.DummyMaker.crearDivisionDePrueba;
-import static com.ar.bootcampar.support.DummyMaker.crearGrupoDePrueba;
 import static com.ar.bootcampar.support.DummyMaker.crearOtraDivisionDePrueba;
 import static com.ar.bootcampar.support.DummyMaker.crearOtroGrupoDePrueba;
 import static com.ar.bootcampar.support.DummyMaker.crearOtroUsuarioDePrueba;

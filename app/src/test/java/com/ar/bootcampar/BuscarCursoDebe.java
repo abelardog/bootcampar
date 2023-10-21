@@ -8,7 +8,6 @@ import static org.junit.Assert.assertTrue;
 
 import com.ar.bootcampar.model.Curso;
 import com.ar.bootcampar.model.Database;
-import com.ar.bootcampar.model.Grupo;
 import com.ar.bootcampar.model.IDatabase;
 import com.ar.bootcampar.support.CursorWrapperStub;
 import com.ar.bootcampar.support.SqliteDatabaseWrapperSpy;

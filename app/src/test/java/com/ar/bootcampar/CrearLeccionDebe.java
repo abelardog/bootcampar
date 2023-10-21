@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import static com.ar.bootcampar.support.Constants.*;
 import static com.ar.bootcampar.support.DummyMaker.crearCursoDePrueba;
-import static com.ar.bootcampar.support.DummyMaker.crearLeccionDePrueba;
 
 import com.ar.bootcampar.model.Curso;
 import com.ar.bootcampar.model.Database;
