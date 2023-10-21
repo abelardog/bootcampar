@@ -723,6 +723,38 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     @Override
+    public Leccion buscarLeccionOExplotar(long id) {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+
+        try {
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaLeccion + ", " + TablaCurso,
+                    concatenarVectores(
+                            agregarNombreDeTablaEnColumnas(TablaCurricula, CamposCurricula),
+                            agregarNombreDeTablaEnColumnas(TablaCurso, CamposCurso)),
+                    ColumnaRelacionCurso + " = " + TablaCurso + "." + ColumnaId +
+                            " AND " + TablaLeccion + "." + ColumnaId + " =?",
+                    new String[] { String.valueOf(id) }, null, null, null);
+
+            if (cursor.getCount() == 1) {
+                return obtenerLeccionDeCursor(cursor, TablaLeccion + "_");
+            }
+
+            throw new RuntimeException(String.format("Se esperaba encontrar una única lección con id %d pero se encontraron %d", id, cursor.getCount()));
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    @Override
     public List<Leccion> listarLecciones() {
         ISQLiteDatabaseWrapper database = null;
         ICursorWrapper cursor = null;
