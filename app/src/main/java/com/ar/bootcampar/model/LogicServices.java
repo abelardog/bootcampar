@@ -193,4 +193,8 @@ public class LogicServices {
             return null;
         }
     }
+
+    public List<Inscripcion> listarInscripcionesFavoritas(Usuario usuario) {
+        return database.buscarInscripcionesFavoritas(usuario);
+    }
 }

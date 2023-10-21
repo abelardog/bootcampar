@@ -42,6 +42,7 @@ public interface IDatabase {
     List<Inscripcion> buscarInscripciones(Usuario usuario);
     Inscripcion buscarInscripcionOExplotar(long id);
     Inscripcion buscarInscripcionONada(Usuario usuario, Curso curso);
+    List<Inscripcion> buscarInscripcionesFavoritas(Usuario usuario);
 
     Curricula crearCurricula(Curso curso, Grupo grupo);
     Curricula modificarCurricula(Curricula curricula, Curso nuevocourse, Grupo nuevogrupo);

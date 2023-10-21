@@ -1060,6 +1060,53 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     @Override
+    public List<Inscripcion> buscarInscripcionesFavoritas(Usuario usuario) {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+        List<Inscripcion> resultado = new ArrayList<>();
+
+        try {
+            if (usuario == null) return resultado;
+
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaInscripcion + ", " + TablaCurso,
+                    concatenarVectores(
+                            agregarNombreDeTablaEnColumnas(TablaInscripcion, CamposInscripcion),
+                            agregarNombreDeTablaEnColumnas(TablaCurso, CamposCurso)),
+                   TablaInscripcion + "." + ColumnaRelacionCurso + " = " + TablaCurso + "." + ColumnaId + " AND " +
+                            TablaInscripcion + "." + ColumnaRelacionUsuario + " =?",
+                    new String[] { String.valueOf(usuario.getId()) }, null, null, null);
+
+            if (cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    CursorHelper cursorHelper = new CursorHelper(cursor);
+                    Inscripcion inscripcion = new Inscripcion(
+                            cursorHelper.getLongFrom(TablaInscripcion + "_" + ColumnaId),
+                            usuario,
+                            obtenerCursoDeCursor(cursor, TablaCurso + "_"),
+                            cursorHelper.getIntFrom(TablaInscripcion + "_" + ColumnaPuntuacion),
+                            cursorHelper.getIntFrom(TablaInscripcion + "_" + ColumnaFavorito) != 0,
+                            cursorHelper.getIntFrom(TablaInscripcion + "_" + ColumnaUltimaLeccion));
+
+                    resultado.add(inscripcion);
+                    cursor.moveToNext();
+                }
+            }
+
+            return resultado;
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    @Override
     public Curricula modificarCurricula(Curricula curricula, Curso nuevoCurso, Grupo nuevoGrupo) {
         Guardia.esObjetoValido(curricula, "La currícula es nula");
         Guardia.esObjetoValido(nuevoCurso, "El curso es nulo");

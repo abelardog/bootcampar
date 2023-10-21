@@ -20,7 +20,6 @@ import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.ar.bootcampar.R;
-import com.ar.bootcampar.activities.CourseListActivity;
 import com.ar.bootcampar.activities.EditProfileActivity;
 import com.ar.bootcampar.activities.FavoriteListActivity;
 import com.ar.bootcampar.databinding.FragmentProfileBinding;
