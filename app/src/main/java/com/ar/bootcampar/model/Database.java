@@ -34,6 +34,8 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     private static final String TablaGrupo = "Grupos";
     private static final String ColumnaRelacionCurso = "CursoId";
     private static final String ColumnaRelacionGrupo = "GrupoId";
+    private static final String ColumnaRelacionUsuario = "UsuarioId";
+    private static final String[] CamposDivision = new String[] { ColumnaId, ColumnaRelacionUsuario, ColumnaRelacionGrupo };
     private static final String TablaDivision = "Divisiones";
     private static final String ColumnaTitulo = "Titulo";
     private static final String ColumnaDescripcion = "Descripcion";
@@ -41,7 +43,6 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     private static final String ColumnaImagen = "Imagen";
     private static final String[] CamposCurso = new String[] { ColumnaId, ColumnaTitulo, ColumnaDescripcion, ColumnaNivel, ColumnaImagen };
     private static final String TablaCurso = "Cursos";
-    private static final String ColumnaRelacionUsuario = "UsuarioId";
     private static final String ColumnaPuntuacion = "Puntuacion";
     private static final String ColumnaFavorito = "Favorito";
     private static final String ColumnaUltimaLeccion = "UltimaLeccion";
@@ -333,6 +334,77 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     @Override
+    public Division buscarDivisionOExplotar(long id) {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+
+        try {
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaDivision + ", " + TablaGrupo + ", " + TablaUsuario,
+                    concatenarVectores(
+                            agregarNombreDeTablaEnColumnas(TablaDivision, CamposDivision),
+                            agregarNombreDeTablaEnColumnas(TablaGrupo, CamposGrupo),
+                            agregarNombreDeTablaEnColumnas(TablaUsuario, CamposUsuario)),
+                    TablaDivision + "." + ColumnaId + "=? AND " + ColumnaRelacionGrupo + " = " + TablaGrupo + "." + ColumnaId +
+                            " AND " + ColumnaRelacionUsuario + " = " + TablaUsuario + "." + ColumnaId,
+                    new String[] { String.valueOf(id) }, null, null, null);
+
+            if (cursor.getCount() == 1) {
+                return obtenerDivisionDeCursor(cursor, TablaDivision + "_");
+            }
+
+            throw new RuntimeException(String.format("Se esperaba encontrar una única división con id %d, se encontraron %d", id, cursor.getCount()));
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    @Override
+    public Division buscarDivisionONada(Usuario usuario, Grupo grupo) {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+
+        try {
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaDivision + ", " + TablaGrupo + ", " + TablaUsuario,
+                    concatenarVectores(
+                            agregarNombreDeTablaEnColumnas(TablaDivision, CamposDivision),
+                            agregarNombreDeTablaEnColumnas(TablaUsuario, CamposUsuario),
+                            agregarNombreDeTablaEnColumnas(TablaGrupo, CamposGrupo)),
+                   ColumnaRelacionGrupo + " = " + TablaGrupo + "." + ColumnaId + " AND " +
+                            ColumnaRelacionUsuario + " = " + TablaUsuario + "." + ColumnaId + " AND " +
+                            ColumnaRelacionGrupo + " =? AND " + ColumnaRelacionUsuario + " =?",
+                    new String[] { String.valueOf(grupo.getId()), String.valueOf(usuario.getId()) }, null, null, null);
+
+            if (cursor.getCount() == 0) {
+                return null;
+            }
+            else if (cursor.getCount() == 1) {
+                cursor.moveToFirst();
+                return obtenerDivisionDeCursor(cursor, TablaDivision + "_");
+            }
+
+            throw new RuntimeException(String.format("Se esperaba encontrar una única división pero se encontraron %d", cursor.getCount()));
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    @Override
     public Grupo crearGrupo(String nombre, String invitacion) {
         IContentValuesWrapper values = createContentValues();
         values.put(ColumnaNombre, nombre);
@@ -381,6 +453,14 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 database.close();
             }
         }
+    }
+
+    private Division obtenerDivisionDeCursor(ICursorWrapper cursor, String prefijo) {
+        CursorHelper cursorHelper = new CursorHelper(cursor);
+        return new Division(
+                cursorHelper.getLongFrom(prefijo + ColumnaId),
+                obtenerUsuarioDeCursor(cursor, TablaUsuario + "_"),
+                obtenerGrupoDeCursor(cursor, TablaGrupo + "_"));
     }
 
     @NonNull
@@ -771,7 +851,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                             agregarNombreDeTablaEnColumnas(TablaInscripcion, CamposInscripcion),
                             agregarNombreDeTablaEnColumnas(TablaCurso, CamposCurso),
                             agregarNombreDeTablaEnColumnas(TablaUsuario, CamposUsuario)),
-                    ColumnaRelacionUsuario + "=? AND " + ColumnaRelacionCurso + " = " + TablaCurso + "." + ColumnaId +
+                    TablaInscripcion + "." + ColumnaId + "=? AND " + ColumnaRelacionCurso + " = " + TablaCurso + "." + ColumnaId +
                             " AND " + ColumnaRelacionUsuario + " = " + TablaUsuario + "." + ColumnaId,
                     new String[] { String.valueOf(id) }, null, null, null);
 

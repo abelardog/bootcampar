@@ -12,6 +12,8 @@ public interface IDatabase {
     Division crearDivision(Usuario usuario, Grupo grupo);
     void borrarDivision(Division division);
     Division modificarDivision(Division division, Usuario nuevoUsuario, Grupo nuevoGrupo);
+    Division buscarDivisionOExplotar(long id);
+    Division buscarDivisionONada(Usuario usuario, Grupo grupo);
 
     Grupo crearGrupo(String nombre, String invitacion);
     Grupo buscarGrupoONada(String invitacion);
