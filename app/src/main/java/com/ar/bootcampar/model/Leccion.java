@@ -14,7 +14,7 @@ public class Leccion implements Serializable {
     private final Curso curso;
 
     public Leccion(long id, String titulo, String contenido, int duracion, int orden, String vinculo, Curso curso) {
-        Guardia.esIdentificadorValido(id, "El id es inválido");
+        Guardia.esIdentificadorValido(id);
         Guardia.esCadenaNoVacia(titulo, "El título es inválido");
         Guardia.esCadenaNoVacia(contenido, "El contenido es inválido");
         Guardia.esCeroPositivo(duracion, "La duración es inválida");

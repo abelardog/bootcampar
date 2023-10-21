@@ -1,6 +1,5 @@
 package com.ar.bootcampar.fragments;
 
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -19,9 +18,6 @@ import com.ar.bootcampar.model.Usuario;
 import com.ar.bootcampar.services.SharedPreferencesManager;
 
 public class EditProfile extends Fragment {
-
-    private EditProfileViewModel mViewModel;
-
     public static EditProfile newInstance() {
         return new EditProfile();
     }
@@ -35,11 +31,7 @@ public class EditProfile extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(EditProfileViewModel.class);
-        // TODO: Use the ViewModel
-
-        Usuario usuario = null;
-        usuario = new SharedPreferencesManager(getActivity().getApplicationContext()).cargarUsuario();
+        Usuario usuario = new SharedPreferencesManager(getActivity().getApplicationContext()).cargarUsuario();
         if (usuario != null) {
             TextView textView = view.findViewById(R.id.editProfileFirstName);
             textView.setText(usuario.getNombre());

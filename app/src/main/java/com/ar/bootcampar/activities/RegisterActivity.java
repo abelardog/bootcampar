@@ -40,17 +40,14 @@ public class RegisterActivity extends AppCompatActivity {
         try {
             LogicServices logicService = new LogicServices(RegisterActivity.this);
             Tupla<Usuario, String> resultado = logicService.registrarUsuario(firstname, lastname, email, password, confirmPassword, Rol.Estudiante, "", invitationCode);
-            if (resultado.izquierda != null) {
-                Toast.makeText(this, R.string.registration_success_message, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, resultado.derecha, Toast.LENGTH_SHORT).show();
 
+            if (resultado.izquierda != null) {
                 logicService.grabarUsuarioActivoEnPreferencias(resultado.izquierda);
 
                 Intent intent = new Intent(this, HomeActivity.class);
-                intent.putExtra(CURRENT_USER, resultado.derecha);
+                intent.putExtra(CURRENT_USER, resultado.izquierda);
                 startActivity(intent);
-            }
-            else {
-                Toast.makeText(this, resultado.derecha, Toast.LENGTH_SHORT).show();
             }
         }
         catch (Exception ex) {

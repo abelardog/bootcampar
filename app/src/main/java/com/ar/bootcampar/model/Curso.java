@@ -3,8 +3,6 @@ package com.ar.bootcampar.model;
 import com.ar.bootcampar.model.utilities.Guardia;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Curso implements Serializable {
     private final long id;
@@ -14,7 +12,7 @@ public class Curso implements Serializable {
     private final int nivel;
 
     public Curso(long id, String titulo, String descripcion, String imagen, int nivel) {
-        Guardia.esIdentificadorValido(id, "El id es inválido");
+        Guardia.esIdentificadorValido(id);
         Guardia.esCadenaNoVacia(titulo, "El título es inválido");
         Guardia.esCadenaNoVacia(descripcion, "La descripción es inválida");
         // TODO: Encontrar como validar link
@@ -28,17 +26,9 @@ public class Curso implements Serializable {
         this.nivel = nivel;
     }
 
-    public String getImagen() {
-        return imagen;
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-
+    public String getImagen() { return imagen; }
+    public String getTitulo() { return titulo; }
     public String getDescripcion() { return descripcion; }
-
     public long getId() { return id; }
-
     public int getNivel() { return nivel; }
 }

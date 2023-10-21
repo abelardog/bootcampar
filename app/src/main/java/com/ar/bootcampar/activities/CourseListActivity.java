@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
 
-import androidx.navigation.ui.AppBarConfiguration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,14 +21,11 @@ import java.util.List;
 
 public class CourseListActivity extends AppCompatActivity {
 
-    private AppBarConfiguration appBarConfiguration;
-    private ActivityCourseListBinding binding;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityCourseListBinding.inflate(getLayoutInflater());
+        com.ar.bootcampar.databinding.ActivityCourseListBinding binding = ActivityCourseListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         LogicServices logicServices = new LogicServices(getApplicationContext());
