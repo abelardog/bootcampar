@@ -103,7 +103,7 @@ public class ModificarGrupoDebe {
         Grupo sut = database.modificarGrupo(grupo, OTRO_NOMBRE_GRUPO, OTRA_INVITACION_GRUPO);
 
         assertNotNull(sut);
-        assertEquals(ID, sut.getId());
+        assertEquals(ID_GRUPO, sut.getId());
         assertEquals(OTRO_NOMBRE_GRUPO, sut.getNombre());
         assertEquals(OTRA_INVITACION_GRUPO, sut.getInvitacion());
     }

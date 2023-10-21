@@ -1,14 +1,14 @@
 package com.ar.bootcampar;
 
 import static com.ar.bootcampar.support.Constants.*;
-import static com.ar.bootcampar.support.DummyMaker.crearUsuarioDePrueba;
+import static com.ar.bootcampar.support.DummyMaker.crearCurriculaDePrueba;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
+import com.ar.bootcampar.model.Curricula;
 import com.ar.bootcampar.model.Database;
 import com.ar.bootcampar.model.utilities.ISQLiteDatabaseWrapper;
-import com.ar.bootcampar.model.Usuario;
 import com.ar.bootcampar.support.SqliteDatabaseWrapperSpy;
 import com.ar.bootcampar.support.TestableDatabase;
 
@@ -20,38 +20,38 @@ import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 
 @RunWith(Theories.class)
-public class BorrarUsuarioDebe {
+public class BorrarCurriculaDebe {
     @Test
     public void lanzarExcepcion_cuandoSeBorraObjetoNulo() {
         Database sut = new TestableDatabase(new SqliteDatabaseWrapperSpy.Builder().build());
-        Exception exception = assertThrows(RuntimeException.class, () -> sut.borrarUsuario(null));
-        assertEquals("El usuario es nulo", exception.getMessage());
+        Exception exception = assertThrows(RuntimeException.class, () -> sut.borrarCurricula(null));
+        assertEquals("La currícula es nula", exception.getMessage());
     }
 
     @Test
     public void recibirElIdParaBorrar() {
-        Usuario usuario = crearUsuarioDePrueba();
+        Curricula curricula = crearCurriculaDePrueba();
         SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
                 .conDeleteRetornando(1)
                 .build();
 
         Database sut = new TestableDatabase(spy);
-        sut.borrarUsuario(usuario);
+        sut.borrarCurricula(curricula);
 
-        assertEquals(String.valueOf(ID_USUARIO), spy.getWhereArgs()[0]);
+        assertEquals(String.valueOf(ID_CURRICULA), spy.getWhereArgs()[0]);
     }
 
     @Test
-    public void borrarDatosDeLaTablaUsuario() {
-        Usuario usuario = crearUsuarioDePrueba();
+    public void borrarDatosDeLaTablaCurricula() {
+        Curricula curricula = crearCurriculaDePrueba();
         SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
                 .conDeleteRetornando(1)
                 .build();
 
         Database sut = new TestableDatabase(spy);
-        sut.borrarUsuario(usuario);
+        sut.borrarCurricula(curricula);
 
-        assertEquals("Usuarios", spy.getTableName());
+        assertEquals("Curriculas", spy.getTableName());
     }
 
     @DataPoints("affected rows invalidos")
@@ -61,38 +61,38 @@ public class BorrarUsuarioDebe {
 
     @Theory
     public void lanzarExcepcion_cuandoDeleteRetornaError(@FromDataPoints("affected rows invalidos") int affectedRowsInvalido) {
-        Usuario usuario = crearUsuarioDePrueba();
+        Curricula curricula = crearCurriculaDePrueba();
         ISQLiteDatabaseWrapper spy = new SqliteDatabaseWrapperSpy.Builder()
                 .conDeleteRetornando(affectedRowsInvalido)
                 .build();
 
         Database database = new TestableDatabase(spy);
-        Exception exception = assertThrows(RuntimeException.class, () -> database.borrarUsuario(usuario));
-        assertTrue(exception.getMessage().startsWith("Se esperaba borrar un único usuario pero se borraron"));
+        Exception exception = assertThrows(RuntimeException.class, () -> database.borrarCurricula(curricula));
+        assertTrue(exception.getMessage().startsWith("Se esperaba borrar una única currícula pero se borraron"));
         assertTrue(exception.getMessage().endsWith(String.valueOf(affectedRowsInvalido)));
     }
 
     @Test
-    public void cerrarConexion_cuandoBorrarRetornaError() {
-        Usuario usuario = crearUsuarioDePrueba();
+    public void cerrarBaseDeDatos_cuandoBorrarRetornaError() {
+        Curricula curricula = crearCurriculaDePrueba();
         SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
                 .conDeleteRetornando(-1)
                 .build();
 
         Database database = new TestableDatabase(spy);
-        assertThrows(RuntimeException.class, () -> database.borrarUsuario(usuario));
+        assertThrows(RuntimeException.class, () -> database.borrarCurricula(curricula));
         assertTrue(spy.getCloseCalled());
     }
 
     @Test
-    public void cerrarConexion_cuandoBorrarRetornaExito() {
-        Usuario usuario = crearUsuarioDePrueba();
+    public void cerrarBaseDeDatos_cuandoBorrarRetornaExito() {
+        Curricula curricula = crearCurriculaDePrueba();
         SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
                 .conDeleteRetornando(1)
                 .build();
 
         Database database = new TestableDatabase(spy);
-        database.borrarUsuario(usuario);
+        database.borrarCurricula(curricula);
         assertTrue(spy.getCloseCalled());
     }
 }

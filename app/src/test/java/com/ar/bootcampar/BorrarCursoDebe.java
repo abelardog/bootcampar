@@ -68,7 +68,7 @@ public class BorrarCursoDebe {
 
         Database database = new TestableDatabase(spy);
         Exception exception = assertThrows(RuntimeException.class, () -> database.borrarCurso(curso));
-        assertTrue(exception.getMessage().startsWith(exception.getMessage()));
+        assertTrue(exception.getMessage().startsWith("Se esperaba borrar un único curso pero se borraron"));
         assertTrue(exception.getMessage().endsWith(String.valueOf(affectedRowsInvalido)));
     }
 

@@ -3,7 +3,6 @@ package com.ar.bootcampar;
 import static com.ar.bootcampar.support.Constants.*;
 import static com.ar.bootcampar.support.DummyMaker.crearCursoDePrueba;
 import static com.ar.bootcampar.support.DummyMaker.crearGrupoDePrueba;
-import static com.ar.bootcampar.support.DummyMaker.crearUsuarioDePrueba;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -15,9 +14,6 @@ import com.ar.bootcampar.model.Curso;
 import com.ar.bootcampar.model.Database;
 import com.ar.bootcampar.model.Grupo;
 import com.ar.bootcampar.model.IDatabase;
-import com.ar.bootcampar.model.Inscripcion;
-import com.ar.bootcampar.model.Rol;
-import com.ar.bootcampar.model.Usuario;
 import com.ar.bootcampar.support.CursorWrapperStub;
 import com.ar.bootcampar.support.SqliteDatabaseWrapperSpy;
 import com.ar.bootcampar.support.TestableDatabase;
@@ -33,7 +29,7 @@ import java.util.Arrays;
 import java.util.function.Function;
 
 @RunWith(Theories.class)
-public class BuscarInscripcionDebe {
+public class BuscarCurriculaDebe {
     @Test
     public void recibirElIdABuscarCorrectamente() {
         CursorWrapperStub cursorStub = crearCursorStub();
@@ -43,32 +39,35 @@ public class BuscarInscripcionDebe {
                 .build();
 
         Database sut = new TestableDatabase(spy);
-        sut.buscarInscripcionOExplotar(ID_INSCRIPCION);
+        sut.buscarCurriculaOExplotar(ID_CURRICULA);
 
-        assertEquals(String.valueOf(ID_INSCRIPCION), spy.getSelectionArgs()[0]);
+        assertEquals(String.valueOf(ID_CURRICULA), spy.getSelectionArgs()[0]);
     }
 
     private static CursorWrapperStub crearCursorStub() {
         return new CursorWrapperStub.Builder()
-                .conColumnas(Arrays.asList("Inscripciones_Id", "Inscripciones_CursoId", "Cursos_Id", "Cursos_Titulo", "Cursos_Descripcion", "Cursos_Nivel", "Cursos_Imagen", "Inscripciones_UsuarioId", "Usuarios_Id", "Usuarios_Nombre", "Usuarios_Apellido", "Usuarios_Email", "Usuarios_Clave", "Usuarios_Rol", "Usuarios_Telefono", "Inscripciones_Puntuacion", "Inscripciones_Favorito", "Inscripciones_UltimaLeccion"))
-                .conValores(Arrays.asList(ID_INSCRIPCION, ID_CURSO, ID_CURSO, TITULO_CURSO, DESCRIPCION_CURSO, NIVEL_CURSO, IMAGEN_CURSO, ID_USUARIO, ID_USUARIO, NOMBRE, APELLIDO, EMAIL, CLAVE, Rol.asInt(ROL), TELEFONO, PUNTUACION_INSCRIPCION, FAVORITO_INSCRIPCION? 1 : 0, ULTIMA_LECCION_INSCRIPCION))
+                .conColumnas(Arrays.asList("Curriculas_Id", "Curriculas_CursoId",
+                        "Cursos_Id", "Cursos_Titulo", "Cursos_Descripcion", "Cursos_Nivel", "Cursos_Imagen",
+                        "Curriculas_GrupoId", "Grupos_Id", "Grupos_Nombre", "Grupos_Invitacion"))
+                .conValores(Arrays.asList(ID_CURRICULA, ID_CURSO, ID_CURSO, TITULO_CURSO, DESCRIPCION_CURSO, NIVEL_CURSO, IMAGEN_CURSO,
+                        ID_GRUPO, ID_GRUPO, NOMBRE_GRUPO, INVITACION_GRUPO))
                 .conCountRetornando(1)
                 .build();
     }
 
     @Test
-    public void buscarDatosEnTablaInscripciones_cuandoSeBuscaPorId() {
+    public void buscarDatosEnTablaCurricula_cuandoSeBuscaPorId() {
         CursorWrapperStub cursorStub = crearCursorStub();
         SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
                 .conQueryRetornando(cursorStub)
                 .build();
 
         Database sut = new TestableDatabase(spy);
-        sut.buscarInscripcionOExplotar(ID_INSCRIPCION);
+        sut.buscarCurriculaOExplotar(ID_CURRICULA);
 
-        assertTrue(spy.getTableName().contains("Inscripciones"));
+        assertTrue(spy.getTableName().contains("Curriculas"));
         assertTrue(spy.getTableName().contains("Cursos"));
-        assertTrue(spy.getTableName().contains("Usuarios"));
+        assertTrue(spy.getTableName().contains("Grupos"));
     }
 
     @DataPoints("count invalidos")
@@ -86,32 +85,32 @@ public class BuscarInscripcionDebe {
                 .build();
 
         Database sut = new TestableDatabase(spy);
-        Exception exception = assertThrows(RuntimeException.class, () -> sut.buscarInscripcionOExplotar(ID));
-        assertTrue(exception.getMessage().startsWith("Se esperaba encontrar una única inscripción con id"));
-        assertTrue(exception.getMessage().contains(String.valueOf(ID)));
+        Exception exception = assertThrows(RuntimeException.class, () -> sut.buscarCurriculaOExplotar(ID_CURRICULA));
+        assertTrue(exception.getMessage().startsWith("Se esperaba encontrar una única currícula con id "));
+        assertTrue(exception.getMessage().contains(String.valueOf(ID_CURRICULA)));
         assertTrue(exception.getMessage().endsWith(String.valueOf(countInvalidos)));
     }
 
     @Test
     public void cerrarBaseDeDatos_cuandoNoSeEncuentraPorId() {
         probarCerrarBaseDeDatosAlBuscarSinExito(0, (IDatabase sut) -> {
-            sut.buscarInscripcionOExplotar(ID_INSCRIPCION);
+            sut.buscarCurriculaOExplotar(ID_CURRICULA);
             return true;
         });
     }
 
     @Test
-    public void cerrarBaseDeDatos_cuandoSeEncuentraUnaInscripcionPorId() {
+    public void cerrarBaseDeDatos_cuandoSeEncuentraUnaCurriculaPorId() {
         probarCerrarBaseDeDatosAlBuscarConExito((IDatabase sut) -> {
-            sut.buscarInscripcionOExplotar(ID_INSCRIPCION);
+            sut.buscarCurriculaOExplotar(ID_CURRICULA);
             return true;
         });
     }
 
     @Test
-    public void cerrarBaseDeDatos_cuandoSeEncuentranVariasInscripcionesPorId() {
+    public void cerrarBaseDeDatos_cuandoSeEncuentranVariasCurriculasPorId() {
         probarCerrarBaseDeDatosAlBuscarSinExito(2, (IDatabase sut) -> {
-            sut.buscarInscripcionOExplotar(ID_INSCRIPCION);
+            sut.buscarCurriculaOExplotar(ID_CURRICULA);
             return true;
         });
     }
@@ -148,15 +147,15 @@ public class BuscarInscripcionDebe {
     @Test
     public void cerrarCursor_cuandoNoSeEncuentraPorId() {
         probarCerrarCursorAlBuscarSinExito(0, (IDatabase sut) -> {
-            sut.buscarInscripcionOExplotar(ID_INSCRIPCION);
+            sut.buscarCurriculaOExplotar(ID_CURRICULA);
             return true;
         });
     }
 
     @Test
-    public void cerrarCursor_cuandoSeEncuentraUnaInscripcionPorId() {
+    public void cerrarCursor_cuandoSeEncuentraUnaCurriculaPorId() {
         probarCerrarCursorAlBuscarConExito((IDatabase sut) -> {
-            sut.buscarInscripcionOExplotar(ID_INSCRIPCION);
+            sut.buscarCurriculaOExplotar(ID_CURRICULA);
             return true;
         });
     }
@@ -191,7 +190,7 @@ public class BuscarInscripcionDebe {
     }
 
     @Test
-    public void recibirElUsuarioYCursoCorrectamente() {
+    public void recibirElCursoYGrupoCorrectamente() {
         CursorWrapperStub cursorStub = crearCursorStub();
 
         SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
@@ -199,14 +198,14 @@ public class BuscarInscripcionDebe {
                 .build();
 
         Database sut = new TestableDatabase(spy);
-        sut.buscarInscripcionONada(crearUsuarioDePrueba(), crearCursoDePrueba());
+        sut.buscarCurriculaONada(crearCursoDePrueba(), crearGrupoDePrueba());
 
         assertEquals(String.valueOf(ID_CURSO), spy.getSelectionArgs()[0]);
-        assertEquals(String.valueOf(ID_USUARIO), spy.getSelectionArgs()[1]);
+        assertEquals(String.valueOf(ID_GRUPO), spy.getSelectionArgs()[1]);
     }
 
     @Test
-    public void retornarNull_cuandoLaInscripcionNoSeEncuentra() {
+    public void retornarNull_cuandoLaCurriculaNoSeEncuentra() {
         CursorWrapperStub cursorStub = new CursorWrapperStub.Builder()
                 .conCountRetornando(0)
                 .build();
@@ -216,15 +215,15 @@ public class BuscarInscripcionDebe {
                 .build();
 
         Database sut = new TestableDatabase(spy);
-        Inscripcion resultado = sut.buscarInscripcionONada(crearUsuarioDePrueba(), crearCursoDePrueba());
+        Curricula resultado = sut.buscarCurriculaONada(crearCursoDePrueba(), crearGrupoDePrueba());
 
         assertNull(resultado);
     }
 
     @Test
-    public void retornarInscripcion_cuandoSeEncuentraPorUsuarioYCurso() {
-        Usuario usuario = crearUsuarioDePrueba();
+    public void retornarCurricula_cuandoSeEncuentraPorCursoYGrupo() {
         Curso curso = crearCursoDePrueba();
+        Grupo grupo = crearGrupoDePrueba();
         CursorWrapperStub cursorStub = crearCursorStub();
 
         SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
@@ -232,16 +231,16 @@ public class BuscarInscripcionDebe {
                 .build();
 
         Database sut = new TestableDatabase(spy);
-        Inscripcion inscripcion = sut.buscarInscripcionONada(usuario, curso);
+        Curricula curricula = sut.buscarCurriculaONada(curso, grupo);
 
-        assertNotNull(inscripcion);
-        assertEquals(ID_INSCRIPCION, inscripcion.getId());
-        assertEquals(usuario.getId(), inscripcion.getUsuario().getId());
-        assertEquals(curso.getId(), inscripcion.getCurso().getId());
+        assertNotNull(curricula);
+        assertEquals(ID_CURRICULA, curricula.getId());
+        assertEquals(curso.getId(), curricula.getCurso().getId());
+        assertEquals(grupo.getId(), curricula.getGrupo().getId());
     }
 
     @Test
-    public void lanzarExcepcion_cuandoSeEncuentranMasDeUnaInscripcionPorUsuarioYCurso() {
+    public void lanzarExcepcion_cuandoSeEncuentranMasDeUnaCurriculaPorCursoYGrupo() {
         CursorWrapperStub cursorStub = new CursorWrapperStub.Builder()
                 .conCountRetornando(2)
                 .build();
@@ -251,8 +250,48 @@ public class BuscarInscripcionDebe {
                 .build();
 
         Database sut = new TestableDatabase(spy);
-        Exception exception = assertThrows(RuntimeException.class, () -> sut.buscarInscripcionONada(crearUsuarioDePrueba(), crearCursoDePrueba()));
-        assertTrue(exception.getMessage().startsWith("Se esperaba encontrar una única inscripción pero se encontraron "));
+        Exception exception = assertThrows(RuntimeException.class, () -> sut.buscarCurriculaONada(crearCursoDePrueba(), crearGrupoDePrueba()));
+        assertTrue(exception.getMessage().startsWith("Se esperaba encontrar una única currícula pero se encontraron "));
         assertTrue(exception.getMessage().endsWith(String.valueOf(2)));
+    }
+
+    @Test
+    public void cerrarBaseDeDatos_cuandoNoSeEncuentraPorCursoYGrupo() {
+        probarCerrarBaseDeDatosAlBuscarSinExito(0, (IDatabase sut) -> {
+            sut.buscarCurriculaONada(crearCursoDePrueba(), crearGrupoDePrueba());
+            return true;
+        });
+    }
+
+    @Test
+    public void cerrarBaseDeDatos_cuandoSeEncuentraUnaCurriculaPorCursoYGrupo() {
+        probarCerrarBaseDeDatosAlBuscarConExito((IDatabase sut) -> {
+            sut.buscarCurriculaONada(crearCursoDePrueba(), crearGrupoDePrueba());
+            return true;
+        });
+    }
+
+    @Test
+    public void cerrarBaseDeDatos_cuandoSeEncuentranVariasCurriculasPorCursoYGrupo() {
+        probarCerrarBaseDeDatosAlBuscarSinExito(2, (IDatabase sut) -> {
+            sut.buscarCurriculaONada(crearCursoDePrueba(), crearGrupoDePrueba());
+            return true;
+        });
+    }
+
+    @Test
+    public void cerrarCursor_cuandoNoSeEncuentraPorCursoYGrupo() {
+        probarCerrarCursorAlBuscarSinExito(0, (IDatabase sut) -> {
+            sut.buscarCurriculaONada(crearCursoDePrueba(), crearGrupoDePrueba());
+            return true;
+        });
+    }
+
+    @Test
+    public void cerrarCursor_cuandoSeEncuentraUnaCurriculaPorCursoYGrupo() {
+        probarCerrarCursorAlBuscarConExito((IDatabase sut) -> {
+            sut.buscarCurriculaONada(crearCursoDePrueba(), crearGrupoDePrueba());
+            return true;
+        });
     }
 }

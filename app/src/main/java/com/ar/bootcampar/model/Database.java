@@ -302,28 +302,33 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     @Override
     public Division crearDivision(Usuario usuario, Grupo grupo) {
+        Guardia.esObjetoValido(usuario, "El usuario es nulo");
+        Guardia.esObjetoValido(grupo, "El grupo es nulo");
+
         IContentValuesWrapper values = createContentValues();
         values.put(ColumnaRelacionUsuario, usuario.getId());
         values.put(ColumnaRelacionGrupo, grupo.getId());
 
-        return (Division)crearElemento(TablaDivision, values, id -> new Division(id, usuario, grupo), "Error creando usuario");
+        return (Division)crearElemento(TablaDivision, values, id -> new Division(id, usuario, grupo), "Error creando división");
     }
 
     @Override
     public void borrarDivision(Division division) {
-        Guardia.esObjetoValido(division, "La division es nula");
-        borrarElemento(TablaDivision, division.getId(), "Se esperaba borrar una única division");
+        Guardia.esObjetoValido(division, "La división es nula");
+        borrarElemento(TablaDivision, division.getId(), "Se esperaba borrar una única división pero se borraron %d");
     }
 
     @Override
     public Division modificarDivision(Division division, Usuario nuevoUsuario, Grupo nuevoGrupo) {
-        Guardia.esObjetoValido(division, "La division es nula");
+        Guardia.esObjetoValido(division, "La división es nula");
+        Guardia.esObjetoValido(nuevoUsuario, "El usuario es nulo");
+        Guardia.esObjetoValido(nuevoGrupo, "El grupo es nulo");
 
         IContentValuesWrapper values = createContentValues();
-        values.put(ColumnaRelacionCurso, nuevoUsuario.getId());
+        values.put(ColumnaRelacionUsuario, nuevoUsuario.getId());
         values.put(ColumnaRelacionGrupo, nuevoGrupo.getId());
 
-        return (Division) modificarElemento(TablaDivision, division.getId(), values, id -> new Division(division.getId(), nuevoUsuario, nuevoGrupo),"Se esperaba modificar una unica Division");
+        return (Division) modificarElemento(TablaDivision, division.getId(), values, id -> new Division(division.getId(), nuevoUsuario, nuevoGrupo),"Se esperaba modificar una única división pero se modificaron %d");
 
     }
 
@@ -381,6 +386,14 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     @NonNull
     private static Grupo obtenerGrupoDeCursor(ICursorWrapper cursor) {
         return obtenerGrupoDeCursor(cursor, "");
+    }
+
+    private static Categoria obtenerCategoriaDeCursor(ICursorWrapper cursor) {
+        CursorHelper cursorHelper = new CursorHelper(cursor);
+        return new Categoria(
+                cursorHelper.getLongFrom(ColumnaId),
+                cursorHelper.getStringFrom(ColumnaNombre),
+                cursorHelper.getStringFrom(ColumnaDescripcion));
     }
 
     @NonNull
@@ -494,9 +507,15 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     @Override
+    public Categoria buscarCategoriaOExplotar(long id) {
+        return (Categoria)buscarElementoOExplotar(TablaCategoria, CamposCategoria, id,
+                Database::obtenerCategoriaDeCursor, "Se esperaba encontrar una única categoría con id %d, se encontraron %d");
+    }
+
+    @Override
     public Categoria buscarCategoriaONada(String nombre) {
         return (Categoria)buscarElementoONada(TablaCategoria, CamposCategoria, ColumnaNombre, nombre,
-                Database::obtenerGrupoDeCursor,"Se encontraron varias categorías con el mismo nombre %s");
+                Database::obtenerCategoriaDeCursor,"Se encontraron varias categorías con el mismo nombre %s");
     }
 
     @Override
@@ -549,6 +568,8 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     @Override
     public Leccion crearLeccion(String titulo, String contenido, int duracion, int orden, String vinculo, Curso curso) {
+        Guardia.esObjetoValido(curso, "El curso es nulo");
+
         IContentValuesWrapper values = createContentValues();
         values.put(ColumnaTitulo, titulo);
         values.put(ColumnaContenido, contenido);
@@ -562,6 +583,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     @Override
     public Leccion modificarLeccion(Leccion leccion, String nuevoTitulo, String nuevoContenido, int nuevaDuracion, int nuevoOrden, String nuevoVinculo, Curso nuevoCurso) {
         Guardia.esObjetoValido(leccion, "La lección es nula");
+        Guardia.esObjetoValido(nuevoCurso, "El curso es nulo");
 
         IContentValuesWrapper values = createContentValues();
         values.put(ColumnaTitulo, nuevoTitulo);
@@ -816,7 +838,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     @Override
     public Categorizacion crearCategorizacion(Curso nuevoCurso, Categoria nuevaCategoria) {
-      IContentValuesWrapper values = createContentValues();
+        IContentValuesWrapper values = createContentValues();
         values.put(ColumnaRelacionCurso, nuevoCurso.getId());
         values.put(ColumnaRelacionCategoria, nuevaCategoria.getId());
         return (Categorizacion) crearElemento(TablaCategorizacion, values, id -> new Categorizacion(id,nuevoCurso,nuevaCategoria), "Error crear nueva categorizaciones");
@@ -824,12 +846,14 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     @Override
     public Curricula crearCurricula(Curso nuevoCurso, Grupo nuevoGrupo) {
-        IContentValuesWrapper values = createContentValues();
+        Guardia.esObjetoValido(nuevoCurso, "El curso es nulo");
+        Guardia.esObjetoValido(nuevoGrupo, "El grupo es nulo");
 
+        IContentValuesWrapper values = createContentValues();
         values.put(ColumnaRelacionCurso, nuevoCurso.getId());
         values.put(ColumnaRelacionGrupo, nuevoGrupo.getId());
 
-        return (Curricula)crearElemento(TablaCurricula, values, id -> new Curricula(id, nuevoCurso, nuevoGrupo), "Error crear curricula");
+        return (Curricula)crearElemento(TablaCurricula, values, id -> new Curricula(id, nuevoCurso, nuevoGrupo), "Error creando currícula");
     }
 
     @Override
@@ -914,12 +938,20 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     @Override
     public Curso buscarCursoONada(String titulo) {
         return (Curso)buscarElementoONada(TablaCurso, CamposCurso, ColumnaTitulo, titulo,
-                Database::obtenerCursoDeCursor,"Se encontraron varios cursos con el mismo nombre %s");
+                Database::obtenerCursoDeCursor,"Se encontraron varios cursos con el mismo título %s");
+    }
+
+    @Override
+    public Curso buscarCursoOExplotar(long id) {
+        return (Curso)buscarElementoOExplotar(TablaCurso, CamposCurso, id,
+                Database::obtenerCursoDeCursor, "Se esperaba encontrar un único curso con id %d, se encontraron %d");
     }
 
     @Override
     public Curricula modificarCurricula(Curricula curricula, Curso nuevoCurso, Grupo nuevoGrupo) {
-        Guardia.esObjetoValido(curricula, "La currícula son nulas");
+        Guardia.esObjetoValido(curricula, "La currícula es nula");
+        Guardia.esObjetoValido(nuevoCurso, "El curso es nulo");
+        Guardia.esObjetoValido(nuevoGrupo, "El grupo es nulo");
 
         IContentValuesWrapper values = createContentValues();
         values.put(ColumnaRelacionCurso, nuevoCurso.getId());
@@ -931,7 +963,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     @Override
     public void borrarCurricula(Curricula curricula) {
         Guardia.esObjetoValido(curricula, "La currícula es nula");
-        borrarElemento(TablaCurricula, curricula.getId(), "Se esperaba borrar una única curricula pero se borraron %d");
+        borrarElemento(TablaCurricula, curricula.getId(), "Se esperaba borrar una única currícula pero se borraron %d");
     }
 
     @Override
@@ -998,6 +1030,40 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             }
 
             throw new RuntimeException(String.format("Se esperaba encontrar una única currícula pero se encontraron %d", cursor.getCount()));
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    @Override
+    public Curricula buscarCurriculaOExplotar(long id) {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+
+        try {
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaCurricula + ", " + TablaGrupo + ", " + TablaCurso,
+                    concatenarVectores(
+                            agregarNombreDeTablaEnColumnas(TablaCurricula, CamposCurricula),
+                            agregarNombreDeTablaEnColumnas(TablaCurso, CamposCurso),
+                            agregarNombreDeTablaEnColumnas(TablaGrupo, CamposGrupo)),
+                    ColumnaRelacionCurso + " = " + TablaCurso + "." + ColumnaId +
+                            " AND " + ColumnaRelacionGrupo + " = " + TablaGrupo + "." + ColumnaId + " AND " +
+                            ColumnaId + " =?",
+                    new String[] { String.valueOf(id) }, null, null, null);
+
+            if (cursor.getCount() == 1) {
+                return obtenerCurriculaDeCursor(cursor, TablaCurricula + "_");
+            }
+
+            throw new RuntimeException(String.format("Se esperaba encontrar una única currícula con id %d pero se encontraron %d", id, cursor.getCount()));
         }
         finally {
             if (cursor != null) {

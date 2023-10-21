@@ -28,6 +28,7 @@ public interface IDatabase {
 
     Categoria crearCategoria(String nombre, String descripcion);
     void borrarCategoria(Categoria categoria);
+    Categoria buscarCategoriaOExplotar(long id);
     Categoria buscarCategoriaONada(String nombre);
     List<Categoria> listarCategorias();
     Categoria modificarCategoria(Categoria categoria, String nuevoNombre, String nuevaDescripcion);
@@ -44,6 +45,7 @@ public interface IDatabase {
     void borrarCurricula(Curricula curricula);
     List<Curricula> listarCurriculas();
     Curricula buscarCurriculaONada(Curso curso, Grupo grupo);
+    Curricula buscarCurriculaOExplotar(long id);
 
     void borrarCategorizacion(Categorizacion categorizacion);
     Categorizacion crearCategorizacion(Curso curso, Categoria categoria);
@@ -54,4 +56,5 @@ public interface IDatabase {
     void borrarCurso(Curso curso);
     List<Curso> listarCursos();
     Curso buscarCursoONada(String titulo);
+    Curso buscarCursoOExplotar(long idCurso);
 }

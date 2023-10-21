@@ -1,6 +1,7 @@
 package com.ar.bootcampar;
 
 import static com.ar.bootcampar.support.Constants.*;
+import static com.ar.bootcampar.support.DummyMaker.crearGrupoDePrueba;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
@@ -37,7 +38,7 @@ public class BorrarGrupoDebe {
         Database sut = new TestableDatabase(spy);
         sut.borrarGrupo(grupo);
 
-        assertEquals(String.valueOf(ID), spy.getWhereArgs()[0]);
+        assertEquals(String.valueOf(ID_GRUPO), spy.getWhereArgs()[0]);
     }
 
     @Test
@@ -67,7 +68,7 @@ public class BorrarGrupoDebe {
 
         Database database = new TestableDatabase(spy);
         Exception exception = assertThrows(RuntimeException.class, () -> database.borrarGrupo(grupo));
-        assertTrue(exception.getMessage().startsWith(exception.getMessage()));
+        assertTrue(exception.getMessage().startsWith("Se esperaba borrar un único grupo pero se borraron"));
         assertTrue(exception.getMessage().endsWith(String.valueOf(affectedRowsInvalido)));
     }
 
@@ -93,9 +94,5 @@ public class BorrarGrupoDebe {
         Database database = new TestableDatabase(spy);
         database.borrarGrupo(grupo);
         assertTrue(spy.getCloseCalled());
-    }
-
-    private static Grupo crearGrupoDePrueba() {
-        return new Grupo(ID, NOMBRE_GRUPO, INVITACION_GRUPO);
     }
 }

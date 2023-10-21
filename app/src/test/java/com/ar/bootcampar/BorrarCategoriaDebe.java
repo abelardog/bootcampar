@@ -70,7 +70,7 @@ public class BorrarCategoriaDebe {
 
         Database database = new TestableDatabase(spy);
         Exception exception = assertThrows(RuntimeException.class, () -> database.borrarCategoria(categoria));
-        assertTrue(exception.getMessage().startsWith(exception.getMessage()));
+        assertTrue(exception.getMessage().startsWith("Se esperaba borrar una única categoría pero se borraron"));
         assertTrue(exception.getMessage().endsWith(String.valueOf(affectedRowsInvalido)));
     }
 

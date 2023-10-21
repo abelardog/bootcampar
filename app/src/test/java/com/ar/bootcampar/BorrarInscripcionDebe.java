@@ -42,7 +42,7 @@ public class BorrarInscripcionDebe {
     }
 
     @Test
-    public void borrarDatosDeLaTablaGrupo() {
+    public void borrarDatosDeLaTablaInscripcion() {
         Inscripcion inscripcion = crearInscripcionDePrueba();
         SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
                 .conDeleteRetornando(1)
@@ -68,7 +68,7 @@ public class BorrarInscripcionDebe {
 
         Database database = new TestableDatabase(spy);
         Exception exception = assertThrows(RuntimeException.class, () -> database.borrarInscripcion(inscripcion));
-        assertTrue(exception.getMessage().startsWith(exception.getMessage()));
+        assertTrue(exception.getMessage().startsWith("Se esperaba borrar una única inscripción pero se borraron"));
         assertTrue(exception.getMessage().endsWith(String.valueOf(affectedRowsInvalido)));
     }
 
