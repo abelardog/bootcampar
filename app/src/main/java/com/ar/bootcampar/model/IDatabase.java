@@ -12,6 +12,8 @@ public interface IDatabase {
     Division crearDivision(Usuario usuario, Grupo grupo);
     void borrarDivision(Division division);
     Division modificarDivision(Division division, Usuario nuevoUsuario, Grupo nuevoGrupo);
+    Division buscarDivisionOExplotar(long id);
+    Division buscarDivisionONada(Usuario usuario, Grupo grupo);
 
     Grupo crearGrupo(String nombre, String invitacion);
     Grupo buscarGrupoONada(String invitacion);
@@ -23,6 +25,7 @@ public interface IDatabase {
     Leccion crearLeccion(String titulo, String contenido, int duracion, int orden, String vinculo, Curso curso);
     Leccion modificarLeccion(Leccion leccion, String nuevoTitulo, String nuevoContenido, int nuevaDuracion, int nuevoOrden, String nuevoVinculo, Curso nuevoCurso);
     List<Leccion> buscarLecciones(Curso curso);
+    Leccion buscarLeccionOExplotar(long id);
     List<Leccion> listarLecciones();
     void borrarLeccion(Leccion leccion);
 

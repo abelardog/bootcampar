@@ -1,6 +1,9 @@
 package com.ar.bootcampar;
 
 import static com.ar.bootcampar.support.Constants.*;
+import static com.ar.bootcampar.support.TestChecker.probarCerrarBaseDeDatosAlBuscarConExito;
+import static com.ar.bootcampar.support.TestChecker.probarCerrarCursorAlBuscarConExito;
+import static com.ar.bootcampar.support.TestChecker.probarCerrarCursorAlBuscarSinExito;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
@@ -137,7 +140,7 @@ public class BuscarGrupoDebe {
         probarCerrarBaseDeDatosAlBuscarConExito((IDatabase sut) -> {
             sut.buscarGrupoONada(INVITACION_GRUPO);
             return true;
-        });
+        }, BuscarGrupoDebe::crearCursorStub);
     }
 
     @Test
@@ -161,7 +164,7 @@ public class BuscarGrupoDebe {
         probarCerrarBaseDeDatosAlBuscarConExito((IDatabase sut) -> {
             sut.buscarGrupoOExplotar(ID);
             return true;
-        });
+        }, BuscarGrupoDebe::crearCursorStub);
     }
 
     @Test
@@ -189,18 +192,6 @@ public class BuscarGrupoDebe {
         assertTrue(spy.getCloseCalled());
     }
 
-    private static void probarCerrarBaseDeDatosAlBuscarConExito(Function<IDatabase, Boolean> assertion) {
-        CursorWrapperStub cursorStub = crearCursorStub();
-        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
-                .conQueryRetornando(cursorStub)
-                .build();
-
-        Database sut = new TestableDatabase(spy);
-        assertion.apply(sut);
-
-        assertTrue(spy.getCloseCalled());
-    }
-
     @Test
     public void cerrarCursor_cuandoNoSeEncuentraPorInvitacion() {
         probarCerrarCursorAlBuscarSinExito(0, (IDatabase sut) -> {
@@ -214,7 +205,7 @@ public class BuscarGrupoDebe {
         probarCerrarCursorAlBuscarConExito((IDatabase sut) -> {
             sut.buscarGrupoONada(INVITACION_GRUPO);
             return true;
-        });
+        }, BuscarGrupoDebe::crearCursorStub);
     }
 
     @Test
@@ -238,35 +229,6 @@ public class BuscarGrupoDebe {
         probarCerrarCursorAlBuscarConExito((IDatabase sut) -> {
             sut.buscarGrupoOExplotar(ID);
             return true;
-        });
-    }
-
-    private static void probarCerrarCursorAlBuscarSinExito(int count, Function<IDatabase, Boolean> assertion) {
-        CursorWrapperStub cursorStub = new CursorWrapperStub.Builder()
-                .conCountRetornando(count)
-                .build();
-        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
-                .conQueryRetornando(cursorStub)
-                .build();
-
-        Database sut = new TestableDatabase(spy);
-        try {
-            assertion.apply(sut);
-        } catch (Exception ex) {
-        }
-
-        assertTrue(cursorStub.getCloseCalled());
-    }
-
-    private static void probarCerrarCursorAlBuscarConExito(Function<IDatabase, Boolean> assertion) {
-        CursorWrapperStub cursorStub = crearCursorStub();
-        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
-                .conQueryRetornando(cursorStub)
-                .build();
-
-        Database sut = new TestableDatabase(spy);
-        assertion.apply(sut);
-
-        assertTrue(cursorStub.getCloseCalled());
+        }, BuscarGrupoDebe::crearCursorStub);
     }
 }
