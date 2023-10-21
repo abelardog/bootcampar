@@ -1,13 +1,23 @@
 package com.ar.bootcampar;
 
 import static com.ar.bootcampar.support.Constants.*;
+import static com.ar.bootcampar.support.DummyMaker.crearCursoDePrueba;
+import static com.ar.bootcampar.support.DummyMaker.crearGrupoDePrueba;
+import static com.ar.bootcampar.support.DummyMaker.crearUsuarioDePrueba;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
+import com.ar.bootcampar.model.Curricula;
+import com.ar.bootcampar.model.Curso;
 import com.ar.bootcampar.model.Database;
+import com.ar.bootcampar.model.Grupo;
 import com.ar.bootcampar.model.IDatabase;
+import com.ar.bootcampar.model.Inscripcion;
 import com.ar.bootcampar.model.Rol;
+import com.ar.bootcampar.model.Usuario;
 import com.ar.bootcampar.support.CursorWrapperStub;
 import com.ar.bootcampar.support.SqliteDatabaseWrapperSpy;
 import com.ar.bootcampar.support.TestableDatabase;
@@ -178,5 +188,71 @@ public class BuscarInscripcionDebe {
         assertion.apply(sut);
 
         assertTrue(cursorStub.getCloseCalled());
+    }
+
+    @Test
+    public void recibirElUsuarioYCursoCorrectamente() {
+        CursorWrapperStub cursorStub = crearCursorStub();
+
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conQueryRetornando(cursorStub)
+                .build();
+
+        Database sut = new TestableDatabase(spy);
+        sut.buscarInscripcionONada(crearUsuarioDePrueba(), crearCursoDePrueba());
+
+        assertEquals(String.valueOf(ID_CURSO), spy.getSelectionArgs()[0]);
+        assertEquals(String.valueOf(ID_USUARIO), spy.getSelectionArgs()[1]);
+    }
+
+    @Test
+    public void retornarNull_cuandoLaInscripcionNoSeEncuentra() {
+        CursorWrapperStub cursorStub = new CursorWrapperStub.Builder()
+                .conCountRetornando(0)
+                .build();
+
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conQueryRetornando(cursorStub)
+                .build();
+
+        Database sut = new TestableDatabase(spy);
+        Inscripcion resultado = sut.buscarInscripcionONada(crearUsuarioDePrueba(), crearCursoDePrueba());
+
+        assertNull(resultado);
+    }
+
+    @Test
+    public void retornarInscripcion_cuandoSeEncuentraPorUsuarioYCurso() {
+        Usuario usuario = crearUsuarioDePrueba();
+        Curso curso = crearCursoDePrueba();
+        CursorWrapperStub cursorStub = crearCursorStub();
+
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conQueryRetornando(cursorStub)
+                .build();
+
+        Database sut = new TestableDatabase(spy);
+        Inscripcion inscripcion = sut.buscarInscripcionONada(usuario, curso);
+
+        assertNotNull(inscripcion);
+        assertEquals(ID_INSCRIPCION, inscripcion.getId());
+        assertEquals(usuario.getId(), inscripcion.getUsuario().getId());
+        assertEquals(curso.getId(), inscripcion.getCurso().getId());
+    }
+
+    @Test
+    public void lanzarExcepcion_cuandoSeEncuentranMasDeUnaInscripcionPorUsuarioYCurso() {
+        CursorWrapperStub cursorStub = new CursorWrapperStub.Builder()
+                .conCountRetornando(2)
+                .build();
+
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conQueryRetornando(cursorStub)
+                .build();
+
+        Database sut = new TestableDatabase(spy);
+        Exception exception = assertThrows(RuntimeException.class, () -> sut.buscarInscripcionONada(crearUsuarioDePrueba(), crearCursoDePrueba()));
+        assertTrue(exception.getMessage().startsWith("Se esperaba encontrar una única inscripción pero se encontraron "));
+        assertTrue(exception.getMessage().endsWith(String.valueOf(2)));
     }
 }

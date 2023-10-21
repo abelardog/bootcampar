@@ -1,13 +1,19 @@
 package com.ar.bootcampar;
 
 import static com.ar.bootcampar.support.Constants.*;
+import static com.ar.bootcampar.support.DummyMaker.crearCursoDePrueba;
+import static com.ar.bootcampar.support.DummyMaker.crearGrupoDePrueba;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
+import com.ar.bootcampar.model.Curricula;
+import com.ar.bootcampar.model.Curso;
 import com.ar.bootcampar.model.Database;
+import com.ar.bootcampar.model.Grupo;
 import com.ar.bootcampar.model.IDatabase;
-import com.ar.bootcampar.model.Rol;
 import com.ar.bootcampar.support.CursorWrapperStub;
 import com.ar.bootcampar.support.SqliteDatabaseWrapperSpy;
 import com.ar.bootcampar.support.TestableDatabase;
@@ -181,5 +187,111 @@ public class BuscarCurriculaDebe {
         assertion.apply(sut);
 
         assertTrue(cursorStub.getCloseCalled());
+    }
+
+    @Test
+    public void recibirElCursoYGrupoCorrectamente() {
+        CursorWrapperStub cursorStub = crearCursorStub();
+
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conQueryRetornando(cursorStub)
+                .build();
+
+        Database sut = new TestableDatabase(spy);
+        sut.buscarCurriculaONada(crearCursoDePrueba(), crearGrupoDePrueba());
+
+        assertEquals(String.valueOf(ID_CURSO), spy.getSelectionArgs()[0]);
+        assertEquals(String.valueOf(ID_GRUPO), spy.getSelectionArgs()[1]);
+    }
+
+    @Test
+    public void retornarNull_cuandoLaCurriculaNoSeEncuentra() {
+        CursorWrapperStub cursorStub = new CursorWrapperStub.Builder()
+                .conCountRetornando(0)
+                .build();
+
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conQueryRetornando(cursorStub)
+                .build();
+
+        Database sut = new TestableDatabase(spy);
+        Curricula resultado = sut.buscarCurriculaONada(crearCursoDePrueba(), crearGrupoDePrueba());
+
+        assertNull(resultado);
+    }
+
+    @Test
+    public void retornarCurricula_cuandoSeEncuentraPorCursoYGrupo() {
+        Curso curso = crearCursoDePrueba();
+        Grupo grupo = crearGrupoDePrueba();
+        CursorWrapperStub cursorStub = crearCursorStub();
+
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conQueryRetornando(cursorStub)
+                .build();
+
+        Database sut = new TestableDatabase(spy);
+        Curricula curricula = sut.buscarCurriculaONada(curso, grupo);
+
+        assertNotNull(curricula);
+        assertEquals(ID_CURRICULA, curricula.getId());
+        assertEquals(curso.getId(), curricula.getCurso().getId());
+        assertEquals(grupo.getId(), curricula.getGrupo().getId());
+    }
+
+    @Test
+    public void lanzarExcepcion_cuandoSeEncuentranMasDeUnaCurriculaPorCursoYGrupo() {
+        CursorWrapperStub cursorStub = new CursorWrapperStub.Builder()
+                .conCountRetornando(2)
+                .build();
+
+        SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
+                .conQueryRetornando(cursorStub)
+                .build();
+
+        Database sut = new TestableDatabase(spy);
+        Exception exception = assertThrows(RuntimeException.class, () -> sut.buscarCurriculaONada(crearCursoDePrueba(), crearGrupoDePrueba()));
+        assertTrue(exception.getMessage().startsWith("Se esperaba encontrar una única currícula pero se encontraron "));
+        assertTrue(exception.getMessage().endsWith(String.valueOf(2)));
+    }
+
+    @Test
+    public void cerrarBaseDeDatos_cuandoNoSeEncuentraPorCursoYGrupo() {
+        probarCerrarBaseDeDatosAlBuscarSinExito(0, (IDatabase sut) -> {
+            sut.buscarCurriculaONada(crearCursoDePrueba(), crearGrupoDePrueba());
+            return true;
+        });
+    }
+
+    @Test
+    public void cerrarBaseDeDatos_cuandoSeEncuentraUnaCurriculaPorCursoYGrupo() {
+        probarCerrarBaseDeDatosAlBuscarConExito((IDatabase sut) -> {
+            sut.buscarCurriculaONada(crearCursoDePrueba(), crearGrupoDePrueba());
+            return true;
+        });
+    }
+
+    @Test
+    public void cerrarBaseDeDatos_cuandoSeEncuentranVariasCurriculasPorCursoYGrupo() {
+        probarCerrarBaseDeDatosAlBuscarSinExito(2, (IDatabase sut) -> {
+            sut.buscarCurriculaONada(crearCursoDePrueba(), crearGrupoDePrueba());
+            return true;
+        });
+    }
+
+    @Test
+    public void cerrarCursor_cuandoNoSeEncuentraPorCursoYGrupo() {
+        probarCerrarCursorAlBuscarSinExito(0, (IDatabase sut) -> {
+            sut.buscarCurriculaONada(crearCursoDePrueba(), crearGrupoDePrueba());
+            return true;
+        });
+    }
+
+    @Test
+    public void cerrarCursor_cuandoSeEncuentraUnaCurriculaPorCursoYGrupo() {
+        probarCerrarCursorAlBuscarConExito((IDatabase sut) -> {
+            sut.buscarCurriculaONada(crearCursoDePrueba(), crearGrupoDePrueba());
+            return true;
+        });
     }
 }
