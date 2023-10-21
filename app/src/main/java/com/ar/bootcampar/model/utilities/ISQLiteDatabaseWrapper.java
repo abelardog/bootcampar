@@ -1,8 +1,5 @@
 package com.ar.bootcampar.model.utilities;
 
-import com.ar.bootcampar.model.utilities.IContentValuesWrapper;
-import com.ar.bootcampar.model.utilities.ICursorWrapper;
-
 public interface ISQLiteDatabaseWrapper {
     void close();
     ICursorWrapper query(String table, String[] columns, String selection,

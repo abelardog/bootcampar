@@ -13,13 +13,7 @@ public class Categoria implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public long getId() {
-        return id;
-    }
-    public String getNombre() {
-        return nombre;
-    }
-    public String getDescripcion() {
-        return descripcion;
-    }
+    public long getId() { return id; }
+    public String getNombre() { return nombre; }
+    public String getDescripcion() { return descripcion; }
 }

@@ -36,12 +36,9 @@ public class LeccionAdapter extends RecyclerView.Adapter<LeccionAdapter.ViewHold
         holder.textViewLessonOrder.setText(String.format("Lección %d", leccion.getOrden()));
         holder.textViewLessonTitle.setText(leccion.getTitulo());
         holder.textViewLessonContents.setText(leccion.getContenido());
-        holder.imageArrowPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (onClickListener != null) {
-                    onClickListener.onClick(leccion);
-                }
+        holder.imageArrowPlay.setOnClickListener(v -> {
+            if (onClickListener != null) {
+                onClickListener.onClick(leccion);
             }
         });
     }

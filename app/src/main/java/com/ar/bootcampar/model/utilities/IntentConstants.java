@@ -7,4 +7,5 @@ public class IntentConstants {
     // TODO: Cambiar a usuario activo en lugar de un flag
     public static final String LOGGED_IN_STATUS_FOR_COURSE_DETAIL = "loggedIn";
     public static final String LESSON_FOR_COURSE = "leccion";
+    public static final String UPDATE_NAME_BROADCAST = "update-name";
 }

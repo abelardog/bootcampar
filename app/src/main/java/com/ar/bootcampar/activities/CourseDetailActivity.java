@@ -42,19 +42,16 @@ public class CourseDetailActivity extends AppCompatActivity {
 
         Button enroll = (Button) findViewById(R.id.detailEnrollBtn);
         if (loggedIn) {
-            enroll.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    LogicServices logicServices = new LogicServices(getApplicationContext());
-                    Usuario usuario = logicServices.obtenerUsuarioActivoDePreferencias();
+            enroll.setOnClickListener(v -> {
+                LogicServices logicServices = new LogicServices(getApplicationContext());
+                Usuario usuario = logicServices.obtenerUsuarioActivoDePreferencias();
 
-                    Tupla<Inscripcion, String> resultado = logicServices.inscribirCurso(usuario, curso);
-                    Toast.makeText(CourseDetailActivity.this, resultado.derecha, Toast.LENGTH_SHORT).show();
+                Tupla<Inscripcion, String> resultado = logicServices.inscribirCurso(usuario, curso);
+                Toast.makeText(CourseDetailActivity.this, resultado.derecha, Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(CourseDetailActivity.this, VideoListActivity.class);
-                    intent.putExtra(INSCRIPTION_FOR_VIDEO_LIST, resultado.izquierda);
-                    startActivity(intent);
-                }
+                Intent intent1 = new Intent(CourseDetailActivity.this, VideoListActivity.class);
+                intent1.putExtra(INSCRIPTION_FOR_VIDEO_LIST, resultado.izquierda);
+                startActivity(intent1);
             });
         }
         else {

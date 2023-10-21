@@ -12,7 +12,6 @@ import static com.ar.bootcampar.model.utilities.IntentConstants.LOGGED_IN_STATUS
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,14 +34,10 @@ public class HomeFragment extends Fragment implements RecentlyAddedAdapter.OnIte
     RecyclerView.LayoutManager RecyclerViewLayoutManager;
     RecentlyAddedAdapter adapter;
     LinearLayoutManager HorizontalLayout;
-    View ChildView;
     boolean loggedIn;
-    int RecyclerViewItemPosition;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
-
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 

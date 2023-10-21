@@ -13,13 +13,7 @@ public class Categorizacion implements Serializable {
         this.categoria = categoria;
     }
 
-    public long getId(){ return  id; }
-
-    public Categoria getCategoria() {
-        return categoria;
-    }
-
-    public Curso getCurso() {
-        return curso;
-    }
+    public long getId() { return  id; }
+    public Categoria getCategoria() { return categoria; }
+    public Curso getCurso() { return curso; }
 }

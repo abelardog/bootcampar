@@ -13,7 +13,7 @@ public class Inscripcion implements Serializable {
     private final int ultimaLeccion;
 
     public Inscripcion(long id, Usuario usuario, Curso curso, int puntuacion, boolean favorito, int ultimaLeccion) {
-        Guardia.esIdentificadorValido(id, "El id es inválido");
+        Guardia.esIdentificadorValido(id);
         Guardia.esObjetoValido(usuario, "El usuario es inválido");
         Guardia.esObjetoValido(curso, "El curso es inválido");
         Guardia.esCeroPositivo(puntuacion, "La puntuación es inválida");
@@ -27,27 +27,10 @@ public class Inscripcion implements Serializable {
         this.ultimaLeccion = ultimaLeccion;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public Curso getCurso() {
-        return curso;
-    }
-
-    public int getPuntuacion() {
-        return puntuacion;
-    }
-
-    public boolean getFavorito() {
-        return favorito;
-    }
-
-    public int getUltimaLeccion() {
-        return ultimaLeccion;
-    }
+    public long getId() { return id; }
+    public Usuario getUsuario() { return usuario; }
+    public Curso getCurso() { return curso; }
+    public int getPuntuacion() { return puntuacion; }
+    public boolean getFavorito() { return favorito; }
+    public int getUltimaLeccion() { return ultimaLeccion; }
 }
