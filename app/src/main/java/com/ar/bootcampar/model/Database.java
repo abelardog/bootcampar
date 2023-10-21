@@ -928,7 +928,13 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     @Override
     public Curso buscarCursoONada(String titulo) {
         return (Curso)buscarElementoONada(TablaCurso, CamposCurso, ColumnaTitulo, titulo,
-                Database::obtenerCursoDeCursor,"Se encontraron varios cursos con el mismo nombre %s");
+                Database::obtenerCursoDeCursor,"Se encontraron varios cursos con el mismo título %s");
+    }
+
+    @Override
+    public Curso buscarCursoOExplotar(long id) {
+        return (Curso)buscarElementoOExplotar(TablaCurso, CamposCurso, id,
+                Database::obtenerCursoDeCursor, "Se esperaba encontrar un único curso con id %d, se encontraron %d");
     }
 
     @Override

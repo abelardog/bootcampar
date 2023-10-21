@@ -55,4 +55,5 @@ public interface IDatabase {
     void borrarCurso(Curso curso);
     List<Curso> listarCursos();
     Curso buscarCursoONada(String titulo);
+    Curso buscarCursoOExplotar(long idCurso);
 }
