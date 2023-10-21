@@ -33,6 +33,12 @@ public class Constants {
     public static final int DURACION_LECCION = 10;
     public static final int ORDEN_LECCION = 1;
     public static final String VINCULO_LECCION = "https://www.youtube.com/video/xyz";
+    public static final long OTRO_ID_LECCION = 77;
+    public static final String OTRO_TITULO_LECCION = "Python Avanzado";
+    public static final String OTRO_CONTENIDO_LECCION = "Esta lección dura mucho tiempo";
+    public static final int OTRA_DURACION_LECCION = 500;
+    public static final int OTRO_ORDEN_LECCION = 2;
+    public static final String OTRO_VINCULO_LECCION = "https://www.youtube.com/video/abc";
 
     // Constantes para Curso
     public static final long ID_CURSO = 18;

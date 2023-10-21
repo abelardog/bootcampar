@@ -65,4 +65,8 @@ public class DummyMaker {
     public static Leccion crearLeccionDePrueba() {
         return new Leccion(ID_LECCION, TITULO_LECCION, CONTENIDO_LECCION, DURACION_LECCION, ORDEN_LECCION, VINCULO_LECCION, crearCursoDePrueba());
     }
+
+    public static Leccion crearOtraLeccionDePrueba() {
+        return new Leccion(OTRO_ID_LECCION, OTRO_TITULO_LECCION, OTRO_CONTENIDO_LECCION, OTRA_DURACION_LECCION, OTRO_ORDEN_LECCION, OTRO_VINCULO_LECCION, crearOtroCursoDePrueba());
+    }
 }
