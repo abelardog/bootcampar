@@ -568,6 +568,8 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     @Override
     public Leccion crearLeccion(String titulo, String contenido, int duracion, int orden, String vinculo, Curso curso) {
+        Guardia.esObjetoValido(curso, "El curso es nulo");
+
         IContentValuesWrapper values = createContentValues();
         values.put(ColumnaTitulo, titulo);
         values.put(ColumnaContenido, contenido);

@@ -27,6 +27,7 @@ public class Constants {
     public static final String CLAVE_INVALIDA = "";
 
     // Constantes para Leccion
+    public static final long ID_LECCION = 71;
     public static final String TITULO_LECCION = "Introducción a JavaScript";
     public static final String CONTENIDO_LECCION = "En esta lección usted va a aprender...";
     public static final int DURACION_LECCION = 10;

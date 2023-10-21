@@ -8,6 +8,7 @@ import com.ar.bootcampar.model.Curso;
 import com.ar.bootcampar.model.Division;
 import com.ar.bootcampar.model.Grupo;
 import com.ar.bootcampar.model.Inscripcion;
+import com.ar.bootcampar.model.Leccion;
 import com.ar.bootcampar.model.Usuario;
 
 public class DummyMaker {
@@ -59,5 +60,9 @@ public class DummyMaker {
 
     public static Division crearOtraDivisionDePrueba() {
         return new Division(OTRO_ID_DIVISION, crearOtroUsuarioDePrueba(), crearOtroGrupoDePrueba());
+    }
+
+    public static Leccion crearLeccionDePrueba() {
+        return new Leccion(ID_LECCION, TITULO_LECCION, CONTENIDO_LECCION, DURACION_LECCION, ORDEN_LECCION, VINCULO_LECCION, crearCursoDePrueba());
     }
 }

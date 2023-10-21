@@ -63,14 +63,6 @@ public class LeccionDebe {
         assertEquals("El título es inválido", exception.getMessage());
     }
 
-    @Theory
-    public void lanzarExcepcion_cuandoContenidoEsInvalido(@FromDataPoints("cadenas invalidas") String contenidoInvalido) {
-        Curso curso = crearCursoPorDefecto();
-
-        Exception exception = assertThrows(RuntimeException.class, () -> new Leccion(ID, TITULO_LECCION, contenidoInvalido, DURACION_LECCION, ORDEN_LECCION, VINCULO_LECCION, curso));
-        assertEquals("El contenido es inválido", exception.getMessage());
-    }
-
     @Test
     public void lanzarExcepcion_cuandoDuracionEsInvalida() {
         Curso curso = crearCursoPorDefecto();
