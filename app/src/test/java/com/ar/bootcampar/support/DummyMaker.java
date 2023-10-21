@@ -56,4 +56,8 @@ public class DummyMaker {
     public static Division crearDivisionDePrueba() {
         return new Division(ID_DIVISION, crearUsuarioDePrueba(), crearGrupoDePrueba());
     }
+
+    public static Division crearOtraDivisionDePrueba() {
+        return new Division(OTRO_ID_DIVISION, crearOtroUsuarioDePrueba(), crearOtroGrupoDePrueba());
+    }
 }

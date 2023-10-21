@@ -89,4 +89,5 @@ public class Constants {
 
     // Constantes para División
     public static long ID_DIVISION = 38;
+    public static long OTRO_ID_DIVISION = 40;
 }

@@ -320,13 +320,15 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     @Override
     public Division modificarDivision(Division division, Usuario nuevoUsuario, Grupo nuevoGrupo) {
-        Guardia.esObjetoValido(division, "La division es nula");
+        Guardia.esObjetoValido(division, "La división es nula");
+        Guardia.esObjetoValido(nuevoUsuario, "El usuario es nulo");
+        Guardia.esObjetoValido(nuevoGrupo, "El grupo es nulo");
 
         IContentValuesWrapper values = createContentValues();
-        values.put(ColumnaRelacionCurso, nuevoUsuario.getId());
+        values.put(ColumnaRelacionUsuario, nuevoUsuario.getId());
         values.put(ColumnaRelacionGrupo, nuevoGrupo.getId());
 
-        return (Division) modificarElemento(TablaDivision, division.getId(), values, id -> new Division(division.getId(), nuevoUsuario, nuevoGrupo),"Se esperaba modificar una unica Division");
+        return (Division) modificarElemento(TablaDivision, division.getId(), values, id -> new Division(division.getId(), nuevoUsuario, nuevoGrupo),"Se esperaba modificar una única división pero se modificaron %d");
 
     }
 
