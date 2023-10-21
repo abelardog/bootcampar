@@ -5,6 +5,7 @@ import static com.ar.bootcampar.support.Constants.*;
 import com.ar.bootcampar.model.Categoria;
 import com.ar.bootcampar.model.Curricula;
 import com.ar.bootcampar.model.Curso;
+import com.ar.bootcampar.model.Division;
 import com.ar.bootcampar.model.Grupo;
 import com.ar.bootcampar.model.Inscripcion;
 import com.ar.bootcampar.model.Usuario;
@@ -50,5 +51,9 @@ public class DummyMaker {
         Curso curso = crearCursoDePrueba();
         Grupo grupo = crearGrupoDePrueba();
         return new Curricula(ID_CURRICULA, curso, grupo);
+    }
+
+    public static Division crearDivisionDePrueba() {
+        return new Division(ID_DIVISION, crearUsuarioDePrueba(), crearGrupoDePrueba());
     }
 }

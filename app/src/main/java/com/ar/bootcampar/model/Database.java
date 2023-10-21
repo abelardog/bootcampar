@@ -302,17 +302,20 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     @Override
     public Division crearDivision(Usuario usuario, Grupo grupo) {
+        Guardia.esObjetoValido(usuario, "El usuario es nulo");
+        Guardia.esObjetoValido(grupo, "El grupo es nulo");
+
         IContentValuesWrapper values = createContentValues();
         values.put(ColumnaRelacionUsuario, usuario.getId());
         values.put(ColumnaRelacionGrupo, grupo.getId());
 
-        return (Division)crearElemento(TablaDivision, values, id -> new Division(id, usuario, grupo), "Error creando usuario");
+        return (Division)crearElemento(TablaDivision, values, id -> new Division(id, usuario, grupo), "Error creando división");
     }
 
     @Override
     public void borrarDivision(Division division) {
-        Guardia.esObjetoValido(division, "La division es nula");
-        borrarElemento(TablaDivision, division.getId(), "Se esperaba borrar una única division");
+        Guardia.esObjetoValido(division, "La división es nula");
+        borrarElemento(TablaDivision, division.getId(), "Se esperaba borrar una única división pero se borraron %d");
     }
 
     @Override
