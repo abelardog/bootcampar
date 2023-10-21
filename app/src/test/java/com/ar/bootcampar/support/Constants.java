@@ -85,4 +85,5 @@ public class Constants {
 
     // Constantes para Grupo
     public static long ID_GRUPO = 91;
+    public static long OTRO_ID_GRUPO = 92;
 }

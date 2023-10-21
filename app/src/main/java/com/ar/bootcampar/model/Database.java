@@ -941,7 +941,9 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     @Override
     public Curricula modificarCurricula(Curricula curricula, Curso nuevoCurso, Grupo nuevoGrupo) {
-        Guardia.esObjetoValido(curricula, "La currícula son nulas");
+        Guardia.esObjetoValido(curricula, "La currícula es nula");
+        Guardia.esObjetoValido(nuevoCurso, "El curso es nulo");
+        Guardia.esObjetoValido(nuevoGrupo, "El grupo es nulo");
 
         IContentValuesWrapper values = createContentValues();
         values.put(ColumnaRelacionCurso, nuevoCurso.getId());

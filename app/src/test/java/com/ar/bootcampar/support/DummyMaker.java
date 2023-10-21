@@ -34,6 +34,10 @@ public class DummyMaker {
         return new Grupo(ID_GRUPO, NOMBRE_GRUPO, INVITACION_GRUPO);
     }
 
+    public static Grupo crearOtroGrupoDePrueba() {
+        return new Grupo(OTRO_ID_GRUPO, OTRO_NOMBRE_GRUPO, OTRA_INVITACION_GRUPO);
+    }
+
     public static Inscripcion crearInscripcionDePrueba() {
         return new Inscripcion(ID_INSCRIPCION, crearUsuarioDePrueba(), crearCursoDePrueba(), PUNTUACION_INSCRIPCION, FAVORITO_INSCRIPCION, ULTIMA_LECCION_INSCRIPCION);
     }
