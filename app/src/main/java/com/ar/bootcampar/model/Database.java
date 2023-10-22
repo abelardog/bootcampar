@@ -534,7 +534,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 obtenerUsuarioDeCursor(cursor, TablaUsuario + "_"),
                 obtenerCursoDeCursor(cursor, TablaCurso + "_"),
                 cursorHelper.getIntFrom(prefijo + ColumnaPuntuacion),
-                cursorHelper.getIntFrom(prefijo + ColumnaFavorito) == 0,
+                cursorHelper.getIntFrom(prefijo + ColumnaFavorito) != 0,
                 cursorHelper.getIntFrom(prefijo + ColumnaUltimaLeccion));
     }
 
@@ -943,6 +943,53 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     @Override
+    public List<Inscripcion> buscarInscripcionesFavoritas(Usuario usuario) {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+        List<Inscripcion> resultado = new ArrayList<>();
+
+        try {
+            if (usuario == null) return resultado;
+
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaInscripcion + ", " + TablaCurso,
+                    concatenarVectores(
+                            agregarNombreDeTablaEnColumnas(TablaInscripcion, CamposInscripcion),
+                            agregarNombreDeTablaEnColumnas(TablaCurso, CamposCurso)),
+                    TablaInscripcion + "." + ColumnaRelacionCurso + " = " + TablaCurso + "." + ColumnaId + " AND " +
+                            TablaInscripcion + "." + ColumnaRelacionUsuario + " =? AND " + TablaInscripcion + "." + ColumnaFavorito + " = 1",
+                    new String[] { String.valueOf(usuario.getId()) }, null, null, null);
+
+            if (cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    CursorHelper cursorHelper = new CursorHelper(cursor);
+                    Inscripcion inscripcion = new Inscripcion(
+                            cursorHelper.getLongFrom(TablaInscripcion + "_" + ColumnaId),
+                            usuario,
+                            obtenerCursoDeCursor(cursor, TablaCurso + "_"),
+                            cursorHelper.getIntFrom(TablaInscripcion + "_" + ColumnaPuntuacion),
+                            cursorHelper.getIntFrom(TablaInscripcion + "_" + ColumnaFavorito) != 0,
+                            cursorHelper.getIntFrom(TablaInscripcion + "_" + ColumnaUltimaLeccion));
+
+                    resultado.add(inscripcion);
+                    cursor.moveToNext();
+                }
+            }
+
+            return resultado;
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    @Override
     public void borrarCategorizacion(Categorizacion categorizacion) {
         Guardia.esObjetoValido(categorizacion,"La categorización es nula");
         borrarElemento(TablaCategorizacion, categorizacion.getId(), "Se esperaba borrar una única categorización pero se borraron %d" );
@@ -1057,53 +1104,6 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     public Curso buscarCursoOExplotar(long id) {
         return (Curso)buscarElementoOExplotar(TablaCurso, CamposCurso, id,
                 Database::obtenerCursoDeCursor, "Se esperaba encontrar un único curso con id %d, se encontraron %d");
-    }
-
-    @Override
-    public List<Inscripcion> buscarInscripcionesFavoritas(Usuario usuario) {
-        ISQLiteDatabaseWrapper database = null;
-        ICursorWrapper cursor = null;
-        List<Inscripcion> resultado = new ArrayList<>();
-
-        try {
-            if (usuario == null) return resultado;
-
-            database = getInternalReadableDatabase();
-            cursor = database.query(TablaInscripcion + ", " + TablaCurso,
-                    concatenarVectores(
-                            agregarNombreDeTablaEnColumnas(TablaInscripcion, CamposInscripcion),
-                            agregarNombreDeTablaEnColumnas(TablaCurso, CamposCurso)),
-                   TablaInscripcion + "." + ColumnaRelacionCurso + " = " + TablaCurso + "." + ColumnaId + " AND " +
-                            TablaInscripcion + "." + ColumnaRelacionUsuario + " =?",
-                    new String[] { String.valueOf(usuario.getId()) }, null, null, null);
-
-            if (cursor.moveToFirst()) {
-                while (!cursor.isAfterLast()) {
-                    CursorHelper cursorHelper = new CursorHelper(cursor);
-                    Inscripcion inscripcion = new Inscripcion(
-                            cursorHelper.getLongFrom(TablaInscripcion + "_" + ColumnaId),
-                            usuario,
-                            obtenerCursoDeCursor(cursor, TablaCurso + "_"),
-                            cursorHelper.getIntFrom(TablaInscripcion + "_" + ColumnaPuntuacion),
-                            cursorHelper.getIntFrom(TablaInscripcion + "_" + ColumnaFavorito) != 0,
-                            cursorHelper.getIntFrom(TablaInscripcion + "_" + ColumnaUltimaLeccion));
-
-                    resultado.add(inscripcion);
-                    cursor.moveToNext();
-                }
-            }
-
-            return resultado;
-        }
-        finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-
-            if (database != null) {
-                database.close();
-            }
-        }
     }
 
     @Override
