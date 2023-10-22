@@ -32,11 +32,6 @@
         <activity
             android:name=".activities.EditProfileActivity"
             android:exported="false" />
-        <activity
-            android:name=".activities.CourseListActivity"
-            android:exported="false"
-            android:label="@string/title_activity_course_list"
-            android:theme="@style/Theme.BootCampAr" />
 
         <service
             android:name=".services.CourseService"
