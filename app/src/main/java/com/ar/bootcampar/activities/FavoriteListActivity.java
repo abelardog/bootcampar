@@ -29,6 +29,8 @@ public class FavoriteListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_favorite_list);
 
         Intent intent = getIntent();
+
+        @SuppressWarnings("deprecation")
         Usuario usuario = (Usuario)intent.getSerializableExtra(CURRENT_USER);
 
         LogicServices logicServices = new LogicServices(getApplicationContext());
@@ -36,7 +38,7 @@ public class FavoriteListActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recyclerViewCourses);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        CourseAdapter adapter = new CourseAdapter(obtenerCursosDe(listaInscripciones));
+        CourseAdapter adapter = new CourseAdapter(obtenerCursosDe(listaInscripciones), listaInscripciones);
         recyclerView.setAdapter(adapter);
 
         adapter.setOnClickListeners(
@@ -45,7 +47,7 @@ public class FavoriteListActivity extends AppCompatActivity {
                     if (inscripcion != null) {
                         logicServices.alternarFavoritismo(inscripcion);
                         List<Inscripcion> nuevaListaFavoritos = logicServices.listarInscripcionesFavoritas(usuario);
-                        adapter.cambiarCursos(obtenerCursosDe(nuevaListaFavoritos));
+                        adapter.cambiarCursos(obtenerCursosDe(nuevaListaFavoritos), nuevaListaFavoritos);
                         adapter.notifyItemChanged(position);
                     }
                 },

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ar.bootcampar.R;
 import com.ar.bootcampar.model.Curso;
+import com.ar.bootcampar.model.Inscripcion;
 
 import java.util.List;
 
@@ -19,9 +20,11 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
     private CourseAdapter.OnClickListener onFavoriteClickListener;
     private CourseAdapter.OnClickListener onCourseClickListener;
     private List<Curso> listaCursos;
+    private List<Inscripcion> listaInscripciones;
 
-    public CourseAdapter(List<Curso> listaCursos) {
+    public CourseAdapter(List<Curso> listaCursos, List<Inscripcion> listaInscripciones) {
         this.listaCursos = listaCursos;
+        this.listaInscripciones = listaInscripciones;
     }
 
     @NonNull
@@ -49,12 +52,29 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
             }
         });
 
-        holder.imageViewFavorite.setImageResource(R.drawable.ic_filled_heart);
         holder.imageViewFavorite.setOnClickListener(v -> {
             if (onFavoriteClickListener != null) {
                 onFavoriteClickListener.onClick(position, curso);
             }
         });
+
+        Inscripcion inscripcion = listaInscripciones.stream()
+                .filter(p -> p.getCurso().getId() == curso.getId())
+                .findFirst()
+                .orElse(null);
+
+        if (inscripcion == null) {
+            holder.imageViewFavorite.setVisibility(View.INVISIBLE);
+        }
+        else {
+            holder.imageViewFavorite.setVisibility(View.VISIBLE);
+            if (inscripcion.getFavorito()) {
+                holder.imageViewFavorite.setImageResource(R.drawable.ic_filled_heart);
+            }
+            else {
+                holder.imageViewFavorite.setImageResource(R.drawable.ic_empty_heart);
+            }
+        }
     }
 
     @Override
@@ -62,8 +82,9 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         return listaCursos.size();
     }
 
-    public void cambiarCursos(List<Curso> cursos) {
+    public void cambiarCursos(List<Curso> cursos, List<Inscripcion> inscripciones) {
         listaCursos = cursos;
+        listaInscripciones = inscripciones;
     }
 
     public void setOnClickListeners(CourseAdapter.OnClickListener onFavoriteClickListener, CourseAdapter.OnClickListener onCourseClickListener) {

@@ -23,6 +23,7 @@ import com.ar.bootcampar.model.Usuario;
 import com.ar.bootcampar.services.CourseAdapter;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CourseListFragment extends Fragment {
 
@@ -36,21 +37,21 @@ public class CourseListFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_course_list, container, false);
 
         LogicServices logicServices = new LogicServices(getContext());
-        List<Curso> listaCursos = logicServices.listarCursos();
         Usuario usuario = logicServices.obtenerUsuarioActivoDePreferencias();
+        List<Curso> listaCursos = logicServices.listarCursos();
+        List<Inscripcion> listaInscripciones = logicServices.buscarInscripciones(usuario);
 
         RecyclerView recyclerView = rootView.findViewById(R.id.recyclerViewCourses);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        CourseAdapter adapter = new CourseAdapter(listaCursos);
+        CourseAdapter adapter = new CourseAdapter(listaCursos, logicServices.buscarInscripciones(usuario));
         recyclerView.setAdapter(adapter);
 
-        // TODO: Borrar corazon si no se esta inscripto al curso
         adapter.setOnClickListeners(
                 (position, curso) -> {
                     Inscripcion inscripcion = logicServices.buscarInscripcion(usuario, curso);
                     if (inscripcion != null) {
-                        inscripcion = logicServices.alternarFavoritismo(inscripcion);
-                        adapter.cambiarCursos(logicServices.listarCursos());
+                        Inscripcion inscripcionModificada = logicServices.alternarFavoritismo(inscripcion);
+                        adapter.cambiarCursos(logicServices.listarCursos(), listaInscripciones.stream().map(i -> i.getCurso().getId() == curso.getId()? inscripcionModificada : i).collect(Collectors.toList()));
                         adapter.notifyItemChanged(position);
 
                         Toast.makeText(getContext(), "Curso marcado como " + (inscripcion.getFavorito()? "favorito" : "no favorito"), Toast.LENGTH_SHORT).show();
