@@ -1,5 +1,6 @@
 package com.ar.bootcampar.activities;
 
+import static com.ar.bootcampar.model.utilities.IntentConstants.COURSE_FOR_COURSE_DETAIL;
 import static com.ar.bootcampar.model.utilities.IntentConstants.CURRENT_USER;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,8 +36,29 @@ public class FavoriteListActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recyclerViewCourses);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        CourseAdapter adapter = new CourseAdapter(listaInscripciones.stream().map(p -> p.getCurso()).collect(Collectors.toList()));
+        CourseAdapter adapter = new CourseAdapter(obtenerCursosDe(listaInscripciones));
         recyclerView.setAdapter(adapter);
+
+        adapter.setOnClickListeners(
+                (position, curso) -> {
+                    Inscripcion inscripcion = logicServices.buscarInscripcion(usuario, curso);
+                    if (inscripcion != null) {
+                        logicServices.alternarFavoritismo(inscripcion);
+                        List<Inscripcion> nuevaListaFavoritos = logicServices.listarInscripcionesFavoritas(usuario);
+                        adapter.cambiarCursos(obtenerCursosDe(nuevaListaFavoritos));
+                        adapter.notifyItemChanged(position);
+                    }
+                },
+                (position, curso) -> {
+                    Intent intent2 = new Intent(getApplicationContext(), CourseDetailActivity.class);
+                    intent2.putExtra(CURRENT_USER, usuario);
+                    intent2.putExtra(COURSE_FOR_COURSE_DETAIL, curso);
+                    startActivity(intent2);
+                });
+    }
+
+    private List<Curso> obtenerCursosDe(List<Inscripcion> listaInscripciones) {
+        return listaInscripciones.stream().map(p -> p.getCurso()).collect(Collectors.toList());
     }
 
     public void openActivity(View view) {

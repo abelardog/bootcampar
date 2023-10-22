@@ -197,4 +197,8 @@ public class LogicServices {
     public List<Inscripcion> listarInscripcionesFavoritas(Usuario usuario) {
         return database.buscarInscripcionesFavoritas(usuario);
     }
+
+    public Inscripcion alternarFavoritismo(Inscripcion inscripcion) {
+        return database.modificarInscripcion(inscripcion, inscripcion.getUsuario(), inscripcion.getCurso(), inscripcion.getPuntuacion(), ! inscripcion.getFavorito(), inscripcion.getUltimaLeccion());
+    }
 }
