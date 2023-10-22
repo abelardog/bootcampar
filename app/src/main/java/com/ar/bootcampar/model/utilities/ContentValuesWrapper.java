@@ -26,7 +26,7 @@ public class ContentValuesWrapper implements IContentValuesWrapper {
 
     @Override
     public void put(String key, Boolean value) {
-        contentValues.put(key, value);
+        contentValues.put(key, value? 1 : 0);
     }
 
     @Override

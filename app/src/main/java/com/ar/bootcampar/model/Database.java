@@ -518,12 +518,12 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     private static Inscripcion obtenerInscripcionDeCursor(ICursorWrapper cursor, Usuario usuario) {
         CursorHelper cursorHelper = new CursorHelper(cursor);
         return new Inscripcion(
-                cursorHelper.getLongFrom(ColumnaId),
+                cursorHelper.getLongFrom(TablaInscripcion + "_" + ColumnaId),
                 usuario,
-                obtenerCursoDeCursor(cursor, TablaCurso + "_" + ColumnaId),
-                cursorHelper.getIntFrom(ColumnaPuntuacion),
-                cursorHelper.getIntFrom(ColumnaFavorito) != 0,
-                cursorHelper.getIntFrom(ColumnaUltimaLeccion));
+                obtenerCursoDeCursor(cursor, TablaCurso + "_"),
+                cursorHelper.getIntFrom(TablaInscripcion + "_" + ColumnaPuntuacion),
+                cursorHelper.getIntFrom(TablaInscripcion + "_" + ColumnaFavorito) != 0,
+                cursorHelper.getIntFrom(TablaInscripcion + "_" + ColumnaUltimaLeccion));
     }
 
     @NonNull
@@ -534,7 +534,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 obtenerUsuarioDeCursor(cursor, TablaUsuario + "_"),
                 obtenerCursoDeCursor(cursor, TablaCurso + "_"),
                 cursorHelper.getIntFrom(prefijo + ColumnaPuntuacion),
-                cursorHelper.getIntFrom(prefijo + ColumnaFavorito) == 0,
+                cursorHelper.getIntFrom(prefijo + ColumnaFavorito) != 0,
                 cursorHelper.getIntFrom(prefijo + ColumnaUltimaLeccion));
     }
 
@@ -844,7 +844,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                      concatenarVectores(
                             agregarNombreDeTablaEnColumnas(TablaInscripcion, CamposInscripcion),
                             agregarNombreDeTablaEnColumnas(TablaCurso, CamposCurso)),
-                    ColumnaRelacionUsuario + "=? AND " + ColumnaRelacionCurso + " = " + TablaCurso + "." + ColumnaId,
+                   TablaInscripcion + "_" + ColumnaRelacionUsuario + "=? AND " + TablaInscripcion + "_" + ColumnaRelacionCurso + " = " + TablaCurso + "." + ColumnaId,
                     new String[] { String.valueOf(usuario.getId()) }, null, null, null);
             if (cursor.getCount() == 0) {
                 return new ArrayList<>();
@@ -930,6 +930,53 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             }
 
             throw new RuntimeException(String.format("Se esperaba encontrar una única inscripción pero se encontraron %d", cursor.getCount()));
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    @Override
+    public List<Inscripcion> buscarInscripcionesFavoritas(Usuario usuario) {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+        List<Inscripcion> resultado = new ArrayList<>();
+
+        try {
+            if (usuario == null) return resultado;
+
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaInscripcion + ", " + TablaCurso,
+                    concatenarVectores(
+                            agregarNombreDeTablaEnColumnas(TablaInscripcion, CamposInscripcion),
+                            agregarNombreDeTablaEnColumnas(TablaCurso, CamposCurso)),
+                    TablaInscripcion + "." + ColumnaRelacionCurso + " = " + TablaCurso + "." + ColumnaId + " AND " +
+                            TablaInscripcion + "." + ColumnaRelacionUsuario + " =? AND " + TablaInscripcion + "." + ColumnaFavorito + " = 1",
+                    new String[] { String.valueOf(usuario.getId()) }, null, null, null);
+
+            if (cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    CursorHelper cursorHelper = new CursorHelper(cursor);
+                    Inscripcion inscripcion = new Inscripcion(
+                            cursorHelper.getLongFrom(TablaInscripcion + "_" + ColumnaId),
+                            usuario,
+                            obtenerCursoDeCursor(cursor, TablaCurso + "_"),
+                            cursorHelper.getIntFrom(TablaInscripcion + "_" + ColumnaPuntuacion),
+                            cursorHelper.getIntFrom(TablaInscripcion + "_" + ColumnaFavorito) != 0,
+                            cursorHelper.getIntFrom(TablaInscripcion + "_" + ColumnaUltimaLeccion));
+
+                    resultado.add(inscripcion);
+                    cursor.moveToNext();
+                }
+            }
+
+            return resultado;
         }
         finally {
             if (cursor != null) {

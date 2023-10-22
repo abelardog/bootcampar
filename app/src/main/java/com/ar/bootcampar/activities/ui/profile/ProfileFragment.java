@@ -20,8 +20,8 @@ import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.ar.bootcampar.R;
-import com.ar.bootcampar.activities.CourseListActivity;
 import com.ar.bootcampar.activities.EditProfileActivity;
+import com.ar.bootcampar.activities.FavoriteListActivity;
 import com.ar.bootcampar.databinding.FragmentProfileBinding;
 import com.ar.bootcampar.model.Usuario;
 import com.ar.bootcampar.services.SharedPreferencesManager;
@@ -53,23 +53,25 @@ public class ProfileFragment extends Fragment {
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        Button button = (Button) root.findViewById(R.id.gotoEditProfile);
+        textViewNombre = root.findViewById(R.id.textProfileUserName);
+        textViewApellido = root.findViewById(R.id.textProfileUserLastName);
+        textViewEmail = root.findViewById(R.id.textProfileUserEmail);
+
+        Usuario usuario = new SharedPreferencesManager(getActivity()).cargarUsuario();
+        CargarInformacionDeUsuario(usuario);
+
+        Button button = root.findViewById(R.id.gotoEditProfile);
         button.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), EditProfileActivity.class);
             startActivity(intent);
         });
-        button = (Button) root.findViewById(R.id.button_favorites);
+
+        button = root.findViewById(R.id.button_favorites);
         button.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), CourseListActivity.class);
+            Intent intent = new Intent(getContext(), FavoriteListActivity.class);
+            intent.putExtra(CURRENT_USER, usuario);
             startActivity(intent);
         });
-
-        textViewNombre = (TextView)root.findViewById(R.id.textProfileUserName);
-        textViewApellido = (TextView)root.findViewById(R.id.textProfileUserLastName);
-        textViewEmail = (TextView)root.findViewById(R.id.textProfileUserEmail);
-
-        Usuario usuario = new SharedPreferencesManager(getActivity()).cargarUsuario();
-        CargarInformacionDeUsuario(usuario);
 
         return root;
     }
