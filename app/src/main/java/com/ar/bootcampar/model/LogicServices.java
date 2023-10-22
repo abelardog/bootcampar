@@ -205,4 +205,8 @@ public class LogicServices {
     public List<Inscripcion> buscarInscripciones(Usuario usuario) {
         return database.buscarInscripciones(usuario);
     }
+
+    public Usuario buscarUsuario(String email) {
+        return database.buscarUsuarioONada(email);
+    }
 }

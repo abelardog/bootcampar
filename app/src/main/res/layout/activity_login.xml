@@ -27,6 +27,24 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
 
     <Button
+        android:id="@+id/buttonExternalLogin"
+        android:layout_width="295dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rounded_button"
+        android:onClick="onAuthClick"
+        android:text="@string/usar_auth0"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.44"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button" />
+
+    <Button
         android:id="@+id/button2"
         android:layout_width="299dp"
         android:layout_height="52dp"
@@ -41,10 +59,9 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.014" />
+        app:layout_constraintVertical_bias="0.074" />
 
     <EditText
         android:id="@+id/editEmailAddress"
@@ -84,25 +101,23 @@
         android:id="@+id/textForgotPassword"
         android:layout_width="286dp"
         android:layout_height="36dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:onClick="goToResetPassword"
         android:text="@string/forgotPasswordText"
         android:textAlignment="center"
         android:textColor="@color/mangoOrange"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.448"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button"
-        app:layout_constraintVertical_bias="0.332" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonExternalLogin" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="286dp"
         android:layout_height="36dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="36dp"
         android:text="@string/stillUnregistered"
         android:textAlignment="center"
         android:textColor="@color/earthBlue"
