@@ -894,7 +894,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                     concatenarVectores(
                             agregarNombreDeTablaEnColumnas(TablaInscripcion, CamposInscripcion),
                             agregarNombreDeTablaEnColumnas(TablaUsuario, CamposUsuario)),
-                    TablaInscripcion + "_" + ColumnaRelacionUsuario + "=? AND " + TablaInscripcion + "_" + ColumnaRelacionUsuario + " = " + TablaUsuario + "." + ColumnaId,
+                    TablaInscripcion + "_" + ColumnaRelacionCurso + "=? AND " + TablaInscripcion + "_" + ColumnaRelacionUsuario + " = " + TablaUsuario + "." + ColumnaId,
                     new String[] { String.valueOf(curso.getId()) }, null, null, null);
             if (cursor.getCount() == 0) {
                 return new ArrayList<>();
