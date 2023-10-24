@@ -19,6 +19,7 @@ import com.ar.bootcampar.databinding.ActivityHomeBinding;
 public class HomeActivity extends AppCompatActivity {
     private ActivityHomeBinding binding;
 
+    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

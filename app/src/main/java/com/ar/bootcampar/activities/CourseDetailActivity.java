@@ -47,7 +47,7 @@ public class CourseDetailActivity extends AppCompatActivity {
 
         LogicServices logicServices = new LogicServices(getApplicationContext());
         Intent intent = getIntent();
-        curso = (Curso) intent.getSerializableExtra(COURSE_FOR_COURSE_DETAIL);
+        curso = (Curso)intent.getSerializableExtra(COURSE_FOR_COURSE_DETAIL);
 
         TextView textView = findViewById(R.id.detailTextView);
         textView.setText(curso.getTitulo());

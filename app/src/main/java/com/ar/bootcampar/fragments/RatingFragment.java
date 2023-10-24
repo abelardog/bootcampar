@@ -47,6 +47,7 @@ public class RatingFragment extends Fragment {
         return fragment;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
