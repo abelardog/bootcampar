@@ -63,11 +63,11 @@ public class RatingFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_rating, container, false);
 
-        star1 = view.findViewById(R.id.star1);
-        star2 = view.findViewById(R.id.star2);
-        star3 = view.findViewById(R.id.star3);
-        star4 = view.findViewById(R.id.star4);
-        star5 = view.findViewById(R.id.star5);
+        star1 = view.findViewById(R.id.ratingStar1);
+        star2 = view.findViewById(R.id.ratingStar2);
+        star3 = view.findViewById(R.id.ratingStar3);
+        star4 = view.findViewById(R.id.ratingStar4);
+        star5 = view.findViewById(R.id.ratingStar5);
 
         star1.setImageResource(rating >= 1? android.R.drawable.btn_star_big_on : android.R.drawable.btn_star_big_off);
         star2.setImageResource(rating >= 2? android.R.drawable.btn_star_big_on : android.R.drawable.btn_star_big_off);
