@@ -527,6 +527,18 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     @NonNull
+    private static Inscripcion obtenerInscripcionDeCursor(ICursorWrapper cursor, Curso curso) {
+        CursorHelper cursorHelper = new CursorHelper(cursor);
+        return new Inscripcion(
+                cursorHelper.getLongFrom(TablaInscripcion + "_" + ColumnaId),
+                obtenerUsuarioDeCursor(cursor, TablaUsuario + "_"),
+                curso,
+                cursorHelper.getIntFrom(TablaInscripcion + "_" + ColumnaPuntuacion),
+                cursorHelper.getIntFrom(TablaInscripcion + "_" + ColumnaFavorito) != 0,
+                cursorHelper.getIntFrom(TablaInscripcion + "_" + ColumnaUltimaLeccion));
+    }
+
+    @NonNull
     private static Inscripcion obtenerInscripcionDeCursor(ICursorWrapper cursor, String prefijo) {
         CursorHelper cursorHelper = new CursorHelper(cursor);
         return new Inscripcion(
@@ -854,6 +866,44 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             if (cursor.moveToFirst()) {
                 while (!cursor.isAfterLast()) {
                     resultado.add(obtenerInscripcionDeCursor(cursor, usuario));
+                    cursor.moveToNext();
+                }
+            }
+
+            return resultado;
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    @Override
+    public List<Inscripcion> buscarInscripciones(Curso curso) {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+
+        try {
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaInscripcion + ", " + TablaUsuario,
+                    concatenarVectores(
+                            agregarNombreDeTablaEnColumnas(TablaInscripcion, CamposInscripcion),
+                            agregarNombreDeTablaEnColumnas(TablaUsuario, CamposUsuario)),
+                    TablaInscripcion + "_" + ColumnaRelacionUsuario + "=? AND " + TablaInscripcion + "_" + ColumnaRelacionUsuario + " = " + TablaUsuario + "." + ColumnaId,
+                    new String[] { String.valueOf(curso.getId()) }, null, null, null);
+            if (cursor.getCount() == 0) {
+                return new ArrayList<>();
+            }
+
+            List<Inscripcion> resultado = new ArrayList<>();
+            if (cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    resultado.add(obtenerInscripcionDeCursor(cursor, curso));
                     cursor.moveToNext();
                 }
             }

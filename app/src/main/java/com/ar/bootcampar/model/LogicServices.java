@@ -209,4 +209,12 @@ public class LogicServices {
     public Usuario buscarUsuario(String email) {
         return database.buscarUsuarioONada(email);
     }
+
+    public double obtenerRatingDe(Curso curso) {
+        List<Inscripcion> cursos = database.buscarInscripciones(curso);
+        return cursos.stream()
+                .mapToDouble(Inscripcion::getPuntuacion)
+                .average()
+                .orElse(0);
+    }
 }

@@ -37,7 +37,6 @@ public class CourseDetailActivity extends AppCompatActivity {
     private ImageView star3;
     private ImageView star4;
     private ImageView star5;
-    private float rating;
 
     @SuppressWarnings("deprecation")
     @Override
@@ -45,6 +44,7 @@ public class CourseDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_detail);
 
+        LogicServices logicServices = new LogicServices(getApplicationContext());
         Intent intent = getIntent();
         curso = (Curso)intent.getSerializableExtra(COURSE_FOR_COURSE_DETAIL);
 
@@ -54,6 +54,7 @@ public class CourseDetailActivity extends AppCompatActivity {
         textView = findViewById(R.id.detailDescription);
         textView.setText(curso.getDescripcion());
 
+        double rating = logicServices.obtenerRatingDe(curso);
         star1 = findViewById(R.id.star1);
         star2 = findViewById(R.id.star2);
         star3 = findViewById(R.id.star3);
@@ -70,8 +71,6 @@ public class CourseDetailActivity extends AppCompatActivity {
 
         Button enroll = (Button) findViewById(R.id.detailEnrollBtn);
         if (loggedIn) {
-            LogicServices logicServices = new LogicServices(getApplicationContext());
-
             Usuario usuario = logicServices.obtenerUsuarioActivoDePreferencias();
             Inscripcion inscripcion = logicServices.buscarInscripcion(usuario, curso);
             if (inscripcion != null) {

@@ -40,6 +40,7 @@ public interface IDatabase {
     void borrarInscripcion(Inscripcion inscripcion);
     Inscripcion modificarInscripcion(Inscripcion inscripcion, Usuario nuevoUsuario, Curso nuevoCurso, int nuevaPuntuacion, boolean nuevoFavorito, int nuevaUltimaLeccion);
     List<Inscripcion> buscarInscripciones(Usuario usuario);
+    List<Inscripcion> buscarInscripciones(Curso curso);
     Inscripcion buscarInscripcionOExplotar(long id);
     Inscripcion buscarInscripcionONada(Usuario usuario, Curso curso);
     List<Inscripcion> buscarInscripcionesFavoritas(Usuario usuario);
