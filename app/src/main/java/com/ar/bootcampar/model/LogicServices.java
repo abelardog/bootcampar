@@ -209,4 +209,16 @@ public class LogicServices {
     public Usuario buscarUsuario(String email) {
         return database.buscarUsuarioONada(email);
     }
+
+    public double obtenerRatingDe(Curso curso) {
+        List<Inscripcion> inscripciones = database.buscarInscripciones(curso);
+        return inscripciones.stream()
+                .mapToDouble(Inscripcion::getPuntuacion)
+                .average()
+                .orElse(0);
+    }
+
+    public Inscripcion actualizarPuntuacion(Inscripcion inscripcion, int nuevaPuntuacion) {
+        return database.modificarInscripcion(inscripcion, inscripcion.getUsuario(), inscripcion.getCurso(), nuevaPuntuacion, inscripcion.getFavorito(), inscripcion.getUltimaLeccion());
+    }
 }
