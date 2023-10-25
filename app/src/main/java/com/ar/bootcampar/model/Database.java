@@ -1157,6 +1157,50 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     @Override
+    public List<Curso> buscarCursos(Usuario usuario) {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+        List<Curso> resultado = new ArrayList<>();
+
+        try {
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaCurso + ", " + TablaCurricula + ", " + TablaGrupo + ", " + TablaUsuario + ", " + TablaDivision,
+                    concatenarVectores(
+                            agregarNombreDeTablaEnColumnas(TablaCurso, CamposCurso),
+                            agregarNombreDeTablaEnColumnas(TablaCurricula, CamposCurricula),
+                            agregarNombreDeTablaEnColumnas(TablaGrupo, CamposGrupo),
+                            agregarNombreDeTablaEnColumnas(TablaDivision, CamposDivision),
+                            agregarNombreDeTablaEnColumnas(TablaUsuario, CamposUsuario)),
+                   TablaCurso + "." + ColumnaId + " = " + TablaCurricula + "." + ColumnaRelacionCurso + " AND " +
+                            TablaGrupo + "." + ColumnaId + " = " + TablaCurricula + "." + ColumnaRelacionGrupo + " AND " +
+                            TablaGrupo + "." + ColumnaId + " = " + TablaDivision + "." + ColumnaRelacionGrupo + " AND " +
+                            TablaUsuario + "." + ColumnaId + " = " + TablaDivision + "." + ColumnaRelacionUsuario + " AND " +
+                            TablaUsuario + "." + ColumnaId + " =? ",
+                            new String[] { String.valueOf(usuario.getId()) }, null, null, null);
+
+            if (cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    CursorHelper cursorHelper = new CursorHelper(cursor);
+                    Curso curso = obtenerCursoDeCursor(cursor, TablaCurso + "_");
+                    resultado.add(curso);
+                    cursor.moveToNext();
+                }
+            }
+
+            return resultado;
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    @Override
     public Curricula modificarCurricula(Curricula curricula, Curso nuevoCurso, Grupo nuevoGrupo) {
         Guardia.esObjetoValido(curricula, "La currícula es nula");
         Guardia.esObjetoValido(nuevoCurso, "El curso es nulo");

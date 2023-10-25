@@ -46,7 +46,7 @@ public class HomeFragment extends Fragment implements RecentlyAddedAdapter.OnIte
         recyclerView.setLayoutManager(RecyclerViewLayoutManager);
 
         LogicServices logicServices = new LogicServices(getActivity());
-        AddItemsToRecyclerViewArrayList(logicServices.listarCursos());
+        AddItemsToRecyclerViewArrayList(logicServices.listarCursosMasNuevos());
         adapter = new RecentlyAddedAdapter(new ArrayList<>(source), this);
         HorizontalLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(HorizontalLayout);

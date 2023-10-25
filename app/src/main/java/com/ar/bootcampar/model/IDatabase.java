@@ -62,4 +62,5 @@ public interface IDatabase {
     List<Curso> listarCursos();
     Curso buscarCursoONada(String titulo);
     Curso buscarCursoOExplotar(long idCurso);
+    List<Curso> buscarCursos(Usuario usuario);
 }

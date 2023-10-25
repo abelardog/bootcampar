@@ -38,7 +38,7 @@ public class CourseListFragment extends Fragment {
 
         LogicServices logicServices = new LogicServices(getContext());
         Usuario usuario = logicServices.obtenerUsuarioActivoDePreferencias();
-        List<Curso> listaCursos = logicServices.listarCursos();
+        List<Curso> listaCursos = logicServices.listarCursos(usuario);
         List<Inscripcion> listaInscripciones = logicServices.buscarInscripciones(usuario);
 
         RecyclerView recyclerView = rootView.findViewById(R.id.recyclerViewCourses);
@@ -51,7 +51,7 @@ public class CourseListFragment extends Fragment {
                     Inscripcion inscripcion = logicServices.buscarInscripcion(usuario, curso);
                     if (inscripcion != null) {
                         Inscripcion inscripcionModificada = logicServices.alternarFavoritismo(inscripcion);
-                        adapter.cambiarCursos(logicServices.listarCursos(), listaInscripciones.stream().map(i -> i.getCurso().getId() == curso.getId()? inscripcionModificada : i).collect(Collectors.toList()));
+                        adapter.cambiarCursos(logicServices.listarCursos(usuario), listaInscripciones.stream().map(i -> i.getCurso().getId() == curso.getId()? inscripcionModificada : i).collect(Collectors.toList()));
                         adapter.notifyItemChanged(position);
 
                         Toast.makeText(getContext(), "Curso marcado como " + (inscripcion.getFavorito()? "favorito" : "no favorito"), Toast.LENGTH_SHORT).show();

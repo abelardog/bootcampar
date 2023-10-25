@@ -111,7 +111,15 @@ public class LogicServices {
         database.borrarCurso(curso);
     }
 
+    public List<Curso> listarCursos(Usuario usuario) {
+        return database.buscarCursos(usuario);
+    }
+
     public List<Curso> listarCursos() {
+        return database.listarCursos();
+    }
+
+    public List<Curso> listarCursosMasNuevos() {
         return database.listarCursos();
     }
 
