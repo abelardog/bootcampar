@@ -55,7 +55,7 @@ public class CourseListFragment extends Fragment {
                         adapter.cambiarCursos(logicServices.listarCursos(usuario), listaInscripciones.stream().map(i -> i.getCurso().getId() == curso.getId()? inscripcionModificada : i).collect(Collectors.toList()));
                         adapter.notifyItemChanged(position);
 
-                        Toast.makeText(getContext(), "Curso marcado como " + (inscripcion.getFavorito()? "favorito" : "no favorito"), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Curso marcado como " + (inscripcionModificada.getFavorito()? "favorito" : "no favorito"), Toast.LENGTH_SHORT).show();
                     }
                 },
                 (position, curso) -> {
