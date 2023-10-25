@@ -2,6 +2,7 @@ package com.ar.bootcampar.fragments;
 
 import static com.ar.bootcampar.model.utilities.IntentConstants.COURSE_FOR_COURSE_DETAIL;
 import static com.ar.bootcampar.model.utilities.IntentConstants.CURRENT_USER;
+import static com.ar.bootcampar.model.utilities.IntentConstants.LOGGED_IN_STATUS_FOR_COURSE_DETAIL;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -59,6 +60,7 @@ public class CourseListFragment extends Fragment {
                 },
                 (position, curso) -> {
                     Intent intent2 = new Intent(getContext(), CourseDetailActivity.class);
+                    intent2.putExtra(LOGGED_IN_STATUS_FOR_COURSE_DETAIL, true);
                     intent2.putExtra(CURRENT_USER, usuario);
                     intent2.putExtra(COURSE_FOR_COURSE_DETAIL, curso);
                     startActivity(intent2);
