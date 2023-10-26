@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context=".activities.LoginActivity">
@@ -27,9 +26,27 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
 
     <Button
+        android:id="@+id/buttonExternalLogin"
+        android:layout_width="305dp"
+        android:layout_height="61dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rounded_button"
+        android:onClick="onAuthClick"
+        android:text="@string/usar_auth0"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.44"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button" />
+
+    <Button
         android:id="@+id/button2"
-        android:layout_width="302dp"
-        android:layout_height="67dp"
+        android:layout_width="305dp"
+        android:layout_height="61dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="11dp"
         android:layout_marginEnd="16dp"
@@ -41,17 +58,17 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.528"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.187" />
+        app:layout_constraintVertical_bias="0.05" />
 
     <EditText
         android:id="@+id/editEmailAddress"
         android:layout_width="348dp"
-        android:layout_height="79dp"
+        android:layout_height="52dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="170dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
         android:autofillHints="emailAddress"
         android:ems="10"
@@ -59,14 +76,14 @@
         android:inputType="textEmailAddress"
         app:layout_constraintBottom_toTopOf="@+id/editTextPassword"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.358"
+        app:layout_constraintHorizontal_bias="0.548"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/imageView9" />
 
     <EditText
         android:id="@+id/editTextPassword"
         android:layout_width="350dp"
-        android:layout_height="74dp"
+        android:layout_height="52dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="17dp"
         android:layout_marginEnd="16dp"
@@ -82,26 +99,24 @@
 
     <TextView
         android:id="@+id/textForgotPassword"
-        android:layout_width="286dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="32dp"
+        android:layout_width="411dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="24sp"
         android:onClick="goToResetPassword"
         android:text="@string/forgotPasswordText"
         android:textAlignment="center"
         android:textColor="@color/mangoOrange"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button"
-        app:layout_constraintVertical_bias="0.046" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonExternalLogin" />
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="316dp"
-        android:layout_height="64dp"
+        android:layout_width="319dp"
+        android:layout_height="37dp"
         android:layout_marginTop="20dp"
         android:text="@string/stillUnregistered"
         android:textAlignment="center"
@@ -121,6 +136,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.304"
         app:srcCompat="@drawable/header_logo"
         app:tint="#1A01B2" />
 

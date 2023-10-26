@@ -70,7 +70,7 @@
     <fragment
         android:id="@+id/navigation_admin_curriculums"
         android:name="com.ar.bootcampar.fragments.EditCurriculumsFragment"
-        android:label="@string/grupos"
+        android:label="@string/curriculas"
         tools:layout="@layout/fragment_edit_curriculums" />
 
     <fragment

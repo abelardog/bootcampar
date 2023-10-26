@@ -12,6 +12,8 @@ public interface IDatabase {
     Division crearDivision(Usuario usuario, Grupo grupo);
     void borrarDivision(Division division);
     Division modificarDivision(Division division, Usuario nuevoUsuario, Grupo nuevoGrupo);
+    Division buscarDivisionOExplotar(long id);
+    Division buscarDivisionONada(Usuario usuario, Grupo grupo);
 
     Grupo crearGrupo(String nombre, String invitacion);
     Grupo buscarGrupoONada(String invitacion);
@@ -20,14 +22,16 @@ public interface IDatabase {
     void borrarGrupo(Grupo grupo);
     Grupo modificarGrupo(Grupo grupo, String nuevoNombre, String nuevaInvitacion);
 
-    Leccion crearLeccion(String titulo, String contenido, int duracion, int orden, Curso curso);
-    Leccion modificarLeccion(Leccion leccion, String nuevoTitulo, String nuevoContenido, int nuevaDuracion, int nuevoOrden, Curso nuevoCurso);
+    Leccion crearLeccion(String titulo, String contenido, int duracion, int orden, String vinculo, Curso curso);
+    Leccion modificarLeccion(Leccion leccion, String nuevoTitulo, String nuevoContenido, int nuevaDuracion, int nuevoOrden, String nuevoVinculo, Curso nuevoCurso);
     List<Leccion> buscarLecciones(Curso curso);
+    Leccion buscarLeccionOExplotar(long id);
     List<Leccion> listarLecciones();
     void borrarLeccion(Leccion leccion);
 
     Categoria crearCategoria(String nombre, String descripcion);
     void borrarCategoria(Categoria categoria);
+    Categoria buscarCategoriaOExplotar(long id);
     Categoria buscarCategoriaONada(String nombre);
     List<Categoria> listarCategorias();
     Categoria modificarCategoria(Categoria categoria, String nuevoNombre, String nuevaDescripcion);
@@ -36,14 +40,17 @@ public interface IDatabase {
     void borrarInscripcion(Inscripcion inscripcion);
     Inscripcion modificarInscripcion(Inscripcion inscripcion, Usuario nuevoUsuario, Curso nuevoCurso, int nuevaPuntuacion, boolean nuevoFavorito, int nuevaUltimaLeccion);
     List<Inscripcion> buscarInscripciones(Usuario usuario);
+    List<Inscripcion> buscarInscripciones(Curso curso);
     Inscripcion buscarInscripcionOExplotar(long id);
     Inscripcion buscarInscripcionONada(Usuario usuario, Curso curso);
+    List<Inscripcion> buscarInscripcionesFavoritas(Usuario usuario);
 
     Curricula crearCurricula(Curso curso, Grupo grupo);
     Curricula modificarCurricula(Curricula curricula, Curso nuevocourse, Grupo nuevogrupo);
     void borrarCurricula(Curricula curricula);
     List<Curricula> listarCurriculas();
     Curricula buscarCurriculaONada(Curso curso, Grupo grupo);
+    Curricula buscarCurriculaOExplotar(long id);
 
     void borrarCategorizacion(Categorizacion categorizacion);
     Categorizacion crearCategorizacion(Curso curso, Categoria categoria);
@@ -54,4 +61,6 @@ public interface IDatabase {
     void borrarCurso(Curso curso);
     List<Curso> listarCursos();
     Curso buscarCursoONada(String titulo);
+    Curso buscarCursoOExplotar(long idCurso);
+    List<Curso> buscarCursos(Usuario usuario);
 }

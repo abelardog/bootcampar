@@ -8,7 +8,7 @@ import com.ar.bootcampar.model.utilities.ICursorWrapper;
 import com.ar.bootcampar.model.utilities.ISQLiteDatabaseWrapper;
 
 public class SQLiteDatabaseWrapper implements ISQLiteDatabaseWrapper {
-    private SQLiteDatabase sqliteDatabase;
+    private final SQLiteDatabase sqliteDatabase;
 
     public SQLiteDatabaseWrapper(SQLiteDatabase sqliteDatabase) {
         this.sqliteDatabase = sqliteDatabase;

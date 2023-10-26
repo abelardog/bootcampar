@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">BootCampAr</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_home">HomeActivity</string>
@@ -108,4 +109,19 @@
     <string name="descripcion">Descripcion</string>
     <string name="grabar">Grabar</string>
     <string name="ingrese_descripcion">Ingrese la descripción</string>
+    <string name="leccion_numero">\"Lección %d\"</string>
+    <string name="los_datos_son_invalidos">Los datos son inválidos</string>
+    <string name="administrador_no_puede_inscribirse">El administrador no se puede inscribir a un curso</string>
+    <string name="ya_esta_inscripto_en_el_curso">Ya está inscripto en el curso</string>
+    <string name="error_inscribiendo_al_curso">Error inscribiendo al curso</string>
+    <string name="inscribirse">Inscribirse</string>
+    <string name="ir_al_curso">Ir al curso</string>
+    <string name="cursos_favoritos">Cursos favoritos</string>
+    <string name="curriculas">Currículas</string>
+
+
+    <string name="com_auth0_client_id">yljxTIBYZ1mYbI0C6Rai2nqZhxRc8tJL</string>
+    <string name="com_auth0_domain">dev-jvejcgb265hsomkf.us.auth0.com</string>
+    <string name="com_auth0_scheme">demo</string>
+    <string name="usar_auth0">Usar Auth0</string>
 </resources>

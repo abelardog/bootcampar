@@ -27,10 +27,18 @@ public class Constants {
     public static final String CLAVE_INVALIDA = "";
 
     // Constantes para Leccion
+    public static final long ID_LECCION = 71;
     public static final String TITULO_LECCION = "Introducción a JavaScript";
-    public static final String CONTENIDO_LECCION = "https://www.youtube.com/video/xyz";
+    public static final String CONTENIDO_LECCION = "En esta lección usted va a aprender...";
     public static final int DURACION_LECCION = 10;
     public static final int ORDEN_LECCION = 1;
+    public static final String VINCULO_LECCION = "https://www.youtube.com/video/xyz";
+    public static final long OTRO_ID_LECCION = 77;
+    public static final String OTRO_TITULO_LECCION = "Python Avanzado";
+    public static final String OTRO_CONTENIDO_LECCION = "Esta lección dura mucho tiempo";
+    public static final int OTRA_DURACION_LECCION = 500;
+    public static final int OTRO_ORDEN_LECCION = 2;
+    public static final String OTRO_VINCULO_LECCION = "https://www.youtube.com/video/abc";
 
     // Constantes para Curso
     public static final long ID_CURSO = 18;
@@ -70,4 +78,23 @@ public class Constants {
     public static final int OTRA_PUNTUACION_INSCRIPCION = 7;
     public static final boolean OTRO_FAVORITO_INSCRIPCION = false;
     public static final int OTRA_ULTIMA_LECCION_INSCRIPCION = 5;
+
+    // Constantes para Categoría
+    public static long ID_CATEGORIA = 13;
+    public static String NOMBRE_CATEGORIA = "Principiantes";
+    public static String DESCRIPCION_CATEGORIA = "Categoría para principiantes";
+    public static String OTRO_NOMBRE_CATEGORIA = "Avanzados";
+    public static String OTRA_DESCRIPCION_CATEGORIA = "Categoría para avanzados";
+    public static String NOMBRE_CATEGORIA_INVALIDA = "";
+
+    // Constantes para Currícula
+    public static long ID_CURRICULA = 88;
+
+    // Constantes para Grupo
+    public static long ID_GRUPO = 91;
+    public static long OTRO_ID_GRUPO = 92;
+
+    // Constantes para División
+    public static long ID_DIVISION = 38;
+    public static long OTRO_ID_DIVISION = 40;
 }

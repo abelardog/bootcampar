@@ -17,6 +17,8 @@ android {
         versionName = "1.0"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders["auth0Domain"] = "@string/com_auth0_domain"
+        manifestPlaceholders["auth0Scheme"] = "@string/com_auth0_scheme"
     }
 
     buildTypes {
@@ -40,6 +42,8 @@ android {
 }
 
 dependencies {
+    implementation("com.auth0.android:auth0:2.+")
+    implementation("androidx.webkit:webkit:1.4.0")
     implementation("com.google.code.gson:gson:2.10.1")
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")

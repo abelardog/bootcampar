@@ -123,7 +123,7 @@ public class CrearGrupoDebe {
     }
 
     @Test
-    public void cerrarBaseDeDatos_cuandoSeInsertaGrupoioEnBaseDeDatos() {
+    public void cerrarBaseDeDatos_cuandoSeInsertaGrupoEnBaseDeDatos() {
         SqliteDatabaseWrapperSpy spy = new SqliteDatabaseWrapperSpy.Builder()
                 .conInsertRetornando(1)
                 .build();

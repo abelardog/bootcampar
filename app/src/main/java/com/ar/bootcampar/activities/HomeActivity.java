@@ -1,12 +1,13 @@
 package com.ar.bootcampar.activities;
 
+import static com.ar.bootcampar.model.utilities.IntentConstants.CURRENT_USER;
+
 import android.os.Bundle;
 import android.view.View;
 
 import com.ar.bootcampar.model.Rol;
 import com.ar.bootcampar.model.Usuario;
 import com.ar.bootcampar.services.SharedPreferencesManager;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -18,6 +19,7 @@ import com.ar.bootcampar.databinding.ActivityHomeBinding;
 public class HomeActivity extends AppCompatActivity {
     private ActivityHomeBinding binding;
 
+    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +27,6 @@ public class HomeActivity extends AppCompatActivity {
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
@@ -35,7 +36,7 @@ public class HomeActivity extends AppCompatActivity {
 
         Usuario usuario = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-            usuario = getIntent().getSerializableExtra("usuarioActivo", Usuario.class);
+            usuario = getIntent().getSerializableExtra(CURRENT_USER, Usuario.class);
         }
 
         if (usuario == null) {

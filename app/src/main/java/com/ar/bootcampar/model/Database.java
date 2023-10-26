@@ -34,6 +34,8 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     private static final String TablaGrupo = "Grupos";
     private static final String ColumnaRelacionCurso = "CursoId";
     private static final String ColumnaRelacionGrupo = "GrupoId";
+    private static final String ColumnaRelacionUsuario = "UsuarioId";
+    private static final String[] CamposDivision = new String[] { ColumnaId, ColumnaRelacionUsuario, ColumnaRelacionGrupo };
     private static final String TablaDivision = "Divisiones";
     private static final String ColumnaTitulo = "Titulo";
     private static final String ColumnaDescripcion = "Descripcion";
@@ -41,7 +43,6 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     private static final String ColumnaImagen = "Imagen";
     private static final String[] CamposCurso = new String[] { ColumnaId, ColumnaTitulo, ColumnaDescripcion, ColumnaNivel, ColumnaImagen };
     private static final String TablaCurso = "Cursos";
-    private static final String ColumnaRelacionUsuario = "UsuarioId";
     private static final String ColumnaPuntuacion = "Puntuacion";
     private static final String ColumnaFavorito = "Favorito";
     private static final String ColumnaUltimaLeccion = "UltimaLeccion";
@@ -51,20 +52,27 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     private static final String TablaCurricula = "Curriculas";
     private static final String ColumnaContenido = "Contenido";
     private static final String ColumnaDuracion = "Duracion";
+    private static final String ColumnaVinculo = "Vinculo";
     private static final String ColumnaOrden = "Orden";
-    private static final String[] CamposLeccion = new String[] { ColumnaId, ColumnaTitulo, ColumnaContenido, ColumnaDuracion, ColumnaOrden };
+    private static final String[] CamposLeccion = new String[] { ColumnaId, ColumnaTitulo, ColumnaContenido, ColumnaDuracion, ColumnaOrden, ColumnaVinculo };
     private static final String TablaLeccion = "Lecciones";
     private static final String[] CamposCategoria = new String[] { ColumnaId, ColumnaNombre, ColumnaDescripcion };
     private static final String TablaCategoria = "Categorias";
     private static final String ColumnaRelacionCategoria  = "CategoriaId";
     private static final String TablaCategorizacion = "Categorizaciones";
-    private Object categorizaciones ;
 
     public static IDatabase CreateWith(Context applicationContext) {
         // Version 2: Agregar administrador en base de datos
         // Version 3: Agregar campo imagen al curso en base de datos
         // Version 4: Agregar cursos por defecto a la base de datos
-        return new Database(applicationContext, "bootcampar.db", null, 4);
+        // Version 5: Agregar link a la lección, agregar curso con lecciones de prueba
+        // Version 6: Agregar url de youtube para embeber
+        // Version 7-8: Se había agregado el curso dos veces
+        // Version 9: Los cursos se asocian por defecto al  grupo por defecto
+        // Version 10: Agregar curso de HTML
+        // Version 11: Agregar curso de C#
+        // Version 12: Acomodar nombres de lecciones
+        return new Database(applicationContext, "bootcampar.db", null, 12);
     }
 
     protected Database(Context applicationContext, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -116,6 +124,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TablaLeccion + " (\n" +
                 ColumnaId + " INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 ColumnaTitulo + " TEXT NOT NULL,\n" +
+                ColumnaVinculo + " TEXT,\n" +
                 ColumnaContenido + " TEXT,\n" +
                 ColumnaDuracion + " INTEGER NOT NULL,\n" +
                 ColumnaOrden + " INTEGER NOT NULL,\n" +
@@ -139,11 +148,16 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 "  FOREIGN KEY (" + ColumnaRelacionUsuario + ") REFERENCES " + TablaUsuario + " (" + ColumnaId + ") ON DELETE CASCADE ON UPDATE NO ACTION\n);");
         db.execSQL("PRAGMA foreign_keys=ON");
         db.execSQL("PRAGMA foreign_key_check");
-        db.execSQL("INSERT INTO " + TablaGrupo + "(" + ColumnaNombre + ", " + ColumnaInvitacion + ") VALUES ('Grupo de Programadores', '112233')");
-        db.execSQL("INSERT INTO " + TablaUsuario + "("+ ColumnaNombre + ", " + ColumnaApellido + ", " + ColumnaEmail + ", " + ColumnaClave + ", " + ColumnaRol + ", " + ColumnaTelefono + ") VALUES ('Admin', 'Admin', 'admin@gmail.com', '123456', 1, '')");
 
-        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
-                "'Android Básico desde 0', 'Con este curso podrá crear su primera aplicación en Android.', '2', 'android_logo')");
+        insertarGrupoPorDefecto(db);
+        insertarAdministrator(db);
+        insertarCursoDePythonBasicsWithSam(db, 1);
+        insertarCursoDePatrones(db, 2);
+        insertarCursoDeHtml(db, 3);
+        insertarCursoDeCsharp(db, 4);
+
+        asociarCursosConGrupoPorDefecto(db);
+
         db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
                 "'Programación con Java', 'Aprenda a programar en Java desde cero con este curso único!', '1', 'java')");
         db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
@@ -160,6 +174,153 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 "'Logra el Mejor Diseño con CSS', 'Un curso de nivel avanzado para aprender a realizar animaciones en CSS.', '3', 'css')");
         db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
                 "'Angular de cero a Experto', 'El mejor curso en Angular. Aprenda realizando cinco copias de sitios populares.', '3', 'angular')");
+    }
+
+    private void insertarCursoDeCsharp(ISQLiteDatabaseWrapper db, int cursoId) {
+        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaImagen + ", " + ColumnaNivel + ") VALUES (" +
+                "'How to Program In C#', 'Coding can seem scary at first - but its actually not that hard! Lets learn how to program in C#.', 'csharp', 1)");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Introduction', 'Getting Started!', 635, 1, 'https://www.youtube.com/embed/N775KsWQVkw?si=rO-p2hctAbTiBLqo', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 1', 'Basics', 707, 2, 'https://www.youtube.com/embed/jGD0vn-QIkg?si=h7_PDyUFexodVUPk', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 2', 'Variables', 829, 3, 'https://www.youtube.com/embed/g-9Jp4dmOBo?si=oO8kneV-bl-RYmN7', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 3', 'Conditions', 895, 4, 'https://www.youtube.com/embed/u_Qv5IrMUqg?si=V4SOdQmNrxMG5FkT', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 4', 'Loops', 1107, 5, 'https://www.youtube.com/embed/9ozOSKCiO0I?si=rWkiGrUzJieZBZhP', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 5', 'Arrays', 1020, 6, 'https://www.youtube.com/embed/YiE0oetGMAg?si=iRkH28bcaDK_tnrG', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 6', 'Methods', 1039, 7, 'https://www.youtube.com/embed/bPQx0paXrbw?si=P_FC8zQCbF9FTYll', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 7', 'Classes', 1180, 8, 'https://www.youtube.com/embed/WKjfCHxeEz4?si=NPCQAzSX0KCIVF4f', " + cursoId + ")");
+    }
+
+    private void insertarCursoDeHtml(ISQLiteDatabaseWrapper db, int cursoId) {
+        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaImagen + ", " + ColumnaNivel + ") VALUES (" +
+                "'HTML Tutorial for Beginners', 'This series will cover the latest concepts including HTML5.', 'html', 1)");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Introduction', 'Introduction to HTML', 211, 1, 'https://www.youtube.com/embed/dD2EISBDjWM?si=x4wbKpvEonfTmEmi', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 1', 'Creating the first web page', 609, 2, 'https://www.youtube.com/embed/-USAeFpVf_A?si=mkhmMOnwAsFvGRkm', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 2', 'Line breaks, spacing, and comments', 389, 3, 'https://www.youtube.com/embed/i3GE-toQg-o?si=MfhWW-S2ahK5LahT', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 3', 'Ordered and Unordered lists', 244, 4, 'https://www.youtube.com/embed/09oErCBjVns?si=RVxHitymn_9wyKlc', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 4', 'Creating a table', 251, 5, 'https://www.youtube.com/embed/wvR40su_XBM?si=p0strwy8DK1frI8U', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 5', 'Creating a web link', 194, 6, 'https://www.youtube.com/embed/U4UHoiK6Oo4?si=o5VTDPrbIlwNiwG-', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 6', 'Creating links within same web page', 254, 7, 'https://www.youtube.com/embed/bCt2FnyY7AE?si=B5UcMPno1qY5k4r5', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 7', 'Adding a image to a web page', 101, 8, 'https://www.youtube.com/embed/Zy4KJeVN7Gk?si=VNeA4iD-HzsJuGZZ', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 8', 'Resizing and sizing images', 192, 9, 'https://www.youtube.com/embed/dM12ctixdT4?si=FF_FXi5CjPSQA63x', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 9', 'Nested elements', 83, 10, 'https://www.youtube.com/embed/rO6_MZLIzCg?si=oUCWwvCbozPEK2jP', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 10', 'One-line text box', 226, 11, 'https://www.youtube.com/embed/wvU1mmJn_UI?si=QAS07spznbFyrv33', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 11', 'Add label to text box', 172, 12, 'https://www.youtube.com/embed/f9QXNFVlsls?si=x1-ERFIJ56oUpXMb', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 12', 'Multi-line text box', 149, 13, 'https://www.youtube.com/embed/onKF88kRK3Q?si=6sjbBbDcGNCPoacg', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 13', 'Radio buttons', 145, 14, 'https://www.youtube.com/embed/NDAa6EaKce8?si=YoqeoyGbKxeEEr65', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 14', 'Checkbox', 87, 15, 'https://www.youtube.com/embed/g4UAV1lIHyA?si=G4l1qVIKGl1Anz0E', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 15', 'Number input box', 96, 16, 'https://www.youtube.com/embed/NPfy-hKOGfk?si=TNhIYFtTVGUf8Z9K', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 16', 'Drop-down list', 146, 17, 'https://www.youtube.com/embed/yWuAsqUnNsA?si=vg9LLzhsEaHjVyyi', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 17', 'Date and number box', 158, 18, 'https://www.youtube.com/embed/H6BSr5UOg2Y?si=UEt5tNfEXrPvAKor', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 18', 'Fieldbox and Legend elements', 112, 19, 'https://www.youtube.com/embed/x13Uxl6_dyw?si=70XIfDHYvN-Btq5F', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 19', 'Attributes', 193, 20, 'https://www.youtube.com/embed/iWWTtYGZ4YA?si=jpkJs4DHG-aqcF9m', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 20', 'The meta element', 244, 21, 'https://www.youtube.com/embed/sx4kaeyzQzw?si=6iXGuZGviiv6N9n7', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 21', 'Escape characters', 122, 22, 'https://www.youtube.com/embed/s3h5FLBon88?si=_EBkLlPA_I6Sjc4g', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 22', 'Bold and italic elements', 164, 23, 'https://www.youtube.com/embed/X_OROia6aPo?si=p-98kUO_-yUfh4-6', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 23', 'iframe element', 307, 24, 'https://www.youtube.com/embed/7PORMYx30xE?si=4PZKQdirOV_kDT4T', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 24', 'sup and sub elements', 101, 25, 'https://www.youtube.com/embed/iG703SLOJ-Q?si=g95sORizhUz0d5yn', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 25', 'Title and alt attributes', 145, 26, 'https://www.youtube.com/embed/kA5pqPA5eZE?si=NDLTzF5prXgmj6wS', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 26', 'Audio element', 169, 27, 'https://www.youtube.com/embed/7tWBcT83hek?si=SfDt7EBRnG2Im5jd', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 27', 'Audio element attributes', 135, 28, 'https://www.youtube.com/embed/2aenvVrYWjg?si=5akApfO68thuRjn9', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 28', 'Video element', 108, 29, 'https://www.youtube.com/embed/iIgFqkDs4tY?si=l2bJhsIFCOfnrwUp', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 29', 'doctype', 143, 30, 'https://www.youtube.com/embed/c625P4B0OY0?si=pjboIEh2FgzZSwqW', " + cursoId + ")");
+    }
+
+    private void insertarCursoDePatrones(ISQLiteDatabaseWrapper db, int cursoId) {
+        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaImagen + ", " + ColumnaNivel + ") VALUES (" +
+                "'Design Patterns', 'Learn about Design Patterns in JavaScript with Beau', 'js', 2)");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 1', 'Singleton Design Pattern', 290, 1, 'https://www.youtube.com/embed/bgU7FeiWKzc?si=M4Ueo_ghh9tLOjZK', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 2', 'Observer Design Pattern', 236, 2, 'https://www.youtube.com/embed/3PUVr8jFMGg?si=MStdKuUxtU69R0yj', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 3', 'Module Design Pattern', 164, 3, 'https://www.youtube.com/embed/3pXVHRT-amw?si=G5XIaQftkSQPVVr-', "+ cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 4', 'Mediator Design Pattern', 308, 4, 'https://www.youtube.com/embed/KOVc5o5kURE?si=l6faPVQUgaf37jnX', " + cursoId + ")");
+    }
+
+    private void insertarCursoDePythonBasicsWithSam(ISQLiteDatabaseWrapper db, int cursoId) {
+        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaImagen + ", " + ColumnaNivel + ") VALUES (" +
+                "'Python Basics with Sam', 'Learn the basics of Python live from Sam Focht every Tuesday. This is part of a series that will cover the entire Python Programming language.', 'python', 1)");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 1', 'Intro to Python Livestream', 7157, 1, 'https://www.youtube.com/embed/z2k9Jh3jDVU?si=Usm-VZf3o8NG6QIP', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 2', 'Python For Loops, Functions, and Random', 7129, 2, 'https://www.youtube.com/embed/4UuMrebbwIo?si=8i4VTWPAynhgu_Aq', " + cursoId +")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 3', 'Prime Numbers, Times Tables, & More', 7185, 3, 'https://www.youtube.com/embed/DhdOKh5Issw?si=WKku1m1eUUr5SW8Y', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 4', 'Find Longest Substring / Guessing Game', 7135, 4, 'https://www.youtube.com/embed/hoP7_DkrmiA?si=ZwoTyReFvy3wYaX3', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 5', 'Command Line and Recursion in Python', 5644, 5, 'https://www.youtube.com/embed/2T8BFVPhYPs?si=v3GGjaLFesrJjfKl', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 6', 'Scope and Decorators', 6353, 6, 'https://www.youtube.com/embed/VckRJ6v1yWU?si=tFP2-QQkVnzPjMU0', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 7', 'Build a Shopping List for the Command Line', 3990, 7, 'https://www.youtube.com/embed/xapvhkhlPNI?si=f2ydLAAG0y7qTc3_', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 8', 'Generators and Classes', 4712, 8, 'https://www.youtube.com/embed/UzDuMsnTIGQ?si=WJu3elsQF7izyxpb', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 9', 'Board Game, Lists and More', 5024, 9, 'https://www.youtube.com/embed/1vMtftJf7tQ?si=nyMJFceeo2mR-h0D', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 10', 'Chicken Nuggets and itertools', 3586, 10, 'https://www.youtube.com/embed/kZNIHeCaZiM?si=Qh6cZj0zpN_Hx6hG', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 11', 'Tkinter Calculator', 3710, 11, 'https://www.youtube.com/embed/PkLwJicRI8s?si=8NABvmOWtl-Wt911',  " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 12', 'Random Password Generator', 3440, 12, 'https://www.youtube.com/embed/3j6v4wBZWR8?si=jAU0j1Xja6xV8sIZ', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 13', 'Solving Python Challenges', 3874, 13, 'https://www.youtube.com/embed/iVajTZgMk4M?si=cU4eiqT_M3YlPfNy', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 14', 'Python Main Function', 3772, 14, 'https://www.youtube.com/embed/mvXDQNNcDu4?si=IHBFPK-ecmuwlRRf', " + cursoId + ")");
+    }
+
+    private void asociarCursosConGrupoPorDefecto(ISQLiteDatabaseWrapper db) {
+        db.execSQL("INSERT INTO " + TablaCurricula + "(" + ColumnaRelacionGrupo + ", " + ColumnaRelacionCurso + ") VALUES (1, 1)");
+        db.execSQL("INSERT INTO " + TablaCurricula + "(" + ColumnaRelacionGrupo + ", " + ColumnaRelacionCurso + ") VALUES (1, 2)");
+        db.execSQL("INSERT INTO " + TablaCurricula + "(" + ColumnaRelacionGrupo + ", " + ColumnaRelacionCurso + ") VALUES (1, 3)");
+        db.execSQL("INSERT INTO " + TablaCurricula + "(" + ColumnaRelacionGrupo + ", " + ColumnaRelacionCurso + ") VALUES (1, 4)");
+    }
+
+    private void insertarAdministrator(ISQLiteDatabaseWrapper db) {
+        db.execSQL("INSERT INTO " + TablaUsuario + "("+ ColumnaNombre + ", " + ColumnaApellido + ", " + ColumnaEmail + ", " + ColumnaClave + ", " + ColumnaRol + ", " + ColumnaTelefono + ") VALUES ('Admin', 'Admin', 'admin@gmail.com', '123456', 1, '')");
+    }
+
+    private void insertarGrupoPorDefecto(ISQLiteDatabaseWrapper db) {
+        db.execSQL("INSERT INTO " + TablaGrupo + "(" + ColumnaNombre + ", " + ColumnaInvitacion + ") VALUES ('Grupo de Programadores', '112233')");
     }
 
     @Override
@@ -243,29 +404,105 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     @Override
     public Division crearDivision(Usuario usuario, Grupo grupo) {
+        Guardia.esObjetoValido(usuario, "El usuario es nulo");
+        Guardia.esObjetoValido(grupo, "El grupo es nulo");
+
         IContentValuesWrapper values = createContentValues();
         values.put(ColumnaRelacionUsuario, usuario.getId());
         values.put(ColumnaRelacionGrupo, grupo.getId());
 
-        return (Division)crearElemento(TablaDivision, values, id -> new Division(id, usuario, grupo), "Error creando usuario");
+        return (Division)crearElemento(TablaDivision, values, id -> new Division(id, usuario, grupo), "Error creando división");
     }
 
     @Override
     public void borrarDivision(Division division) {
-        Guardia.esObjetoValido(division, "La division es nula");
-        borrarElemento(TablaDivision, division.getId(), "Se esperaba borrar una única division");
+        Guardia.esObjetoValido(division, "La división es nula");
+        borrarElemento(TablaDivision, division.getId(), "Se esperaba borrar una única división pero se borraron %d");
     }
 
     @Override
     public Division modificarDivision(Division division, Usuario nuevoUsuario, Grupo nuevoGrupo) {
-        Guardia.esObjetoValido(division, "La division es nula");
+        Guardia.esObjetoValido(division, "La división es nula");
+        Guardia.esObjetoValido(nuevoUsuario, "El usuario es nulo");
+        Guardia.esObjetoValido(nuevoGrupo, "El grupo es nulo");
 
         IContentValuesWrapper values = createContentValues();
-        values.put(ColumnaRelacionCurso, nuevoUsuario.getId());
+        values.put(ColumnaRelacionUsuario, nuevoUsuario.getId());
         values.put(ColumnaRelacionGrupo, nuevoGrupo.getId());
 
-        return (Division) modificarElemento(TablaDivision, division.getId(), values, id -> new Division(division.getId(), nuevoUsuario, nuevoGrupo),"Se esperaba modificar una unica Division");
+        return (Division) modificarElemento(TablaDivision, division.getId(), values, id -> new Division(division.getId(), nuevoUsuario, nuevoGrupo),"Se esperaba modificar una única división pero se modificaron %d");
 
+    }
+
+    @Override
+    public Division buscarDivisionOExplotar(long id) {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+
+        try {
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaDivision + ", " + TablaGrupo + ", " + TablaUsuario,
+                    concatenarVectores(
+                            agregarNombreDeTablaEnColumnas(TablaDivision, CamposDivision),
+                            agregarNombreDeTablaEnColumnas(TablaGrupo, CamposGrupo),
+                            agregarNombreDeTablaEnColumnas(TablaUsuario, CamposUsuario)),
+                    TablaDivision + "." + ColumnaId + "=? AND " + ColumnaRelacionGrupo + " = " + TablaGrupo + "." + ColumnaId +
+                            " AND " + ColumnaRelacionUsuario + " = " + TablaUsuario + "." + ColumnaId,
+                    new String[] { String.valueOf(id) }, null, null, null);
+
+            if (cursor.getCount() == 1) {
+                return obtenerDivisionDeCursor(cursor, TablaDivision + "_");
+            }
+
+            throw new RuntimeException(String.format("Se esperaba encontrar una única división con id %d, se encontraron %d", id, cursor.getCount()));
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    @Override
+    public Division buscarDivisionONada(Usuario usuario, Grupo grupo) {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+
+        try {
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaDivision + ", " + TablaGrupo + ", " + TablaUsuario,
+                    concatenarVectores(
+                            agregarNombreDeTablaEnColumnas(TablaDivision, CamposDivision),
+                            agregarNombreDeTablaEnColumnas(TablaUsuario, CamposUsuario),
+                            agregarNombreDeTablaEnColumnas(TablaGrupo, CamposGrupo)),
+                   ColumnaRelacionGrupo + " = " + TablaGrupo + "." + ColumnaId + " AND " +
+                            ColumnaRelacionUsuario + " = " + TablaUsuario + "." + ColumnaId + " AND " +
+                            ColumnaRelacionGrupo + " =? AND " + ColumnaRelacionUsuario + " =?",
+                    new String[] { String.valueOf(grupo.getId()), String.valueOf(usuario.getId()) }, null, null, null);
+
+            if (cursor.getCount() == 0) {
+                return null;
+            }
+            else if (cursor.getCount() == 1) {
+                cursor.moveToFirst();
+                return obtenerDivisionDeCursor(cursor, TablaDivision + "_");
+            }
+
+            throw new RuntimeException(String.format("Se esperaba encontrar una única división pero se encontraron %d", cursor.getCount()));
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
     }
 
     @Override
@@ -319,9 +556,25 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         }
     }
 
+    private Division obtenerDivisionDeCursor(ICursorWrapper cursor, String prefijo) {
+        CursorHelper cursorHelper = new CursorHelper(cursor);
+        return new Division(
+                cursorHelper.getLongFrom(prefijo + ColumnaId),
+                obtenerUsuarioDeCursor(cursor, TablaUsuario + "_"),
+                obtenerGrupoDeCursor(cursor, TablaGrupo + "_"));
+    }
+
     @NonNull
     private static Grupo obtenerGrupoDeCursor(ICursorWrapper cursor) {
         return obtenerGrupoDeCursor(cursor, "");
+    }
+
+    private static Categoria obtenerCategoriaDeCursor(ICursorWrapper cursor) {
+        CursorHelper cursorHelper = new CursorHelper(cursor);
+        return new Categoria(
+                cursorHelper.getLongFrom(ColumnaId),
+                cursorHelper.getStringFrom(ColumnaNombre),
+                cursorHelper.getStringFrom(ColumnaDescripcion));
     }
 
     @NonNull
@@ -358,6 +611,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 cursorHelper.getStringFrom(prefijo + ColumnaContenido),
                 cursorHelper.getIntFrom(prefijo + ColumnaDuracion),
                 cursorHelper.getIntFrom(prefijo + ColumnaOrden),
+                cursorHelper.getStringFrom(prefijo + ColumnaVinculo),
                 obtenerCursoDeCursor(cursor, TablaCurso + "_"));
     }
 
@@ -365,12 +619,24 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     private static Inscripcion obtenerInscripcionDeCursor(ICursorWrapper cursor, Usuario usuario) {
         CursorHelper cursorHelper = new CursorHelper(cursor);
         return new Inscripcion(
-                cursorHelper.getLongFrom(ColumnaId),
+                cursorHelper.getLongFrom(TablaInscripcion + "_" + ColumnaId),
                 usuario,
-                obtenerCursoDeCursor(cursor, TablaCurso + "_" + ColumnaId),
-                cursorHelper.getIntFrom(ColumnaPuntuacion),
-                cursorHelper.getIntFrom(ColumnaFavorito) != 0,
-                cursorHelper.getIntFrom(ColumnaUltimaLeccion));
+                obtenerCursoDeCursor(cursor, TablaCurso + "_"),
+                cursorHelper.getIntFrom(TablaInscripcion + "_" + ColumnaPuntuacion),
+                cursorHelper.getIntFrom(TablaInscripcion + "_" + ColumnaFavorito) != 0,
+                cursorHelper.getIntFrom(TablaInscripcion + "_" + ColumnaUltimaLeccion));
+    }
+
+    @NonNull
+    private static Inscripcion obtenerInscripcionDeCursor(ICursorWrapper cursor, Curso curso) {
+        CursorHelper cursorHelper = new CursorHelper(cursor);
+        return new Inscripcion(
+                cursorHelper.getLongFrom(TablaInscripcion + "_" + ColumnaId),
+                obtenerUsuarioDeCursor(cursor, TablaUsuario + "_"),
+                curso,
+                cursorHelper.getIntFrom(TablaInscripcion + "_" + ColumnaPuntuacion),
+                cursorHelper.getIntFrom(TablaInscripcion + "_" + ColumnaFavorito) != 0,
+                cursorHelper.getIntFrom(TablaInscripcion + "_" + ColumnaUltimaLeccion));
     }
 
     @NonNull
@@ -381,7 +647,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 obtenerUsuarioDeCursor(cursor, TablaUsuario + "_"),
                 obtenerCursoDeCursor(cursor, TablaCurso + "_"),
                 cursorHelper.getIntFrom(prefijo + ColumnaPuntuacion),
-                cursorHelper.getIntFrom(prefijo + ColumnaFavorito) == 0,
+                cursorHelper.getIntFrom(prefijo + ColumnaFavorito) != 0,
                 cursorHelper.getIntFrom(prefijo + ColumnaUltimaLeccion));
     }
 
@@ -419,6 +685,8 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     @Override
     public Categoria crearCategoria(String nombre, String descripcion) {
+        Guardia.esCadenaNoVacia(nombre, "El nombre es inválido");
+
         IContentValuesWrapper values = createContentValues();
         values.put(ColumnaNombre, nombre);
         values.put(ColumnaDescripcion, descripcion);
@@ -432,14 +700,21 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     @Override
+    public Categoria buscarCategoriaOExplotar(long id) {
+        return (Categoria)buscarElementoOExplotar(TablaCategoria, CamposCategoria, id,
+                Database::obtenerCategoriaDeCursor, "Se esperaba encontrar una única categoría con id %d, se encontraron %d");
+    }
+
+    @Override
     public Categoria buscarCategoriaONada(String nombre) {
         return (Categoria)buscarElementoONada(TablaCategoria, CamposCategoria, ColumnaNombre, nombre,
-                Database::obtenerGrupoDeCursor,"Se encontraron varias categorías con el mismo nombre %s");
+                Database::obtenerCategoriaDeCursor,"Se encontraron varias categorías con el mismo nombre %s");
     }
 
     @Override
     public Categoria modificarCategoria(Categoria categoria, String nuevoNombre, String nuevaDescripcion) {
         Guardia.esObjetoValido(categoria, "La categoría es nula");
+        Guardia.esCadenaNoVacia(nuevoNombre, "El nombre es inválido");
 
         IContentValuesWrapper values = createContentValues();
         values.put(ColumnaNombre, nuevoNombre);
@@ -485,28 +760,33 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     @Override
-    public Leccion crearLeccion(String titulo, String contenido, int duracion, int orden, Curso curso) {
+    public Leccion crearLeccion(String titulo, String contenido, int duracion, int orden, String vinculo, Curso curso) {
+        Guardia.esObjetoValido(curso, "El curso es nulo");
+
         IContentValuesWrapper values = createContentValues();
         values.put(ColumnaTitulo, titulo);
         values.put(ColumnaContenido, contenido);
         values.put(ColumnaDuracion, duracion);
         values.put(ColumnaOrden, orden);
+        values.put(ColumnaVinculo, vinculo);
         values.put(ColumnaRelacionCurso, curso.getId());
-        return (Leccion)crearElemento(TablaLeccion, values, id -> new Leccion(id, titulo, contenido, duracion, orden, curso), "Error creando lección");
+        return (Leccion)crearElemento(TablaLeccion, values, id -> new Leccion(id, titulo, contenido, duracion, orden, vinculo, curso), "Error creando lección");
     }
 
     @Override
-    public Leccion modificarLeccion(Leccion leccion, String nuevoTitulo, String nuevoContenido, int nuevaDuracion, int nuevoOrden, Curso nuevoCurso) {
+    public Leccion modificarLeccion(Leccion leccion, String nuevoTitulo, String nuevoContenido, int nuevaDuracion, int nuevoOrden, String nuevoVinculo, Curso nuevoCurso) {
         Guardia.esObjetoValido(leccion, "La lección es nula");
+        Guardia.esObjetoValido(nuevoCurso, "El curso es nulo");
 
         IContentValuesWrapper values = createContentValues();
         values.put(ColumnaTitulo, nuevoTitulo);
         values.put(ColumnaContenido, nuevoContenido);
         values.put(ColumnaDuracion, nuevaDuracion);
         values.put(ColumnaOrden, nuevoOrden);
+        values.put(ColumnaVinculo, nuevoVinculo);
         values.put(ColumnaRelacionCurso, nuevoCurso.getId());
 
-        return (Leccion)modificarElemento(TablaLeccion, leccion.getId(), values, id -> new Leccion(id, nuevoTitulo, nuevoContenido, nuevaDuracion, nuevoOrden, nuevoCurso), "Se esperaba modificar una única lección pero se modificaron %d");
+        return (Leccion)modificarElemento(TablaLeccion, leccion.getId(), values, id -> new Leccion(id, nuevoTitulo, nuevoContenido, nuevaDuracion, nuevoOrden, nuevoVinculo, nuevoCurso), "Se esperaba modificar una única lección pero se modificaron %d");
     }
 
     @Override
@@ -534,6 +814,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                             cursorHelper.getStringFrom(ColumnaContenido),
                             cursorHelper.getIntFrom(ColumnaDuracion),
                             cursorHelper.getIntFrom(ColumnaOrden),
+                            cursorHelper.getStringFrom(ColumnaVinculo),
                             curso);
 
                     resultado.add(leccion);
@@ -542,6 +823,38 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             }
 
             return resultado;
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    @Override
+    public Leccion buscarLeccionOExplotar(long id) {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+
+        try {
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaLeccion + ", " + TablaCurso,
+                    concatenarVectores(
+                            agregarNombreDeTablaEnColumnas(TablaCurricula, CamposCurricula),
+                            agregarNombreDeTablaEnColumnas(TablaCurso, CamposCurso)),
+                    ColumnaRelacionCurso + " = " + TablaCurso + "." + ColumnaId +
+                            " AND " + TablaLeccion + "." + ColumnaId + " =?",
+                    new String[] { String.valueOf(id) }, null, null, null);
+
+            if (cursor.getCount() == 1) {
+                return obtenerLeccionDeCursor(cursor, TablaLeccion + "_");
+            }
+
+            throw new RuntimeException(String.format("Se esperaba encontrar una única lección con id %d pero se encontraron %d", id, cursor.getCount()));
         }
         finally {
             if (cursor != null) {
@@ -644,7 +957,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                      concatenarVectores(
                             agregarNombreDeTablaEnColumnas(TablaInscripcion, CamposInscripcion),
                             agregarNombreDeTablaEnColumnas(TablaCurso, CamposCurso)),
-                    ColumnaRelacionUsuario + "=? AND " + ColumnaRelacionCurso + " = " + TablaCurso + "." + ColumnaId,
+                   TablaInscripcion + "_" + ColumnaRelacionUsuario + "=? AND " + TablaInscripcion + "_" + ColumnaRelacionCurso + " = " + TablaCurso + "." + ColumnaId,
                     new String[] { String.valueOf(usuario.getId()) }, null, null, null);
             if (cursor.getCount() == 0) {
                 return new ArrayList<>();
@@ -654,6 +967,44 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             if (cursor.moveToFirst()) {
                 while (!cursor.isAfterLast()) {
                     resultado.add(obtenerInscripcionDeCursor(cursor, usuario));
+                    cursor.moveToNext();
+                }
+            }
+
+            return resultado;
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    @Override
+    public List<Inscripcion> buscarInscripciones(Curso curso) {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+
+        try {
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaInscripcion + ", " + TablaUsuario,
+                    concatenarVectores(
+                            agregarNombreDeTablaEnColumnas(TablaInscripcion, CamposInscripcion),
+                            agregarNombreDeTablaEnColumnas(TablaUsuario, CamposUsuario)),
+                    TablaInscripcion + "_" + ColumnaRelacionCurso + "=? AND " + TablaInscripcion + "_" + ColumnaRelacionUsuario + " = " + TablaUsuario + "." + ColumnaId,
+                    new String[] { String.valueOf(curso.getId()) }, null, null, null);
+            if (cursor.getCount() == 0) {
+                return new ArrayList<>();
+            }
+
+            List<Inscripcion> resultado = new ArrayList<>();
+            if (cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    resultado.add(obtenerInscripcionDeCursor(cursor, curso));
                     cursor.moveToNext();
                 }
             }
@@ -683,7 +1034,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                             agregarNombreDeTablaEnColumnas(TablaInscripcion, CamposInscripcion),
                             agregarNombreDeTablaEnColumnas(TablaCurso, CamposCurso),
                             agregarNombreDeTablaEnColumnas(TablaUsuario, CamposUsuario)),
-                    ColumnaRelacionUsuario + "=? AND " + ColumnaRelacionCurso + " = " + TablaCurso + "." + ColumnaId +
+                    TablaInscripcion + "." + ColumnaId + "=? AND " + ColumnaRelacionCurso + " = " + TablaCurso + "." + ColumnaId +
                             " AND " + ColumnaRelacionUsuario + " = " + TablaUsuario + "." + ColumnaId,
                     new String[] { String.valueOf(id) }, null, null, null);
 
@@ -743,6 +1094,53 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     @Override
+    public List<Inscripcion> buscarInscripcionesFavoritas(Usuario usuario) {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+        List<Inscripcion> resultado = new ArrayList<>();
+
+        try {
+            if (usuario == null) return resultado;
+
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaInscripcion + ", " + TablaCurso,
+                    concatenarVectores(
+                            agregarNombreDeTablaEnColumnas(TablaInscripcion, CamposInscripcion),
+                            agregarNombreDeTablaEnColumnas(TablaCurso, CamposCurso)),
+                    TablaInscripcion + "." + ColumnaRelacionCurso + " = " + TablaCurso + "." + ColumnaId + " AND " +
+                            TablaInscripcion + "." + ColumnaRelacionUsuario + " =? AND " + TablaInscripcion + "." + ColumnaFavorito + " = 1",
+                    new String[] { String.valueOf(usuario.getId()) }, null, null, null);
+
+            if (cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    CursorHelper cursorHelper = new CursorHelper(cursor);
+                    Inscripcion inscripcion = new Inscripcion(
+                            cursorHelper.getLongFrom(TablaInscripcion + "_" + ColumnaId),
+                            usuario,
+                            obtenerCursoDeCursor(cursor, TablaCurso + "_"),
+                            cursorHelper.getIntFrom(TablaInscripcion + "_" + ColumnaPuntuacion),
+                            cursorHelper.getIntFrom(TablaInscripcion + "_" + ColumnaFavorito) != 0,
+                            cursorHelper.getIntFrom(TablaInscripcion + "_" + ColumnaUltimaLeccion));
+
+                    resultado.add(inscripcion);
+                    cursor.moveToNext();
+                }
+            }
+
+            return resultado;
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    @Override
     public void borrarCategorizacion(Categorizacion categorizacion) {
         Guardia.esObjetoValido(categorizacion,"La categorización es nula");
         borrarElemento(TablaCategorizacion, categorizacion.getId(), "Se esperaba borrar una única categorización pero se borraron %d" );
@@ -750,7 +1148,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     @Override
     public Categorizacion crearCategorizacion(Curso nuevoCurso, Categoria nuevaCategoria) {
-      IContentValuesWrapper values = createContentValues();
+        IContentValuesWrapper values = createContentValues();
         values.put(ColumnaRelacionCurso, nuevoCurso.getId());
         values.put(ColumnaRelacionCategoria, nuevaCategoria.getId());
         return (Categorizacion) crearElemento(TablaCategorizacion, values, id -> new Categorizacion(id,nuevoCurso,nuevaCategoria), "Error crear nueva categorizaciones");
@@ -758,12 +1156,14 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
     @Override
     public Curricula crearCurricula(Curso nuevoCurso, Grupo nuevoGrupo) {
-        IContentValuesWrapper values = createContentValues();
+        Guardia.esObjetoValido(nuevoCurso, "El curso es nulo");
+        Guardia.esObjetoValido(nuevoGrupo, "El grupo es nulo");
 
+        IContentValuesWrapper values = createContentValues();
         values.put(ColumnaRelacionCurso, nuevoCurso.getId());
         values.put(ColumnaRelacionGrupo, nuevoGrupo.getId());
 
-        return (Curricula)crearElemento(TablaCurricula, values, id -> new Curricula(id, nuevoCurso, nuevoGrupo), "Error crear curricula");
+        return (Curricula)crearElemento(TablaCurricula, values, id -> new Curricula(id, nuevoCurso, nuevoGrupo), "Error creando currícula");
     }
 
     @Override
@@ -848,12 +1248,64 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     @Override
     public Curso buscarCursoONada(String titulo) {
         return (Curso)buscarElementoONada(TablaCurso, CamposCurso, ColumnaTitulo, titulo,
-                Database::obtenerCursoDeCursor,"Se encontraron varios cursos con el mismo nombre %s");
+                Database::obtenerCursoDeCursor,"Se encontraron varios cursos con el mismo título %s");
+    }
+
+    @Override
+    public Curso buscarCursoOExplotar(long id) {
+        return (Curso)buscarElementoOExplotar(TablaCurso, CamposCurso, id,
+                Database::obtenerCursoDeCursor, "Se esperaba encontrar un único curso con id %d, se encontraron %d");
+    }
+
+    @Override
+    public List<Curso> buscarCursos(Usuario usuario) {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+        List<Curso> resultado = new ArrayList<>();
+
+        try {
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaCurso + ", " + TablaCurricula + ", " + TablaGrupo + ", " + TablaUsuario + ", " + TablaDivision,
+                    concatenarVectores(
+                            agregarNombreDeTablaEnColumnas(TablaCurso, CamposCurso),
+                            agregarNombreDeTablaEnColumnas(TablaCurricula, CamposCurricula),
+                            agregarNombreDeTablaEnColumnas(TablaGrupo, CamposGrupo),
+                            agregarNombreDeTablaEnColumnas(TablaDivision, CamposDivision),
+                            agregarNombreDeTablaEnColumnas(TablaUsuario, CamposUsuario)),
+                   TablaCurso + "." + ColumnaId + " = " + TablaCurricula + "." + ColumnaRelacionCurso + " AND " +
+                            TablaGrupo + "." + ColumnaId + " = " + TablaCurricula + "." + ColumnaRelacionGrupo + " AND " +
+                            TablaGrupo + "." + ColumnaId + " = " + TablaDivision + "." + ColumnaRelacionGrupo + " AND " +
+                            TablaUsuario + "." + ColumnaId + " = " + TablaDivision + "." + ColumnaRelacionUsuario + " AND " +
+                            TablaUsuario + "." + ColumnaId + " =? ",
+                            new String[] { String.valueOf(usuario.getId()) }, null, null, null);
+
+            if (cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    CursorHelper cursorHelper = new CursorHelper(cursor);
+                    Curso curso = obtenerCursoDeCursor(cursor, TablaCurso + "_");
+                    resultado.add(curso);
+                    cursor.moveToNext();
+                }
+            }
+
+            return resultado;
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
     }
 
     @Override
     public Curricula modificarCurricula(Curricula curricula, Curso nuevoCurso, Grupo nuevoGrupo) {
-        Guardia.esObjetoValido(curricula, "La currícula son nulas");
+        Guardia.esObjetoValido(curricula, "La currícula es nula");
+        Guardia.esObjetoValido(nuevoCurso, "El curso es nulo");
+        Guardia.esObjetoValido(nuevoGrupo, "El grupo es nulo");
 
         IContentValuesWrapper values = createContentValues();
         values.put(ColumnaRelacionCurso, nuevoCurso.getId());
@@ -865,7 +1317,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     @Override
     public void borrarCurricula(Curricula curricula) {
         Guardia.esObjetoValido(curricula, "La currícula es nula");
-        borrarElemento(TablaCurricula, curricula.getId(), "Se esperaba borrar una única curricula pero se borraron %d");
+        borrarElemento(TablaCurricula, curricula.getId(), "Se esperaba borrar una única currícula pero se borraron %d");
     }
 
     @Override
@@ -932,6 +1384,40 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
             }
 
             throw new RuntimeException(String.format("Se esperaba encontrar una única currícula pero se encontraron %d", cursor.getCount()));
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    @Override
+    public Curricula buscarCurriculaOExplotar(long id) {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+
+        try {
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaCurricula + ", " + TablaGrupo + ", " + TablaCurso,
+                    concatenarVectores(
+                            agregarNombreDeTablaEnColumnas(TablaCurricula, CamposCurricula),
+                            agregarNombreDeTablaEnColumnas(TablaCurso, CamposCurso),
+                            agregarNombreDeTablaEnColumnas(TablaGrupo, CamposGrupo)),
+                    ColumnaRelacionCurso + " = " + TablaCurso + "." + ColumnaId +
+                            " AND " + ColumnaRelacionGrupo + " = " + TablaGrupo + "." + ColumnaId + " AND " +
+                            ColumnaId + " =?",
+                    new String[] { String.valueOf(id) }, null, null, null);
+
+            if (cursor.getCount() == 1) {
+                return obtenerCurriculaDeCursor(cursor, TablaCurricula + "_");
+            }
+
+            throw new RuntimeException(String.format("Se esperaba encontrar una única currícula con id %d pero se encontraron %d", id, cursor.getCount()));
         }
         finally {
             if (cursor != null) {
