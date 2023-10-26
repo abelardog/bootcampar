@@ -137,6 +137,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.304"
         app:srcCompat="@drawable/header_logo"
-        app:tint="#1A01B2" />
+        app:tint="#1A01B2"
+        android:contentDescription="@string/text_logo"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
