@@ -104,7 +104,7 @@
         android:onClick="goToResetPassword"
         android:text="@string/forgotPasswordText"
         android:textAlignment="center"
-        android:textColor="@color/mangoOrange"
+        android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
