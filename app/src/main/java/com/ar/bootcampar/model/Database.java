@@ -68,7 +68,11 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         // Version 5: Agregar link a la lección, agregar curso con lecciones de prueba
         // Version 6: Agregar url de youtube para embeber
         // Version 7-8: Se había agregado el curso dos veces
-        return new Database(applicationContext, "bootcampar.db", null, 8);
+        // Version 9: Los cursos se asocian por defecto al  grupo por defecto
+        // Version 10: Agregar curso de HTML
+        // Version 11: Agregar curso de C#
+        // Version 12: Acomodar nombres de lecciones
+        return new Database(applicationContext, "bootcampar.db", null, 12);
     }
 
     protected Database(Context applicationContext, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -147,8 +151,12 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
 
         insertarGrupoPorDefecto(db);
         insertarAdministrator(db);
-        insertarCursoDePythonBasicsWithSam(db);
-        insertarCursoDePatrones(db);
+        insertarCursoDePythonBasicsWithSam(db, 1);
+        insertarCursoDePatrones(db, 2);
+        insertarCursoDeHtml(db, 3);
+        insertarCursoDeCsharp(db, 4);
+
+        asociarCursosConGrupoPorDefecto(db);
 
         db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
                 "'Programación con Java', 'Aprenda a programar en Java desde cero con este curso único!', '1', 'java')");
@@ -168,50 +176,143 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 "'Angular de cero a Experto', 'El mejor curso en Angular. Aprenda realizando cinco copias de sitios populares.', '3', 'angular')");
     }
 
-    private void insertarCursoDePatrones(ISQLiteDatabaseWrapper db) {
+    private void insertarCursoDeCsharp(ISQLiteDatabaseWrapper db, int cursoId) {
+        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaImagen + ", " + ColumnaNivel + ") VALUES (" +
+                "'How to Program In C#', 'Coding can seem scary at first - but its actually not that hard! Lets learn how to program in C#.', 'csharp', 1)");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Introduction', 'Getting Started!', 635, 1, 'https://www.youtube.com/embed/N775KsWQVkw?si=rO-p2hctAbTiBLqo', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 1', 'Basics', 707, 2, 'https://www.youtube.com/embed/jGD0vn-QIkg?si=h7_PDyUFexodVUPk', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 2', 'Variables', 829, 3, 'https://www.youtube.com/embed/g-9Jp4dmOBo?si=oO8kneV-bl-RYmN7', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 3', 'Conditions', 895, 4, 'https://www.youtube.com/embed/u_Qv5IrMUqg?si=V4SOdQmNrxMG5FkT', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 4', 'Loops', 1107, 5, 'https://www.youtube.com/embed/9ozOSKCiO0I?si=rWkiGrUzJieZBZhP', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 5', 'Arrays', 1020, 6, 'https://www.youtube.com/embed/YiE0oetGMAg?si=iRkH28bcaDK_tnrG', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 6', 'Methods', 1039, 7, 'https://www.youtube.com/embed/bPQx0paXrbw?si=P_FC8zQCbF9FTYll', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 7', 'Classes', 1180, 8, 'https://www.youtube.com/embed/WKjfCHxeEz4?si=NPCQAzSX0KCIVF4f', " + cursoId + ")");
+    }
+
+    private void insertarCursoDeHtml(ISQLiteDatabaseWrapper db, int cursoId) {
+        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaImagen + ", " + ColumnaNivel + ") VALUES (" +
+                "'HTML Tutorial for Beginners', 'This series will cover the latest concepts including HTML5.', 'html', 1)");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Introduction', 'Introduction to HTML', 211, 1, 'https://www.youtube.com/embed/dD2EISBDjWM?si=x4wbKpvEonfTmEmi', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 1', 'Creating the first web page', 609, 2, 'https://www.youtube.com/embed/-USAeFpVf_A?si=mkhmMOnwAsFvGRkm', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 2', 'Line breaks, spacing, and comments', 389, 3, 'https://www.youtube.com/embed/i3GE-toQg-o?si=MfhWW-S2ahK5LahT', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 3', 'Ordered and Unordered lists', 244, 4, 'https://www.youtube.com/embed/09oErCBjVns?si=RVxHitymn_9wyKlc', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 4', 'Creating a table', 251, 5, 'https://www.youtube.com/embed/wvR40su_XBM?si=p0strwy8DK1frI8U', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 5', 'Creating a web link', 194, 6, 'https://www.youtube.com/embed/U4UHoiK6Oo4?si=o5VTDPrbIlwNiwG-', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 6', 'Creating links within same web page', 254, 7, 'https://www.youtube.com/embed/bCt2FnyY7AE?si=B5UcMPno1qY5k4r5', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 7', 'Adding a image to a web page', 101, 8, 'https://www.youtube.com/embed/Zy4KJeVN7Gk?si=VNeA4iD-HzsJuGZZ', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 8', 'Resizing and sizing images', 192, 9, 'https://www.youtube.com/embed/dM12ctixdT4?si=FF_FXi5CjPSQA63x', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 9', 'Nested elements', 83, 10, 'https://www.youtube.com/embed/rO6_MZLIzCg?si=oUCWwvCbozPEK2jP', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 10', 'One-line text box', 226, 11, 'https://www.youtube.com/embed/wvU1mmJn_UI?si=QAS07spznbFyrv33', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 11', 'Add label to text box', 172, 12, 'https://www.youtube.com/embed/f9QXNFVlsls?si=x1-ERFIJ56oUpXMb', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 12', 'Multi-line text box', 149, 13, 'https://www.youtube.com/embed/onKF88kRK3Q?si=6sjbBbDcGNCPoacg', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 13', 'Radio buttons', 145, 14, 'https://www.youtube.com/embed/NDAa6EaKce8?si=YoqeoyGbKxeEEr65', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 14', 'Checkbox', 87, 15, 'https://www.youtube.com/embed/g4UAV1lIHyA?si=G4l1qVIKGl1Anz0E', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 15', 'Number input box', 96, 16, 'https://www.youtube.com/embed/NPfy-hKOGfk?si=TNhIYFtTVGUf8Z9K', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 16', 'Drop-down list', 146, 17, 'https://www.youtube.com/embed/yWuAsqUnNsA?si=vg9LLzhsEaHjVyyi', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 17', 'Date and number box', 158, 18, 'https://www.youtube.com/embed/H6BSr5UOg2Y?si=UEt5tNfEXrPvAKor', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 18', 'Fieldbox and Legend elements', 112, 19, 'https://www.youtube.com/embed/x13Uxl6_dyw?si=70XIfDHYvN-Btq5F', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 19', 'Attributes', 193, 20, 'https://www.youtube.com/embed/iWWTtYGZ4YA?si=jpkJs4DHG-aqcF9m', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 20', 'The meta element', 244, 21, 'https://www.youtube.com/embed/sx4kaeyzQzw?si=6iXGuZGviiv6N9n7', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 21', 'Escape characters', 122, 22, 'https://www.youtube.com/embed/s3h5FLBon88?si=_EBkLlPA_I6Sjc4g', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 22', 'Bold and italic elements', 164, 23, 'https://www.youtube.com/embed/X_OROia6aPo?si=p-98kUO_-yUfh4-6', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 23', 'iframe element', 307, 24, 'https://www.youtube.com/embed/7PORMYx30xE?si=4PZKQdirOV_kDT4T', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 24', 'sup and sub elements', 101, 25, 'https://www.youtube.com/embed/iG703SLOJ-Q?si=g95sORizhUz0d5yn', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 25', 'Title and alt attributes', 145, 26, 'https://www.youtube.com/embed/kA5pqPA5eZE?si=NDLTzF5prXgmj6wS', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 26', 'Audio element', 169, 27, 'https://www.youtube.com/embed/7tWBcT83hek?si=SfDt7EBRnG2Im5jd', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 27', 'Audio element attributes', 135, 28, 'https://www.youtube.com/embed/2aenvVrYWjg?si=5akApfO68thuRjn9', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 28', 'Video element', 108, 29, 'https://www.youtube.com/embed/iIgFqkDs4tY?si=l2bJhsIFCOfnrwUp', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Lesson 29', 'doctype', 143, 30, 'https://www.youtube.com/embed/c625P4B0OY0?si=pjboIEh2FgzZSwqW', " + cursoId + ")");
+    }
+
+    private void insertarCursoDePatrones(ISQLiteDatabaseWrapper db, int cursoId) {
         db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaImagen + ", " + ColumnaNivel + ") VALUES (" +
                 "'Design Patterns', 'Learn about Design Patterns in JavaScript with Beau', 'js', 2)");
         db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
-                "'Lesson 1', 'Singleton Design Pattern', 290, 1, 'https://www.youtube.com/embed/bgU7FeiWKzc?si=M4Ueo_ghh9tLOjZK', 2)");
+                "'Lesson 1', 'Singleton Design Pattern', 290, 1, 'https://www.youtube.com/embed/bgU7FeiWKzc?si=M4Ueo_ghh9tLOjZK', " + cursoId + ")");
         db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
-                "'Lesson 2', 'Observer Design Pattern', 236, 2, 'https://www.youtube.com/embed/3PUVr8jFMGg?si=MStdKuUxtU69R0yj', 2)");
+                "'Lesson 2', 'Observer Design Pattern', 236, 2, 'https://www.youtube.com/embed/3PUVr8jFMGg?si=MStdKuUxtU69R0yj', " + cursoId + ")");
         db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
-                "'Lesson 3', 'Module Design Pattern', 164, 3, 'https://www.youtube.com/embed/3pXVHRT-amw?si=G5XIaQftkSQPVVr-', 2)");
+                "'Lesson 3', 'Module Design Pattern', 164, 3, 'https://www.youtube.com/embed/3pXVHRT-amw?si=G5XIaQftkSQPVVr-', "+ cursoId + ")");
         db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
-                "'Lesson 4', 'Mediator Design Pattern', 308, 4, 'https://www.youtube.com/embed/KOVc5o5kURE?si=l6faPVQUgaf37jnX', 2)");
+                "'Lesson 4', 'Mediator Design Pattern', 308, 4, 'https://www.youtube.com/embed/KOVc5o5kURE?si=l6faPVQUgaf37jnX', " + cursoId + ")");
     }
 
-    private void insertarCursoDePythonBasicsWithSam(ISQLiteDatabaseWrapper db) {
+    private void insertarCursoDePythonBasicsWithSam(ISQLiteDatabaseWrapper db, int cursoId) {
         db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaImagen + ", " + ColumnaNivel + ") VALUES (" +
                 "'Python Basics with Sam', 'Learn the basics of Python live from Sam Focht every Tuesday. This is part of a series that will cover the entire Python Programming language.', 'python', 1)");
         db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
-                "'Lesson 1', 'Intro to Python Livestream', 7157, 1, 'https://www.youtube.com/embed/z2k9Jh3jDVU?si=Usm-VZf3o8NG6QIP', 1)");
+                "'Lesson 1', 'Intro to Python Livestream', 7157, 1, 'https://www.youtube.com/embed/z2k9Jh3jDVU?si=Usm-VZf3o8NG6QIP', " + cursoId + ")");
         db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
-                "'Lesson 2', 'Python For Loops, Functions, and Random', 7129, 2, 'https://www.youtube.com/embed/4UuMrebbwIo?si=8i4VTWPAynhgu_Aq', 1)");
+                "'Lesson 2', 'Python For Loops, Functions, and Random', 7129, 2, 'https://www.youtube.com/embed/4UuMrebbwIo?si=8i4VTWPAynhgu_Aq', " + cursoId +")");
         db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
-                "'Lesson 3', 'Prime Numbers, Times Tables, & More', 7185, 3, 'https://www.youtube.com/embed/DhdOKh5Issw?si=WKku1m1eUUr5SW8Y', 1)");
+                "'Lesson 3', 'Prime Numbers, Times Tables, & More', 7185, 3, 'https://www.youtube.com/embed/DhdOKh5Issw?si=WKku1m1eUUr5SW8Y', " + cursoId + ")");
         db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
-                "'Lesson 4', 'Find Longest Substring / Guessing Game', 7135, 4, 'https://www.youtube.com/embed/hoP7_DkrmiA?si=ZwoTyReFvy3wYaX3', 1)");
+                "'Lesson 4', 'Find Longest Substring / Guessing Game', 7135, 4, 'https://www.youtube.com/embed/hoP7_DkrmiA?si=ZwoTyReFvy3wYaX3', " + cursoId + ")");
         db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
-                "'Lesson 5', 'Command Line and Recursion in Python', 5644, 5, 'https://www.youtube.com/embed/2T8BFVPhYPs?si=v3GGjaLFesrJjfKl', 1)");
+                "'Lesson 5', 'Command Line and Recursion in Python', 5644, 5, 'https://www.youtube.com/embed/2T8BFVPhYPs?si=v3GGjaLFesrJjfKl', " + cursoId + ")");
         db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
-                "'Lesson 6', 'Scope and Decorators', 6353, 6, 'https://www.youtube.com/embed/VckRJ6v1yWU?si=tFP2-QQkVnzPjMU0', 1)");
+                "'Lesson 6', 'Scope and Decorators', 6353, 6, 'https://www.youtube.com/embed/VckRJ6v1yWU?si=tFP2-QQkVnzPjMU0', " + cursoId + ")");
         db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
-                "'Lesson 7', 'Build a Shopping List for the Command Line', 3990, 7, 'https://www.youtube.com/embed/xapvhkhlPNI?si=f2ydLAAG0y7qTc3_', 1)");
+                "'Lesson 7', 'Build a Shopping List for the Command Line', 3990, 7, 'https://www.youtube.com/embed/xapvhkhlPNI?si=f2ydLAAG0y7qTc3_', " + cursoId + ")");
         db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
-                "'Lesson 8', 'Generators and Classes', 4712, 8, 'https://www.youtube.com/embed/UzDuMsnTIGQ?si=WJu3elsQF7izyxpb', 1)");
+                "'Lesson 8', 'Generators and Classes', 4712, 8, 'https://www.youtube.com/embed/UzDuMsnTIGQ?si=WJu3elsQF7izyxpb', " + cursoId + ")");
         db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
-                "'Lesson 9', 'Board Game, Lists and More', 5024, 9, 'https://www.youtube.com/embed/1vMtftJf7tQ?si=nyMJFceeo2mR-h0D', 1)");
+                "'Lesson 9', 'Board Game, Lists and More', 5024, 9, 'https://www.youtube.com/embed/1vMtftJf7tQ?si=nyMJFceeo2mR-h0D', " + cursoId + ")");
         db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
-                "'Lesson 10', 'Chicken Nuggets and itertools', 3586, 10, 'https://www.youtube.com/embed/kZNIHeCaZiM?si=Qh6cZj0zpN_Hx6hG', 1)");
+                "'Lesson 10', 'Chicken Nuggets and itertools', 3586, 10, 'https://www.youtube.com/embed/kZNIHeCaZiM?si=Qh6cZj0zpN_Hx6hG', " + cursoId + ")");
         db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
-                "'Lesson 11', 'Tkinter Calculator', 3710, 11, 'https://www.youtube.com/embed/PkLwJicRI8s?si=8NABvmOWtl-Wt911', 1)");
+                "'Lesson 11', 'Tkinter Calculator', 3710, 11, 'https://www.youtube.com/embed/PkLwJicRI8s?si=8NABvmOWtl-Wt911',  " + cursoId + ")");
         db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
-                "'Lesson 12', 'Random Password Generator', 3440, 12, 'https://www.youtube.com/embed/3j6v4wBZWR8?si=jAU0j1Xja6xV8sIZ', 1)");
+                "'Lesson 12', 'Random Password Generator', 3440, 12, 'https://www.youtube.com/embed/3j6v4wBZWR8?si=jAU0j1Xja6xV8sIZ', " + cursoId + ")");
         db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
-                "'Lesson 13', 'Solving Python Challenges', 3874, 13, 'https://www.youtube.com/embed/iVajTZgMk4M?si=cU4eiqT_M3YlPfNy', 1)");
+                "'Lesson 13', 'Solving Python Challenges', 3874, 13, 'https://www.youtube.com/embed/iVajTZgMk4M?si=cU4eiqT_M3YlPfNy', " + cursoId + ")");
         db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
-                "'Lesson 14', 'Python Main Function', 3772, 14, 'https://www.youtube.com/embed/mvXDQNNcDu4?si=IHBFPK-ecmuwlRRf', 1)");
+                "'Lesson 14', 'Python Main Function', 3772, 14, 'https://www.youtube.com/embed/mvXDQNNcDu4?si=IHBFPK-ecmuwlRRf', " + cursoId + ")");
+    }
+
+    private void asociarCursosConGrupoPorDefecto(ISQLiteDatabaseWrapper db) {
+        db.execSQL("INSERT INTO " + TablaCurricula + "(" + ColumnaRelacionGrupo + ", " + ColumnaRelacionCurso + ") VALUES (1, 1)");
+        db.execSQL("INSERT INTO " + TablaCurricula + "(" + ColumnaRelacionGrupo + ", " + ColumnaRelacionCurso + ") VALUES (1, 2)");
+        db.execSQL("INSERT INTO " + TablaCurricula + "(" + ColumnaRelacionGrupo + ", " + ColumnaRelacionCurso + ") VALUES (1, 3)");
+        db.execSQL("INSERT INTO " + TablaCurricula + "(" + ColumnaRelacionGrupo + ", " + ColumnaRelacionCurso + ") VALUES (1, 4)");
     }
 
     private void insertarAdministrator(ISQLiteDatabaseWrapper db) {
@@ -1154,6 +1255,50 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     public Curso buscarCursoOExplotar(long id) {
         return (Curso)buscarElementoOExplotar(TablaCurso, CamposCurso, id,
                 Database::obtenerCursoDeCursor, "Se esperaba encontrar un único curso con id %d, se encontraron %d");
+    }
+
+    @Override
+    public List<Curso> buscarCursos(Usuario usuario) {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+        List<Curso> resultado = new ArrayList<>();
+
+        try {
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaCurso + ", " + TablaCurricula + ", " + TablaGrupo + ", " + TablaUsuario + ", " + TablaDivision,
+                    concatenarVectores(
+                            agregarNombreDeTablaEnColumnas(TablaCurso, CamposCurso),
+                            agregarNombreDeTablaEnColumnas(TablaCurricula, CamposCurricula),
+                            agregarNombreDeTablaEnColumnas(TablaGrupo, CamposGrupo),
+                            agregarNombreDeTablaEnColumnas(TablaDivision, CamposDivision),
+                            agregarNombreDeTablaEnColumnas(TablaUsuario, CamposUsuario)),
+                   TablaCurso + "." + ColumnaId + " = " + TablaCurricula + "." + ColumnaRelacionCurso + " AND " +
+                            TablaGrupo + "." + ColumnaId + " = " + TablaCurricula + "." + ColumnaRelacionGrupo + " AND " +
+                            TablaGrupo + "." + ColumnaId + " = " + TablaDivision + "." + ColumnaRelacionGrupo + " AND " +
+                            TablaUsuario + "." + ColumnaId + " = " + TablaDivision + "." + ColumnaRelacionUsuario + " AND " +
+                            TablaUsuario + "." + ColumnaId + " =? ",
+                            new String[] { String.valueOf(usuario.getId()) }, null, null, null);
+
+            if (cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    CursorHelper cursorHelper = new CursorHelper(cursor);
+                    Curso curso = obtenerCursoDeCursor(cursor, TablaCurso + "_");
+                    resultado.add(curso);
+                    cursor.moveToNext();
+                }
+            }
+
+            return resultado;
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
     }
 
     @Override

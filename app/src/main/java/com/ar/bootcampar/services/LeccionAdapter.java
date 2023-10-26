@@ -33,7 +33,7 @@ public class LeccionAdapter extends RecyclerView.Adapter<LeccionAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Leccion leccion = listaLecciones.get(position);
 
-        holder.textViewLessonOrder.setText(String.format("Lección %d", leccion.getOrden()));
+        holder.textViewLessonOrder.setText(String.format("Video #%d", leccion.getOrden()));
         holder.textViewLessonTitle.setText(leccion.getTitulo());
         holder.textViewLessonContents.setText(leccion.getContenido());
         holder.imageArrowPlay.setOnClickListener(v -> {

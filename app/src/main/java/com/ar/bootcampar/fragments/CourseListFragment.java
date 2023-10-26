@@ -2,6 +2,7 @@ package com.ar.bootcampar.fragments;
 
 import static com.ar.bootcampar.model.utilities.IntentConstants.COURSE_FOR_COURSE_DETAIL;
 import static com.ar.bootcampar.model.utilities.IntentConstants.CURRENT_USER;
+import static com.ar.bootcampar.model.utilities.IntentConstants.LOGGED_IN_STATUS_FOR_COURSE_DETAIL;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,7 +39,7 @@ public class CourseListFragment extends Fragment {
 
         LogicServices logicServices = new LogicServices(getContext());
         Usuario usuario = logicServices.obtenerUsuarioActivoDePreferencias();
-        List<Curso> listaCursos = logicServices.listarCursos();
+        List<Curso> listaCursos = logicServices.listarCursos(usuario);
         List<Inscripcion> listaInscripciones = logicServices.buscarInscripciones(usuario);
 
         RecyclerView recyclerView = rootView.findViewById(R.id.recyclerViewCourses);
@@ -51,14 +52,15 @@ public class CourseListFragment extends Fragment {
                     Inscripcion inscripcion = logicServices.buscarInscripcion(usuario, curso);
                     if (inscripcion != null) {
                         Inscripcion inscripcionModificada = logicServices.alternarFavoritismo(inscripcion);
-                        adapter.cambiarCursos(logicServices.listarCursos(), listaInscripciones.stream().map(i -> i.getCurso().getId() == curso.getId()? inscripcionModificada : i).collect(Collectors.toList()));
+                        adapter.cambiarCursos(logicServices.listarCursos(usuario), listaInscripciones.stream().map(i -> i.getCurso().getId() == curso.getId()? inscripcionModificada : i).collect(Collectors.toList()));
                         adapter.notifyItemChanged(position);
 
-                        Toast.makeText(getContext(), "Curso marcado como " + (inscripcion.getFavorito()? "favorito" : "no favorito"), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Curso marcado como " + (inscripcionModificada.getFavorito()? "favorito" : "no favorito"), Toast.LENGTH_SHORT).show();
                     }
                 },
                 (position, curso) -> {
                     Intent intent2 = new Intent(getContext(), CourseDetailActivity.class);
+                    intent2.putExtra(LOGGED_IN_STATUS_FOR_COURSE_DETAIL, true);
                     intent2.putExtra(CURRENT_USER, usuario);
                     intent2.putExtra(COURSE_FOR_COURSE_DETAIL, curso);
                     startActivity(intent2);

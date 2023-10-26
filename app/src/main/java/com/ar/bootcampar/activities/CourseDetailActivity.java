@@ -3,18 +3,11 @@ package com.ar.bootcampar.activities;
 import static com.ar.bootcampar.model.utilities.IntentConstants.COURSE_FOR_COURSE_DETAIL;
 import static com.ar.bootcampar.model.utilities.IntentConstants.INSCRIPTION_FOR_VIDEO_LIST;
 import static com.ar.bootcampar.model.utilities.IntentConstants.LOGGED_IN_STATUS_FOR_COURSE_DETAIL;
-import static com.ar.bootcampar.model.utilities.IntentConstants.RATING_FOR_COURSE;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentContainerView;
-import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -22,8 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ar.bootcampar.R;
-import com.ar.bootcampar.fragments.CourseListFragment;
-import com.ar.bootcampar.fragments.RatingFragment;
 import com.ar.bootcampar.model.Curso;
 import com.ar.bootcampar.model.Inscripcion;
 import com.ar.bootcampar.model.LogicServices;
