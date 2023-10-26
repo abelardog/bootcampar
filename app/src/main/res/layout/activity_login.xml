@@ -10,7 +10,7 @@
     <Button
         android:id="@+id/button"
         android:layout_width="305dp"
-        android:layout_height="61dp"
+        android:layout_height="52dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
@@ -28,9 +28,9 @@
     <Button
         android:id="@+id/buttonExternalLogin"
         android:layout_width="305dp"
-        android:layout_height="61dp"
+        android:layout_height="52dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/rounded_button"
         android:onClick="onAuthClick"
@@ -39,7 +39,6 @@
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.44"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button" />
 
@@ -105,7 +104,7 @@
         android:onClick="goToResetPassword"
         android:text="@string/forgotPasswordText"
         android:textAlignment="center"
-        android:textColor="@color/mangoOrange"
+        android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -138,6 +137,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.304"
         app:srcCompat="@drawable/header_logo"
-        app:tint="#1A01B2" />
+        app:tint="#1A01B2"
+        android:contentDescription="@string/text_logo"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
