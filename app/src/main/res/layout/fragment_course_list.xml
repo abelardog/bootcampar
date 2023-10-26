@@ -21,7 +21,6 @@
             android:textSize="22sp"
             android:textStyle="bold"
             android:text="Cursos Disponibles"/>
-        />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
