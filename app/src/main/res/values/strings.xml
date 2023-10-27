@@ -125,9 +125,10 @@
     <string name="calificacion">Calificación del curso</string>
     <string name="ir_a_login">Ir a login</string>
     <string name="text_main">Esta es una app nativa de Android que permite a los estudiantes del bootcamp BootcampAR acceder a los videos de los cursos, calificarlos, marcar favoritos y organizar su aprendizaje.</string>
-
-
-
+    <string name="tu_puntuacion">Tu puntuación</string>
+    <string name="curso_de_android">Curso de Android</string>
+    <string name="grupo">Grupo</string>
+    <string name="curso">Curso</string>
 
 
     <string name="com_auth0_client_id">yljxTIBYZ1mYbI0C6Rai2nqZhxRc8tJL</string>
