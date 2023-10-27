@@ -23,8 +23,7 @@
             android:id="@+id/buttonBuscar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Buscar"
-            android:onClick="onClickBuscar" />
+            android:text="Buscar" />
     </LinearLayout>
 
     <FrameLayout
