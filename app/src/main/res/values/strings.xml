@@ -141,8 +141,27 @@
     <string name="material_de_leccion">Material de lección</string>
     <string name="crear_leccion">Crear lección</string>
     <string name="ingrese_nombre_de_categoria">Ingrese nombre de categoría</string>
-
-
+    <string name="nombre_del_grupo">Ingrese el nombre del grupo</string>
+    <string name="invitacion">Invitación</string>
+    <string name="ingrese_invitacion">Ingrese la invitación del grupo</string>
+    <string name="orden">Orden</string>
+    <string name="ingrese_orden">Ingrese orden</string>
+    <string name="ingrese_titulo_leccion">Ingrese el título de la lección</string>
+    <string name="contenido">Contenido</string>
+    <string name="contenido_leccion">Ingrese el contenido de la lección</string>
+    <string name="vinculo">Vínculo</string>
+    <string name="link_externo">Link externo</string>
+    <string name="faq">Preguntas Frecuentes</string>
+    <string name="adquirir_curso">¿Como adquirir un curso?</string>
+    <string name="acceder_curso">Al acceder al curso, encontraras  información de como inscribirte al mismo</string>
+    <string name="tiempo_curso">¿De cuanto tiempo dispongo para  realizar mi curso?</string>
+    <string name="date_curso">Los cursos se mostraran activos por el termino de 1 año(doce meses) a partir de su inicio. Al ser un curso autoasistido, usted podra elegir cuando le es conveniente realizarlo.</string>
+    <string name="preguntas_frecuentes">¿Puedo realizar mas de un curso a la vez?</string>
+    <string name="faq1">Cada usuario puede realizar la cantidad de cursos que desee en simultaneo, sabiendo que los cursos se mantienen activos durante 1 año desde su inicio.</string>
+    <string name="preguntas_frecuentes1">¿que sucede si caduca un curso que aún no finalice?</string>
+    <string name="extension_curso">Usted podra contactarnos para pedir una extención de plazo, la cual tendra costo adicionales.</string>
+    <string name="como_notificar">Si no estoy conforme con mi curso  ¿como puedo notificarlo?</string>
+    <string name="como_notificar_respuesta">Usted podra dejar su calificación en cada curso realizado, y tambien darnos su opinion a traves de la sección de contacto.</string>
 
 
     <string name="com_auth0_client_id">yljxTIBYZ1mYbI0C6Rai2nqZhxRc8tJL</string>

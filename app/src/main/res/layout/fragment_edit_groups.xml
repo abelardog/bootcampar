@@ -21,14 +21,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_16sdp"
-                android:text="Nombre" />
+                android:text="@string/nombre" />
 
             <EditText
                 android:id="@+id/editGroupName"
                 android:layout_width="255dp"
                 android:layout_height="48dp"
                 android:ems="10"
-                android:hint="Ingrese el nombre del grupo"
+                android:hint="@string/nombre_del_grupo"
                 android:layout_marginStart="@dimen/_16sdp"
                 android:inputType="text" />
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -41,14 +41,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_16sdp"
-                android:text="Invitación" />
+                android:text="@string/invitacion" />
 
             <EditText
                 android:id="@+id/editInviteCode"
                 android:layout_width="255dp"
                 android:layout_height="48dp"
                 android:ems="10"
-                android:hint="Ingrese la invitación del grupo"
+                android:hint="@string/ingrese_invitacion"
                 android:layout_marginStart="@dimen/_9sdp"
                 android:inputType="text" />
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_6sdp"
             android:layout_marginEnd="@dimen/_6sdp"
-            android:text="Grabar" />
+            android:text="@string/grabar" />
 
         <ListView
             android:id="@+id/groupListView"
