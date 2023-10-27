@@ -8,6 +8,7 @@ import com.ar.bootcampar.services.SharedPreferencesManager;
 
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class LogicServices {
     // Copiado de Patterns.EMAIL_ADDRESS para las pruebas unitarias
@@ -229,4 +230,16 @@ public class LogicServices {
     public Inscripcion actualizarPuntuacion(Inscripcion inscripcion, int nuevaPuntuacion) {
         return database.modificarInscripcion(inscripcion, inscripcion.getUsuario(), inscripcion.getCurso(), nuevaPuntuacion, inscripcion.getFavorito(), inscripcion.getUltimaLeccion());
     }
+
+    public List<Curso> buscarCursos(String query) {
+
+        List<Curso> cursos = database.listarCursos();
+
+        return cursos.stream()
+                .filter(c -> c.getTitulo().toLowerCase().contains(query.toLowerCase()) ||
+                        c.getDescripcion().toLowerCase().contains(query.toLowerCase()))
+                .collect(Collectors.toList());
+
+    }
+
 }
