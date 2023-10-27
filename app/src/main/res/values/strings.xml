@@ -162,7 +162,9 @@
     <string name="extension_curso">Usted podra contactarnos para pedir una extención de plazo, la cual tendra costo adicionales.</string>
     <string name="como_notificar">Si no estoy conforme con mi curso  ¿como puedo notificarlo?</string>
     <string name="como_notificar_respuesta">Usted podra dejar su calificación en cada curso realizado, y tambien darnos su opinion a traves de la sección de contacto.</string>
-
+    <string name="reproducir">Reproducir</string>
+    <string name="editar">Editar</string>
+    <string name="borrar">Borrar</string>
 
     <string name="com_auth0_client_id">yljxTIBYZ1mYbI0C6Rai2nqZhxRc8tJL</string>
     <string name="com_auth0_domain">dev-jvejcgb265hsomkf.us.auth0.com</string>
