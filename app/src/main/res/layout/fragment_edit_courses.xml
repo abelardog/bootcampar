@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -28,7 +27,8 @@
                 android:layout_width="255dp"
                 android:layout_height="48dp"
                 android:ems="10"
-                android:hint="Ingrese el titulo del curso"
+                android:hint="@string/txt_add_course_title"
+                android:autofillHints="courseTitle"
                 android:layout_marginStart="@dimen/_16sdp"
                 android:inputType="text" />
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -48,7 +48,8 @@
                 android:layout_width="255dp"
                 android:layout_height="48dp"
                 android:ems="10"
-                android:hint="Ingrese la descripción del curso"
+                android:hint="@string/txt_add_course_description"
+                android:autofillHints="courseDescription"
                 android:layout_marginStart="@dimen/_9sdp"
                 android:inputType="text" />
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -61,14 +62,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_16sdp"
-                android:text="Imagen" />
+                android:text="@string/txt_course_image" />
 
             <EditText
                 android:id="@+id/editCourseImage"
                 android:layout_width="255dp"
                 android:layout_height="48dp"
                 android:ems="10"
-                android:hint="Ingrese la imagen del curso"
+                android:hint="@string/txt_add_course_image"
+                android:autofillHints="courseImage"
                 android:layout_marginStart="@dimen/_9sdp"
                 android:inputType="text" />
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -76,9 +78,10 @@
             android:id="@+id/buttonSaveCourse"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxWidth="@dimen/_32sdp"
             android:layout_marginStart="@dimen/_6sdp"
             android:layout_marginEnd="@dimen/_6sdp"
-            android:text="Grabar" />
+            android:text="@string/grabar" />
 
         <ListView
             android:id="@+id/courseListView"
