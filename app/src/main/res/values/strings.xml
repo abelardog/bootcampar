@@ -50,6 +50,7 @@
 
     <!-- Strings used for fragments for profile -->
     <string name="title_my_courses">Mis cursos</string>
+    <string name="logo_img">Logo BootcampAr</string>
     <string name="txt_profile_name">Nombre</string>
     <string name="txt_profile_lastname">Apellido</string>
     <string name="txt_profile_email">E-mail</string>
