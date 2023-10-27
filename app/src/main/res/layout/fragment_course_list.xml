@@ -17,13 +17,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Buscar cursos" />
+            android:hint="@string/serach" />
 
         <Button
             android:id="@+id/buttonBuscar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Buscar" />
+            android:text="@string/search_button_text" />
     </LinearLayout>
 
     <FrameLayout
@@ -40,8 +40,8 @@
             android:id="@+id/textViewNoResults"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No hay coincidencias"
             android:layout_gravity="center"
+            android:text="@string/NoMatches"
             android:visibility="gone" />
 
     </FrameLayout>
