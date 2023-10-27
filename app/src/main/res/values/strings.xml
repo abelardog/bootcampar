@@ -50,6 +50,7 @@
 
     <!-- Strings used for fragments for profile -->
     <string name="title_my_courses">Mis cursos</string>
+    <string name="logo_img">Logo BootcampAr</string>
     <string name="txt_profile_name">Nombre</string>
     <string name="txt_profile_lastname">Apellido</string>
     <string name="txt_profile_email">E-mail</string>
@@ -129,4 +130,10 @@
     <string name="usar_auth0">Usar Auth0</string>
     <string name="serach">Buscar Cursos</string>
     <string name="NoMatches">No hay coincidencias</string>
+
+    <string name="txt_add_course_title">Ingrese el titulo del curso</string>
+    <string name="txt_add_course_description">Ingrese la descripción del curso</string>
+    <string name="txt_add_course_image">Ingrese la imagen del curso</string>
+    <string name="txt_course_image">Imagen del curso</string>
+
 </resources>
