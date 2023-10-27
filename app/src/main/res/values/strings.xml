@@ -137,6 +137,11 @@
     <string name="imagen">Imagen</string>
     <string name="agregar">Agregar</string>
     <string name="crear_curso">Boton que dice agregar</string>
+    <string name="detalles">Detalles</string>
+    <string name="material_de_leccion">Material de lección</string>
+    <string name="crear_leccion">Crear lección</string>
+    <string name="ingrese_nombre_de_categoria">Ingrese nombre de categoría</string>
+
 
 
 
