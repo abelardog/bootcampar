@@ -49,6 +49,14 @@ public class CourseListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_course_list, container, false);
 
+        Button buttonBuscar = rootView.findViewById(R.id.buttonBuscar);
+        buttonBuscar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickBuscar(v);
+            }
+        });
+
         LogicServices logicServices = new LogicServices(getContext());
         usuario = logicServices.obtenerUsuarioActivoDePreferencias();
         List<Curso> listaCursos = logicServices.listarCursos();
@@ -60,7 +68,6 @@ public class CourseListFragment extends Fragment {
         adapter = new CourseAdapter(listaCursos, logicServices.buscarInscripciones(usuario));
         recyclerView.setAdapter(adapter);
 
-        Button buttonBuscar = rootView.findViewById(R.id.buttonBuscar);
         editTextBuscar = rootView.findViewById(R.id.editTextBuscar);
         buttonBuscar.setOnClickListener(this::onClickBuscar);
 
