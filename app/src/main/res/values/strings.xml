@@ -27,7 +27,7 @@
     <string name="password_reset_button_text">Enviar email de reestablecimiento</string>
     <string name="home_return_button_text">Regresar</string>
     <string name="enter_email_textbox_hint">Ingrese su correo</string>
-    <string name="email_recovery_explanation">Llegaste al lugar indicado para reestablecer tu contraseña olvidada o desbloquear tu cuenta. Te pedimos que ingreses tu email para enviarte el link de reestablecimiento.</string>
+    <string name="email_recovery_explanation">Llegaste al lugar indicado. Ingresá tu email para enviarte el link de reestablecimiento.</string>
     <string name="email_recover_explanation_title">¿Tienes problemas para iniciar sesión?</string>
     <string name="restoration_mail_sent">Se ha enviado un correo para reestablecer tu contraseña.</string>
     <string name="registration_success_message">Registración exitosa!</string>
@@ -91,7 +91,7 @@
     <string name="contact">Contacto</string>
     <string name="ingrese_codigo_invitacion">Ingrese su código de invitación</string>
     <string name="title_class">Python</string>
-    <string name="chapter">chapter1</string>
+    <string name="chapter">chapter 1</string>
     <string name="introduction_class">Introduction</string>
     <string name="classDescription">classDescription</string>
     <string name="qualification_class">qualification</string>
