@@ -72,7 +72,8 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         // Version 10: Agregar curso de HTML
         // Version 11: Agregar curso de C#
         // Version 12: Acomodar nombres de lecciones
-        return new Database(applicationContext, "bootcampar.db", null, 12);
+        // Version 13: Agregar curso fullstack
+        return new Database(applicationContext, "bootcampar.db", null, 13);
     }
 
     protected Database(Context applicationContext, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -155,6 +156,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         insertarCursoDePatrones(db, 2);
         insertarCursoDeHtml(db, 3);
         insertarCursoDeCsharp(db, 4);
+        instertarCursoErreArgentinaPrograma(db, 5);
 
         asociarCursosConGrupoPorDefecto(db);
 
@@ -174,6 +176,61 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 "'Logra el Mejor Diseño con CSS', 'Un curso de nivel avanzado para aprender a realizar animaciones en CSS.', '3', 'css')");
         db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
                 "'Angular de cero a Experto', 'El mejor curso en Angular. Aprenda realizando cinco copias de sitios populares.', '3', 'angular')");
+    }
+
+    private void instertarCursoErreArgentinaPrograma(ISQLiteDatabaseWrapper db, int cursoId) {
+        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaImagen + ", " + ColumnaNivel + ") VALUES (" +
+                "'Curso Fullstack de r/ArgentinaPrograma', 'Este es un curso para aprender JavaScript desde 0, gratis y en español. Para más info, visita: https://argentinaprograma.com/', 'js', 2)");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Clase 1', 'Introducción a la programación', 9283, 1, 'https://www.youtube.com/embed/JkwDaUSivJA?si=sgfrUmxTQWxh6qT5', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Clase 2', 'Tarea de Clase 1 + Scope + Debugging + IF/ELSE', 6504, 2, 'https://www.youtube.com/embed/366HDMfd2-E?si=AFwRILllWsOFJ--G', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Clase 3', 'Finalización de nivel1 + interpolación de strings + tarea', 2846, 3, 'https://www.youtube.com/embed/I31mC2TXOxQ?si=XV6r1wrX5jzuRiYO', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Clase 4', 'Corrección de Tarea 3+ Operadores Lógicos + NaN + Nivel 2 completo', 8325, 4, 'https://www.youtube.com/embed/sI_u2Nj84Ls?si=CswJqyp4DfHxZa7w', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Clase 5', 'Corrección Tarea Clase 4 + Git/GitHub/GitHub Desktop + HTML, CSS, EventListeners', 9648, 5, 'https://www.youtube.com/embed/52AYl1AAs1o?si=MJsyeDESyJKLpHzz', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Clase 6', 'Repaso clase 5, cómo manipular HTML con JS, primer tarea de la clase 5 hecha en vivo.', 4448, 6, 'https://www.youtube.com/embed/pHDBIy1qUF4?si=t3o74KJp8rbptWN3', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Clase 7', 'Corrección tarea clase 6 e Introducción a validación de formularios + Unit Tests', 5440, 7, 'https://www.youtube.com/embed/da8Ekd47IOY?si=Kwt4bIvSK9jhFokG', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Clase 8', 'Corrección Tarea 7 + Regular Expression + Objetos', 7495, 8, 'https://www.youtube.com/embed/R4foJQCAZvQ?si=EDVmAjNJFZHUXgIL', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Clase 9', 'Repaso de Git y Github (con GitHub Desktop)', 2585, 9, 'https://www.youtube.com/embed/QWeDBSHHPQI?si=g53FHGRfd-kHC2rX', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Clase 10', 'Juego simón dice, Bootstrap y NPM', 5728, 10, 'https://www.youtube.com/embed/sbUPqBh0KfA?si=Bhflz2cEnmZFZZPO', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Clase 11', 'Memotest + Cypress', 6258, 11, 'https://www.youtube.com/embed/3PwEu0YJnX8?si=YOTIpj6-9Tsl0fUi', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Clase 12', 'Corrección Tarea 11 + jQuery + Promises + API', 7892, 12, 'https://www.youtube.com/embed/ZFx2bd91KyU?si=pRy_5i2RTTDpmpyZ', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Clase 13', 'Corrección Tarea 12, ESLint, ESM, Async/Await.', 6722, 13, 'https://www.youtube.com/embed/cY-OQERZBR0?si=bULnwaMi0zDtLept', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Clase 14', 'localStorage, ESM vs CJS, Babel, Jest, network requests con Cypress', 7481, 14, 'https://www.youtube.com/embed/yQxobcVFj7w?si=tdDZFJAzzTbH4vVj', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Clase 15', 'Qué viene en el resto del curso + Clases (OOP)', 7457, 15, 'https://www.youtube.com/embed/EfIDTQET0e0?si=meX5ClkavdmloJbT', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Clase 16', 'Corrección clase 15 + Teoría de diseño de software', 6135, 16, 'https://www.youtube.com/embed/Ymth8fks8xc?si=y_eBOO6yx1fZiznD', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Clase 17', 'Introducción a Node.js', 6559, 17, 'https://www.youtube.com/embed/8LxxQeNCu4U?si=LOg0Z_ep1Itfo8We', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Clase 18.1', 'Dependency Inversion Principle', 3004, 18, 'https://www.youtube.com/embed/6D5kLEK-LAw?si=yRUnfBFfYhVrTpQ2', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Clase 18.2', 'Explicación de MVC, Dotenv, Sesiones, Cookies y corrección de tarea 17', 5712, 19, 'https://www.youtube.com/embed/Rqb8OKkW-aE?si=Dzw34jG53DIaLdtw', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Clase 18.3', 'Intro a Base de Datos, SQL con SQLite', 3944, 20, 'https://www.youtube.com/embed/2qtJ8ybNOFM?si=AUgqHJIu3G1IsxVv', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Clase 18.4', 'Índices, Claves Foráneas, ejecutando SQL en JS, Implementación de SQLite', 4459, 21, 'https://www.youtube.com/embed/HKT4N9XC9KI?si=ac5p53oZvzGkqD5_', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Clase 18.5', 'ORM (Sequelize)', 7614, 22, 'https://www.youtube.com/embed/s-AFZjRijD0?si=OQdMoxevCFinHWhb', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Clase 19.1', 'Corrección sistema de alquiler de autos (básico)', 4930, 23, 'https://www.youtube.com/embed/1F9ma_Nb_gw?si=51hJVe68e5kjU33k', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Clase 19.2', 'SASS y GULP', 4748, 24, 'https://www.youtube.com/embed/QDS-y_opsZM?si=3PQCQ20P_WOJyQHQ', " + cursoId + ")");
+        db.execSQL("INSERT INTO " + TablaLeccion + "(" + ColumnaTitulo + ", " + ColumnaContenido + ", " + ColumnaDuracion + ", " + ColumnaOrden + ", " + ColumnaVinculo + ", " + ColumnaRelacionCurso + ") VALUES (" +
+                "'Clase 19.3', 'Introducción a TypeScript', 4039, 25, 'https://www.youtube.com/embed/1tfSmvLIof0?si=kBbr0IWYIAZ7O2A9', " + cursoId + ")");
     }
 
     private void insertarCursoDeCsharp(ISQLiteDatabaseWrapper db, int cursoId) {
@@ -313,6 +370,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         db.execSQL("INSERT INTO " + TablaCurricula + "(" + ColumnaRelacionGrupo + ", " + ColumnaRelacionCurso + ") VALUES (1, 2)");
         db.execSQL("INSERT INTO " + TablaCurricula + "(" + ColumnaRelacionGrupo + ", " + ColumnaRelacionCurso + ") VALUES (1, 3)");
         db.execSQL("INSERT INTO " + TablaCurricula + "(" + ColumnaRelacionGrupo + ", " + ColumnaRelacionCurso + ") VALUES (1, 4)");
+        db.execSQL("INSERT INTO " + TablaCurricula + "(" + ColumnaRelacionGrupo + ", " + ColumnaRelacionCurso + ") VALUES (1, 5)");
     }
 
     private void insertarAdministrator(ISQLiteDatabaseWrapper db) {
