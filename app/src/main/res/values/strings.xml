@@ -122,6 +122,12 @@
     <string name="text_logo">Logo de nuestra aplicacion muestra la palabra bootcampar</string>
     <string name="img_android">En la imagen se muestra el logo de Android Studio</string>
     <string name="placeholder">Placeholder</string>
+    <string name="calificacion">Calificación del curso</string>
+    <string name="ir_a_login">Ir a login</string>
+    <string name="text_main">Esta es una app nativa de Android que permite a los estudiantes del bootcamp BootcampAR acceder a los videos de los cursos, calificarlos, marcar favoritos y organizar su aprendizaje.</string>
+
+
+
 
 
     <string name="com_auth0_client_id">yljxTIBYZ1mYbI0C6Rai2nqZhxRc8tJL</string>

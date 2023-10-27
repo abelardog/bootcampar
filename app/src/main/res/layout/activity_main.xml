@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="goToLogin"
-        android:text="Ir a login"
+        android:text="@string/ir_a_login"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -34,7 +34,7 @@
         android:layout_width="392dp"
         android:layout_height="182dp"
         android:layout_marginBottom="44dp"
-        android:text="Esta es una app nativa de Android que permite a los estudiantes del bootcamp BootcampAR acceder a los videos de los cursos, calificarlos, marcar favoritos y organizar su aprendizaje."
+        android:text="@string/text_main"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="24sp"
