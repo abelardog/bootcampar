@@ -129,6 +129,15 @@
     <string name="curso_de_android">Curso de Android</string>
     <string name="grupo">Grupo</string>
     <string name="curso">Curso</string>
+    <string name="crear_nuevo_curso">Crear nuevo curso</string>
+    <string name="nombre_del_curso">Nombre del curso:</string>
+    <string name="nivel">Nivel</string>
+    <string name="descripcion_text">Descripción</string>
+    <string name="leccion">Lección</string>
+    <string name="imagen">Imagen</string>
+    <string name="agregar">Agregar</string>
+    <string name="crear_curso">Boton que dice agregar</string>
+
 
 
     <string name="com_auth0_client_id">yljxTIBYZ1mYbI0C6Rai2nqZhxRc8tJL</string>
