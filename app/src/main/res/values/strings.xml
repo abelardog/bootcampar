@@ -88,7 +88,7 @@
     <string name="title">Título</string>
     <string name="description">Descripción</string>
     <string name="profile_updated_successfully">Datos actualizados!</string>
-    <string name="complete_profile_data_please">Por favor complete todos los datos.</string>
+    <string name="complete_profile_data_please">Por favor complete su nombre y apellido.</string>
     <string name="contact">Contacto</string>
     <string name="ingrese_codigo_invitacion">Ingrese su código de invitación</string>
     <string name="title_class">Python</string>
@@ -180,5 +180,11 @@
     <string name="ingrese_su_clave_antigua">Ingrese su clave antigua</string>
     <string name="ingrese_su_clave_nueva">Ingrese su clave nueva</string>
     <string name="repita_su_nueva_clave">Repita su nueva clave</string>
+
+    <string name="cannot_update_profile">No se puede actualizar el perfil</string>
+    <string name="old_password_is_required">Para cambiar la clave debe ingresar su clave anterior</string>
+    <string name="old_password_does_not_match">Su clave anterior no es correcta</string>
+    <string name="new_password_dont_match">Su clave nueva no es igual a la confirmación</string>
+    <string name="invalid_blank_password">Su nueva clave no puede estar vacía</string>
 
 </resources>
