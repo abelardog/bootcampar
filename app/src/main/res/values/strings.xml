@@ -192,5 +192,6 @@
     <string name="new_password_dont_match">Su clave nueva no es igual a la confirmación</string>
     <string name="invalid_blank_password">Su nueva clave no puede estar vacía</string>
     <string name="descripcion_autofill_hint">Descripción de la categoría</string>
+    <string name="txtAcceFavoritos">Imagen de un Corazón para seleccionar favoritos</string>
 
 </resources>

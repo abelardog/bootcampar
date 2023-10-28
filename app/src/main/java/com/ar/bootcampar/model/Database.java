@@ -73,7 +73,8 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         // Version 11: Agregar curso de C#
         // Version 12: Acomodar nombres de lecciones
         // Version 13: Agregar curso fullstack
-        return new Database(applicationContext, "bootcampar.db", null, 13);
+        // Version 14: Borrar cursos innecesarios
+        return new Database(applicationContext, "bootcampar.db", null, 14);
     }
 
     protected Database(Context applicationContext, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -159,25 +160,9 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         instertarCursoErreArgentinaPrograma(db, 5);
 
         asociarCursosConGrupoPorDefecto(db);
-
-        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
-                "'Programación con Java', 'Aprenda a programar en Java desde cero con este curso único!', '1', 'java')");
-        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
-                "'JavaScript para Novatos', 'Un curso simple para aprender el ABC de JavaScript.', '1', 'js')");
-        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
-                "'Master en Python', 'Conviértase en un experto utilizando nuestro curso de cero a héroe!', '3', 'python')");
-        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
-                "'Aprende Html como un Profesional', 'Este curso le enseñará a crear sitios web con diseño responsivo.', '1', 'html')");
-        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
-                "'Desarrollo con Wordpress', 'Aprenda a utilizar el framework más popular del mundo.', '1', 'wordpress')");
-        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
-                "'Test Unitarios conceptos Avanzados', 'Con este curso aprenderá a escribir código sólido utilizando pruebas unitarias.', '2', 'unittest')");
-        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
-                "'Logra el Mejor Diseño con CSS', 'Un curso de nivel avanzado para aprender a realizar animaciones en CSS.', '3', 'css')");
-        db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaNivel + ", " + ColumnaImagen + ") VALUES (" +
-                "'Angular de cero a Experto', 'El mejor curso en Angular. Aprenda realizando cinco copias de sitios populares.', '3', 'angular')");
     }
 
+    /* imagen puede ser java, js, python, html, wordpress, css, angular */
     private void instertarCursoErreArgentinaPrograma(ISQLiteDatabaseWrapper db, int cursoId) {
         db.execSQL("INSERT INTO " + TablaCurso + "(" + ColumnaTitulo + ", " + ColumnaDescripcion + ", " + ColumnaImagen + ", " + ColumnaNivel + ") VALUES (" +
                 "'Curso Fullstack de r/ArgentinaPrograma', 'Este es un curso para aprender JavaScript desde 0, gratis y en español. Para más info, visita: https://argentinaprograma.com/', 'js', 2)");
