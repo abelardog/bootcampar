@@ -67,7 +67,9 @@ public class LogicServices {
         if (!esCadenaInvalida(email) && esEmailValido(email) && !esCadenaInvalida(clave)) {
             Usuario usuario = database.buscarUsuarioONada(email);
             if (usuario != null) {
-                return new Tupla<>(usuario, getStringFromContext(R.string.welcomeMessage));
+                if (usuario.getClave().equals(clave)) {
+                    return new Tupla<>(usuario, getStringFromContext(R.string.welcomeMessage));
+                }
             }
         }
 
