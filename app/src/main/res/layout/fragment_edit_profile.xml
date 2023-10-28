@@ -7,6 +7,7 @@
 
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:background="@color/earthBlue"
@@ -26,47 +27,86 @@
         android:id="@+id/textRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
         android:text="@string/title_update_profile"
         android:textAlignment="center"
         android:textColor="@color/earthBlue"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.233" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <EditText
         android:id="@+id/editProfileFirstName"
         android:layout_width="350dp"
         android:layout_height="48dp"
+        android:layout_marginTop="24dp"
         android:autofillHints="username"
         android:ems="10"
         android:hint="@string/hintInputName"
         android:inputType="text"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.54"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.571" />
+        app:layout_constraintTop_toBottomOf="@+id/textRegister" />
 
     <EditText
         android:id="@+id/editProfileLastName"
         android:layout_width="350dp"
         android:layout_height="48dp"
+        android:layout_marginTop="24dp"
         android:autofillHints="lastName"
         android:ems="10"
         android:hint="@string/hintInputLastName"
         android:inputType="text"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.54"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.685" />
+        app:layout_constraintTop_toBottomOf="@+id/editProfileFirstName" />
+
+    <EditText
+        android:id="@+id/editProfileOldPassword"
+        android:layout_width="350dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="24dp"
+        android:autofillHints="password"
+        android:ems="10"
+        android:hint="@string/ingrese_su_clave_antigua"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editProfileLastName" />
+
+    <EditText
+        android:id="@+id/editProfileNewPassword1"
+        android:layout_width="350dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="24dp"
+        android:autofillHints="password"
+        android:ems="10"
+        android:hint="@string/ingrese_su_clave_nueva"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editProfileOldPassword" />
+
+    <EditText
+        android:id="@+id/editProfileNewPassword2"
+        android:layout_width="350dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="24dp"
+        android:autofillHints="password"
+        android:ems="10"
+        android:hint="@string/repita_su_nueva_clave"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editProfileNewPassword1" />
 
     <Button
         android:id="@+id/buttonProfileUpdate"
@@ -81,21 +121,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textRegister"
-        app:layout_constraintVertical_bias="0.852" />
-
-    <ImageView
-        android:id="@+id/imageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/black"
-        android:contentDescription="@string/alt_txt_img_profile"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.463"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.378"
-        tools:srcCompat="@tools:sample/avatars[8]" />
+        app:layout_constraintTop_toBottomOf="@+id/editProfileNewPassword2"
+        app:layout_constraintVertical_bias="0.208" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

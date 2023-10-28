@@ -35,9 +35,12 @@ public class EditProfileActivity extends AppCompatActivity {
         button.setOnClickListener(v -> {
             String firstName = ((EditText)findViewById(R.id.editProfileFirstName)).getText().toString();
             String lastName = ((EditText)findViewById(R.id.editProfileLastName)).getText().toString();
+            String oldPassword = ((EditText)findViewById(R.id.editProfileOldPassword)).getText().toString();
+            String newPassword = ((EditText)findViewById(R.id.editProfileNewPassword1)).getText().toString();
+            String confirmPassword = ((EditText)findViewById(R.id.editProfileNewPassword2)).getText().toString();
 
             LogicServices logicServices = new LogicServices(getApplicationContext());
-            Tupla<Usuario, String> resultado = logicServices.modificarUsuario(usuario, firstName, lastName);
+            Tupla<Usuario, String> resultado = logicServices.modificarUsuario(usuario, firstName, lastName, oldPassword, newPassword, confirmPassword);
             Toast.makeText(EditProfileActivity.this, resultado.derecha, Toast.LENGTH_SHORT).show();
 
             if (resultado.izquierda != null) {
@@ -45,9 +48,8 @@ public class EditProfileActivity extends AppCompatActivity {
                 Intent intent = new Intent(UPDATE_NAME_BROADCAST);
                 intent.putExtra(CURRENT_USER, resultado.izquierda);
                 LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+                finish();
             }
-
-            finish();
         });
     }
 }

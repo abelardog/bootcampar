@@ -67,7 +67,9 @@ public class LogicServices {
         if (!esCadenaInvalida(email) && esEmailValido(email) && !esCadenaInvalida(clave)) {
             Usuario usuario = database.buscarUsuarioONada(email);
             if (usuario != null) {
-                return new Tupla<>(usuario, getStringFromContext(R.string.welcomeMessage));
+                if (usuario.getClave().equals(clave)) {
+                    return new Tupla<>(usuario, getStringFromContext(R.string.welcomeMessage));
+                }
             }
         }
 
@@ -176,10 +178,36 @@ public class LogicServices {
         }
     }
 
-    public Tupla<Usuario, String> modificarUsuario(Usuario usuario, String nuevoNombre, String nuevoApellido) {
+    public Tupla<Usuario, String> modificarUsuario(Usuario usuario, String nuevoNombre, String nuevoApellido, String oldPassword, String newPassword, String confirmPassword) {
         try {
-            if (usuario != null && !esCadenaInvalida(nuevoNombre) && !esCadenaInvalida(nuevoApellido)) {
-                Usuario nuevoUsuario = database.modificarUsuario(usuario, nuevoNombre, nuevoApellido, usuario.getEmail(), usuario.getClave(), usuario.getRol(), usuario.getTelefono());
+            if (usuario == null) {
+                return new Tupla<>(null, getStringFromContext(R.string.cannot_update_profile));
+            }
+
+            String nuevaClave = usuario.getClave();
+
+            if (oldPassword.isEmpty() && (!newPassword.isEmpty() || !confirmPassword.isEmpty())) {
+                return new Tupla<>(null, getStringFromContext(R.string.old_password_is_required));
+            }
+
+            if (!esCadenaInvalida(oldPassword)) {
+                if (! usuario.getClave().equals(oldPassword)) {
+                    return new Tupla<>(null, getStringFromContext(R.string.old_password_does_not_match));
+                }
+
+                if (! newPassword.equals(confirmPassword)) {
+                    return new Tupla<>(null, getStringFromContext(R.string.new_password_dont_match));
+                }
+
+                if (newPassword.isEmpty()) {
+                    return new Tupla<>(null, getStringFromContext(R.string.invalid_blank_password));
+                }
+
+                nuevaClave = newPassword;
+            }
+
+            if (!esCadenaInvalida(nuevoNombre) && !esCadenaInvalida(nuevoApellido)) {
+                Usuario nuevoUsuario = database.modificarUsuario(usuario, nuevoNombre, nuevoApellido, usuario.getEmail(), nuevaClave, usuario.getRol(), usuario.getTelefono());
                 return new Tupla<>(nuevoUsuario, getStringFromContext(R.string.profile_updated_successfully));
             }
 

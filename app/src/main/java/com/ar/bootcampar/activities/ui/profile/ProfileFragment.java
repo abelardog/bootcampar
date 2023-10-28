@@ -38,7 +38,6 @@ public class ProfileFragment extends Fragment {
 
     private FragmentProfileBinding binding;
     private TextView textViewNombre;
-    private TextView textViewApellido;
     private TextView textViewEmail;
 
     @Override
@@ -54,7 +53,6 @@ public class ProfileFragment extends Fragment {
         View root = binding.getRoot();
 
         textViewNombre = root.findViewById(R.id.textProfileUserName);
-        textViewApellido = root.findViewById(R.id.textProfileUserLastName);
         textViewEmail = root.findViewById(R.id.textProfileUserEmail);
 
         Usuario usuario = new SharedPreferencesManager(getActivity()).cargarUsuario();
@@ -78,8 +76,7 @@ public class ProfileFragment extends Fragment {
 
     private void CargarInformacionDeUsuario(Usuario usuario) {
         if (usuario != null) {
-            textViewNombre.setText(usuario.getNombre());
-            textViewApellido.setText(usuario.getApellido());
+            textViewNombre.setText(usuario.getNombre().concat(" ").concat(usuario.getApellido()));
             textViewEmail.setText(usuario.getEmail());
         }
     }
