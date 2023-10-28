@@ -12,8 +12,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -113,6 +115,16 @@ public class EditCategoriesFragment extends Fragment {
                 else {
                     Toast.makeText(getContext(), "Por favor complete los datos", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        EditText editCategoryDescription = (EditText)view.findViewById(R.id.editCategoryDescription);
+        editCategoryDescription.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
+        editCategoryDescription.setAccessibilityDelegate(new View.AccessibilityDelegate() {
+            @Override
+            public void onInitializeAccessibilityNodeInfo(View host, AccessibilityNodeInfo info) {
+                super.onInitializeAccessibilityNodeInfo(host, info);
+                info.setHintText("Descripción de la categoría");
             }
         });
 
