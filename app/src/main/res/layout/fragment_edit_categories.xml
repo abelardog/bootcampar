@@ -49,10 +49,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_48sdp"
                 android:layout_marginEnd="@dimen/_16sdp"
+                android:layout_marginStart="@dimen/_9sdp"
                 android:ems="10"
                 android:hint="@string/ingrese_descripcion"
-                android:layout_marginStart="@dimen/_9sdp"
-                android:inputType="text" />
+                android:inputType="text"
+                android:importantForAccessibility="yes"/>
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <Button
