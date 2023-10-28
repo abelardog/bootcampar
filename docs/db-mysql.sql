@@ -46,6 +46,7 @@ CREATE TABLE IF NOT EXISTS `bootcampar`.`Cursos` (
   `Titulo` VARCHAR(45) NOT NULL,
   `Descripcion` VARCHAR(450) NULL,
   `Nivel` INT NOT NULL,
+  `Imagen` VARCHAR(45) NULL,
   PRIMARY KEY (`Id`),
   UNIQUE INDEX `ID_UNIQUE` (`Id` ASC) VISIBLE)
 ENGINE = InnoDB;
@@ -128,6 +129,7 @@ DROP TABLE IF EXISTS `bootcampar`.`Lecciones` ;
 CREATE TABLE IF NOT EXISTS `bootcampar`.`Lecciones` (
   `Id` INT NOT NULL AUTO_INCREMENT,
   `Titulo` VARCHAR(45) NOT NULL,
+  `Vinculo` VARCHAR(450) NULL,
   `Contenido` VARCHAR(450) NULL,
   `Duracion` INT ZEROFILL NOT NULL,
   `Orden` INT ZEROFILL NOT NULL,
