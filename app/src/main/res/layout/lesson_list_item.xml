@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
-        android:text="Orden" />
+        android:text="@string/orden" />
 
     <TextView
         android:id="@+id/textLessonItemTitle"
@@ -30,5 +30,5 @@
         android:layout_marginTop="4dp"
         android:layout_marginStart="@dimen/_4sdp"
         android:layout_marginEnd="16dp"
-        android:text="Contenido" />
+        android:text="@string/contenido" />
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -20,7 +20,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_16sdp"
-                android:text="Orden" />
+                android:text="@string/orden" />
 
             <EditText
                 android:id="@+id/editLessonOrder"
@@ -28,7 +28,7 @@
                 android:layout_marginEnd="@dimen/_16sdp"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Ingrese orden"
+                android:hint="@string/ingrese_orden"
                 android:layout_marginStart="@dimen/_16sdp"
                 android:inputType="number" />
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_16sdp"
                 android:ems="10"
-                android:hint="Ingrese el título de la lección"
+                android:hint="@string/ingrese_titulo_leccion"
                 android:layout_marginStart="@dimen/_9sdp"
                 android:inputType="text" />
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -64,7 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_16sdp"
-                android:text="Contenido" />
+                android:text="@string/contenido" />
 
             <EditText
                 android:id="@+id/editLessonContent"
@@ -72,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_16sdp"
                 android:ems="10"
-                android:hint="Ingrese el contenido de la lección"
+                android:hint="@string/contenido_leccion"
                 android:layout_marginStart="@dimen/_9sdp"
                 android:inputType="text" />
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -86,7 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_16sdp"
-                android:text="Vínculo" />
+                android:text="@string/vinculo" />
 
             <EditText
                 android:id="@+id/editLessonLink"
@@ -95,7 +95,7 @@
                 android:layout_marginEnd="@dimen/_16sdp"
                 android:autoLink="web"
                 android:ems="10"
-                android:hint="Link externo"
+                android:hint="@string/link_externo"
                 android:layout_marginStart="@dimen/_9sdp"
                 android:inputType="text" />
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -108,7 +108,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_16sdp"
-                android:text="Curso" />
+                android:text="@string/curso" />
 
             <Spinner
                 android:id="@+id/spinner_course_lesson"
@@ -126,7 +126,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_6sdp"
             android:layout_marginEnd="@dimen/_6sdp"
-            android:text="Grabar" />
+            android:text="@string/grabar" />
 
         <ListView
             android:id="@+id/lessonListView"

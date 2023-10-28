@@ -37,7 +37,7 @@
         android:layout_width="56dp"
         android:layout_height="50dp"
         android:layout_marginEnd="@dimen/_8sdp"
-        android:contentDescription="Reproducir"
+        android:contentDescription="@string/reproducir"
         app:layout_constraintBottom_toBottomOf="@+id/materialToolbar4"
         app:layout_constraintEnd_toEndOf="@+id/materialToolbar4"
         app:layout_constraintTop_toTopOf="@+id/materialToolbar4"

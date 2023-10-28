@@ -18,7 +18,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_16sdp"
-                android:text="Grupo" />
+                android:text="@string/grupo" />
 
             <Spinner
                 android:id="@+id/spinner_curriculum_group"
@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_16sdp"
-                android:text="Curso" />
+                android:text="@string/curso" />
 
             <Spinner
                 android:id="@+id/spinner_curriculum_course"
@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_6sdp"
             android:layout_marginEnd="@dimen/_6sdp"
-            android:text="Grabar" />
+            android:text="@string/grabar" />
 
         <ListView
             android:id="@+id/curriculumListView"

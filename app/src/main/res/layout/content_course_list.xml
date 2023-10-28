@@ -50,7 +50,7 @@
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:text="Curso de Android" />
+            android:text="@string/curso_de_android" />
 
         <ImageView
             android:id="@+id/imageViewFavorite"

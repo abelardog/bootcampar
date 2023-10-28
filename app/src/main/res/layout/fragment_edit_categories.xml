@@ -28,7 +28,7 @@
                 android:layout_height="@dimen/_48sdp"
                 android:layout_marginEnd="@dimen/_16sdp"
                 android:ems="10"
-                android:hint="Ingrese nombre de categoría"
+                android:hint="@string/ingrese_nombre_de_categoria"
                 android:layout_marginStart="@dimen/_16sdp"
                 android:inputType="text" />
         </androidx.appcompat.widget.LinearLayoutCompat>
