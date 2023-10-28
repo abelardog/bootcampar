@@ -83,8 +83,9 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
     }
 
     public void cambiarCursos(List<Curso> cursos, List<Inscripcion> inscripciones) {
-        listaCursos = cursos;
-        listaInscripciones = inscripciones;
+        this.listaCursos = cursos;
+        this.listaInscripciones = inscripciones;
+        notifyDataSetChanged();
     }
 
     public void setOnClickListeners(CourseAdapter.OnClickListener onFavoriteClickListener, CourseAdapter.OnClickListener onCourseClickListener) {
