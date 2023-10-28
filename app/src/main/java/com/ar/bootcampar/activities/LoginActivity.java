@@ -78,6 +78,17 @@ public class LoginActivity extends AppCompatActivity {
                         String email = credentials.getUser().getEmail();
                         String clave = credentials.getAccessToken();
 
+                        if (email == null) {
+                            email = credentials.getUser().getNickname();
+
+                            if (email == null) {
+                                email = credentials.getUser().getName() + "@bootcamp.ar";
+                            }
+                            else {
+                                email = email + "@bootcamp.ar";
+                            }
+                        }
+
                         Usuario usuario = logicServices.buscarUsuario(email);
                         if (usuario == null) {
                             Tupla<Usuario, String> resultado = logicServices.registrarUsuario("Nombre usuario Auth0", "Apellido usuario Auth0", email, clave, clave, Rol.Estudiante, "", "112233");
@@ -90,7 +101,6 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         }
 
-                        logicServices.grabarUsuarioActivoEnPreferencias(usuario);
                         logicServices.grabarUsuarioActivoEnPreferencias(usuario);
 
                         Toast.makeText(getApplicationContext(), R.string.welcomeMessage, Toast.LENGTH_SHORT).show();
