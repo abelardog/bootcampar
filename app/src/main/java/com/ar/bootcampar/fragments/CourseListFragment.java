@@ -76,8 +76,8 @@ public class CourseListFragment extends Fragment {
                     Inscripcion inscripcion = logicServices.buscarInscripcion(usuario, curso);
                     if (inscripcion != null) {
                         Inscripcion inscripcionModificada = logicServices.alternarFavoritismo(inscripcion);
-                        adapter.cambiarCursos(logicServices.listarCursos(usuario), listaInscripciones.stream().map(i -> i.getCurso().getId() == curso.getId()? inscripcionModificada : i).collect(Collectors.toList()));
-                        adapter.notifyItemChanged(position);
+                        listaInscripciones = listaInscripciones.stream().map(i -> i.getCurso().getId() == curso.getId()? inscripcionModificada : i).collect(Collectors.toList());
+                        adapter.cambiarCursos(logicServices.listarCursos(usuario), listaInscripciones);
 
                         Toast.makeText(getContext(), "Curso marcado como " + (inscripcionModificada.getFavorito()? "favorito" : "no favorito"), Toast.LENGTH_SHORT).show();
                     }
@@ -98,6 +98,7 @@ public class CourseListFragment extends Fragment {
         String query = editTextBuscar.getText().toString();
         List<Curso> resultados = logicServices.buscarCursos(query);
         adapter.cambiarCursos(resultados, listaInscripciones);
+
         hideSoftKeyboard();
         TextView textViewNoResults = view.getRootView().findViewById(R.id.textViewNoResults);
 
