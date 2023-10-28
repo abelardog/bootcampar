@@ -80,11 +80,9 @@ public class ContactFragment extends Fragment {
         if (usuario != null) {
             EditText editText = ((EditText)getView().findViewById(R.id.editContactFirstName));
             editText.setText(usuario.getNombre());
-            editText.setEnabled(false);
 
             editText = ((EditText)getView().findViewById(R.id.editContactEmailAddress));
             editText.setText(usuario.getEmail());
-            editText.setEnabled(false);
 
             editText = ((EditText)getView().findViewById(R.id.editContactPhoneNumber));
             editText.setText(usuario.getTelefono());
