@@ -24,7 +24,8 @@ CREATE TABLE IF NOT EXISTS bootcampar.Cursos (
   Id INTEGER PRIMARY KEY AUTOINCREMENT,
   Titulo TEXT NOT NULL,
   Descripcion TEXT,
-  Nivel INTEGER NOT NULL
+  Nivel INTEGER NOT NULL,
+  Imagen TEXT
 );
 
 -- Table `Inscripciones`
@@ -34,6 +35,7 @@ CREATE TABLE IF NOT EXISTS bootcampar.Inscripciones (
   CursoId INTEGER NOT NULL,
   Puntuacion INTEGER,
   Favorito INTEGER,
+  UltimaLeccion INTEGER,
   FOREIGN KEY (UsuarioId) REFERENCES Usuarios (Id) ON DELETE CASCADE ON UPDATE NO ACTION,
   FOREIGN KEY (CursoId) REFERENCES Cursos (Id) ON DELETE CASCADE ON UPDATE NO ACTION
 );
@@ -58,6 +60,7 @@ CREATE TABLE IF NOT EXISTS bootcampar.Categorizaciones (
 CREATE TABLE IF NOT EXISTS bootcampar.Lecciones (
   Id INTEGER PRIMARY KEY AUTOINCREMENT,
   Titulo TEXT NOT NULL,
+  Vinculo TEXT,
   Contenido TEXT,
   Duracion INTEGER NOT NULL,
   Orden INTEGER NOT NULL,
