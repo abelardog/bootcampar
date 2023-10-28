@@ -83,9 +83,10 @@
 
     <Button
         android:id="@+id/buttonContact"
-        android:layout_width="wrap_content"
-        android:layout_height="54dp"
+        android:layout_width="157dp"
+        android:layout_height="52dp"
         android:layout_marginBottom="24dp"
+        android:background="@drawable/rounded_button"
         android:backgroundTint="@color/earthBlue"
         android:text="@string/btn_contact"
         android:textColor="@color/white"
