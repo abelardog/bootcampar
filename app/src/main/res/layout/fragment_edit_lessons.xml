@@ -19,18 +19,20 @@
                 android:id="@+id/textLessonOrder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_16sdp"
+                android:layout_marginStart="16dp"
                 android:text="@string/orden" />
 
             <EditText
                 android:id="@+id/editLessonOrder"
-                android:layout_width="match_parent"
-                android:layout_marginEnd="@dimen/_16sdp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="16dp"
                 android:ems="10"
                 android:hint="@string/ingrese_orden"
-                android:layout_marginStart="@dimen/_16sdp"
-                android:inputType="number" />
+                android:layout_marginStart="16dp"
+                android:inputType="number"
+                android:autofillHints="number" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -41,18 +43,20 @@
                 android:id="@+id/textLessonTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_16sdp"
+                android:layout_marginStart="16dp"
                 android:text="@string/title" />
 
             <EditText
                 android:id="@+id/editLessonTitle"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_16sdp"
+                android:layout_weight="1"
+                android:layout_marginEnd="16dp"
                 android:ems="10"
                 android:hint="@string/ingrese_titulo_leccion"
-                android:layout_marginStart="@dimen/_9sdp"
-                android:inputType="text" />
+                android:layout_marginStart="16dp"
+                android:inputType="text"
+                android:autofillHints="text" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -63,18 +67,20 @@
                 android:id="@+id/textLessonContent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_16sdp"
+                android:layout_marginStart="16dp"
                 android:text="@string/contenido" />
 
             <EditText
                 android:id="@+id/editLessonContent"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_16sdp"
+                android:layout_weight="1"
+                android:layout_marginEnd="16dp"
                 android:ems="10"
                 android:hint="@string/contenido_leccion"
-                android:layout_marginStart="@dimen/_9sdp"
-                android:inputType="text" />
+                android:layout_marginStart="16dp"
+                android:inputType="text"
+                android:autofillHints="text" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -85,19 +91,21 @@
                 android:id="@+id/textLessonLink"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_16sdp"
+                android:layout_marginStart="16dp"
                 android:text="@string/vinculo" />
 
             <EditText
                 android:id="@+id/editLessonLink"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_16sdp"
+                android:layout_weight="1"
+                android:layout_marginEnd="16dp"
                 android:autoLink="web"
                 android:ems="10"
                 android:hint="@string/link_externo"
-                android:layout_marginStart="@dimen/_9sdp"
-                android:inputType="text" />
+                android:layout_marginStart="16dp"
+                android:inputType="text"
+                android:autofillHints="webAddress" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -107,25 +115,26 @@
                 android:id="@+id/textLessonCourse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_16sdp"
+                android:layout_marginStart="16dp"
                 android:text="@string/curso" />
 
             <Spinner
                 android:id="@+id/spinner_course_lesson"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_6sdp"
-                android:layout_marginEnd="@dimen/_16sdp"
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="16dp"
                 android:background="@android:drawable/btn_dropdown"
-                android:spinnerMode="dropdown"/>
+                android:spinnerMode="dropdown" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
         <Button
             android:id="@+id/buttonSaveLesson"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_6sdp"
-            android:layout_marginEnd="@dimen/_6sdp"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
             android:text="@string/grabar" />
 
         <ListView
