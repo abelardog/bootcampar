@@ -35,7 +35,7 @@
             app:layout_constraintStart_toEndOf="@+id/imageView11"
             app:layout_constraintTop_toBottomOf="@+id/textView13"
             app:srcCompat="@android:drawable/btn_star_big_off"
-            android:contentDescription="Una estrella"/>
+            android:contentDescription="@string/estrella_uno"/>
 
         <ImageView
             android:id="@+id/star2"
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginTop="20dp"
-            android:contentDescription="Dos Estrellas"
+            android:contentDescription="@string/estrella_dos"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView13"
             app:srcCompat="@android:drawable/btn_star_big_off" />
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginTop="20dp"
-            android:contentDescription="Tres estrellas"
+            android:contentDescription="@string/estrella_tres"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.05"
             app:layout_constraintStart_toEndOf="@+id/imageView13"
@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginTop="20dp"
-            android:contentDescription="Cuatro estrellas"
+            android:contentDescription="@string/estrella_cuatro"
             app:layout_constraintStart_toEndOf="@+id/imageView10"
             app:layout_constraintTop_toBottomOf="@+id/textView13"
             app:srcCompat="@android:drawable/btn_star_big_off" />
@@ -78,7 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginTop="20dp"
-            android:contentDescription="Cinco estrellas"
+            android:contentDescription="@string/estrella_cinco"
             app:srcCompat="@android:drawable/btn_star_big_off" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
