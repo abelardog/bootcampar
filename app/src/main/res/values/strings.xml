@@ -191,5 +191,6 @@
     <string name="old_password_does_not_match">Su clave anterior no es correcta</string>
     <string name="new_password_dont_match">Su clave nueva no es igual a la confirmación</string>
     <string name="invalid_blank_password">Su nueva clave no puede estar vacía</string>
+    <string name="descripcion_autofill_hint">Descripción de la categoría</string>
 
 </resources>
