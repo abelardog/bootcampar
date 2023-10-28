@@ -165,6 +165,11 @@
     <string name="reproducir">Reproducir</string>
     <string name="editar">Editar</string>
     <string name="borrar">Borrar</string>
+    <string name="estrella_uno">se muestra la primer estrella</string>
+    <string name="estrella_dos">se muestra la segunda estrella</string>
+    <string name="estrella_tres">se muestra la tercer estrella</string>
+    <string name="estrella_cuatro">se muestra la cuarta estrella</string>
+    <string name="estrella_cinco">se muestra la quinta estrella</string>
 
     <string name="com_auth0_client_id">yljxTIBYZ1mYbI0C6Rai2nqZhxRc8tJL</string>
     <string name="com_auth0_domain">dev-jvejcgb265hsomkf.us.auth0.com</string>
