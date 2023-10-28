@@ -28,8 +28,11 @@
                 android:layout_width="100dp"
                 android:layout_height="120dp"
                 android:layout_centerInParent="true"
-                android:scaleType="centerCrop"
+                android:clickable="true"
+                android:importantForAccessibility="yes"
+                android:contentDescription="@string/txtAcceFavoritos"
                 android:paddingVertical="5dp"
+                android:scaleType="centerCrop"
                 android:src="@drawable/android_logo" />
         </RelativeLayout>
 </androidx.cardview.widget.CardView>
