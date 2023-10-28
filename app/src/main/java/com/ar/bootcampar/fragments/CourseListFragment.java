@@ -119,4 +119,13 @@ public class CourseListFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        LogicServices logicServices = new LogicServices(getContext());
+        List<Curso> listaCursos = logicServices.listarCursos();
+        listaInscripciones = logicServices.buscarInscripciones(usuario);
+        adapter.cambiarCursos(listaCursos, listaInscripciones);
+    }
 }
