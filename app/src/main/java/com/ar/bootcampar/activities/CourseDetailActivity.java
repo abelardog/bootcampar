@@ -69,8 +69,7 @@ public class CourseDetailActivity extends AppCompatActivity {
             }
 
             enroll.setOnClickListener(v -> {
-                Inscripcion inscripcionActual = inscripcion;
-
+                Inscripcion inscripcionActual = logicServices.buscarInscripcion(usuario, curso);
                 if (inscripcionActual == null) {
                     Tupla<Inscripcion, String> resultado = logicServices.inscribirCurso(usuario, curso);
                     Toast.makeText(CourseDetailActivity.this, resultado.derecha, Toast.LENGTH_SHORT).show();
