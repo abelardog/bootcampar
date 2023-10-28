@@ -23,12 +23,14 @@ import com.ar.bootcampar.model.utilities.Tupla;
 
 public class CourseDetailActivity extends AppCompatActivity {
     private Curso curso;
+    private Usuario usuario;
     private double rating;
     private ImageView star1;
     private ImageView star2;
     private ImageView star3;
     private ImageView star4;
     private ImageView star5;
+    private Button enroll;
 
     @SuppressWarnings("deprecation")
     @Override
@@ -56,9 +58,9 @@ public class CourseDetailActivity extends AppCompatActivity {
         setearPuntuacion(rating, star1, star2, star3, star4, star5);
         boolean loggedIn = intent.getBooleanExtra(LOGGED_IN_STATUS_FOR_COURSE_DETAIL, false);
 
-        Button enroll = (Button) findViewById(R.id.detailEnrollBtn);
+        enroll = (Button) findViewById(R.id.detailEnrollBtn);
         if (loggedIn) {
-            Usuario usuario = logicServices.obtenerUsuarioActivoDePreferencias();
+            usuario = logicServices.obtenerUsuarioActivoDePreferencias();
             Inscripcion inscripcion = logicServices.buscarInscripcion(usuario, curso);
             if (inscripcion != null) {
                 enroll.setText(R.string.ir_al_curso);
@@ -106,6 +108,15 @@ public class CourseDetailActivity extends AppCompatActivity {
         if (nuevoRating != rating) {
             rating = nuevoRating;
             setearPuntuacion(rating, star1, star2, star3, star4, star5);
+        }
+
+        if (usuario != null) {
+            Inscripcion inscripcion = logicServices.buscarInscripcion(usuario, curso);
+            if (inscripcion != null) {
+                enroll.setText(R.string.ir_al_curso);
+            } else {
+                enroll.setText(R.string.inscribirse);
+            }
         }
     }
 }
