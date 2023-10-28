@@ -34,7 +34,8 @@
             android:layout_marginTop="20dp"
             app:layout_constraintStart_toEndOf="@+id/imageView11"
             app:layout_constraintTop_toBottomOf="@+id/textView13"
-            app:srcCompat="@android:drawable/btn_star_big_off" />
+            app:srcCompat="@android:drawable/btn_star_big_off"
+            android:contentDescription="Una estrella"/>
 
         <ImageView
             android:id="@+id/star2"
@@ -42,6 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginTop="20dp"
+            android:contentDescription="Dos Estrellas"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView13"
             app:srcCompat="@android:drawable/btn_star_big_off" />
@@ -52,6 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginTop="20dp"
+            android:contentDescription="Tres estrellas"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.05"
             app:layout_constraintStart_toEndOf="@+id/imageView13"
@@ -64,6 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginTop="20dp"
+            android:contentDescription="Cuatro estrellas"
             app:layout_constraintStart_toEndOf="@+id/imageView10"
             app:layout_constraintTop_toBottomOf="@+id/textView13"
             app:srcCompat="@android:drawable/btn_star_big_off" />
@@ -74,6 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginTop="20dp"
+            android:contentDescription="Cinco estrellas"
             app:srcCompat="@android:drawable/btn_star_big_off" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
