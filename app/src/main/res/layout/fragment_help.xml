@@ -36,6 +36,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView5" />
 
+        <!-- Pregunta -->
     <TextView
         android:id="@+id/textView43"
         android:layout_width="wrap_content"
@@ -43,12 +44,13 @@
         android:layout_marginTop="20dp"
         android:text="@string/adquirir_curso"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textColor="#FC8344"
+        android:textColor="#1A01B2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
+        <!-- Respuesta -->
     <TextView
         android:id="@+id/textView44"
         android:layout_width="0dp"
@@ -58,12 +60,13 @@
         android:layout_marginEnd="25dp"
         android:text="@string/acceder_curso"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textColor="#1A01B2"
+        android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView43" />
 
+        <!-- Pregunta -->
     <TextView
         android:id="@+id/textView45"
         android:layout_width="wrap_content"
@@ -71,12 +74,13 @@
         android:layout_marginTop="16dp"
         android:text="@string/tiempo_curso"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textColor="#FC8344"
+        android:textColor="#1A01B2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.308"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView44" />
 
+        <!-- Respuesta -->
     <TextView
         android:id="@+id/textView46"
         android:layout_width="0dp"
@@ -86,12 +90,13 @@
         android:layout_marginEnd="25dp"
         android:text="@string/date_curso"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textColor="#1A01B2"
+        android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView45" />
 
+        <!-- Pregunta -->
     <TextView
         android:id="@+id/textView47"
         android:layout_width="wrap_content"
@@ -101,11 +106,12 @@
         android:layout_marginEnd="119dp"
         android:text="@string/preguntas_frecuentes"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textColor="#FC8344"
+        android:textColor="#1A01B2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/textView46"
         app:layout_constraintTop_toBottomOf="@+id/textView52" />
+
 
     <TextView
         android:id="@+id/textView48"
@@ -116,12 +122,13 @@
         android:layout_marginEnd="25dp"
         android:text="@string/faq1"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textColor="#1A01B2"
+        android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView47" />
 
+        <!-- Pregunta -->
     <TextView
         android:id="@+id/textView49"
         android:layout_width="wrap_content"
@@ -130,10 +137,11 @@
         android:layout_marginTop="20dp"
         android:text="@string/preguntas_frecuentes1"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textColor="#FC8344"
+        android:textColor="#1A01B2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView46" />
 
+        <!-- Respuesta -->
     <TextView
         android:id="@+id/textView50"
         android:layout_width="362dp"
@@ -143,12 +151,13 @@
         android:layout_marginEnd="22dp"
         android:text="@string/extension_curso"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textColor="#1A01B2"
+        android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView49" />
 
+        <!-- Pregunta -->
     <TextView
         android:id="@+id/textView51"
         android:layout_width="367dp"
@@ -158,12 +167,13 @@
         android:layout_marginEnd="14dp"
         android:text="@string/como_notificar"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textColor="#FC8344"
+        android:textColor="#1A01B2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.444"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView50" />
 
+        <!-- Respuesta -->
     <TextView
         android:id="@+id/textView52"
         android:layout_width="360dp"
@@ -173,7 +183,7 @@
         android:layout_marginEnd="26dp"
         android:text="@string/como_notificar_respuesta"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textColor="#1A01B2"
+        android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
