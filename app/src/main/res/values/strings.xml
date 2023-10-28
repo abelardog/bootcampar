@@ -38,7 +38,7 @@
     <string name="number_contact">Ingrese su teléfono</string>
     <string name="message_contact">Mensaje</string>
 
-    <string name="title_update_profile">Actualiza tu perfíl</string>
+    <string name="title_update_profile">Actualiza tu perfil</string>
     <string name="btn_update_profile">Actualizar</string>
 
     <string name="title_activity_course_list">CourseListActivity</string>
@@ -177,5 +177,8 @@
     <string name="txt_add_course_description">Ingrese la descripción del curso</string>
     <string name="txt_add_course_image">Ingrese la imagen del curso</string>
     <string name="txt_course_image">Imagen del curso</string>
+    <string name="ingrese_su_clave_antigua">Ingrese su clave antigua</string>
+    <string name="ingrese_su_clave_nueva">Ingrese su clave nueva</string>
+    <string name="repita_su_nueva_clave">Repita su nueva clave</string>
 
 </resources>
