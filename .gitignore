@@ -12,7 +12,7 @@ local.properties
 captures/
 .externalNativeBuild/
 .cxx/
-*.apk
+!apk/bootcampar.apk
 output.json
 
 # IntelliJ
