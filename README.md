@@ -64,9 +64,11 @@ El código de este proyecto está bajo la licencia MIT. Es de uso libre para pro
 ## Demostración del proyecto en video para Sprint 1
 [https://drive.google.com/file/d/1Vh5k2U7IZW36KHvUsbqYsCwuzqwLTipP/view](https://drive.google.com/file/d/1AyzbTj5fFmB_bw6R2s7YSEuX4gBGzk-O/view)
 
-## Testing Docs:
+## Testing Docs
 Los documentos de testing se encuentra en la [wiki](https://github.com/abelardog/bootcampar/wiki/TESTING) y en el directorio documentación del código fuente.
 
+## Código fuente y ejecutable
+El código fuente se puede clonar de este repositorio o bajar un zip desde la sección de [Releases](https://github.com/abelardog/bootcampar/releases). Archivamos la última versión compilada que se puede descargar por [Google Drive](https://drive.google.com/file/d/102FI2PS3q8CIDA7LMhBaoHiNf1eSebkJ/view?usp=sharing) o por [Dropbox](https://www.dropbox.com/scl/fi/5mwlsib7jn27uxx1zufyd/bootcampar-fuente-compilada-final.zip?rlkey=c8ra992esxtym0phmak4a0o5w&dl=0). En el directorio **apk** se encuentra la última versión compilada del instalador para celular y sus consideraciones.
 
 [commit-img]: https://img.shields.io/github/commit-activity/w/abelardog/bootcampar/develop
 [commit-url]: https://github.com/abelardog/bootcampar/graphs/code-frequency
