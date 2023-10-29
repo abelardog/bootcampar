@@ -100,7 +100,7 @@ public class EditLessonsFragment extends Fragment {
         super.onCreateContextMenu(menu, v, menuInfo);
         if (v.getId() == R.id.lessonListView) {
             MenuInflater inflater = getActivity().getMenuInflater();
-            inflater.inflate(R.menu.crud_item_context_menu, menu);
+            inflater.inflate(R.menu.crud_item_context_menu_delete, menu);
         }
     }
 
@@ -108,9 +108,7 @@ public class EditLessonsFragment extends Fragment {
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
         if (info != null) {
-            if (item.getItemId() == R.id.menu_item_edit) {
-                return true;
-            } else if (item.getItemId() == R.id.menu_delete_item) {
+            if (item.getItemId() == R.id.menu_delete_item_only) {
                 Leccion leccion = (Leccion) adapter.getItem(info.position);
                 LogicServices logicServices = new LogicServices(getActivity());
                 logicServices.borrarLeccion(leccion);
