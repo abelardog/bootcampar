@@ -18,6 +18,7 @@ import com.ar.bootcampar.R;
 import com.ar.bootcampar.model.Curso;
 import com.ar.bootcampar.model.Inscripcion;
 import com.ar.bootcampar.model.LogicServices;
+import com.ar.bootcampar.model.Rol;
 import com.ar.bootcampar.model.Usuario;
 import com.ar.bootcampar.model.utilities.Tupla;
 
@@ -61,25 +62,30 @@ public class CourseDetailActivity extends AppCompatActivity {
         enroll = (Button) findViewById(R.id.detailEnrollBtn);
         if (loggedIn) {
             usuario = logicServices.obtenerUsuarioActivoDePreferencias();
-            Inscripcion inscripcion = logicServices.buscarInscripcion(usuario, curso);
-            if (inscripcion != null) {
-                enroll.setText(R.string.ir_al_curso);
-            } else {
-                enroll.setText(R.string.inscribirse);
-            }
-
-            enroll.setOnClickListener(v -> {
-                Inscripcion inscripcionActual = logicServices.buscarInscripcion(usuario, curso);
-                if (inscripcionActual == null) {
-                    Tupla<Inscripcion, String> resultado = logicServices.inscribirCurso(usuario, curso);
-                    Toast.makeText(CourseDetailActivity.this, resultado.derecha, Toast.LENGTH_SHORT).show();
-                    inscripcionActual = resultado.izquierda;
+            if (usuario.getRol() == Rol.Estudiante) {
+                Inscripcion inscripcion = logicServices.buscarInscripcion(usuario, curso);
+                if (inscripcion != null) {
+                    enroll.setText(R.string.ir_al_curso);
+                } else {
+                    enroll.setText(R.string.inscribirse);
                 }
 
-                Intent intent1 = new Intent(CourseDetailActivity.this, VideoListActivity.class);
-                intent1.putExtra(INSCRIPTION_FOR_VIDEO_LIST, inscripcionActual);
-                startActivity(intent1);
-            });
+                enroll.setOnClickListener(v -> {
+                    Inscripcion inscripcionActual = logicServices.buscarInscripcion(usuario, curso);
+                    if (inscripcionActual == null) {
+                        Tupla<Inscripcion, String> resultado = logicServices.inscribirCurso(usuario, curso);
+                        Toast.makeText(CourseDetailActivity.this, resultado.derecha, Toast.LENGTH_SHORT).show();
+                        inscripcionActual = resultado.izquierda;
+                    }
+
+                    Intent intent1 = new Intent(CourseDetailActivity.this, VideoListActivity.class);
+                    intent1.putExtra(INSCRIPTION_FOR_VIDEO_LIST, inscripcionActual);
+                    startActivity(intent1);
+                });
+            }
+            else {
+                enroll.setVisibility(View.INVISIBLE);
+            }
         } else {
             enroll.setVisibility(View.INVISIBLE);
         }
