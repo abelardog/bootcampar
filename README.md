@@ -4,34 +4,35 @@
 [![issues][issues-img]][issues-url]
 [![buildall][buildall-img]][buildall-url]
 
-# BOOTCAMPAR
+# BootcampAr
 ![Imagen de WhatsApp 2023-09-15 a las 23 47 04](https://github.com/abelardog/bootcampar/assets/106390254/cdc7939c-7fe8-436c-a3f5-274e46004f12)
 
 Esta es una app nativa de Android desarrollada como proyecto para la materia de Aplicaciones Móviles del Instituto Superior Politécnico de Córdoba (ISPC). Permite a los estudiantes del bootcamp BootcampAR acceder a los videos de los cursos, calificarlos, marcar favoritos y organizar su aprendizaje.
 
-## VIDEO DEMO DE LA APP
+## Video de accesibilidad
+[Video demostrando cambios por accesibilidad](https://drive.google.com/file/d/1UBmgxJaweK45o-auCtTZI4ZeNC5Ku8I2/view)
 
-[LINK:](https://drive.google.com/file/d/1ZdWy7plloT53WpEuZY7cWIit8g7C6LUs/view?usp=drive_link) https://drive.google.com/file/d/1ZdWy7plloT53WpEuZY7cWIit8g7C6LUs/view?usp=drive_link
+## Video de testing de Selenium
+[Video demostrando testing automatizado en Selenium](https://drive.google.com/file/d/1AyzbTj5fFmB_bw6R2s7YSEuX4gBGzk-O/view?usp=drive_link)
 
-## CREDENCIALES PARA USAR EN LA APP:
+## Video presentación final de la aplicación
+[Video de presentación con los miembros del equipo](https://drive.google.com/file/d/1ZdWy7plloT53WpEuZY7cWIit8g7C6LUs/view?usp=drive_link)
 
+## Credenciales para usar en la aplicación
 Código de Invitación: `112233`
+Cuenta Admin (creada por defecto): `admin@gmail.com` / contraseña: `123456`
 
-Cuenta Admin: email-`admin@gmail.com`/constraseña-`123456`
-
-## CONTEXTO
+## Contexto
 El proyecto fue realizado durante el segundo año y segundo cuatrimestre de la carrera de "Tecnicatura Superior en Desarrollo Web y Aplicaciones Digitales" en el ISPC. La app busca mejorar la experiencia de aprendizaje de los estudiantes del bootcamp, proporcionando en un solo lugar el acceso a los contenidos audiovisuales de los cursos.
 
-## FUNCIONALIDAD
+## Funcionalidad
 - Catálogo de cursos y videos
-- Búsqueda de videos
-- Calificación y ranking de videos
+- Búsqueda de cursos
+- Calificación de videos
 - Marcar favoritos
-- Lista de pendientes
-- Descargas para modo offline
-- Notificaciones de nuevos videos
+- Creación de cursos, lecciones y categorías
 
-## ALCANCE
+## Alcance
 BootcampAr está dirigido a personas mayores de 16 años que desean capacitarse e
 incorporar herramientas de desarrollo web para poder insertarse en el mercado laboral
 o bien para su crecimiento personal. Las empresas también pueden solicitar estos
@@ -43,17 +44,15 @@ más profunda.
 
 "BootcampAr Mobile" es una plataforma de aprendizaje en línea que ofrece cursos sobre tecnología y desarrollo de software. Los usuarios pueden registrarse, acceder a una variedad de cursos, comprarlos con una pasarela de pago integrada y realizar un seguimiento de su progreso en los mismos.
 
-## TECNOLOGÍAS
+## Tecnologías
 - Android Studio
 - Java
-- Firebase Cloud Messaging
-- Firebase Realtime Database
 
-## LICENCIA
+## Licencia
 El código de este proyecto está bajo la licencia MIT. Es de uso libre para propósitos de estudio e investigación.
 
-## INTEGRANTES
-- Lidio Guedez -  GitHub: lidioguedez
+## Integrantes
+- Lidio Guedez - GitHub: lidioguedez
 - Pamela Sol Pilotti - GitHub: Pamela198713
 - Leonardo Daniel Vivas - GitHub: LeonardoEC
 - Roberto Alfonso - GitHub: rpgrca
@@ -62,12 +61,12 @@ El código de este proyecto está bajo la licencia MIT. Es de uso libre para pro
 - Yuliana Paula Capdevila - GitHub: YuliCap
 - Maria Celeste Esquivel Gimenez - GitHub: celesteeg
 
-## DEMOSTRACIÓN DEL PROYECTO EN VIDEO PARA SPRINT 1
-https://drive.google.com/file/d/1Vh5k2U7IZW36KHvUsbqYsCwuzqwLTipP/view
+## Demostración del proyecto en video para Sprint 1
+[https://drive.google.com/file/d/1Vh5k2U7IZW36KHvUsbqYsCwuzqwLTipP/view](https://drive.google.com/file/d/1AyzbTj5fFmB_bw6R2s7YSEuX4gBGzk-O/view)
 
-## TESTING DOCS:
+## Testing Docs:
+Los documentos de testing se encuentra en la [wiki](https://github.com/abelardog/bootcampar/wiki/TESTING) y en el directorio documentación del código fuente.
 
-[LINK:](https://github.com/abelardog/bootcampar/wiki/TESTING) https://github.com/abelardog/bootcampar/wiki/TESTING
 
 [commit-img]: https://img.shields.io/github/commit-activity/w/abelardog/bootcampar/develop
 [commit-url]: https://github.com/abelardog/bootcampar/graphs/code-frequency
