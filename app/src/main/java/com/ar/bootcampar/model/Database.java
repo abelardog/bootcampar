@@ -59,6 +59,7 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     private static final String[] CamposCategoria = new String[] { ColumnaId, ColumnaNombre, ColumnaDescripcion };
     private static final String TablaCategoria = "Categorias";
     private static final String ColumnaRelacionCategoria  = "CategoriaId";
+    private static final String[] CamposCategorizacion = new String[] { ColumnaId, ColumnaRelacionCurso, ColumnaRelacionCategoria };
     private static final String TablaCategorizacion = "Categorizaciones";
 
     public static IDatabase CreateWith(Context applicationContext) {
@@ -612,6 +613,14 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         return obtenerGrupoDeCursor(cursor, "");
     }
 
+    private static Categoria obtenerCategoriaDeCursor(ICursorWrapper cursor, String prefijo) {
+        CursorHelper cursorHelper = new CursorHelper(cursor);
+        return new Categoria(
+                cursorHelper.getLongFrom(prefijo + ColumnaId),
+                cursorHelper.getStringFrom(prefijo + ColumnaNombre),
+                cursorHelper.getStringFrom(prefijo + ColumnaDescripcion));
+    }
+
     private static Categoria obtenerCategoriaDeCursor(ICursorWrapper cursor) {
         CursorHelper cursorHelper = new CursorHelper(cursor);
         return new Categoria(
@@ -692,6 +701,15 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
                 cursorHelper.getIntFrom(prefijo + ColumnaPuntuacion),
                 cursorHelper.getIntFrom(prefijo + ColumnaFavorito) != 0,
                 cursorHelper.getIntFrom(prefijo + ColumnaUltimaLeccion));
+    }
+
+    @NonNull
+    private static Categorizacion obtenerCategorizacionDeCursor(ICursorWrapper cursor, String prefijo) {
+        CursorHelper cursorHelper = new CursorHelper(cursor);
+        return new Categorizacion(
+                cursorHelper.getLongFrom(prefijo + ColumnaId),
+                obtenerCursoDeCursor(cursor, TablaCurso + "_"),
+                obtenerCategoriaDeCursor(cursor, TablaCategoria + "_"));
     }
 
     @NonNull
@@ -1195,6 +1213,44 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
         values.put(ColumnaRelacionCurso, nuevoCurso.getId());
         values.put(ColumnaRelacionCategoria, nuevaCategoria.getId());
         return (Categorizacion) crearElemento(TablaCategorizacion, values, id -> new Categorizacion(id,nuevoCurso,nuevaCategoria), "Error crear nueva categorizaciones");
+    }
+
+    @Override
+    public Categorizacion buscarCategorizacionONada(Curso curso, Categoria categoria) {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+
+        try {
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaCategorizacion + ", " + TablaCurso + ", " + TablaCategoria,
+                    concatenarVectores(
+                            agregarNombreDeTablaEnColumnas(TablaCategorizacion, CamposCategorizacion),
+                            agregarNombreDeTablaEnColumnas(TablaCurso, CamposCurso),
+                            agregarNombreDeTablaEnColumnas(TablaCategoria, CamposCategoria)),
+                    ColumnaRelacionCurso + " = " + TablaCurso + "." + ColumnaId +
+                            " AND " + ColumnaRelacionCategoria + " = " + TablaCategoria + "." + ColumnaId + " AND " +
+                            ColumnaRelacionCurso + " =? AND " + ColumnaRelacionCategoria + " =?",
+                    new String[] { String.valueOf(curso.getId()), String.valueOf(categoria.getId()) }, null, null, null);
+
+            if (cursor.getCount() == 0) {
+                return null;
+            }
+            else if (cursor.getCount() == 1) {
+                cursor.moveToFirst();
+                return obtenerCategorizacionDeCursor(cursor, TablaCategorizacion + "_");
+            }
+
+            throw new RuntimeException(String.format("Se esperaba encontrar una única categorización pero se encontraron %d", cursor.getCount()));
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
     }
 
     @Override
