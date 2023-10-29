@@ -11,15 +11,20 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ar.bootcampar.R;
-import com.ar.bootcampar.model.Course;
+import com.ar.bootcampar.model.Curso;
+import com.ar.bootcampar.model.Inscripcion;
 
 import java.util.List;
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder> {
-    private List<Course> courseList;
+    private CourseAdapter.OnClickListener onFavoriteClickListener;
+    private CourseAdapter.OnClickListener onCourseClickListener;
+    private List<Curso> listaCursos;
+    private List<Inscripcion> listaInscripciones;
 
-    public CourseAdapter(List<Course> courseList) {
-        this.courseList = courseList;
+    public CourseAdapter(List<Curso> listaCursos, List<Inscripcion> listaInscripciones) {
+        this.listaCursos = listaCursos;
+        this.listaInscripciones = listaInscripciones;
     }
 
     @NonNull
@@ -31,22 +36,65 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Course course = courseList.get(position);
+        Curso curso = listaCursos.get(position);
 
-        // aqui se va a asignar los valores a los elementos de la vista que mostraran el curso, para la imagen, el titulo y el icono de favorito
-        holder.imageViewCourse.setImageResource(getImageResourceByName(course.getImageName(), holder.itemView.getContext()));
-        holder.textViewCourseTitle.setText(course.getTitle());
+        holder.imageViewCourse.setImageResource(getImageResourceByName(curso.getImagen(), holder.itemView.getContext()));
+        holder.imageViewCourse.setOnClickListener(v -> {
+            if (onCourseClickListener != null) {
+                onCourseClickListener.onClick(position, curso);
+            }
+        });
 
-        if (course.isFavorite()) {
-            holder.imageViewFavorite.setImageResource(R.drawable.ic_filled_heart);
-        } else {
-            holder.imageViewFavorite.setImageResource(R.drawable.ic_empty_heart);
+        holder.textViewCourseTitle.setText(curso.getTitulo());
+        holder.textViewCourseTitle.setOnClickListener(v -> {
+            if (onCourseClickListener != null) {
+                onCourseClickListener.onClick(position, curso);
+            }
+        });
+
+        holder.imageViewFavorite.setOnClickListener(v -> {
+            if (onFavoriteClickListener != null) {
+                onFavoriteClickListener.onClick(position, curso);
+            }
+        });
+
+        Inscripcion inscripcion = listaInscripciones.stream()
+                .filter(p -> p.getCurso().getId() == curso.getId())
+                .findFirst()
+                .orElse(null);
+
+        if (inscripcion == null) {
+            holder.imageViewFavorite.setVisibility(View.INVISIBLE);
+        }
+        else {
+            holder.imageViewFavorite.setVisibility(View.VISIBLE);
+            if (inscripcion.getFavorito()) {
+                holder.imageViewFavorite.setImageResource(R.drawable.ic_filled_heart);
+            }
+            else {
+                holder.imageViewFavorite.setImageResource(R.drawable.ic_empty_heart);
+            }
         }
     }
 
     @Override
     public int getItemCount() {
-        return courseList.size();
+        return listaCursos.size();
+    }
+
+    public void cambiarCursos(List<Curso> cursos, List<Inscripcion> inscripciones) {
+        this.listaCursos = cursos;
+        this.listaInscripciones = inscripciones;
+        notifyDataSetChanged();
+    }
+
+    public void setOnClickListeners(CourseAdapter.OnClickListener onFavoriteClickListener, CourseAdapter.OnClickListener onCourseClickListener) {
+        this.onFavoriteClickListener = onFavoriteClickListener;
+        this.onCourseClickListener = onCourseClickListener;
+    }
+
+    public interface OnClickListener {
+        void onClick(int position, Curso curso);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

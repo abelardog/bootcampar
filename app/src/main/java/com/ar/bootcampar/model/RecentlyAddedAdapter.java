@@ -3,7 +3,6 @@ package com.ar.bootcampar.model;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,12 +13,13 @@ import com.ar.bootcampar.R;
 import java.util.List;
 
 public class RecentlyAddedAdapter extends RecyclerView.Adapter<RecentlyAddedAdapter.RecentlyAddedView> {
-    private List<Course> list;
-    private OnItemClickListener onItemClickListener;
+    private final List<Curso> list;
+    private final OnItemClickListener onItemClickListener;
 
     public interface OnItemClickListener{
         void onItemClick(int position);
     }
+
     public class RecentlyAddedView extends RecyclerView.ViewHolder {
         TextView textView;
 
@@ -27,19 +27,16 @@ public class RecentlyAddedAdapter extends RecyclerView.Adapter<RecentlyAddedAdap
             super(view);
             textView = (TextView)view.findViewById(R.id.recently_added_item_title);
 
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getBindingAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        onItemClickListener.onItemClick(position);
-                    }
+            view.setOnClickListener(v -> {
+                int position = getBindingAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    onItemClickListener.onItemClick(position);
                 }
             });
         }
     }
 
-    public RecentlyAddedAdapter(List<Course> elements, OnItemClickListener listener) {
+    public RecentlyAddedAdapter(List<Curso> elements, OnItemClickListener listener) {
         this.list = elements;
         this.onItemClickListener = listener;
     }
@@ -56,8 +53,8 @@ public class RecentlyAddedAdapter extends RecyclerView.Adapter<RecentlyAddedAdap
 
     @Override
     public void onBindViewHolder(@NonNull RecentlyAddedView holder, int position) {
-        Course course = list.get(position);
-        holder.textView.setText(course.getTitle());
+        Curso curso = list.get(position);
+        holder.textView.setText(curso.getTitulo());
     }
 
     @Override

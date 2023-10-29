@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_admin_groups">
+
+    <fragment
+        android:id="@+id/navigation_admin_courses"
+        android:name="com.ar.bootcampar.fragments.EditCoursesFragment"
+        android:label="@string/cursos"
+        tools:layout="@layout/fragment_edit_courses" />
+
+    <fragment
+        android:id="@+id/navigation_admin_groups"
+        android:name="com.ar.bootcampar.fragments.EditGroupsFragment"
+        android:label="@string/grupos"
+        tools:layout="@layout/fragment_edit_groups" />
+
+    <fragment
+        android:id="@+id/navigation_admin_curriculums"
+        android:name="com.ar.bootcampar.fragments.EditCurriculumsFragment"
+        android:label="@string/curriculas"
+        tools:layout="@layout/fragment_edit_curriculums" />
+
+    <fragment
+        android:id="@+id/navigation_admin_lessons"
+        android:name="com.ar.bootcampar.fragments.EditLessonsFragment"
+        android:label="@string/lecciones"
+        tools:layout="@layout/fragment_edit_lessons" />
+
+    <fragment
+        android:id="@+id/navigation_admin_categories"
+        android:name="com.ar.bootcampar.fragments.EditCategoriesFragment"
+        android:label="@string/categorias"
+        tools:layout="@layout/fragment_edit_categories" />
+</navigation>

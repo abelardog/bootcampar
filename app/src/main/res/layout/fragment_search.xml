@@ -8,17 +8,19 @@
 
     <EditText
         android:id="@+id/editTextText"
-        android:layout_width="347dp"
-        android:layout_height="42dp"
+        android:layout_width="360dp"
+        android:layout_height="66dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
-        android:inputType="text"
         android:hint="@string/insert_search_text"
+        android:inputType="text"
+        android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:autofillHints="IngreseTextoDeBusqueda" />
 
     <TextView
         android:id="@+id/dropdownCategory"

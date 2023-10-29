@@ -5,7 +5,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ar.bootcampar.R;
-import com.ar.bootcampar.activities.FirstFragment;
+import com.ar.bootcampar.model.Usuario;
+import com.ar.bootcampar.services.SharedPreferencesManager;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -75,6 +75,19 @@ public class ContactFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        Usuario usuario = null;
+        usuario = new SharedPreferencesManager(getActivity().getApplicationContext()).cargarUsuario();
+        if (usuario != null) {
+            EditText editText = ((EditText)getView().findViewById(R.id.editContactFirstName));
+            editText.setText(usuario.getNombre());
+
+            editText = ((EditText)getView().findViewById(R.id.editContactEmailAddress));
+            editText.setText(usuario.getEmail());
+
+            editText = ((EditText)getView().findViewById(R.id.editContactPhoneNumber));
+            editText.setText(usuario.getTelefono());
+        }
+
         Button button = (Button)view.findViewById(R.id.buttonContact);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,7 +97,7 @@ public class ContactFragment extends Fragment {
                 String telephone = ((EditText)getView().findViewById(R.id.editContactPhoneNumber)).getText().toString();
                 String message = ((EditText)getView().findViewById(R.id.editContactMessage)).getText().toString();
 
-                if (firstName.isEmpty() || emailAddress.isEmpty() || telephone.isEmpty() || message.isEmpty()) {
+                if (firstName.isEmpty() || emailAddress.isEmpty() || message.isEmpty()) {
                     Toast.makeText(getContext(), "Por favor complete todos los datos", Toast.LENGTH_SHORT).show();
                 }
                 else {
