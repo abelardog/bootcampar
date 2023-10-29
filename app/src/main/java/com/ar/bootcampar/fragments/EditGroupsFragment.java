@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ar.bootcampar.R;
+import com.ar.bootcampar.model.Categoria;
 import com.ar.bootcampar.model.Database;
 import com.ar.bootcampar.model.Grupo;
 import com.ar.bootcampar.model.IDatabase;
@@ -40,6 +41,8 @@ public class EditGroupsFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private GruposListAdapter adapter;
+    private TextView textViewName;
+    private TextView textViewInvitation;
 
     public EditGroupsFragment() {
     }
@@ -83,12 +86,15 @@ public class EditGroupsFragment extends Fragment {
         adapter = new GruposListAdapter(database.listarGrupos());
         listView.setAdapter(adapter);
 
+        textViewName = view.findViewById(R.id.editGroupName);
+        textViewInvitation = view.findViewById(R.id.editInviteCode);
+
         Button button = (Button)view.findViewById(R.id.buttonSaveGroup);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String nombre = ((TextView)getView().findViewById(R.id.editGroupName)).getText().toString();
-                String invitacion = ((TextView)getView().findViewById(R.id.editInviteCode)).getText().toString();
+                String nombre = textViewName.getText().toString();
+                String invitacion = textViewInvitation.getText().toString();
 
                 // TODO: Mover esto a LogicServices.grabarGrupo y ajustar metodos
                 if (!nombre.isEmpty() && !invitacion.isEmpty()) {
@@ -105,7 +111,11 @@ public class EditGroupsFragment extends Fragment {
                         }
                     }
                     else {
-                        Toast.makeText(getContext(), "El código de invitación ya existe", Toast.LENGTH_SHORT).show();
+                        database.modificarGrupo(grupo, nombre, invitacion);
+                        adapter.cambiarGrupos(database.listarGrupos());
+                        adapter.notifyDataSetChanged();
+
+                        Toast.makeText(getContext(), "El grupo fue modificado", Toast.LENGTH_SHORT).show();
                     }
                 }
                 else {
@@ -131,6 +141,9 @@ public class EditGroupsFragment extends Fragment {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
         if (info != null) {
             if (item.getItemId() == R.id.menu_item_edit) {
+                Grupo grupo = (Grupo) adapter.getItem(info.position);
+                textViewName.setText(grupo.getNombre());
+                textViewInvitation.setText(grupo.getInvitacion());
                 return true;
             } else if (item.getItemId() == R.id.menu_delete_item) {
                 Grupo grupo = (Grupo) adapter.getItem(info.position);

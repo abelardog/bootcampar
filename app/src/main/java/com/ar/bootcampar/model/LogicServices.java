@@ -270,4 +270,7 @@ public class LogicServices {
 
     }
 
+    public List<Categorizacion> buscarCategorizaciones(Curso curso) {
+        return database.buscarCategorizaciones(curso);
+    }
 }
