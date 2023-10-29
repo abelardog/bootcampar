@@ -9,6 +9,16 @@
 
 Esta es una app nativa de Android desarrollada como proyecto para la materia de Aplicaciones Móviles del Instituto Superior Politécnico de Córdoba (ISPC). Permite a los estudiantes del bootcamp BootcampAR acceder a los videos de los cursos, calificarlos, marcar favoritos y organizar su aprendizaje.
 
+## VIDEO DEMO DE LA APP
+
+[LINK:](https://drive.google.com/file/d/1ZdWy7plloT53WpEuZY7cWIit8g7C6LUs/view?usp=drive_link) https://drive.google.com/file/d/1ZdWy7plloT53WpEuZY7cWIit8g7C6LUs/view?usp=drive_link
+
+## CREDENCIALES PARA USAR EN LA APP:
+
+Código de Invitación: `112233`
+
+Cuenta Admin: email-`admin@gmail.com`/constraseña-`123456`
+
 ## CONTEXTO
 El proyecto fue realizado durante el segundo año y segundo cuatrimestre de la carrera de "Tecnicatura Superior en Desarrollo Web y Aplicaciones Digitales" en el ISPC. La app busca mejorar la experiencia de aprendizaje de los estudiantes del bootcamp, proporcionando en un solo lugar el acceso a los contenidos audiovisuales de los cursos.
 
@@ -52,14 +62,12 @@ El código de este proyecto está bajo la licencia MIT. Es de uso libre para pro
 - Yuliana Paula Capdevila - GitHub: YuliCap
 - Maria Celeste Esquivel Gimenez - GitHub: celesteeg
 
-## DEMOSTRACIÓN DEL PROYECTO EN VIDEO
+## DEMOSTRACIÓN DEL PROYECTO EN VIDEO PARA SPRINT 1
 https://drive.google.com/file/d/1Vh5k2U7IZW36KHvUsbqYsCwuzqwLTipP/view
 
-## VISTAZO GENERAL DE LA APP
-![bootcampar-sprint-1-part1](https://github.com/abelardog/bootcampar/assets/95236196/f0d99ca6-3a45-4207-88e3-76efe493ee48)
-![bootcampar-sprint-1-part2](https://github.com/abelardog/bootcampar/assets/95236196/dac52ec5-ce01-4f6b-af26-22221ba73aa2)
-![bootcampar-sprint-1-part3](https://github.com/abelardog/bootcampar/assets/95236196/f15750de-0465-4fff-9004-b2a3ce0cdb4f)
+## TESTING DOCS:
 
+[LINK:](https://github.com/abelardog/bootcampar/wiki/TESTING) https://github.com/abelardog/bootcampar/wiki/TESTING
 
 [commit-img]: https://img.shields.io/github/commit-activity/w/abelardog/bootcampar/develop
 [commit-url]: https://github.com/abelardog/bootcampar/graphs/code-frequency
