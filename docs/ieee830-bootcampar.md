@@ -64,7 +64,7 @@ Año: 2023
 
   - [4.1 Sprint 1](#41-sprint-1)
 
-  - [4.1 Sprint 2](#42-sprint-2)
+  - [4.2 Sprint 2](#42-sprint-2)
 
 ---
 
