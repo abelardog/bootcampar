@@ -194,5 +194,6 @@
     <string name="descripcion_autofill_hint">Descripción de la categoría</string>
     <string name="txtAcceFavoritos">Imagen de un Corazón para seleccionar favoritos</string>
     <string name="logoDescription">Logo genérico</string>
+    <string name="categoria">Categoría</string>
 
 </resources>

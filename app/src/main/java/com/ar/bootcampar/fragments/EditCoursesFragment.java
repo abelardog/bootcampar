@@ -16,14 +16,19 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.ar.bootcampar.R;
+import com.ar.bootcampar.model.Categoria;
+import com.ar.bootcampar.model.Categorizacion;
 import com.ar.bootcampar.model.Curso;
 import com.ar.bootcampar.model.Database;
+import com.ar.bootcampar.model.Grupo;
 import com.ar.bootcampar.model.IDatabase;
 import com.ar.bootcampar.model.LogicServices;
 import com.ar.bootcampar.services.CursosListAdapter;
+import com.ar.bootcampar.services.SpinnerAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -85,20 +90,31 @@ public class EditCoursesFragment extends Fragment {
         adapter = new CursosListAdapter(database.listarCursos());
         listView.setAdapter(adapter);
 
+        Spinner dropdown = view.findViewById(R.id.spinner_course_category);
+        SpinnerAdapter spinnerAdapter = new SpinnerAdapter<Categoria>(database.listarCategorias(), Categoria::getId, Categoria::getNombre);
+        dropdown.setAdapter(spinnerAdapter);
+
         Button button = (Button)view.findViewById(R.id.buttonSaveCourse);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Categoria categoria = (Categoria)((Spinner)getView().findViewById(R.id.spinner_course_category)).getSelectedItem();
                 String titulo = ((EditText)getView().findViewById(R.id.editCourseTitle)).getText().toString();
                 String descripcion = ((EditText)getView().findViewById(R.id.editCourseDescription)).getText().toString();
                 String imagen = ((EditText)getView().findViewById(R.id.editCourseImage)).getText().toString();
 
-                // TODO: Mover esto a LogicServices.grabarGrupo y ajustar metodos
                 if (!titulo.isEmpty() && !descripcion.isEmpty() && !imagen.isEmpty()) {
                     Curso curso = database.buscarCursoONada(titulo);
                     if (curso == null) {
                         curso = database.crearCurso(titulo, descripcion,imagen, 1);
                         if (curso != null) {
+                            if (categoria != null) {
+                                Categorizacion categorizacion = database.buscarCategorizacionONada(curso, categoria);
+                                if (categorizacion == null) {
+                                    categorizacion = database.crearCategorizacion(curso, categoria);
+                                }
+                            }
+
                             adapter.cambiarCursos(database.listarCursos());
                             adapter.notifyDataSetChanged();
                             Toast.makeText(getContext(), "Curso creado", Toast.LENGTH_SHORT).show();
