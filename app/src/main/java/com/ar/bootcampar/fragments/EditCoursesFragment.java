@@ -24,11 +24,12 @@ import com.ar.bootcampar.model.Categoria;
 import com.ar.bootcampar.model.Categorizacion;
 import com.ar.bootcampar.model.Curso;
 import com.ar.bootcampar.model.Database;
-import com.ar.bootcampar.model.Grupo;
 import com.ar.bootcampar.model.IDatabase;
 import com.ar.bootcampar.model.LogicServices;
 import com.ar.bootcampar.services.CursosListAdapter;
 import com.ar.bootcampar.services.SpinnerAdapter;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,6 +47,11 @@ public class EditCoursesFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private CursosListAdapter adapter;
+    private Spinner spinnerCategoria;
+    private EditText editTextTituloCurso;
+    private EditText editTextDescripcionCurso;
+    private EditText editTextImagenCurso;
+
 
     public EditCoursesFragment() {
         // Required empty public constructor
@@ -90,30 +96,29 @@ public class EditCoursesFragment extends Fragment {
         adapter = new CursosListAdapter(database.listarCursos());
         listView.setAdapter(adapter);
 
-        Spinner dropdown = view.findViewById(R.id.spinner_course_category);
+        spinnerCategoria = view.findViewById(R.id.spinner_course_category);
         SpinnerAdapter spinnerAdapter = new SpinnerAdapter<Categoria>(database.listarCategorias(), Categoria::getId, Categoria::getNombre);
-        dropdown.setAdapter(spinnerAdapter);
+        spinnerCategoria.setAdapter(spinnerAdapter);
+
+        editTextTituloCurso = view.findViewById(R.id.editCourseTitle);
+        editTextDescripcionCurso = view.findViewById(R.id.editCourseDescription);
+        editTextImagenCurso = view.findViewById(R.id.editCourseImage);
 
         Button button = (Button)view.findViewById(R.id.buttonSaveCourse);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Categoria categoria = (Categoria)((Spinner)getView().findViewById(R.id.spinner_course_category)).getSelectedItem();
-                String titulo = ((EditText)getView().findViewById(R.id.editCourseTitle)).getText().toString();
-                String descripcion = ((EditText)getView().findViewById(R.id.editCourseDescription)).getText().toString();
-                String imagen = ((EditText)getView().findViewById(R.id.editCourseImage)).getText().toString();
+                Categoria categoria = (Categoria)spinnerCategoria.getSelectedItem();
+                String titulo = editTextTituloCurso.getText().toString();
+                String descripcion = editTextDescripcionCurso.getText().toString();
+                String imagen = editTextImagenCurso.getText().toString();
 
                 if (!titulo.isEmpty() && !descripcion.isEmpty() && !imagen.isEmpty()) {
                     Curso curso = database.buscarCursoONada(titulo);
                     if (curso == null) {
                         curso = database.crearCurso(titulo, descripcion,imagen, 1);
                         if (curso != null) {
-                            if (categoria != null) {
-                                Categorizacion categorizacion = database.buscarCategorizacionONada(curso, categoria);
-                                if (categorizacion == null) {
-                                    categorizacion = database.crearCategorizacion(curso, categoria);
-                                }
-                            }
+                            asignarCategoriaAlCurso(database, curso, categoria);
 
                             adapter.cambiarCursos(database.listarCursos());
                             adapter.notifyDataSetChanged();
@@ -124,7 +129,11 @@ public class EditCoursesFragment extends Fragment {
                         }
                     }
                     else {
-                        Toast.makeText(getContext(), "El curso ya existe", Toast.LENGTH_SHORT).show();
+                        Curso nuevoCurso = database.modificarCurso(curso, titulo, descripcion, imagen, curso.getNivel());
+                        asignarCategoriaAlCurso(database, curso, categoria);
+                        adapter.cambiarCursos(database.listarCursos());
+                        adapter.notifyDataSetChanged();
+                        Toast.makeText(getContext(), "El curso fue modificado", Toast.LENGTH_SHORT).show();
                     }
                 }
                 else {
@@ -134,6 +143,20 @@ public class EditCoursesFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void asignarCategoriaAlCurso(IDatabase database, Curso curso, Categoria categoria) {
+        if (categoria != null) {
+            Categorizacion categorizacion = database.buscarCategorizacionONada(curso, categoria);
+            if (categorizacion == null) {
+                List<Categorizacion> categorizaciones = database.buscarCategorizaciones(curso);
+                for (Categorizacion actual : categorizaciones) {
+                    database.borrarCategorizacion(actual);
+                }
+
+                categorizacion = database.crearCategorizacion(curso, categoria);
+            }
+        }
     }
 
     @Override
@@ -147,13 +170,34 @@ public class EditCoursesFragment extends Fragment {
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
+        LogicServices logicServices = new LogicServices(getActivity());
+
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
         if (info != null) {
             if (item.getItemId() == R.id.menu_item_edit) {
+                Curso curso = (Curso) adapter.getItem(info.position);
+                editTextTituloCurso.setText(curso.getTitulo());
+                editTextDescripcionCurso.setText(curso.getDescripcion());
+                editTextImagenCurso.setText(curso.getImagen());
+
+                List<Categorizacion> categorizaciones = logicServices.buscarCategorizaciones(curso);
+                if (! categorizaciones.isEmpty()) {
+                    Categorizacion categorizacion = categorizaciones.get(0);
+                    int index = 0;
+                    for (Categoria categoria: logicServices.listarCategorias()) {
+                        if (categoria.getId() == categorizacion.getCategoria().getId()) {
+                            break;
+                        }
+
+                        index++;
+                    }
+
+                    spinnerCategoria.setSelection(index);
+                }
                 return true;
+
             } else if (item.getItemId() == R.id.menu_delete_item) {
                 Curso curso = (Curso)adapter.getItem(info.position);
-                LogicServices logicServices = new LogicServices(getActivity());
                 logicServices.borrarCurso(curso);
                 adapter.cambiarCursos(logicServices.listarCursos());
                 adapter.notifyDataSetChanged();

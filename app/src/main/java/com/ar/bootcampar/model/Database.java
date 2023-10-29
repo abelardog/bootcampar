@@ -1275,6 +1275,50 @@ public class Database extends SQLiteOpenHelper implements IDatabase {
     }
 
     @Override
+    public List<Categorizacion> buscarCategorizaciones(Curso curso) {
+        ISQLiteDatabaseWrapper database = null;
+        ICursorWrapper cursor = null;
+        List<Categorizacion> resultado = new ArrayList<>();
+
+        try {
+            if (curso == null) return resultado;
+
+            database = getInternalReadableDatabase();
+            cursor = database.query(TablaCategorizacion + ", " + TablaCategoria,
+                    concatenarVectores(
+                            agregarNombreDeTablaEnColumnas(TablaCategorizacion, CamposCategorizacion),
+                            agregarNombreDeTablaEnColumnas(TablaCategoria, CamposCategoria)),
+                    TablaCategorizacion + "." + ColumnaRelacionCategoria + " = " + TablaCategoria + "." + ColumnaId + " AND " +
+                            TablaCategorizacion + "." + ColumnaRelacionCurso + " =?",
+                    new String[] { String.valueOf(curso.getId()) }, null, null, null);
+
+            if (cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    CursorHelper cursorHelper = new CursorHelper(cursor);
+                    Categorizacion categorizacion = new Categorizacion(
+                            cursorHelper.getLongFrom(TablaCategorizacion + "_" + ColumnaId),
+                            curso,
+                            obtenerCategoriaDeCursor(cursor, TablaCategoria + "_"));
+
+                    resultado.add(categorizacion);
+                    cursor.moveToNext();
+                }
+            }
+
+            return resultado;
+        }
+        finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    @Override
     public Curso crearCurso(String title, String description, String imagen, int nivel) {
 
         IContentValuesWrapper values = createContentValues();
