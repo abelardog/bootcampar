@@ -456,6 +456,7 @@ antes indicados para garantizar una ejecución correcta de la misma, suponiendo 
 
 - Preguntas frecuentas o FAQ con accesibilidad visual contemplada y la sección de contacto que tampoco se comunica con una API externa aún.
 
-![image](https://github.com/abelardog/bootcampar/assets/95236196/3c36e97d-9206-4a47-b9df-1e16d006f7f3)
+![image](https://github.com/abelardog/bootcampar/assets/95236196/e47e02bb-5ab7-4149-aff9-a9d840018c18)
 
-- Por último, pero no menos importante, la sección de administrador. Para ingresar con esta cuenta usar las siguientes credenciales: email: `admin@gmail.com` - contraseña: `123456`
+
+- Por último, pero no menos importante, la parte de administrador con sus diferentes secciones. Para ingresar con esta cuenta usar las siguientes credenciales: email: `admin@gmail.com` - contraseña: `123456`
