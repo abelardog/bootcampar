@@ -56,6 +56,7 @@ public interface IDatabase {
     Categorizacion crearCategorizacion(Curso curso, Categoria categoria);
     Categorizacion buscarCategorizacionONada(Curso curso, Categoria categoria);
     Categorizacion modificarCategorizacion(Categorizacion categorizacion, Curso nuevoCurso, Categoria nuevaCategoria);
+    List<Categorizacion> buscarCategorizaciones(Curso curso);
 
     Curso crearCurso(String title, String description, String imageName, int nivel);
     Curso modificarCurso(Curso curso, String title, String description, String imageName, int nivel);

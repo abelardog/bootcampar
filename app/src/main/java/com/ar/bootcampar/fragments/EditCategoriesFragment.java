@@ -43,6 +43,8 @@ public class EditCategoriesFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private CategoriasListAdapter adapter;
+    private TextView textViewName;
+    private TextView textViewDescription;
 
     public EditCategoriesFragment() {
         // Required empty public constructor
@@ -87,12 +89,15 @@ public class EditCategoriesFragment extends Fragment {
         adapter = new CategoriasListAdapter(database.listarCategorias());
         listView.setAdapter(adapter);
 
+        textViewName = (TextView)view.findViewById(R.id.editCategoryName);
+        textViewDescription = (TextView)view.findViewById(R.id.editCategoryDescription);
+
         Button button = (Button)view.findViewById(R.id.buttonSaveCategory);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String nombre = ((TextView)getView().findViewById(R.id.editCategoryName)).getText().toString();
-                String descripcion = ((TextView)getView().findViewById(R.id.editCategoryDescription)).getText().toString();
+                String nombre = textViewName.getText().toString();
+                String descripcion = textViewDescription.getText().toString();
 
                 // TODO: Mover esto a LogicServices.grabarCategoria y ajustar metodos
                 if (!nombre.isEmpty() && !descripcion.isEmpty()) {
@@ -109,7 +114,10 @@ public class EditCategoriesFragment extends Fragment {
                         }
                     }
                     else {
-                        Toast.makeText(getContext(), "La categoría ya existe", Toast.LENGTH_SHORT).show();
+                        database.modificarCategoria(categoria, nombre, descripcion);
+                        adapter.cambiarCategorias(database.listarCategorias());
+                        adapter.notifyDataSetChanged();
+                        Toast.makeText(getContext(), "La categoría fue modificada", Toast.LENGTH_SHORT).show();
                     }
                 }
                 else {
@@ -145,6 +153,9 @@ public class EditCategoriesFragment extends Fragment {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
         if (info != null) {
             if (item.getItemId() == R.id.menu_item_edit) {
+                Categoria categoria = (Categoria) adapter.getItem(info.position);
+                textViewName.setText(categoria.getNombre());
+                textViewDescription.setText(categoria.getDescripcion());
                 return true;
             }
             else if (item.getItemId() == R.id.menu_delete_item) {
